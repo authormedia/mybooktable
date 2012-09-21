@@ -498,7 +498,7 @@ class BP_Latest_Books extends WP_Widget {
 		// Reset Post Data
 		wp_reset_postdata();
 		
-		echo  '<div style="clear:both;">';
+		echo  '<div style="clear:both;"></div>';
 		//return $output;
 	}
 }
