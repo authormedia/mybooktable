@@ -1,19 +1,18 @@
 <?php
-/*-----------------------------------------------------------------------------------*/
-/* Widgets and Widget Control                                                        */
-/*-----------------------------------------------------------------------------------*/
+
+//register custom plugin widgets
+add_action('widgets_init', 'bt_register_widgets');
+function bt_register_widgets(){
+	register_widget("BT_Featured_Books");
+	register_widget("BP_Latest_Books");
+}
 
 /*------------------------------------------*/
-/*   Did you Miss Widget
-    aka - featured item                     */
+/* Featured Books Widget                    */
 /*------------------------------------------*/
-/**
-* 
-*/
-// 
-class featured_books extends WP_Widget {
+class BT_Featured_Books extends WP_Widget {
     /** constructor -- name this the same as the class above */
-    function featured_books() {
+    function BT_Featured_Books() {
         parent::WP_Widget(false, $name = 'Featured Books');	
     }
     /* @see WP_Widget::widget -- do not rename this */
@@ -127,130 +126,121 @@ class featured_books extends WP_Widget {
 		- setting in books to set as featured
 		*/
 		global $post;
-		    $numprod 	= $instance['numprod']; // number of books to show
-			if(!isset($numprod)){$numprod=1;}
-			
-			$hasimage	= $instance['hasimage']; // show the image or no
-			if (!isset($hasimage)){$hasimage='on';}
-			
-			$hastitle	= $instance['hastitle']; // show book title or no
-			if (!isset($hastitle)){$hastitle='on';}
-			
-			$hasexcerpt	= $instance['hasexcerpt'];
-			if (!isset($hasexcerpt)){$hasexcerpt='on';}
-			
-			$excerptlen	= $instance['excerptlen']; // number of chars to show in excerpt
-			if (!isset($excerptlen)){$excerptlen=100;}
+	    $numprod 	= $instance['numprod']; // number of books to show
+		if(!isset($numprod)){$numprod=1;}
+		
+		$hasimage	= $instance['hasimage']; // show the image or no
+		if (!isset($hasimage)){$hasimage='on';}
+		
+		$hastitle	= $instance['hastitle']; // show book title or no
+		if (!isset($hastitle)){$hastitle='on';}
+		
+		$hasexcerpt	= $instance['hasexcerpt'];
+		if (!isset($hasexcerpt)){$hasexcerpt='on';}
+		
+		$excerptlen	= $instance['excerptlen']; // number of chars to show in excerpt
+		if (!isset($excerptlen)){$excerptlen=100;}
 
-			//print_r($instance);
-			
-			//$num         =  $this->get_field_name('numprod');
-			$type         = 'min_products';
-			$taxonomy     = 'product_category';
-			$orderby      = 'menu_order'; 
-			$order        = 'DESC'; 
+		//print_r($instance);
+		
+		//$num         =  $this->get_field_name('numprod');
+		$type         = 'min_products';
+		$taxonomy     = 'product_category';
+		$orderby      = 'menu_order'; 
+		$order        = 'DESC'; 
 
-			$width = $instance['width'];
-			$height = $instance['height'];
-			
-			$width = preg_replace("/[^0-9]/","", $width);  // just in case someone put in alpha chars eg - "300px"
-			$height = preg_replace("/[^0-9]/","", $height);  // just in case someone put in alpha chars eg - "300px"
+		$width = $instance['width'];
+		$height = $instance['height'];
+		
+		$width = preg_replace("/[^0-9]/","", $width);  // just in case someone put in alpha chars eg - "300px"
+		$height = preg_replace("/[^0-9]/","", $height);  // just in case someone put in alpha chars eg - "300px"
 
-			$args = array(
-				'posts_per_page'	=> $numprod,
-			//	'nopaging'			=> true,
-				'orderby'			=> $orderby,
-				'taxonomy'			=> $taxonomy,
-				'meta_key'			=> '_cmb_featured',
-				'meta_value'		=> 'on',
-				'order'				=> $order,
-				'post_type'			=> $type,
-				'post_status'		=> 'publish', 
-			);  
-			
-			$mybooks = new WP_Query( $args ) ;
-			// The Loop
-			while ( $mybooks->have_posts() ) : $mybooks->the_post();
-			
-			echo  '<div class="featurebook">';
-			//echo $hasimage.'stuff';
-			
-			// image
+		$args = array(
+			'posts_per_page'	=> $numprod,
+		//	'nopaging'			=> true,
+			'orderby'			=> $orderby,
+			'taxonomy'			=> $taxonomy,
+			'meta_key'			=> '_cmb_featured',
+			'meta_value'		=> 'on',
+			'order'				=> $order,
+			'post_type'			=> $type,
+			'post_status'		=> 'publish', 
+		);  
+		
+		$mybooks = new WP_Query( $args ) ;
+		// The Loop
+		while ( $mybooks->have_posts() ) : $mybooks->the_post();
+		
+		echo  '<div class="featurebook">';
+		//echo $hasimage.'stuff';
+		
+		// image
 
-			if($hasimage=='on'){
-				echo '<div class="image">';
-				echo  '<a href="'.get_permalink().'">';
-				echo castleimage($width,$height);
-				echo  '</a>';
-				echo '</div>';
-			} // end if has image
-			
-			// title
-			if($hastitle=='on'){
-				echo  '<div class="name">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  the_title();
-				echo  '</a>';
-				echo  '</div>';
-			} // end if has title
+		if($hasimage=='on'){
+			echo '<div class="image">';
+			echo  '<a href="'.get_permalink().'">';
+			echo castleimage($width,$height);
+			echo  '</a>';
+			echo '</div>';
+		} // end if has image
+		
+		// title
+		if($hastitle=='on'){
+			echo  '<div class="name">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  the_title();
+			echo  '</a>';
+			echo  '</div>';
+		} // end if has title
 
-			// excerpt
-			if($hasexcerpt=='on'){	
-				if (!empty($post->post_excerpt)){
-					$excerpt = $post->post_excerpt;
-				} else {
-					$excerpt = strip_tags($post->post_content);
-				}
-				$excerpt = ttruncat($excerpt, $excerptlen);
-					
-				echo  '<div class="excerpt">';
-				echo   $excerpt;
-
-			// readmore
-				echo  '<span class="readmore">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  'Read More &raquo;';
-				echo  '</a>';
-				echo  '</span>';
-				echo  '</div>';
-			} // end if has excerpt
-
-			if($hasexcerpt!='on'){	
-				echo  '<div class="readmore">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  'Read More &raquo;';
-				echo  '</a>';
-				echo  '</div>';
+		// excerpt
+		if($hasexcerpt=='on'){	
+			if (!empty($post->post_excerpt)){
+				$excerpt = $post->post_excerpt;
+			} else {
+				$excerpt = strip_tags($post->post_content);
 			}
-			
-			echo  '</div> <!-- End featurebook -->';
-			
-			endwhile;
-			// Reset Post Data
-			wp_reset_postdata();
-			
-			echo  '<div style="clear:both;">';
-			//return $output;
+			$excerpt = ttruncat($excerpt, $excerptlen);
+				
+			echo  '<div class="excerpt">';
+			echo   $excerpt;
+
+		// readmore
+			echo  '<span class="readmore">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  'Read More &raquo;';
+			echo  '</a>';
+			echo  '</span>';
+			echo  '</div>';
+		} // end if has excerpt
+
+		if($hasexcerpt!='on'){	
+			echo  '<div class="readmore">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  'Read More &raquo;';
+			echo  '</a>';
+			echo  '</div>';
+		}
+		
+		echo  '</div> <!-- End featurebook -->';
+		
+		endwhile;
+		// Reset Post Data
+		wp_reset_postdata();
+		
+		echo  '<div style="clear:both;">';
+		//return $output;
 	}
- 
-} // end class widget class
-add_action('widgets_init', create_function('', 'return register_widget("featured_books");'));
-
-
-
+}
 
 
 
 /*------------------------------------------*/
 /*  Latest Books Widget                     */
 /*------------------------------------------*/
-/**
-* 
-*/
-// 
-class latest_book extends WP_Widget {
+class BP_Latest_Books extends WP_Widget {
     /** constructor -- name this the same as the class above */
-    function latest_book() {
+    function BP_Latest_Books() {
         parent::WP_Widget(false, $name = 'Latest Book');	
     }
     /* @see WP_Widget::widget -- do not rename this */
@@ -406,113 +396,109 @@ class latest_book extends WP_Widget {
 
 
 	function get_latest_book($instance) {
-
 		global $post;
-		    $selectmode 	= $instance['selectmode']; // number of products to show
-			if(!isset($selectmode)){$selectmode='by_date';}
+	    $selectmode 	= $instance['selectmode']; // number of products to show
+		if(!isset($selectmode)){$selectmode='by_date';}
 
-			$hasimage	= $instance['hasimage']; // show the image or no
-			if (!isset($hasimage)){$hasimage='on';}
-			
-			$hastitle	= $instance['hastitle']; // show book title or no
-			if (!isset($hastitle)){$hastitle='on';}
-			
-			$hasexcerpt	= $instance['hasexcerpt'];
-			if (!isset($hasexcerpt)){$hasexcerpt='on';}
-			
-			$excerptlen	= $instance['excerptlen']; // number of chars to show in excerpt
-			if (!isset($excerptlen)){$excerptlen=100;}
+		$hasimage	= $instance['hasimage']; // show the image or no
+		if (!isset($hasimage)){$hasimage='on';}
+		
+		$hastitle	= $instance['hastitle']; // show book title or no
+		if (!isset($hastitle)){$hastitle='on';}
+		
+		$hasexcerpt	= $instance['hasexcerpt'];
+		if (!isset($hasexcerpt)){$hasexcerpt='on';}
+		
+		$excerptlen	= $instance['excerptlen']; // number of chars to show in excerpt
+		if (!isset($excerptlen)){$excerptlen=100;}
 
-			$width	= $instance['width']; // image width
-			if (!isset($width)){$width=200;}
+		$width	= $instance['width']; // image width
+		if (!isset($width)){$width=200;}
 
-			$height	= $instance['height']; // image height
-			if (!isset($height)){$height=300;}
-			
-			$width = preg_replace("/[^0-9]/","", $width);  // just in case someone put in alpha chars eg - "300px"
-			$height = preg_replace("/[^0-9]/","", $height);  // just in case someone put in alpha chars eg - "300px"
+		$height	= $instance['height']; // image height
+		if (!isset($height)){$height=300;}
+		
+		$width = preg_replace("/[^0-9]/","", $width);  // just in case someone put in alpha chars eg - "300px"
+		$height = preg_replace("/[^0-9]/","", $height);  // just in case someone put in alpha chars eg - "300px"
 
-			//print_r($instance);
-			
-			// case 1 - if the selectmode is manual select
-			if($selectmode == 'manual_select'){
-				$latestprod = $instance['theprod']; // the product if selected manually
+		//print_r($instance);
+		
+		// case 1 - if the selectmode is manual select
+		if($selectmode == 'manual_select'){
+			$latestprod = $instance['theprod']; // the product if selected manually
+		}
+		// case 2 - if the selectmode is by date
+		else { // uses else because there are only two options and this one is default
+			// get the min_product that is the latest
+			$latestprod = $this->get_prod_by_date();
+		}
+		//print_r($latestprod);
+		$dargs = array(
+			'p'	=> $latestprod,
+			'post_type'=>'min_products'
+		);  
+		
+		$latestbook = new WP_Query( $dargs ) ;
+		// The Loop
+		while ( $latestbook->have_posts() ) : $latestbook->the_post();
+		
+		echo  '<div class="featurebook">';
+		//echo $hasimage.'stuff';
+		
+		// image
+		if($hasimage=='on'){
+			echo '<div class="image">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  castleimage($width,$height);
+			echo  '</a>';
+			echo '</div>';
+		} // end if has image
+		
+		// title
+		if($hastitle=='on'){
+			echo  '<div class="name">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  the_title();
+			echo  '</a>';
+			echo  '</div>';
+		} // end if has title
+
+		// excerpt
+		if($hasexcerpt=='on'){	
+			if (!empty($post->post_excerpt)){
+				$excerpt = $post->post_excerpt;
+			} else {
+				$excerpt = strip_tags($post->post_content);
 			}
-			// case 2 - if the selectmode is by date
-			else { // uses else because there are only two options and this one is default
-				// get the min_product that is the latest
-				$latestprod = $this->get_prod_by_date();
-			}
-			//print_r($latestprod);
-			$dargs = array(
-				'p'	=> $latestprod,
-				'post_type'=>'min_products'
-			);  
-			
-			$latestbook = new WP_Query( $dargs ) ;
-			// The Loop
-			while ( $latestbook->have_posts() ) : $latestbook->the_post();
-			
-			echo  '<div class="featurebook">';
-			//echo $hasimage.'stuff';
-			
-			// image
-			if($hasimage=='on'){
-				echo '<div class="image">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  castleimage($width,$height);
-				echo  '</a>';
-				echo '</div>';
-			} // end if has image
-			
-			// title
-			if($hastitle=='on'){
-				echo  '<div class="name">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  the_title();
-				echo  '</a>';
-				echo  '</div>';
-			} // end if has title
+			$excerpt = ttruncat($excerpt, $excerptlen);
+				
+			echo  '<div class="excerpt">';
+			echo   $excerpt;
 
-			// excerpt
-			if($hasexcerpt=='on'){	
-				if (!empty($post->post_excerpt)){
-					$excerpt = $post->post_excerpt;
-				} else {
-					$excerpt = strip_tags($post->post_content);
-				}
-				$excerpt = ttruncat($excerpt, $excerptlen);
-					
-				echo  '<div class="excerpt">';
-				echo   $excerpt;
+		// readmore
+			echo  '<span class="readmore">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  'Read More &raquo;';
+			echo  '</a>';
+			echo  '</span>';
+			echo  '</div>';
+		} // end if has excerpt
 
-			// readmore
-				echo  '<span class="readmore">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  'Read More &raquo;';
-				echo  '</a>';
-				echo  '</span>';
-				echo  '</div>';
-			} // end if has excerpt
-
-			if($hasexcerpt!='on'){	
-				echo  '<div class="readmore">';
-				echo  '<a href="'.get_permalink().'">';
-				echo  'Read More &raquo;';
-				echo  '</a>';
-				echo  '</div>';
-			}
-			
-			echo  '</div> <!-- End featurebook -->';
-			
-			endwhile;
-			// Reset Post Data
-			wp_reset_postdata();
-			
-			echo  '<div style="clear:both;">';
-			//return $output;
+		if($hasexcerpt!='on'){	
+			echo  '<div class="readmore">';
+			echo  '<a href="'.get_permalink().'">';
+			echo  'Read More &raquo;';
+			echo  '</a>';
+			echo  '</div>';
+		}
+		
+		echo  '</div> <!-- End featurebook -->';
+		
+		endwhile;
+		// Reset Post Data
+		wp_reset_postdata();
+		
+		echo  '<div style="clear:both;">';
+		//return $output;
 	}
- 
-} // end class widget class
-add_action('widgets_init', create_function('', 'return register_widget("latest_book");'));
-?>
+}

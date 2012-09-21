@@ -1,138 +1,119 @@
 <?php
-/**
- * Store Category Template
- *
+/*
+ * Template Name: Store Category Page
  */
- $main_options = get_option("button-store-options_options"); 
- if ($main_options['is_woo']=='on') {
- global $woo_options;
- }
- get_header();
-?>      
-    <!-- #content Starts -->
-	<?php if ($main_options['is_woo']=='on') {woo_content_before();} ?>
 
-    <div id="content" class="col-full">
-    	<div id="main-sidebar-container">    
-            <!-- #main Starts -->
-            <?php woo_main_before(); ?>
-            <div id="main" class="col-left">
-		
-<?php 
-
-	//	echo store_breadcrumbs();
-	
-	// discover if this is the home page or a category page
-	$tax = get_query_var('taxonomy');    
-	if ( $tax == 'product_category') {
-		$is_prodcat == true; // if true then this is the bookstore homepage and not just a category page.
-		}
-			
-		$taxonomy_obj = $wp_query->get_queried_object();
-		$prodlabel = show_product_label();
-		$thetitle .= '<h1>'.$prodlabel.'</h1>';
-		
-		if($is_prodcat){ // show only if this is an archive, not the home page
-		$thetitle .= '<h4>Category: '.$taxonomy_obj->name.'</h4>';
-		}
-		
- global $more; $more = 0;
- 
- if ($main_options['is_woo']=='on') {woo_loop_before();}
-if (have_posts()) { $count = 0;
-
-echo $thetitle;
-
-echo cat_description();
+global $bt_main_options, $woo_options, $wp_query;
+$is_woo = $bt_main_options['is_woo'] == 'on';
+get_header();
 ?>
 
-<div class="fix"></div>
+<?php if($is_woo=='on'){woo_content_before();} ?>
 
-<?php
-	while (have_posts()) { the_post(); $count++;
+<div id="content" class="col-full">
+	<div id="main-sidebar-container">
 
-		
-
- $title_before = '<h1 class="title">';
- $title_after = '</h1>';
+        <?php if($is_woo){woo_main_before();} ?>
+        <div id="main" class="col-left">
  
- if ( ! is_single() ) {
- 
- 	$title_before = '<h3 class="title">';
- 	$title_after = '</h3>';
- 
-	$title_before = $title_before . '<a href="' . get_permalink( get_the_ID() ) . '" rel="bookmark" title="' . the_title_attribute( array( 'echo' => 0 ) ) . '">';
-	$title_after = '</a>' . $title_after;
- 
- }
- 
-if ($main_options['is_woo']=='on') {
-	 $page_link_args = apply_filters( 'woothemes_pagelinks_args', array( 'before' => '<div class="page-link">' . __( 'Pages:', 'woothemes' ), 'after' => '</div>' ) );
- 
-	 woo_post_before();
-}
-?>
-<div <?php post_class(); ?>>
-<?php
-if ($main_options['is_woo']=='on') {
-	woo_post_inside_before();
-}	
-	the_title( $title_before, $title_after );
- if ( $woo_options['woo_post_content'] != 'content' AND !is_singular() ){
- 		 if (function_exists('woo_image')) {
-		woo_image( 'width='.$woo_options['woo_thumb_w'].'&height='.$woo_options['woo_thumb_h'].'&class=thumbnail '.$woo_options['woo_thumb_align'] );
-		} else {
-		castleimage(175,250,'thumbnail alignleft');
-		}
-	}
+			<?php if($is_woo){woo_loop_before();} ?>
 
-?>
-	<div class="entry">
-	    <?php
-		if ($main_options['is_woo']=='on') {
-	    		if ( ! is_singular() && ! is_404() || is_page_template( 'template-blog.php' ) || is_page_template( 'template-magazine.php' ) ) {
-			remove_action( 'woo_post_inside_after', 'woo_post_more' );
-		}
-	    	if ( $woo_options['woo_post_content'] == 'content' || is_single() ) { the_content(__('Read Full Post &rarr;', 'woothemes') ); } else { the_excerpt(); }
-	    	if ( $woo_options['woo_post_content'] == 'content' || is_singular() ) wp_link_pages( $page_link_args );
-		} else { // if not woo we simply show the excerpt
-			the_excerpt();  
-		}
-	    ?>
-	</div><!-- /.entry -->
-	<div class="fix"></div>
-<?php
-if ($main_options['is_woo']=='on') {
-	woo_post_inside_after();
-}
-?>
-</div><!-- /.post -->
-<?php
-	/*woo_post_after();*/
-	
-	} // End WHILE Loop
-} else {
-	get_template_part( 'content', 'noposts' );
-} // End IF Statement
+			<?php
+				$thetitle = '<h1>'.get_post_type_object('min_products')->labels->name.'</h1>';
+				//if true then this is the bookstore homepage and not just a category page
+				if(get_query_var('taxonomy') == 'product_category') {
+					$taxonomy_obj = $wp_query->get_queried_object();
+					$thetitle .= '<h4>Category: '.$taxonomy_obj->name.'</h4>';
+				}
+				echo($thetitle); 
+			?>
 
- if ($main_options['is_woo']=='on') { 
- woo_loop_after(); 
- woo_pagenav();
- }
-?>
+			<?php if(have_posts()){ ?>
 
-            </div><!-- /#main -->
+				<?php
+					//if it's an archive, show the category description
+					if(is_archive()) {
+						$term = get_term_by('slug', get_query_var('product_category'), 'product_category');
 
-            <?php if ($main_options['is_woo']=='on') { woo_main_after();} ?>
+						if(empty($term->description)){
+							echo('<div class="no-cat-intro"></div>');
+						} else {
+							echo('<div class="cat-intro">'.$term->description.'</div>');
+						}
+					}
+				?>
+				<div class="fix"></div>
 
-            <?php get_sidebar(); ?>
-    
-		</div><!-- /#main-sidebar-container -->         
+				<?php while(have_posts()){ the_post(); ?>
 
-		<?php get_sidebar( 'alt' ); ?>       
+					<?php if($is_woo){woo_post_before();} ?>
 
-    </div><!-- /#content -->
+					<div <?php post_class(); ?>>
 
-	<?php if ($main_options['is_woo']=='on') { woo_content_after();} ?>
+						<?php if($is_woo){woo_post_inside_before();} ?>
+
+						<?php
+							$title_before = '<h1 class="title">';
+							$title_after = '</h1>';
+
+							if(!is_single()){
+								$title_before .= '<h3 class="title"> <a href="'.get_permalink(get_the_ID()).'" rel="bookmark" title="'.the_title_attribute(array('echo'=>0)).'">';
+								$title_after = '</a> </h3>';
+							}
+
+							the_title($title_before, $title_after);
+						?>
+
+						<?php
+							if($is_woo){
+								if($woo_options['woo_post_content'] != 'content' and !is_singular()) {
+									bt_show_book_image(175, 250, 'thumbnail alignleft');
+								}
+							}
+						?>
+						<div class="entry">
+						    <?php
+								if($is_woo) {
+							    	if(!is_singular() && !is_404() || is_page_template('template-blog.php') || is_page_template('template-magazine.php')) {
+										remove_action('woo_post_inside_after', 'woo_post_more');
+									}
+
+							    	if($woo_options['woo_post_content'] == 'content' || is_single()) {
+							    		the_content(__('Read Full Post &rarr;', 'woothemes'));
+							    	} else {
+							    		the_excerpt();
+							    	}
+
+							    	if($woo_options['woo_post_content'] == 'content' || is_singular()) {
+							    		wp_link_pages(apply_filters('woothemes_pagelinks_args', array('before' => '<div class="page-link">'.__('Pages:', 'woothemes'), 'after' => '</div>')));
+							    	}
+								} else { // if not woo we simply show the excerpt
+									the_excerpt();  
+								}
+						    ?>
+						</div><!-- end .entry -->
+						<div class="fix"></div>
+
+						<?php if($is_woo){woo_post_inside_after();} ?>
+
+					</div><!-- end .post -->
+				<?php } // end while have_posts() ?>
+			<?php } else { get_template_part('content', 'noposts');} ?>
+
+	 		<?php if($is_woo){ woo_loop_after(); woo_pagenav(); } ?>
+
+    	</div><!-- end #main -->
+
+        <?php if($is_woo){woo_main_after();} ?>
+
+        <?php get_sidebar(); ?>
+
+	</div><!-- end #main-sidebar-container -->
+
+	<?php get_sidebar('alt'); ?>
+
+</div><!-- end #content -->
+
+<?php if($is_woo){woo_content_after();} ?>
 
 <?php get_footer(); ?>
