@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Store Category Page
+ * Template Name: Store Archive/Category Page
  */
 
 global $bt_main_options, $woo_options, $wp_query;
@@ -20,7 +20,7 @@ get_header();
 
 			<?php
 				$thetitle = '<h1>'.get_post_type_object('min_products')->labels->name.'</h1>';
-				//if true then this is the bookstore homepage and not just a category page
+				//if true then this is the store homepage and not just a category page
 				if(get_query_var('taxonomy') == 'product_category') {
 					$taxonomy_obj = $wp_query->get_queried_object();
 					$thetitle .= '<h4>Category: '.$taxonomy_obj->name.'</h4>';
@@ -36,9 +36,9 @@ get_header();
 						$term = get_term_by('slug', get_query_var('product_category'), 'product_category');
 
 						if(empty($term->description)){
-							echo('<div class="no-cat-intro"></div>');
+							echo('<div class="no-category-description"></div>');
 						} else {
-							echo('<div class="cat-intro">'.$term->description.'</div>');
+							echo('<div class="category-description">'.$term->description.'</div>');
 						}
 					}
 				?>
@@ -66,25 +66,25 @@ get_header();
 
 						<?php
 							if($is_woo){
-								if($woo_options['woo_post_content'] != 'content' and !is_singular()) {
-									bt_show_book_image(175, 250, 'thumbnail alignleft');
+								if($woo_options['woo_post_content'] != 'content') {
+									bt_show_product_image($post, 175, 250, 'thumbnail alignleft');
 								}
 							}
 						?>
 						<div class="entry">
 						    <?php
 								if($is_woo) {
-							    	if(!is_singular() && !is_404() || is_page_template('template-blog.php') || is_page_template('template-magazine.php')) {
+							    	if(!is_404() || is_page_template('template-blog.php') || is_page_template('template-magazine.php')) {
 										remove_action('woo_post_inside_after', 'woo_post_more');
 									}
 
-							    	if($woo_options['woo_post_content'] == 'content' || is_single()) {
-							    		the_content(__('Read Full Post &rarr;', 'woothemes'));
+							    	if($woo_options['woo_post_content'] == 'content') {
+							    		the_content('Read Full Post &rarr;');
 							    	} else {
 							    		the_excerpt();
 							    	}
 
-							    	if($woo_options['woo_post_content'] == 'content' || is_singular()) {
+							    	if($woo_options['woo_post_content'] == 'content') {
 							    		wp_link_pages(apply_filters('woothemes_pagelinks_args', array('before' => '<div class="page-link">'.__('Pages:', 'woothemes'), 'after' => '</div>')));
 							    	}
 								} else { // if not woo we simply show the excerpt

@@ -1,16 +1,10 @@
 <?php
 
-require_once('lib/custom-admin-pages/adminpages.php');
-
-//Access the WordPress Pages via an Array for page selector
-$load_pages_obj = get_pages('sort_column=post_parent,menu_order'); 
-$load_pages[] = array('name' => 'Select One','value' => '');
-foreach ($load_pages_obj as $load_page) {		
-	$load_pages[] = array('name' => $load_page->post_title, 'value' => $load_page->post_name);
-}
+//Include the library
+require_once('lib/custom-admin-pages/custom-admin-pages.php');
 
 //Add the options
-ap_add_theme_options_add_page("Book Table Options", "button-store-options", 
+cap_add_submenu_page("edit.php?post_type=bt_products", "Book Table Options", "button-store-options", 
 	array(
 		array(
 			'title' => 'General Options',
@@ -31,7 +25,7 @@ ap_add_theme_options_add_page("Book Table Options", "button-store-options",
 				),
 				array(
 					'name' => 'Show Breadcrumbs for Bookstore pages',
-					'desc' => 'If checked, this displays breadcrumbs for the bookstore pages only. Not recommended if you are using something else to display breadcrumbs',
+					'desc' => 'If checked, this displays breadcrumbs for the bookstore pages only. Not recommended if you are using something else to display breadcrumbs.',
 					'id'   => 'show_breadcrumbs',
 					'type' => 'checkbox',
 				)
@@ -56,91 +50,66 @@ ap_add_theme_options_add_page("Book Table Options", "button-store-options",
 				),
 				array(
 					'name' => 'Read More Button Label',
-					'desc' => 'The "Read More" button text for links from category pages to the individual product pages. Default is "More Details" .',
+					'desc' => 'The "Read More" button text for links from category pages to the individual product pages.',
 					'id'   => 'readmorebutton',
 					'type' => 'text',
+					'default' => 'More Details'
 				),
 				array(
 					'name' => 'Placement of Read More Links',
-					'desc' => 'Where do you want the read more links to be for each product?" .',
+					'desc' => 'Where do you want the read more links to be for each product?',
 					'id'   => 'readmore_buttons_placement',
 					'type'    => 'radio_inline',
 						'options' => array(
 							array( 'name' => 'Above the Button Bar', 'value' => 'above', ),
 							array( 'name' => 'Below the Button Bar', 'value' => 'below', ),
-							array( 'name' => 'Don\'t show Read-More', 'value' => 'none', ),
-					),
-				),
-				
-				array(
-					'name' => 'Text Above Button Bar',
-					'desc' => 'Optional - the text that appears above the Buttons on each book page',
-					'id'   => 'above_button_bar',
-					'type' => 'text',
-				),
-				array(
-					'name' => 'Text Below Button Bar',
-					'desc' => 'Optional - the text that appears below the Buttons on each book page',
-					'id'   => 'below_button_bar',
-					'type' => 'text',
+							array( 'name' => 'Don\'t show Read-More', 'value' => '', ),
+					)
 				),
 				array(
 					'name' => 'Number of Products per Page',
-					'desc' => 'Choose the number of products to show per page on the main products page or category page. Default is 10.',
+					'desc' => 'Choose the number of products to show per page on the main products page or category page.',
 					'id'   => 'posts_per_page',
 					'type' => 'text_small',
+					'default' => 10
 				),
-				
-				/*
 				array(
 					'name' => 'Use Issuu to show Book Excerpts',
-					'desc' => 'Issuu is a really cool way to show a sneak preview of your book in a flipping book format. <a href="http://www.issuu.com/" target="_blank">Go to Issuu to sign up for a free account to get started.</a>',
+					'desc' => 'Issuu is a useful tool for showing a sneak preview of your book in a flip book format. <a href="http://www.issuu.com/" target="_blank">Go to Issuu to sign up for a free account to get started.</a>',
 					'id'   => 'use_issuu',
 					'type' => 'checkbox',
-				),
-				*/
+				)
 			)
 		),
 		array( 
-			'title' => 'Related Products (Collections)',
-			'desc' => 'You can display related products for each item by checking the activation checkbox and then setting the options. Products can be set to be related to each other by adding them to the same "collection" using the Collections box in the right sidebar of each product admin screen. You can also create new collections by clicking the link at the bottom of the collections box.',
-			'id' => 'related_products',
+			'title' => 'Book Collections',
+			'desc' => 'You can group related books into collections by using the "Book Collections" box in the right sidebar of the edit product screen. You can also create new collections by clicking the link at the bottom of the box.',
+			'id' => 'book_collections',
 			'settings_fields' => array(
 				array(
-					'name' => 'Show Related Products in Product Pages',
+					'name' => 'Show Book Collections in Product Pages',
 					'desc' => 'If Checked, the related products will display in product pages. Related products are created by selecting a Collection for each related product',
 					'id'   => 'related_in_content',
 					'type' => 'checkbox',
 				),
 				array(
-					'name' => 'Show Related Products in Excerpts',
-					'desc' => 'If Checked, the related products will display in product excerpts in category pages. ',
+					'name' => 'Show Book Collections in Excerpts',
+					'desc' => 'If Checked, the related products will display in product excerpts in category pages.',
 					'id'   => 'related_in_excerpts',
 					'type' => 'checkbox',
 				),
 				array(
-					'name' => 'Related Products Label',
-					'desc' => 'Label to use for related products section',
-					'id'   => 'related_label',
-					'type' => 'text_small',
-				),
-				array(
-					'name' => 'Show Image Thumbnails in Related Products',
+					'name' => 'Show Image Thumbnails in Book Collections',
 					'desc' => '',
 					'id'   => 'related_thumbnail',
 					'type' => 'checkbox',
 				),
 				array(
-					'name' => 'Show Short Descriptions in Related Products',
-					'desc' => 'show a brief excerpt of the product description in related products',
-					'id'   => 'related_descrip',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Short Description length in Related Products',
-					'desc' => 'length in characters - default is 120.',
+					'name' => 'Short Description in Book Collections',
+					'desc' => 'Length in characters of description, set to 0 to disable.',
 					'id'   => 'related_descrip_len',
 					'type' => 'text_small',
+					'default' => 120
 				)
 			)
 		),
@@ -182,7 +151,7 @@ ap_add_theme_options_add_page("Book Table Options", "button-store-options",
 				array(
 					'name' => 'Nook',
 					'desc' => '(Barnes & Noble)',
-					'id'   => 'use_bnn_nook',
+					'id'   => 'use_nook',
 					'type' => 'checkbox',
 				),
 				array(
@@ -213,28 +182,26 @@ ap_add_theme_options_add_page("Book Table Options", "button-store-options",
 		),		
 		array(
 			'title' => 'Paypal Options',
-			'desc' => 'These are settings you only need to bother if if using paypal buttons',
+			'desc' => 'These settings are only relevant if you are using paypal buttons.',
 			'id' => 'paypal_options',
 			'settings_fields' => array(
 				array(
 					'name' => 'Paypal Email Address',
-					'desc' => 'needed only if you are using paypal standard shopping cart buttons',
+					'desc' => 'Needed only if you are using paypal standard shopping cart buttons.',
 					'id'   => 'paypal_email',
 					'type' => 'text',
 				),
 				array(
 					'name' => 'Paypal Thank You Page',
-					'desc' => 'Choose a page on your website where you want paypal to return to after completing the sale. You might want to create a page for this purpose. If blank, the default is the books home page. This is needed only if you are using paypal standard shopping cart buttons',
+					'desc' => 'Choose a page on your website where you want paypal to return to after completing the sale. This is optional.',
 					'id'   => 'paypal_thankyou_return',
-					'type' => 'select',
-					'options' => $load_pages,
+					'type' => 'page',
 				),
 				array(
 					'name' => 'Paypal Cancel Page',
-					'desc' => 'Choose a page on your website where you want paypal to return to after a cancelled sale. You might want to create a page for this purpose.  If blank, the default is the books home page. This is needed only if you are using paypal standard shopping cart buttons',
+					'desc' => 'Choose a page on your website where you want paypal to return to after a cancelled sale. This is optional.',
 					'id'   => 'paypal_cancel_return',
-					'type' => 'select',
-					'options' => $load_pages,
+					'type' => 'page',
 				)
 			)
 		),

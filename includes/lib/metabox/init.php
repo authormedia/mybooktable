@@ -174,6 +174,7 @@ class cmb_Meta_Box {
 
 		foreach ( $this->_meta_box['fields'] as $field ) {
 			// Set up blank or default values for empty ones
+			if(empty($field)){continue;}
 			if ( !isset( $field['name'] ) ) $field['name'] = '';
 			if ( !isset( $field['desc'] ) ) $field['desc'] = '';
 			if ( !isset( $field['std'] ) ) $field['std'] = '';
@@ -182,8 +183,7 @@ class cmb_Meta_Box {
 			if ( 'multicheck' == $field['type'] ) $field['multiple'] = true;  
 						
 			$meta = get_post_meta( $post->ID, $field['id'], 'multicheck' != $field['type'] /* If multicheck this can be multiple values */ );
-// added by Jim Camomile
-if (!empty($field['id'])) {
+
 			echo '<tr>';
 	
 			if ( $field['type'] == "title" ) {
@@ -389,7 +389,6 @@ if (!empty($field['id'])) {
 			}
 			
 			echo '</td>','</tr>';
-			} // end conditional added by Jim Camomile
 			
 		}
 		echo '</table>';

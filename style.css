@@ -1,0 +1,275 @@
+
+/*---------------------------------------------------------*/
+/* Product Content Styling                                 */
+/*---------------------------------------------------------*/
+
+.bt-product {
+	padding: .3em;
+	margin: .2em;
+}
+
+.bt-product .bt-product-buttons {
+	padding: .3em;
+	margin: .2em;
+}
+
+.bt-product .bt-product-button  {
+	width: auto;
+	float: left;
+	clear: none;
+	margin: 5px 0px 2px 0px;
+}
+
+.bt-product .bt-product-button img {
+    background: none;
+    border: 0px solid #FFF;
+    height: auto;
+    padding: 3px 4px 3px 0px;
+}
+
+.bt-product .bt-product-button a {
+	height: 35px;
+}
+
+.bt-product .bt-read-more {
+	padding: 0;
+}
+
+.bt-product .bt-read-more .bt-read-more-top {
+	float: right;
+	margin: 0.0em 2.0em 0.5em 15em;
+}
+
+.bt-product .bt-read-more .bt-read-more-bottom {
+	float: right;
+	margin: 0.3em 3.0em 0.0em 10em;
+}
+
+.bt-product .bt-product-price {
+	margin: 10px 0px;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.bt-product .bt-product-price .oldprice  {
+	text-decoration: line-through;
+	color: #AEAEAE;
+	margin-right: 10px;
+}
+
+.bt-product .bt-product-price .newprice  {
+	color: #152400;
+}
+
+.bt-product .bt-product-issuu {
+	margin: 10px 0;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Paypal Styling                                          */
+/*---------------------------------------------------------*/
+
+.bt-product .paypal-form {
+	padding: 10px;
+	border: 1px solid #EAEAEA;
+	margin-bottom: 6px !important;
+}
+
+.bt-product .bt-paypal-button {
+	background: none;
+    border-color: none;
+    border-radius: none;
+    border-style: none;
+    border-width: 0px;
+    margin-bottom: 0px;
+    padding: 5px;
+}
+
+.bt-product .bt-paypal-button:focus {
+	background: none;
+	box-shadow: 0 0 4px rgba(200, 200, 200, 0.7); 
+	-moz-box-shadow: 0 0 4px rgba(200, 200, 200, 0.7); 
+	-webkit-box-shadow: 0 0 4px rgba(200, 200, 200, 0.7);    
+}
+
+.bt-product .bt-paypal-options {
+	padding: 6px;
+	margin-bottom: 6px !important;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Related Products Styling                                */
+/*---------------------------------------------------------*/
+
+.bt-related-products {
+	padding: 1em;
+	margin: 1em;
+	border: 0px solid #eaeaea;
+}
+
+.bt-related-products h3 {
+    color: #3A0000;
+    font-size: 1.6em;
+    font-weight: normal;
+    margin-bottom: .5em;
+	border-bottom: 1px solid #EAEAEA;
+}
+
+.bt-related-products .bt-collection-name {
+    color: #3A3A3A;
+    font-size: 1.3em;
+    font-weight: normal;
+    margin-bottom: .3em;
+	border-bottom: 1px solid #EAEAEA;
+}
+
+.bt-related-products .bt-product-related { 
+	margin: .5em 0 .5em .5em;
+	padding: .5em;
+	border-bottom: 1px solid #EAEAEA;
+}
+
+.bt-related-products .bt-product-related .bt-product-image {
+	float: left;
+	clear: none;
+	margin: 0 .3em .3em 0;
+}
+
+.bt-related-products .bt-product-related .bt-product-link {
+    font-size: 1.2em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: normal;
+    margin-bottom: .3em;
+	font-style: italic;
+}
+
+.bt-related-products .bt-product-related .bt-product-link a {
+    color: #3A0000;
+}
+
+.bt-related-products .bt-product-related .bt-product-description {
+    font-size: .9em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: normal;
+    margin-bottom: .3em;
+	font-style: italic;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Product Archive Styling                                 */
+/*---------------------------------------------------------*/
+
+.bt-breadcrumbs {
+	border: 0;
+	font-style: italic;
+	margin: 0px 5px 5px 5px;
+	padding: 5px;
+}
+
+.category-description {
+	margin: 10px 0 20px 0px;
+	padding: 5px 10px;
+	border-bottom: 1px solid #EAEAEA;
+	border-top: 1px solid #EAEAEA;
+}
+
+.no-category-description {
+	margin: 15px 0;
+	border-top: 1px solid #EAEAEA;
+}
+
+.tax-bt_product_category .bt_products,
+.post-type-archive-bt_products .bt_products {
+	padding: 2em .5em;
+	border-bottom: 1px solid #EAEAEA;
+}
+
+.tax-bt_product_category .bt_products img.thumbnail,
+.post-type-archive-bt_products .bt_products img.thumbnail {
+	margin: .5em .5em 0 0;
+}
+
+.tax-bt_product_category .bt_products .entry p,
+.post-type-archive-bt_products .bt_products .entry p {
+    margin-bottom: 0.5em;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Feature Book Widget                                     */
+/*---------------------------------------------------------*/
+
+.widget_featured_books {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.widget_featured_books .message {
+	font-style: italic;
+	margin: 5px 10px 0px 10px;
+	text-align: center;
+}
+
+.widget_featured_books .featurebook {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.widget_featured_books .featurebook .image {
+	padding: 20px 0px;
+	text-align: center;
+}
+
+.widget_featured_books .featurebook .name {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.widget_featured_books .featurebook .excerpt {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Latest Book Widget                                      */
+/*---------------------------------------------------------*/
+
+.widget_latest_book {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.widget_latest_book .message{
+	font-style: italic;
+	margin: 5px 10px 0px 10px;
+	text-align: center;
+}
+
+.widget_latest_book .latestbook {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.widget_latest_book .latestbook .image {
+	padding: 20px 0px;
+	text-align: center;
+}
+
+.widget_latest_book .latestbook .name {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.widget_latest_book .latestbook .excerpt {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}

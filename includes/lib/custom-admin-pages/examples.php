@@ -1,10 +1,10 @@
 <?php
 
 //Include the code
-require_once(get_stylesheet_directory().'/lib/custom-admin-pages/adminpages.php');
+require_once('lib/custom-admin-pages/custom-admin-pages.php');
 
 //Create the admin page
-ap_add_theme_options_add_page("Test Admin Page", "ap-test-options-page", 
+cap_add_menu_page("Test Admin Page", "test_admin_page", 
 	array(
 		array(
 			'title' => 'Test Settings Section',
