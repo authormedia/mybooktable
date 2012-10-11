@@ -34,7 +34,7 @@ function bt_create_post_types_and_taxonomies()
 		'exclude_from_search' => false,
 		'has_archive' => true,
 		'supports' => array('title', 'editor', 'thumbnail'),
-		'rewrite' => array('slug' => 'products'),
+		'rewrite' => array('slug' => 'books'),
 	));
 
 	//create categories

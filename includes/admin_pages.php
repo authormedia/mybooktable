@@ -74,6 +74,12 @@ cap_add_submenu_page("edit.php?post_type=bt_products", "Book Table Options", "bu
 					'default' => 10
 				),
 				array(
+					'name' => 'Show Buy Buttons in Excerpts',
+					'desc' => 'If Checked, the buy buttons will display in product excerpts in category pages.',
+					'id'   => 'buttons_in_excerpt',
+					'type' => 'checkbox',
+				),
+				array(
 					'name' => 'Use Issuu to show Book Excerpts',
 					'desc' => 'Issuu is a useful tool for showing a sneak preview of your book in a flip book format. <a href="http://www.issuu.com/" target="_blank">Go to Issuu to sign up for a free account to get started.</a>',
 					'id'   => 'use_issuu',
