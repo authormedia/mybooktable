@@ -120,7 +120,7 @@ function bt_get_product_image($post, $width, $height, $class='thumbnail', $link=
 		//if woo themes woo_image is in play, by all means use it
 		return woo_image('key=image&size=thumbnail&link='.$link.'&class='.$class.'&width='.$width.'&noheight=true&return=1');
 
-	} elseif(has_post_thumbnail()) {
+	} elseif(has_post_thumbnail($post->ID)) {
 		//else if there is a featured image to grab, use that
 		return get_the_post_thumbnail($post->ID, array($width, $height), array(
 			'class'	=> $class,
@@ -132,8 +132,8 @@ function bt_get_product_image($post, $width, $height, $class='thumbnail', $link=
 		//last straw, use homegrown image finding script from cats that code
 		$matches = array();
 		$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-		$theimage = $matches[1][0];
-		if(empty($first_img)){$theimage = "/images/default.jpg";} //Defines a default image
+		$theimage = isset($matches[1]) ? (isset($matches[1][0]) ? $matches[1][0] : '') : '';
+		if(empty($theimage)){$theimage = "/images/default.jpg";} //Defines a default image
 
 		return get_the_post_thumbnail(array($width, $height), array(
 			'src'	=> $theimage,

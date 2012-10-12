@@ -4,7 +4,7 @@
 add_action('widgets_init', 'bt_register_widgets');
 function bt_register_widgets() {
 	register_widget("BT_Featured_Books");
-	register_widget("BP_Latest_Books");
+	register_widget("BP_Latest_Book");
 }
 
 
@@ -31,19 +31,19 @@ class BT_Featured_Books extends WP_Widget {
 
 		$featuredbooks = new WP_Query(array('posts_per_page' => $numprod, 'orderby' => 'menu_order', 'taxonomy' => 'product_category', 'meta_key' => 'bt_featured', 'meta_value' => 'on', 'order' => 'DESC', 'post_type' => 'bt_products', 'post_status' => 'publish'));
 		
-		if(!empty($latestbooks)) {
-			foreach($featuredbooks as $book) {
+		if(!empty($featuredbooks->posts)) {
+			foreach($featuredbooks->posts as $book) {
 				echo('<div class="featurebook">');
 
-				if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink().'">'.bt_get_product_image($book, $width, $height).'</a></div>'; }
-				if($hastitle == 'on') { echo '<div class="image"><a href="'.get_permalink().'">'.the_title().'</a></div>'; }
+				if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.bt_get_product_image($book, $width, $height).'</a></div>'; }
+				if($hastitle == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.$book->post_title.'</a></div>'; }
 				if($hasexcerpt == 'on') {
 					echo('<div class="excerpt">');
 					echo(string_limit_chars(!empty($book->post_excerpt) ? $book->post_excerpt : strip_tags($book->post_content), $excerptlen));
-					echo('<span class="readmore"><a href="'.get_permalink().'">Read More &raquo;</a></span>');
+					echo('<span class="readmore"><a href="'.get_permalink($book->ID).'">Read More &raquo;</a></span>');
 					echo('</div>');
-				} else {	
-					echo('<div class="readmore"><a href="'.get_permalink().'">Read More &raquo;</a></div>');
+				} else {
+					echo('<div class="readmore"><a href="'.get_permalink($book->ID).'">Read More &raquo;</a></div>');
 				}
 				
 				echo('</div> <!-- end featurebook -->');
@@ -70,6 +70,9 @@ class BT_Featured_Books extends WP_Widget {
 	}
 
 	function form($instance) {
+		if(empty($instance)) {
+			$instance = array('title' => '', 'message' => '', 'numprod' => '', 'hasimage' => '', 'hastitle' => '', 'hasexcerpt' => '', 'excerptlen' => '', 'width' => '', 'height' => '');
+		}
 		$title 		= esc_attr($instance['title']);
 		$message	= esc_attr($instance['message']);
 		$numprod	= esc_attr($instance['numprod']);
@@ -141,8 +144,8 @@ class BT_Featured_Books extends WP_Widget {
 /*------------------------------------------*/
 /*  Latest Books Widget                     */
 /*------------------------------------------*/
-class BP_Latest_Books extends WP_Widget {
-	function BP_Latest_Books() {
+class BP_Latest_Book extends WP_Widget {
+	function BP_Latest_Book() {
 		parent::WP_Widget('bt_latest_book', 'Latest Book');	
 	}
 
@@ -169,15 +172,15 @@ class BP_Latest_Books extends WP_Widget {
 		if(!empty($book)) {
 			echo('<div class="latestbook">');
 
-			if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink().'">'.bt_get_product_image($book, $width, $height).'</a></div>'; }
-			if($hastitle == 'on') { echo '<div class="image"><a href="'.get_permalink().'">'.the_title().'</a></div>'; }
+			if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.bt_get_product_image($book, $width, $height).'</a></div>'; }
+			if($hastitle == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.$book->post_title.'</a></div>'; }
 			if($hasexcerpt == 'on') {
 				echo('<div class="excerpt">');
 				echo(string_limit_chars(!empty($book->post_excerpt) ? $book->post_excerpt : strip_tags($book->post_content), $excerptlen));
-				echo('<span class="readmore"><a href="'.get_permalink().'">Read More &raquo;</a></span>');
+				echo('<span class="readmore"><a href="'.get_permalink($book->ID).'">Read More &raquo;</a></span>');
 				echo('</div>');
 			} else {
-				echo('<div class="readmore"><a href="'.get_permalink().'">Read More &raquo;</a></div>');
+				echo('<div class="readmore"><a href="'.get_permalink($book->ID).'">Read More &raquo;</a></div>');
 			}
 			
 			echo('</div> <!-- end latestbook -->');
@@ -204,7 +207,10 @@ class BP_Latest_Books extends WP_Widget {
 	}
 	
 	function form($instance) {
-		global $wpdb;	
+		global $wpdb;
+		if(empty($instance)) {
+			$instance = array('title' => '', 'message' => '', 'selectmode' => '', 'theprod' => '', 'hasimage' => '', 'hastitle' => '', 'hasexcerpt' => '', 'excerptlen' => '', 'width' => '', 'height' => '');
+		}
 		$title 		= esc_attr($instance['title']);
 		$message	= esc_attr($instance['message']);
 		$selectmode	= esc_attr($instance['selectmode']);
