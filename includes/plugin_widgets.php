@@ -5,6 +5,7 @@ add_action('widgets_init', 'bt_register_widgets');
 function bt_register_widgets() {
 	register_widget("BT_Featured_Books");
 	register_widget("BP_Latest_Book");
+	register_widget("BP_Book_Categories");
 }
 
 
@@ -142,7 +143,7 @@ class BT_Featured_Books extends WP_Widget {
 
 
 /*------------------------------------------*/
-/*  Latest Books Widget                     */
+/* Latest Books Widget                      */
 /*------------------------------------------*/
 class BP_Latest_Book extends WP_Widget {
 	function BP_Latest_Book() {
@@ -280,5 +281,69 @@ class BP_Latest_Book extends WP_Widget {
 		</p>
 
 		<?php 
+	}
+}
+
+
+
+
+
+/*------------------------------------------*/
+/* Book Categories Widget                   */
+/*------------------------------------------*/
+class BP_Book_Categories extends WP_Widget {
+	function BP_Book_Categories() {
+		parent::WP_Widget('bt_book_categories', 'Book Categories');	
+	}
+
+	function widget($args, $instance) {
+		extract($args);
+
+		$title = empty($instance['title']) ? 'Book Categories' : $instance['title'];
+		$c = !empty($instance['count']) ? '1' : '0';
+		$h = !empty($instance['hierarchical']) ? '1' : '0';
+		$e = empty($instance['exclude']) ? '' : $instance['exclude'];
+
+		echo($before_widget);
+		echo($before_title . $title . $after_title);
+
+		echo('<ul>');
+		wp_list_categories(array('taxonomy' => 'bt_product_category', 'orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h, 'title_li' => '', 'exclude' => $e));
+		echo('</ul>');
+
+		echo($after_widget);
+	}
+
+	function update($new_instance, $old_instance) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['exclude'] = strip_tags($new_instance['exclude']);
+		$instance['count'] = !empty($new_instance['count']) ? 1 : 0;
+		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
+
+		return $instance;
+	}
+
+	function form($instance) {
+		//Defaults
+		$instance = wp_parse_args((array)$instance, array('title' => '', 'exclude' => ''));
+		$title = esc_attr($instance['title']);
+		$exclude = esc_attr($instance['exclude']);
+		$count = isset($instance['count']) ? (bool) $instance['count'] : false;
+		$hierarchical = isset($instance['hierarchical']) ? (bool)$instance['hierarchical'] : false;
+		
+		?>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>">Title:</label>
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
+
+		<p><input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked( $count ); ?> />
+		<label for="<?php echo $this->get_field_id('count'); ?>">Show post counts</label><br />
+
+		<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('hierarchical'); ?>" name="<?php echo $this->get_field_name('hierarchical'); ?>"<?php checked( $hierarchical ); ?> />
+		<label for="<?php echo $this->get_field_id('hierarchical'); ?>">Show hierarchy</label><br /><br />
+
+		<label for="<?php echo $this->get_field_id('exclude'); ?>">Exclude Categories:<br />(comma-separated list of categories by unique ID)</label>
+		<input id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo $exclude; ?>" /></p></p>
+		<?php
 	}
 }
