@@ -4,11 +4,11 @@
 /* Custom Post Types and Taxonomies                        */
 /*---------------------------------------------------------*/
 
-add_action('init', 'bt_create_post_types_and_taxonomies');
-function bt_create_post_types_and_taxonomies()
+add_action('init', 'mbt_create_post_types_and_taxonomies');
+function mbt_create_post_types_and_taxonomies()
 {
 	//add custom product post type
-	register_post_type('bt_products', array(
+	register_post_type('mbt_products', array(
 		'labels' => array(			
 			'name' => 'Books',
 			'singular_name' => 'Book',
@@ -38,7 +38,7 @@ function bt_create_post_types_and_taxonomies()
 	));
 
 	//create categories
-	register_taxonomy('bt_product_category', 'bt_products', array(
+	register_taxonomy('mbt_product_category', 'mbt_products', array(
 		'hierarchical' => true,
 		'labels' => array(
 			'name' => 'Book Categories',
@@ -59,7 +59,7 @@ function bt_create_post_types_and_taxonomies()
 	));
 
 	//create tags
-	register_taxonomy('bt_product_tag', 'bt_products', array(
+	register_taxonomy('mbt_product_tag', 'mbt_products', array(
 		'hierarchical' => false,
 		'labels' => array(
 			'name' => 'Book Tags',
@@ -81,7 +81,7 @@ function bt_create_post_types_and_taxonomies()
 	));
 
 	//create collections
-	register_taxonomy('bt_product_collection', 'bt_products', array(
+	register_taxonomy('mbt_product_collection', 'mbt_products', array(
 		'hierarchical' => true,
 		'labels' => array(
 			'name' => 'Book Collections',

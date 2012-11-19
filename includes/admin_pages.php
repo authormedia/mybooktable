@@ -4,7 +4,7 @@
 require_once('lib/custom-admin-pages/custom-admin-pages.php');
 
 //Add the options
-cap_add_submenu_page("edit.php?post_type=bt_products", "Book Table Options", "button-store-options", 
+cap_add_submenu_page("edit.php?post_type=mbt_products", "Book Table Options", "mbt_options", 
 	array(
 		array(
 			'title' => 'General Options',

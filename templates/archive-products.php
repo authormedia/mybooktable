@@ -3,8 +3,8 @@
  * Template Name: Store Archive/Category Page
  */
 
-global $bt_main_options, $woo_options, $wp_query;
-$is_woo = $bt_main_options['is_woo'] == 'on';
+global $mbt_main_options, $woo_options, $wp_query;
+$is_woo = $mbt_main_options['is_woo'] == 'on';
 get_header();
 ?>
 
@@ -67,7 +67,7 @@ get_header();
 						<?php
 							if($is_woo){
 								if($woo_options['woo_post_content'] != 'content') {
-									bt_show_product_image($post, 175, 250, 'thumbnail alignleft');
+									mbt_show_product_image($post, 175, 250, 'thumbnail alignleft');
 								}
 							}
 						?>

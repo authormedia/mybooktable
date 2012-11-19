@@ -1,11 +1,11 @@
 <?php
 
 //register custom plugin widgets
-add_action('widgets_init', 'bt_register_widgets');
-function bt_register_widgets() {
-	register_widget("BT_Featured_Books");
-	register_widget("BP_Latest_Book");
-	register_widget("BP_Book_Categories");
+add_action('widgets_init', 'mbt_register_widgets');
+function mbt_register_widgets() {
+	register_widget("MBT_Featured_Books");
+	register_widget("MBT_Latest_Book");
+	register_widget("MBT_Book_Categories");
 }
 
 
@@ -13,9 +13,9 @@ function bt_register_widgets() {
 /*------------------------------------------*/
 /* Featured Books Widget                    */
 /*------------------------------------------*/
-class BT_Featured_Books extends WP_Widget {
-	function BT_Featured_Books() {
-		parent::WP_Widget('bt_featured_books', 'Featured Books');	
+class MBT_Featured_Books extends WP_Widget {
+	function MBT_Featured_Books() {
+		parent::WP_Widget('mbt_featured_books', 'Featured Books');	
 	}
 
 	function widget($args, $instance) {
@@ -30,13 +30,13 @@ class BT_Featured_Books extends WP_Widget {
 		if(!empty($title)) { echo($args['before_title'].$title.$args['after_title']); }
 		if(!empty($message)) { echo('<div class="message">'.$message.'</div>'); }
 
-		$featuredbooks = new WP_Query(array('posts_per_page' => $numprod, 'orderby' => 'menu_order', 'taxonomy' => 'product_category', 'meta_key' => 'bt_featured', 'meta_value' => 'on', 'order' => 'DESC', 'post_type' => 'bt_products', 'post_status' => 'publish'));
+		$featuredbooks = new WP_Query(array('posts_per_page' => $numprod, 'orderby' => 'menu_order', 'taxonomy' => 'product_category', 'meta_key' => 'mbt_featured', 'meta_value' => 'on', 'order' => 'DESC', 'post_type' => 'mbt_products', 'post_status' => 'publish'));
 		
 		if(!empty($featuredbooks->posts)) {
 			foreach($featuredbooks->posts as $book) {
 				echo('<div class="featurebook">');
 
-				if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.bt_get_product_image($book, $width, $height).'</a></div>'; }
+				if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.mbt_get_product_image($book, $width, $height).'</a></div>'; }
 				if($hastitle == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.$book->post_title.'</a></div>'; }
 				if($hasexcerpt == 'on') {
 					echo('<div class="excerpt">');
@@ -145,9 +145,9 @@ class BT_Featured_Books extends WP_Widget {
 /*------------------------------------------*/
 /* Latest Books Widget                      */
 /*------------------------------------------*/
-class BP_Latest_Book extends WP_Widget {
-	function BP_Latest_Book() {
-		parent::WP_Widget('bt_latest_book', 'Latest Book');	
+class MBT_Latest_Book extends WP_Widget {
+	function MBT_Latest_Book() {
+		parent::WP_Widget('mbt_latest_book', 'Latest Book');	
 	}
 
 	function widget($args, $instance) {
@@ -165,15 +165,15 @@ class BP_Latest_Book extends WP_Widget {
 
 		$book = 0;
 		if($selectmode != 'manual_select') {
-			$book = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'bt_products' WHERE ID = ".$instance['theprod']." LIMIT 1"));
+			$book = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'mbt_products' WHERE ID = ".$instance['theprod']." LIMIT 1"));
 		} else {
-			$book = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'bt_products' ORDER BY post_date DESC LIMIT 1"));
+			$book = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'mbt_products' ORDER BY post_date DESC LIMIT 1"));
 		}
 
 		if(!empty($book)) {
 			echo('<div class="latestbook">');
 
-			if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.bt_get_product_image($book, $width, $height).'</a></div>'; }
+			if($hasimage == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.mbt_get_product_image($book, $width, $height).'</a></div>'; }
 			if($hastitle == 'on') { echo '<div class="image"><a href="'.get_permalink($book->ID).'">'.$book->post_title.'</a></div>'; }
 			if($hasexcerpt == 'on') {
 				echo('<div class="excerpt">');
@@ -246,7 +246,7 @@ class BP_Latest_Book extends WP_Widget {
 			<select name="<?php echo($this->get_field_name('theprod')); ?>" id="<?php echo($this->get_field_id('theprod')); ?>">
 				<option value=""> -- Choose One -- </option>
 				<?php
-					$prods = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE post_type = 'bt_products' AND post_status = 'publish' ORDER BY post_title ASC");
+					$prods = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE post_type = 'mbt_products' AND post_status = 'publish' ORDER BY post_title ASC");
 					if(!empty($prods)) {
 						foreach($prods as $prod) {
 							echo '<option value="'.$prod->ID.'" '.selected($theprod, $prod->ID ).' >'.string_limit_chars($prod->post_title, 20).'</option>';	
@@ -291,9 +291,9 @@ class BP_Latest_Book extends WP_Widget {
 /*------------------------------------------*/
 /* Book Categories Widget                   */
 /*------------------------------------------*/
-class BP_Book_Categories extends WP_Widget {
-	function BP_Book_Categories() {
-		parent::WP_Widget('bt_book_categories', 'Book Categories');	
+class MBT_Book_Categories extends WP_Widget {
+	function MBT_Book_Categories() {
+		parent::WP_Widget('mbt_book_categories', 'Book Categories');	
 	}
 
 	function widget($args, $instance) {
@@ -308,7 +308,7 @@ class BP_Book_Categories extends WP_Widget {
 		echo($before_title . $title . $after_title);
 
 		echo('<ul>');
-		wp_list_categories(array('taxonomy' => 'bt_product_category', 'orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h, 'title_li' => '', 'exclude' => $e));
+		wp_list_categories(array('taxonomy' => 'mbt_product_category', 'orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h, 'title_li' => '', 'exclude' => $e));
 		echo('</ul>');
 
 		echo($after_widget);
