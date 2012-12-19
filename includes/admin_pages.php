@@ -1,215 +1,172 @@
 <?php
 
-//Include the library
-require_once('lib/custom-admin-pages/custom-admin-pages.php');
+//enqueue backend plugin styles and javascript
+function mbt_load_admin_style() {
+	wp_register_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
+	wp_enqueue_style('mbt_admin_css');
+	wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array('jquery'), '1.9.2');
+}
+add_action('admin_enqueue_scripts', 'mbt_load_admin_style');
 
-//Add the options
-cap_add_submenu_page("edit.php?post_type=mbt_products", "Book Table Options", "mbt_options", 
-	array(
-		array(
-			'title' => 'General Options',
-			'desc' => '',
-			'id' => 'general_options',
-			'settings_fields' => array(
-				array(
-					'name' => 'Use Woo Canvas Framework Features',
-					'desc' => 'Check this only if you are using Woo Canvas Framework. If checked, this will enable some enhanced features only available for Woo Canvas Framework',
-					'id'   => 'is_woo',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Use Custom Booktable Category and Single Page Templates',
-					'desc' => 'Check this if you want to use the preconfigured templates for book categories and single book pages. Also, you can move these templates from the plugin subdirectory called templates to your theme for easier modification. If unchecked, you may need to apply some functionality, like category intros, to your theme files manually.',
-					'id'   => 'use_templates',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Show Breadcrumbs for Bookstore pages',
-					'desc' => 'If checked, this displays breadcrumbs for the bookstore pages only. Not recommended if you are using something else to display breadcrumbs.',
-					'id'   => 'show_breadcrumbs',
-					'type' => 'checkbox',
-				)
-			)
-		),
-		array( 
-			'title' => 'Product Category Pages',
-			'desc' => '',
-			'id' => 'product_category_pages',
-			'settings_fields' => array(
-				array(
-					'name' => 'Show Category Introductions',
-					'desc' => 'If checked, Category Introductions will be shown at the top of each store category page. ',
-					'id'   => 'show_cat_intros',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Show Store Buttons in Category Pages',
-					'desc' => 'Check the box if you want the store buttons to show up in the product lists in category pages.',
-					'id'   => 'buttons_in_archive',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Read More Button Label',
-					'desc' => 'The "Read More" button text for links from category pages to the individual product pages.',
-					'id'   => 'readmorebutton',
-					'type' => 'text',
-					'default' => 'More Details'
-				),
-				array(
-					'name' => 'Placement of Read More Links',
-					'desc' => 'Where do you want the read more links to be for each product?',
-					'id'   => 'readmore_buttons_placement',
-					'type'    => 'radio_inline',
-						'options' => array(
-							array( 'name' => 'Above the Button Bar', 'value' => 'above', ),
-							array( 'name' => 'Below the Button Bar', 'value' => 'below', ),
-							array( 'name' => 'Don\'t show Read-More', 'value' => '', ),
-					)
-				),
-				array(
-					'name' => 'Number of Products per Page',
-					'desc' => 'Choose the number of products to show per page on the main products page or category page.',
-					'id'   => 'posts_per_page',
-					'type' => 'text_small',
-					'default' => 10
-				),
-				array(
-					'name' => 'Show Buy Buttons in Excerpts',
-					'desc' => 'If Checked, the buy buttons will display in product excerpts in category pages.',
-					'id'   => 'buttons_in_excerpt',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Use Issuu to show Book Excerpts',
-					'desc' => 'Issuu is a useful tool for showing a sneak preview of your book in a flip book format. <a href="http://www.issuu.com/" target="_blank">Go to Issuu to sign up for a free account to get started.</a>',
-					'id'   => 'use_issuu',
-					'type' => 'checkbox',
-				)
-			)
-		),
-		array( 
-			'title' => 'Book Collections',
-			'desc' => 'You can group related books into collections by using the "Book Collections" box in the right sidebar of the edit product screen. You can also create new collections by clicking the link at the bottom of the box.',
-			'id' => 'book_collections',
-			'settings_fields' => array(
-				array(
-					'name' => 'Show Book Collections in Product Pages',
-					'desc' => 'If Checked, the related products will display in product pages. Related products are created by selecting a Collection for each related product',
-					'id'   => 'related_in_content',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Show Book Collections in Excerpts',
-					'desc' => 'If Checked, the related products will display in product excerpts in category pages.',
-					'id'   => 'related_in_excerpts',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Show Image Thumbnails in Book Collections',
-					'desc' => '',
-					'id'   => 'related_thumbnail',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Short Description in Book Collections',
-					'desc' => 'Length in characters of description, set to 0 to disable.',
-					'id'   => 'related_descrip_len',
-					'type' => 'text_small',
-					'default' => 120
-				)
-			)
-		),
-		array(
-			'title' => 'Services to Use',
-			'desc' => 'Select the Services you are using from the options below. For each that you select you will see a link code box for that service in the admin page for each book. <br />Only books with a link code for that service will display the button for that service.',
-			'id' => 'service_options',
-			'settings_fields' => array(
-				array(
-					'name' => 'Amazon.com Affiliates',
-					'desc' => '',
-					'id'   => 'use_amazon',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Christian Book Distributors',
-					'desc' => '',
-					'id'   => 'use_cbd',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Barnes & Noble',
-					'desc' => '',
-					'id'   => 'use_bnn',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'EJunkie',
-					'desc' => '',
-					'id'   => 'use_ejunkie',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Kickstart Cart',
-					'desc' => '',
-					'id'   => 'use_kickstart',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Nook',
-					'desc' => '(Barnes & Noble)',
-					'id'   => 'use_nook',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Kindle',
-					'desc' => '(Amazon.com)',
-					'id'   => 'use_kindle',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Books in Motion',
-					'desc' => '',
-					'id'   => 'use_bim',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Signed by Author',
-					'desc' => '',
-					'id'   => 'use_sba',
-					'type' => 'checkbox',
-				),
-				array(
-					'name' => 'Paypal Standard Buttons',
-					'desc' => '',
-					'id'   => 'use_paypal',
-					'type' => 'checkbox',
-				)
-			)
-		),		
-		array(
-			'title' => 'Paypal Options',
-			'desc' => 'These settings are only relevant if you are using paypal buttons.',
-			'id' => 'paypal_options',
-			'settings_fields' => array(
-				array(
-					'name' => 'Paypal Email Address',
-					'desc' => 'Needed only if you are using paypal standard shopping cart buttons.',
-					'id'   => 'paypal_email',
-					'type' => 'text',
-				),
-				array(
-					'name' => 'Paypal Thank You Page',
-					'desc' => 'Choose a page on your website where you want paypal to return to after completing the sale. This is optional.',
-					'id'   => 'paypal_thankyou_return',
-					'type' => 'page',
-				),
-				array(
-					'name' => 'Paypal Cancel Page',
-					'desc' => 'Choose a page on your website where you want paypal to return to after a cancelled sale. This is optional.',
-					'id'   => 'paypal_cancel_return',
-					'type' => 'page',
-				)
-			)
-		),
-	)
-);
+function mbt_add_admin_pages() {
+	add_submenu_page("edit.php?post_type=mbt_books", "MyBookTable Settings", "Settings", 'manage_options', "mbt_settings", 'mbt_render_settings_page');
+	add_submenu_page("edit.php?post_type=mbt_books", "MyBookTable Help", "Help", 'manage_options', "mbt_help", 'mbt_render_help_page');
+}
+add_action('admin_menu', 'mbt_add_admin_pages');
+
+function mbt_render_settings_page() {
+	global $mbt_main_settings;
+
+	if(isset($_REQUEST['save_settings'])) {
+		$mbt_main_settings['bookstore_page'] = $_REQUEST['mbt_bookstore_page'];
+		$mbt_main_settings['series_in_excerpts'] = $_REQUEST['mbt_series_in_excerpts'];
+		$mbt_main_settings['posts_per_page'] = $_REQUEST['mbt_posts_per_page'];
+		$mbt_main_settings['disable_seo'] = $_REQUEST['mbt_disable_seo'];
+		update_option("mbt_main_settings", $mbt_main_settings);
+
+		$settings_updated = true;
+	}
+
+	if(isset($_REQUEST['install_examples'])) {
+		mbt_install_examples();
+	}
+
+	if(isset($_REQUEST['install_pages'])) {
+		mbt_install_pages();
+	}
+
+	?>
+
+	<script>
+		jQuery(document).ready(function() {
+			jQuery("#mbt-tabs").tabs({active: <?php echo(isset($_REQUEST['tab'])?$_REQUEST['tab']:0); ?>});
+		});
+	</script>
+
+	<div class="wrap mbt_settings">
+		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Settings</h2>
+		<?php if(isset($settings_updated)) { ?>
+			<div id="setting-error-settings_updated" class="updated settings-error"><p><strong>Settings saved.</strong></p></div>
+		<?php } ?>
+
+		<form method="post" action="">
+		
+			<div id="mbt-tabs">
+				<ul>
+					<li><a href="#tabs-1">General Settings</a></li>
+					<li><a href="#tabs-2">Affiliate Settings</a></li>
+					<li><a href="#tabs-3">Archive Page Settings</a></li>
+					<li><a href="#tabs-4">SEO Settings</a></li>
+				</ul>
+				<div id="tabs-1">
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
+								<th scope="row"><label for="blogname">Bookstore Page</label></th>
+								<td>
+									<select name="mbt_bookstore_page" id="mbt_bookstore_page">
+										<option value="0" <?php echo($mbt_main_settings['bookstore_page'] <= 0 ? ' selected="selected"' : '') ?> > -- Choose One -- </option>
+										<?php foreach(get_pages() as $page) { ?>
+											<option value="<?php echo($page->ID); ?>" <?php echo($mbt_main_settings['bookstore_page'] == $page->ID ? ' selected="selected"' : ''); ?> ><?php echo($page->post_title); ?></option>
+										<?php } ?>
+									</select>
+									<?php if($mbt_main_settings['bookstore_page'] <= 0) { ?>
+										<a href="<?php echo(admin_url('edit.php?post_type=mbt_books&page=mbt_settings&install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a bookstore page</a>
+									<?php } ?>
+									<p class="description">The bookstore page is the main landing page for your books, it must have the [mbt_bookstore] shortcode.</p>
+								</td>
+							</tr>
+							<?php if(!$mbt_main_settings['installed_examples']) { ?>
+								<tr valign="top">
+									<th scope="row">Example Books</th>
+									<td>
+										<a href="<?php echo(admin_url('edit.php?post_type=mbt_books&page=mbt_settings&install_examples=1')); ?>" id="submit" class="button button-primary">Click here to create example books</a>
+										<p class="description">These examples will help you learn how to set up Genres, Themes, Series, Authors, and Books of your own.</p>
+									</td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+				</div>
+				<div id="tabs-2">
+					<?php do_action("mbt_affiliate_settings"); ?>
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_amazon_affiliate_code">Amazon Affiliate Code</label></th>
+								<td>
+									<input type="text" name="mbt_amazon_affiliate_code" id="mbt_amazon_affiliate_code" value="" class="regular-text">
+									<p class="description">Your personal amazon affiliate code.</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+				</div>
+				<div id="tabs-3">
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_series_in_excerpts">Show other books in the same Series in excerpts</label></th>
+								<td>
+									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo($mbt_main_settings['series_in_excerpts'] ? ' checked="checked"' : ''); ?> >
+									<p class="description">If checked, the related books will display in book excerpts in archive pages.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_posts_per_page">Number of Books per Page</label></th>
+								<td>
+									<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo($mbt_main_settings['posts_per_page'] ? $mbt_main_settings['posts_per_page'] : get_option('posts_per_page')); ?>" class="regular-text">
+									<p class="description">Choose the number of books to show per page on the archive pages.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="blogname">Featured Affiliates</label></th>
+								<td><p class="description">Featured affiliates show up on the Book Archive Pages.</p></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+				</div>
+				<div id="tabs-4">
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_disable_seo">Disable SEO</label></th>
+								<td>
+									<input type="checkbox" name="mbt_disable_seo" id="mbt_disable_seo"  <?php echo($mbt_main_settings['disable_seo'] ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable MyBookTable's built-in SEO features.</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+<?php
+}
+
+function mbt_render_help_page() {
+?>
+
+	<div class="wrap">
+		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Settings</h2>
+
+		<h3>How do I kittens?</h3>
+		<iframe width="640" height="360" src="https://www.youtube.com/embed/gppbrYIcR80?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+		<p>In this video we describe how to blah blah blah</p>
+
+		<h3>How do I puppies?</h3>
+		<iframe width="640" height="360" src="https://www.youtube.com/embed/5L28TM48bF0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+		<p>In this video we describe how to blah blah blah</p>
+
+	</div>
+
+<?php
+}
