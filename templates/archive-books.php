@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Store Archive Page
+ * Template Name: Book Archive Page
  */
 
 get_header();
@@ -9,40 +9,46 @@ get_header();
 <div id="<?php echo((get_option('template') === 'twentyeleven') ? 'primary' : 'container'); ?>">
 	<div id="content" role="main">
 
-			<?php
-				if(is_post_type_archive('mbt_books')) {
-					echo('<h4>Books</h4>');
-				} else if(is_tax('mbt_genres')) {
-					echo('<h4>Genre: '.get_queried_object()->name.'</h4>');
-				} else if(is_tax('mbt_series')) {
-					echo('<h4>Series: '.get_queried_object()->name.'</h4>');
-					echo('<div class="series-description">'.mbt_get_series_post(get_queried_object()->slug)->post_content.'</div>');
-				} else if(is_tax('mbt_themes')) {
-					echo('<h4>Theme: '.get_queried_object()->name.'</h4>');
-				}
-			?>
-
 			<?php if(have_posts()) { ?>
+
+				<header class="page-header">
+					<h1 class="page-title">
+						<?php
+							if(is_post_type_archive('mbt_books')) {
+								echo('Books');
+							} else if(is_tax('mbt_genres')) {
+								echo('Genre: '.get_queried_object()->name);
+							} else if(is_tax('mbt_series')) {
+								echo('Series: '.get_queried_object()->name);
+							}
+						?>
+					</h1>
+					<?php
+						if(is_tax('mbt_genres') or is_tax('mbt_series')) {
+							echo('<div class="archive-description">'.get_queried_object()->description.'</div>');
+						}
+					?>
+				</header>
 
 				<?php while(have_posts()){ the_post(); ?>
 
-					<div <?php post_class(); ?>>
-
-						<?php 
-							mbt_show_book_image($post, 175, 250, 'thumbnail alignleft');
-							echo('<h3 class="title"><a href="'.get_permalink().'">'.get_the_title().'</a> </h3>');
-						?>
-
-						<div class="entry">
-							<?php the_excerpt(); ?>
-						</div>
-
-					</div><!-- end .post -->
+					<?php include("excerpt-books.php"); ?>
 
 				<?php } ?>
 
 			<?php } else { ?>
-				Sorry, nothing here.
+
+				<article id="post-0" class="post no-results not-found">
+					<header class="entry-header">
+						<h1 class="entry-title"><?php _e('Nothing Found', 'twentyeleven'); ?></h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p><?php _e('Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'twentyeleven'); ?></p>
+						<?php get_search_form(); ?>
+					</div><!-- .entry-content -->
+				</article><!-- #post-0 -->
+
 			<?php } ?>
 
 	</div><!-- end #content -->

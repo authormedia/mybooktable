@@ -162,38 +162,17 @@
 
 
 /*---------------------------------------------------------*/
-/* Book Archive Styling                                 */
+/* Book Archive Styling                                    */
 /*---------------------------------------------------------*/
 
-.category-description {
-	margin: 10px 0 20px 0px;
+.archive .archive-description {
+	margin: 0px 0px 20px 0px;
 	padding: 5px 10px;
 	border-bottom: 1px solid #EAEAEA;
 	border-top: 1px solid #EAEAEA;
+
+	font-style: italic;
 }
-
-.no-category-description {
-	margin: 15px 0;
-	border-top: 1px solid #EAEAEA;
-}
-
-.tax-mbt_series .mbt_books,
-.post-type-archive-mbt_books .mbt_books {
-	padding: 2em .5em;
-	border-bottom: 1px solid #EAEAEA;
-}
-
-.tax-mbt_series .mbt_books img.thumbnail,
-.post-type-archive-mbt_books .mbt_books img.thumbnail {
-	margin: .5em .5em 0 0;
-}
-
-.tax-mbt_series .mbt_books .entry p,
-.post-type-archive-mbt_books .mbt_books .entry p {
-    margin-bottom: 0.5em;
-}
-
-
 
 /*---------------------------------------------------------*/
 /* Feature Book Widget                                     */

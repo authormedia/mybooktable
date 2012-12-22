@@ -6,7 +6,7 @@ function bss_add_metaboxes()
 	add_meta_box('mbt_overview', 'Book Overview', 'mbt_overview_metabox', 'mbt_books', 'normal', 'high');
 	add_meta_box('mbt_metadata', 'Book Metadata', 'mbt_metadata_metabox', 'mbt_books', 'normal', 'high');
 	if(mbt_is_seo_active()) { add_meta_box('mbt_seo', 'SEO Information', 'mbt_seo_metabox', 'mbt_books', 'normal', 'high'); }
-	add_meta_box('mbt_affiliates', 'Affiliates', 'mbt_affiliates_metabox', 'mbt_books', 'normal');
+	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_books', 'normal');
 }
 add_action('add_meta_boxes', 'bss_add_metaboxes', 9);
 
@@ -54,6 +54,13 @@ function mbt_metadata_metabox($post)
 				<p class="description">Optional</p>
 			</td>
 		</tr>
+		<tr>
+			<th><label for="mbt_price">Book Sale Price</label></th>
+			<td>
+				$ <input type="text" name="mbt_sale_price" id="mbt_sale_price" value="<?php echo(get_post_meta($post->ID, "mbt_sale_price", true)); ?>" />
+				<p class="description">Optional</p>
+			</td>
+		</tr>
 	</table>
 <?php
 }
@@ -66,6 +73,7 @@ function mbt_save_metadata_metabox($post_id)
 	{
 		if(isset($_POST['mbt_book_id'])) { update_post_meta($post_id, "mbt_book_id", $_POST['mbt_book_id']); }
 		if(isset($_POST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_POST['mbt_price']); }
+		if(isset($_POST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_POST['mbt_sale_price']); }
 	}
 }
 add_action('save_post', 'mbt_save_metadata_metabox');
@@ -133,20 +141,20 @@ function mbt_save_seo_metabox($post_id)
 add_action('save_post', 'mbt_save_seo_metabox');
 
 /*---------------------------------------------------------*/
-/* Affiliates Metabox                                      */
+/* Buy Button Metabox                                      */
 /*---------------------------------------------------------*/
 
-function mbt_affiliates_metabox_ajax() {
-	echo('<div class="mbt_affiliate_editor">');
-	echo('<button class="mbt_affiliate_remover" style="float:right">Remove</button>');
-	$affiliates = mbt_get_affiliates();
-	echo($affiliates[$_POST['type']]['editor'](array('type' => $_POST['type'], 'value' => ''), "mbt_affiliate".$_POST['num'], $affiliates));
+function mbt_buybuttons_metabox_ajax() {
+	echo('<div class="mbt_buybutton_editor">');
+	echo('<button class="mbt_buybutton_remover" style="float:right">Remove</button>');
+	$buybuttons = mbt_get_buybuttons();
+	echo($buybuttons[$_POST['type']]['editor'](array('type' => $_POST['type'], 'value' => ''), "mbt_buybutton".$_POST['num'], $buybuttons));
 	echo('</div>');
 	die();
 }
-add_action('wp_ajax_mbt_affiliates_metabox', 'mbt_affiliates_metabox_ajax');
+add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
 
-function mbt_affiliates_metabox($post)
+function mbt_buybuttons_metabox($post)
 {
 	wp_nonce_field(plugin_basename(__FILE__), 'mbt_nonce');
 
@@ -157,25 +165,25 @@ function mbt_affiliates_metabox($post)
 			var adding = false;
 
 			function reset_numbers() {
-				jQuery('#mbt_affiliate_editors .mbt_affiliate_editor').each(function(i) {
+				jQuery('#mbt_buybutton_editors .mbt_buybutton_editor').each(function(i) {
 					jQuery(this).find("input, textarea, select").each(function() {
-						jQuery(this).attr('name', jQuery(this).attr('name').replace(/mbt_affiliate\d*\[([A-Za-z0-9]*)\]/, "mbt_affiliate"+i+"[$1]"));
+						jQuery(this).attr('name', jQuery(this).attr('name').replace(/mbt_buybutton\d*\[([A-Za-z0-9]*)\]/, "mbt_buybutton"+i+"[$1]"));
 					});
 				});
 			}
 
-			jQuery('#mbt_affiliate_adder').click(function() {
+			jQuery('#mbt_buybutton_adder').click(function() {
 				if(!adding) {
 					adding = true;
 					jQuery.post(ajaxurl,
 						{
-							action: 'mbt_affiliates_metabox',
-							type: jQuery('#mbt_affiliate_selector').val(),
+							action: 'mbt_buybuttons_metabox',
+							type: jQuery('#mbt_buybutton_selector').val(),
 							num: 0
 						},
 						function(response) {
 							var element = jQuery(response);
-							jQuery("#mbt_affiliate_editors").prepend(element);
+							jQuery("#mbt_buybutton_editors").prepend(element);
 							reset_numbers();
 							adding = false;
 						}
@@ -184,7 +192,7 @@ function mbt_affiliates_metabox($post)
 				return false;
 			});
 
-			jQuery("#mbt_affiliate_editors").on("click", ".mbt_affiliate_remover", function() {
+			jQuery("#mbt_buybutton_editors").on("click", ".mbt_buybutton_remover", function() {
 				jQuery(this).parent().remove();
 				reset_numbers();
 			});
@@ -193,41 +201,41 @@ function mbt_affiliates_metabox($post)
 
 	<?php
 
-	$affiliates = mbt_get_affiliates();
+	$buybuttons = mbt_get_buybuttons();
 	echo('Choose One:');
-	echo('<select id="mbt_affiliate_selector">');
-	foreach($affiliates as $slug => $affiliate) {
-  		echo('<option value="'.$slug.'">'.$affiliate['name'].'</option>');
+	echo('<select id="mbt_buybutton_selector">');
+	foreach($buybuttons as $slug => $buybutton) {
+  		echo('<option value="'.$slug.'">'.$buybutton['name'].'</option>');
   	}
 	echo('</select>');
-	echo('<button id="mbt_affiliate_adder">Add</button>');
+	echo('<button id="mbt_buybutton_adder">Add</button>');
 
-	echo('<div id="mbt_affiliate_editors">');
-	$post_affiliates = get_post_meta($post->ID, "mbt_affiliates", true);
-	if(!empty($post_affiliates)) {
-		for($i = 0; $i < count($post_affiliates); $i++)
+	echo('<div id="mbt_buybutton_editors">');
+	$post_buybuttons = get_post_meta($post->ID, "mbt_buybuttons", true);
+	if(!empty($post_buybuttons)) {
+		for($i = 0; $i < count($post_buybuttons); $i++)
 		{
-			echo('<div class="mbt_affiliate_editor">');
-			echo('<button class="mbt_affiliate_remover" style="float:right">Remove</button>');
-			echo($affiliates[$post_affiliates[$i]['type']]['editor']($post_affiliates[$i], "mbt_affiliate".$i, $affiliates));
+			echo('<div class="mbt_buybutton_editor">');
+			echo('<button class="mbt_buybutton_remover" style="float:right">Remove</button>');
+			echo($buybuttons[$post_buybuttons[$i]['type']]['editor']($post_buybuttons[$i], "mbt_buybutton".$i, $buybuttons));
 			echo('</div>');
 		}
 	}
 	echo('</div>');
 }
 
-function mbt_save_affiliates_metabox($post_id)
+function mbt_save_buybuttons_metabox($post_id)
 {
 	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_POST['mbt_nonce']) || !wp_verify_nonce($_POST['mbt_nonce'], plugin_basename(__FILE__))){return;}
 
 	if(get_post_type($post_id) == "mbt_books")
 	{
 		$mydata = array();
-		for($i = 0; isset($_POST['mbt_affiliate'.$i]); $i++)
+		for($i = 0; isset($_POST['mbt_buybutton'.$i]); $i++)
 		{
-			$mydata[] = $_POST['mbt_affiliate'.$i];
+			$mydata[] = $_POST['mbt_buybutton'.$i];
 		}
-		update_post_meta($post_id, "mbt_affiliates", $mydata);
+		update_post_meta($post_id, "mbt_buybuttons", $mydata);
 	}
 }
-add_action('save_post', 'mbt_save_affiliates_metabox');
+add_action('save_post', 'mbt_save_buybuttons_metabox');
