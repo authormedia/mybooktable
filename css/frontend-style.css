@@ -10,6 +10,8 @@
 
 .mbt_books .mbt-book-images .mbt-book-image {
 	width: 100%;
+	border-radius: 0px;
+	box-shadow: none;
 }
 
 .mbt_books .mbt-book-summary {
@@ -78,6 +80,8 @@
     border: 0px solid #FFF;
     height: auto;
     padding: 3px 4px 3px 0px;
+	border-radius: 0px;
+	box-shadow: none;
 }
 
 .mbt_books .mbt-book-price {
@@ -143,66 +147,6 @@
 
 
 /*---------------------------------------------------------*/
-/* Related Books Styling                                   */
-/*---------------------------------------------------------*/
-
-.mbt-related-books {
-	padding: 1em;
-	margin: 1em;
-	border: 0px solid #eaeaea;
-}
-
-.mbt-related-books h3 {
-    color: #3A0000;
-    font-size: 1.6em;
-    font-weight: normal;
-    margin-bottom: .5em;
-	border-bottom: 1px solid #EAEAEA;
-}
-
-.mbt-related-books .mbt-collection-name {
-    color: #3A3A3A;
-    font-size: 1.3em;
-    font-weight: normal;
-    margin-bottom: .3em;
-	border-bottom: 1px solid #EAEAEA;
-}
-
-.mbt-related-books .mbt-book-related { 
-	margin: .5em 0 .5em .5em;
-	padding: .5em;
-	border-bottom: 1px solid #EAEAEA;
-}
-
-.mbt-related-books .mbt-book-related .mbt-book-image {
-	float: left;
-	clear: none;
-	margin: 0 .3em .3em 0;
-}
-
-.mbt-related-books .mbt-book-related .mbt-book-link {
-    font-size: 1.2em;
-	font-family: Georgia, "Times New Roman", Times, serif;
-    font-weight: normal;
-    margin-bottom: .3em;
-	font-style: italic;
-}
-
-.mbt-related-books .mbt-book-related .mbt-book-link a {
-    color: #3A0000;
-}
-
-.mbt-related-books .mbt-book-related .mbt-book-description {
-    font-size: .9em;
-	font-family: Georgia, "Times New Roman", Times, serif;
-    font-weight: normal;
-    margin-bottom: .3em;
-	font-style: italic;
-}
-
-
-
-/*---------------------------------------------------------*/
 /* Book Archive Styling                                    */
 /*---------------------------------------------------------*/
 
@@ -233,4 +177,8 @@
 	color: #999;
 	font-family: Georgia, serif;
 	line-height: 98px;
+}
+
+.mbt-book-listing .mbt_books {
+	margin-bottom: 30px;
 }

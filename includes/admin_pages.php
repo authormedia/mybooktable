@@ -5,6 +5,7 @@ function mbt_load_admin_style() {
 	wp_register_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
 	wp_enqueue_style('mbt_admin_css');
 	wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array('jquery'), '1.9.2');
+	wp_enqueue_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css');
 }
 add_action('admin_enqueue_scripts', 'mbt_load_admin_style');
 

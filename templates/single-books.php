@@ -8,7 +8,8 @@ get_header();
 
 <div id="<?php echo((get_option('template') === 'twentyeleven') ? 'primary' : 'container'); ?>">
 	<div id="content" role="main">
-
+		<div class="entry-content">
+			
 		<?php if(function_exists('woo_loop_before')) { woo_loop_before(); } ?>
 
 		<div itemscope="" itemtype="http://schema.org/Product" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -36,6 +37,7 @@ get_header();
 
 		<?php if(function_exists('woo_loop_after')) { woo_loop_after(); } ?>
 		
+		</div>
 	</div>
 </div>
 
