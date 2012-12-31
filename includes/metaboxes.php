@@ -29,7 +29,7 @@ function mbt_book_blurb_metabox($post)
 
 function mbt_overview_metabox($post)
 {
-	wp_editor($post->post_content, 'content2', array('dfw' => true, 'tabfocus_elements' => 'sample-permalink,post-preview', 'editor_height' => 360) );
+	wp_editor($post->post_content, 'content', array('dfw' => true, 'tabfocus_elements' => 'sample-permalink,post-preview', 'editor_height' => 360) );
 }
 
 /*---------------------------------------------------------*/
@@ -87,21 +87,29 @@ function mbt_seo_metabox($post)
 ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
-			jQuery("#mbt_seo_title").keydown(function() {
-				if(70-jQuery(this).val().length <= 0 && event.keyCode != 8) { return false; }
-				jQuery("#mbt_seo_title-length").text(70-jQuery(this).val().length);
-			});
-			jQuery("#mbt_seo_title").keyup(function() {
-				jQuery("#mbt_seo_title-length").text(70-jQuery(this).val().length);
-			});
+			update_title = function() {
+				left = 70-jQuery("#mbt_seo_title").val().length;
+				jQuery("#mbt_seo_title-length").text(left);
+				if(left < 0) {
+					jQuery("#mbt_seo_title-length").addClass("bad");
+				} else {
+					jQuery("#mbt_seo_title-length").removeClass("bad");
+				}
+			}
+			jQuery("#mbt_seo_title").keydown(update_title).keyup(update_title).change(update_title);
+			update_title();
 
-			jQuery("#mbt_seo_metadesc").keydown(function() {
-				if(156-jQuery(this).val().length <= 0 && event.keyCode != 8) { return false; }
-				jQuery("#mbt_seo_metadesc-length").text(156-jQuery(this).val().length);
-			});
-			jQuery("#mbt_seo_metadesc").keyup(function() {
-				jQuery("#mbt_seo_metadesc-length").text(156-jQuery(this).val().length);
-			});
+			update_metadesc = function() {
+				left = 156-jQuery("#mbt_seo_metadesc").val().length;
+				jQuery("#mbt_seo_metadesc-length").text(left);
+				if(left < 0) {
+					jQuery("#mbt_seo_metadesc-length").addClass("bad");
+				} else {
+					jQuery("#mbt_seo_metadesc-length").removeClass("bad");
+				}
+			}
+			jQuery("#mbt_seo_metadesc").keydown(update_metadesc).keyup(update_metadesc).change(update_metadesc);
+			update_metadesc();
 		});
 	</script>
 
@@ -112,14 +120,14 @@ function mbt_seo_metabox($post)
 					<label for="mbt_seo_title">SEO Title:</label>
 				</th>
 				<td>
-					<input type="text" placeholder="" id="mbt_seo_title" name="mbt_seo_title" value="" class="large-text"><br>
+					<input type="text" placeholder="" id="mbt_seo_title" name="mbt_seo_title" value="<?php echo(get_post_meta($post->ID, 'mbt_seo_title', true)); ?>" class="large-text"><br>
 					<p>Title display in search engines is limited to 70 chars, <span id="mbt_seo_title-length">70</span> chars left.</p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="mbt_seo_metadesc">Meta Description:</label></th>
 				<td>
-					<textarea class="large-text" rows="3" id="mbt_seo_metadesc" name="mbt_seo_metadesc"></textarea>
+					<textarea class="large-text" rows="3" id="mbt_seo_metadesc" name="mbt_seo_metadesc"><?php echo(get_post_meta($post->ID, 'mbt_seo_metadesc', true)); ?></textarea>
 					<p>The <code>meta</code> description will be limited to 156 chars, <span id="mbt_seo_metadesc-length">156</span> chars left.</p>
 				</td>
 			</tr>
@@ -134,8 +142,26 @@ function mbt_save_seo_metabox($post_id)
 
 	if(get_post_type($post_id) == "mbt_books")
 	{
-		if(isset($_POST['mbt_seo_title'])) { update_post_meta($post_id, "mbt_seo_title", $_POST['mbt_seo_title']); }
-		if(isset($_POST['mbt_seo_metadesc'])) { update_post_meta($post_id, "mbt_seo_metadesc", $_POST['mbt_seo_metadesc']); }
+		if(isset($_POST['mbt_seo_title'])) {
+			if(empty($_POST['mbt_seo_title'])) {
+				$terms = get_the_terms($post_id, "mbt_authors");
+				$authors = '';
+				if($terms) {
+					foreach($terms as $term) {
+						$authors .= $term->name . ', ';
+					}
+					$authors = rtrim(trim($authors), ',');
+				}
+				$_POST['mbt_seo_title'] = $_POST['post_title']." by ".$authors;
+			}
+			update_post_meta($post_id, "mbt_seo_title", $_POST['mbt_seo_title']);
+		}
+		if(isset($_POST['mbt_seo_metadesc'])) {
+			if(empty($_POST['mbt_seo_metadesc'])) {
+				$_POST['mbt_seo_metadesc'] = $_POST['excerpt'];
+			}
+			update_post_meta($post_id, "mbt_seo_metadesc", $_POST['mbt_seo_metadesc']);
+		}
 	}
 }
 add_action('save_post', 'mbt_save_seo_metabox');

@@ -24,7 +24,6 @@ function mbt_create_post_types_and_taxonomies()
 		),
 		'public' => true,
 		'show_ui' => true,
-		'show_in_menu' => false,
 		'query_var' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -54,7 +53,7 @@ function mbt_create_post_types_and_taxonomies()
 		),
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => 'author')
+		'rewrite' => array('slug' => 'authors')
 	));
 
 	register_taxonomy('mbt_genres', 'mbt_books', array(
@@ -99,3 +98,19 @@ function mbt_create_post_types_and_taxonomies()
 		'rewrite' => array('slug' => 'series')
 	));
 }
+
+function mbt_override_parent_files() {
+	global $pagenow, $parent_file, $submenu_file;
+	
+	if($pagenow == "edit-tags.php" and ($_GET['taxonomy'] == "mbt_series" or $_GET['taxonomy'] == "mbt_genres" or $_GET['taxonomy'] == "mbt_authors")) {
+		$parent_file = "mbt_landing_page";
+	}
+
+	if(($pagenow == "post.php" or $pagenow == "post-new.php") and get_post_type() == "mbt_books") {
+		$parent_file = "mbt_landing_page";
+		$submenu_file = "edit.php?post_type=mbt_books";
+	}
+
+	return $parent_file;
+}
+add_filter("parent_file", 'mbt_override_parent_files'); 

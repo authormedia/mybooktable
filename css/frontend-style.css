@@ -3,106 +3,147 @@
 /* Book Content Styling                                    */
 /*---------------------------------------------------------*/
 
-.mbt-book {
+.mbt_books .mbt-book-images {
+	float: left;
+	width: 44%;
+}
+
+.mbt_books .mbt-book-images .mbt-book-image {
+	width: 100%;
+}
+
+.mbt_books .mbt-book-summary {
+	width: 52%;
+	float: right;
+}
+
+.mbt_books .mbt-book-summary .mbt-book-title {
+	clear: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mbt_books .mbt-book-summary .mbt-book-blurb {
+	border-radius: 8px; 
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	background: #EAEAEA;
+
+	margin: 10px 0px;
+	position: relative;
+	padding: 10px 20px 10px 60px;
+	min-height: 50px;
+}
+
+.mbt_books .mbt-book-summary .mbt-book-blurb p {
+	font-style: italic;
+	color: #444;
+	line-height: 20px;
+	margin: 0px;
+}
+
+.mbt_books .mbt-book-summary .mbt-book-blurb:before {
+	content: '\201C';
+	position: absolute;
+	left: 9px;
+	font-size: 98px;
+	color: #999;
+	font-family: Georgia, serif;
+	line-height: 98px;
+}
+
+.mbt_books .mbt-book-buttons {
+	width: 52%;
+	float: right;
+}
+
+.mbt_books .mbt-book-overview {
+	clear: both;
+}
+
+.mbt_books .mbt-book-buttons {
 	padding: .3em;
 	margin: .2em;
 }
 
-.mbt-book .mbt-book-buttons {
-	padding: .3em;
-	margin: .2em;
-}
-
-.mbt-book .mbt-book-button  {
+.mbt_books .mbt-book-button  {
 	width: auto;
 	float: left;
 	clear: none;
 	margin: 5px 0px 2px 0px;
 }
 
-.mbt-book .mbt-book-button img {
+.mbt_books .mbt-book-button img {
     background: none;
     border: 0px solid #FFF;
     height: auto;
     padding: 3px 4px 3px 0px;
 }
 
-.mbt-book .mbt-book-button a {
-	height: 35px;
-}
-
-.mbt-book .mbt-read-more {
-	padding: 0;
-}
-
-.mbt-book .mbt-read-more .mbt-read-more-top {
-	float: right;
-	margin: 0.0em 2.0em 0.5em 15em;
-}
-
-.mbt-book .mbt-read-more .mbt-read-more-bottom {
-	float: right;
-	margin: 0.3em 3.0em 0.0em 10em;
-}
-
-.mbt-book .mbt-book-price {
+.mbt_books .mbt-book-price {
 	margin: 10px 0px;
 	font-size: 1.2em;
 	font-weight: bold;
 }
 
-.mbt-book .mbt-book-price .oldprice  {
+.mbt_books .mbt-book-price .oldprice  {
 	text-decoration: line-through;
 	color: #AEAEAE;
 	margin-right: 10px;
 }
 
-.mbt-book .mbt-book-price .newprice  {
+.mbt_books .mbt-book-price .newprice  {
 	color: #152400;
 }
 
-.mbt-book .mbt-book-issuu {
-	margin: 10px 0;
+.mbt_books .mbt-book-series {
+	background: whiteSmoke;
+	background-image: -webkit-gradient(linear,left bottom,left top,from(#f5f5f5),to(#fafafa));
+	background-image: -webkit-linear-gradient(bottom,#f5f5f5,#fafafa);
+	background-image: -moz-linear-gradient(bottom,#f5f5f5,#fafafa);
+	background-image: -o-linear-gradient(bottom,#f5f5f5,#fafafa);
+	background-image: linear-gradient(to top,#f5f5f5,#fafafa);
+	border-color: #DFDFDF;
+	position: relative;
+	overflow: auto;
+	margin: 20px 0;
+	padding: 9px 10px 12px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 10px;
+	font-size: 13px;
+	line-height: 2.1em;
 }
 
+.mbt_books .mbt-book-series .mbt-book-series-title {
+	font-size: 1.5em;
+	font-style: italic;
+	opacity: .8;
+}
 
-
-/*---------------------------------------------------------*/
-/* Paypal Styling                                          */
-/*---------------------------------------------------------*/
-
-.mbt-book .paypal-form {
+.mbt_books .mbt-book-series .mbt-book {
 	padding: 10px;
-	border: 1px solid #EAEAEA;
-	margin-bottom: 6px !important;
+	width: 150px;
+	float: left;
 }
 
-.mbt-book .mbt-paypal-button {
-	background: none;
-    border-color: none;
-    border-radius: none;
-    border-style: none;
-    border-width: 0px;
-    margin-bottom: 0px;
-    padding: 5px;
+.mbt_books .mbt-book-series .mbt-book-title {
+	font-size: 1.5em;
+	font-weight: bold;
 }
 
-.mbt-book .mbt-paypal-button:focus {
-	background: none;
-	box-shadow: 0 0 4px rgba(200, 200, 200, 0.7); 
-	-moz-box-shadow: 0 0 4px rgba(200, 200, 200, 0.7); 
-	-webkit-box-shadow: 0 0 4px rgba(200, 200, 200, 0.7);    
+.mbt_books .mbt-book-series .mbt-book-title a {
+	color: black;
 }
 
-.mbt-book .mbt-paypal-settings {
-	padding: 6px;
-	margin-bottom: 6px !important;
+.mbt_books .mbt-book-series .mbt-book-images {
+	width: 150px;
+	float: auto;
 }
-
 
 
 /*---------------------------------------------------------*/
-/* Related Books Styling                                */
+/* Related Books Styling                                   */
 /*---------------------------------------------------------*/
 
 .mbt-related-books {
@@ -165,83 +206,31 @@
 /* Book Archive Styling                                    */
 /*---------------------------------------------------------*/
 
-.archive .archive-description {
+.archive .mbt-archive-description {
+	border-radius: 8px; 
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	background: #EAEAEA;
+
 	margin: 0px 0px 20px 0px;
-	padding: 5px 10px;
-	border-bottom: 1px solid #EAEAEA;
-	border-top: 1px solid #EAEAEA;
+	position: relative;
+	padding: 10px 20px 10px 60px;
+	min-height: 50px;
+}
 
+.archive .mbt-archive-description p {
 	font-style: italic;
+	color: #444;
+	line-height: 20px;
+	margin: 0px;
 }
 
-/*---------------------------------------------------------*/
-/* Feature Book Widget                                     */
-/*---------------------------------------------------------*/
-
-.widget_featured_books {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-.widget_featured_books .message {
-	font-style: italic;
-	margin: 5px 10px 0px 10px;
-	text-align: center;
-}
-
-.widget_featured_books .featurebook {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-.widget_featured_books .featurebook .image {
-	padding: 20px 0px;
-	text-align: center;
-}
-
-.widget_featured_books .featurebook .name {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-.widget_featured_books .featurebook .excerpt {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Latest Book Widget                                      */
-/*---------------------------------------------------------*/
-
-.widget_latest_book {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-.widget_latest_book .message{
-	font-style: italic;
-	margin: 5px 10px 0px 10px;
-	text-align: center;
-}
-
-.widget_latest_book .latestbook {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-.widget_latest_book .latestbook .image {
-	padding: 20px 0px;
-	text-align: center;
-}
-
-.widget_latest_book .latestbook .name {
-	padding: 0px 0px;
-	margin: 0px 0px;
-}
-
-.widget_latest_book .latestbook .excerpt {
-	padding: 0px 0px;
-	margin: 0px 0px;
+.archive .mbt-archive-description:before {
+	content: '\201C';
+	position: absolute;
+	left: 9px;
+	font-size: 98px;
+	color: #999;
+	font-family: Georgia, serif;
+	line-height: 98px;
 }

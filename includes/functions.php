@@ -4,6 +4,11 @@
 /* Settings Functions                                      */
 /*---------------------------------------------------------*/
 
+function mbt_load_settings() {
+	global $mbt_settings;
+	$mbt_settings = apply_filters("mbt_settings", get_option("mbt_settings"));
+}
+
 function mbt_get_setting($name) {
 	global $mbt_settings;
 	return isset($mbt_settings[$name]) ? $mbt_settings[$name] : NULL;
@@ -12,7 +17,7 @@ function mbt_get_setting($name) {
 function mbt_update_setting($name, $value) {
 	global $mbt_settings;
 	$mbt_settings[$name] = $value;
-	update_option("mbt_settings", $mbt_settings);
+	update_option("mbt_settings", apply_filters("mbt_update_settings", $mbt_settings));
 }
 
 

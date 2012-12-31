@@ -1,6 +1,18 @@
 <?php
 
 /*---------------------------------------------------------*/
+/* Initialize Plugin                                       */
+/*---------------------------------------------------------*/
+
+function mbt_init() {
+	mbt_upgradecheck();
+	mbt_load_settings();
+}
+add_action('plugins_loaded', 'mbt_init');
+
+
+
+/*---------------------------------------------------------*/
 /* Upgrade Database                                        */
 /*---------------------------------------------------------*/
 
@@ -17,8 +29,6 @@ function mbt_upgradecheck()
 	}*/
 
 	update_option("mbt_version", $version);
-	global $mbt_settings;
-	$mbt_settings = get_option("mbt_settings");
 }
 
 function mbt_upgrade_initial() {
@@ -31,12 +41,11 @@ function mbt_upgrade_initial() {
 		'featured_buybuttons' => array('amazon' => 'on'),
 		'disable_seo' => false
 	);
-	update_option("mbt_settings", $defaults);
+	$defaults = apply_filters("mbt_default_settings", $defaults);
+	update_option("mbt_settings", apply_filters("mbt_update_settings", $defaults));
 
 	return '1.0.0';
 }
-
-mbt_upgradecheck();
 
 
 
@@ -85,7 +94,7 @@ function mbt_install_examples() {
 		wp_set_post_terms($post_id, array($lordoftherings['term_id']), "mbt_series");
 		wp_set_post_terms($post_id, array($tolkien['term_id']), "mbt_authors");
 
-		update_post_meta($post_id, "mbt_buybuttons", 'a:1:{i:0;a:2:{s:4:"type";s:6:"amazon";s:5:"value";s:35:"http://www.amazon.com/dp/B007978NPG";}}');
+		update_post_meta($post_id, "mbt_buybuttons", unserialize('a:1:{i:0;a:2:{s:4:"type";s:6:"amazon";s:5:"value";s:35:"http://www.amazon.com/dp/B007978NPG";}}'));
 
 		mbt_update_setting('installed_examples', true);
 	}
@@ -140,3 +149,15 @@ function mbt_admin_notices_styles() {
 	}
 }
 add_action('admin_print_styles', 'mbt_admin_notices_styles');
+
+
+
+/*---------------------------------------------------------*/
+/* Activation Functions                                    */
+/*---------------------------------------------------------*/
+
+function mbt_activate() {
+	//flush rewrite rules
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules();
+}

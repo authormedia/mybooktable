@@ -19,6 +19,24 @@
 	font-weight: bold;
 }
 
+.mbt_seo_metabox #mbt_seo_title-length.bad,
+.mbt_seo_metabox #mbt_seo_metadesc-length.bad {
+	color: red;
+}
+
+/*---------------------------------------------------------*/
+/* Landing Page                                            */
+/*---------------------------------------------------------*/
+
+.mbt-landing-page .welcome-video-container {
+	text-align: center;
+}
+
+.mbt-landing-page .welcome-video {
+	display: inline-block;
+	text-align: center;
+}
+
 /*---------------------------------------------------------*/
 /* Settings Pages                                          */
 /*---------------------------------------------------------*/
@@ -67,6 +85,16 @@
 	-webkit-transition-duration: .3s;
 	-moz-transition-duration: .3s;
 	cursor: pointer;
+}
+
+.mbt_settings #mbt-tabs li.ui-state-active a {
+	background-color: #278AB7;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
+	background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: -moz-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: -ms-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: -o-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: linear-gradient(to bottom,#2e9fd2,#21759b);
 }
 
 .mbt_settings #mbt-tabs li a:hover, .mbt_settings #mbt-tabs li a:active {

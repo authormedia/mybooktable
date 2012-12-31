@@ -16,19 +16,15 @@ function mbt_add_admin_pages() {
 	add_submenu_page("mbt_landing_page", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series");
 	add_submenu_page("mbt_landing_page", "MyBookTable Settings", "Settings", 'manage_options', "mbt_settings", 'mbt_render_settings_page');
 	add_submenu_page("mbt_landing_page", "MyBookTable Help", "Help", 'edit_posts', "mbt_help", 'mbt_render_help_page');
+
+	remove_menu_page("edit.php?post_type=mbt_books");
+	remove_submenu_page("edit.php?post_type=mbt_books", "edit.php?post_type=mbt_books");
+	remove_submenu_page("edit.php?post_type=mbt_books", "post-new.php?post_type=mbt_books");
+	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_authors&amp;post_type=mbt_books");
+	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_genres&amp;post_type=mbt_books");
+	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_books");
 }
 add_action('admin_menu', 'mbt_add_admin_pages', 9);
-
-function mbt_override_parent_files($parent_file) {
-	global $self;
-	
-	if($self == "edit-tags.php" and ($_GET['taxonomy'] == "mbt_series" or $_GET['taxonomy'] == "mbt_genres" or $_GET['taxonomy'] == "mbt_authors")) {
-		$parent_file = "mbt_landing_page";
-	}
-
-	return $parent_file;
-}
-add_filter("parent_file", 'mbt_override_parent_files'); 
 
 function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
@@ -37,6 +33,7 @@ function mbt_render_settings_page() {
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 		mbt_update_setting('disable_seo', isset($_REQUEST['mbt_disable_seo'])?true:false);
+		mbt_update_setting('featured_buybuttons', isset($_REQUEST['mbt_featured_buybuttons'])?$_REQUEST['mbt_featured_buybuttons']:array());
 
 		$settings_updated = true;
 	}
@@ -63,7 +60,7 @@ function mbt_render_settings_page() {
 			<div id="setting-error-settings_updated" class="updated settings-error"><p><strong>Settings saved.</strong></p></div>
 		<?php } ?>
 
-		<form method="post" action="">
+		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
 		
 			<div id="mbt-tabs">
 				<ul>
@@ -85,7 +82,7 @@ function mbt_render_settings_page() {
 										<?php } ?>
 									</select>
 									<?php if(mbt_get_setting('booktable_page') <= 0) { ?>
-										<a href="<?php echo(admin_url('edit.php?post_type=mbt_books&page=mbt_settings&install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a booktable page</a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a booktable page</a>
 									<?php } ?>
 									<p class="description">The Booktable page is the main landing page for your books, it must have the [mbt_booktable] shortcode.</p>
 								</td>
@@ -94,18 +91,18 @@ function mbt_render_settings_page() {
 								<tr valign="top">
 									<th scope="row">Example Books</th>
 									<td>
-										<a href="<?php echo(admin_url('edit.php?post_type=mbt_books&page=mbt_settings&install_examples=1')); ?>" id="submit" class="button button-primary">Click here to create example books</a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&install_examples=1')); ?>" id="submit" class="button button-primary">Click here to create example books</a>
 										<p class="description">These examples will help you learn how to set up Genres, Series, Authors, and Books of your own.</p>
 									</td>
 								</tr>
 							<?php } ?>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
 				</div>
 				<div id="tabs-2">
 					<?php do_action("mbt_buybutton_settings"); ?>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
 				</div>
 				<div id="tabs-3">
 					<table class="form-table">
@@ -126,11 +123,19 @@ function mbt_render_settings_page() {
 							</tr>
 							<tr valign="top">
 								<th scope="row"><label for="blogname">Featured Buy Buttons</label></th>
-								<td><p class="description">Featured Buy Buttons show up on book listings.</p></td>
+								<td>
+									<?php
+										$mbt_featured_buybuttons = mbt_get_setting('featured_buybuttons');
+										foreach(mbt_get_buybuttons() as $type=>$button) {
+											echo('<input type="checkbox" name="mbt_featured_buybuttons['.$type.']" '.(isset($mbt_featured_buybuttons[$type]) ? ' checked="checked"' : '').' > '.$button['name'].'<br>');
+										}
+									?>
+									<p class="description">Featured Buy Buttons show up on book listings.</p>
+								</td>
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
 				</div>
 				<div id="tabs-4">
 					<table class="form-table">
@@ -144,7 +149,7 @@ function mbt_render_settings_page() {
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
 				</div>
 			</div>
 
@@ -177,37 +182,47 @@ function mbt_render_help_page() {
 function mbt_render_landing_page() {
 ?>
 
-	<div class="wrap">
+	<div class="wrap mbt-landing-page">
 		<div id="icon-index" class="icon32"><br></div><h2>MyBookTable</h2>
-		<iframe width="640" height="360" src="https://www.youtube.com/embed/gppbrYIcR80?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-		<a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>">More Tutorial Videos</a>
+		<div class="welcome-video-container">
+			<div class="welcome-video welcome-panel">
+				<iframe width="640" height="360" src="https://www.youtube.com/embed/gppbrYIcR80?feature=player_detailpage" frameborder="0" allowfullscreen></iframe><br>
+				<a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>">More Tutorial Videos</a>
+			</div>
+		</div>
 
 		<div id="welcome-panel" class="welcome-panel">
  		<input type="hidden" id="welcomepanelnonce" name="welcomepanelnonce" value="5ca8d9de51">
 			<div class="welcome-panel-content">
-	<h3>Welcome to MyBookTable!</h3>
-	<p class="about-description">We’ve assembled some links to get you started:</p>
-	<div class="welcome-panel-column-container">
-	<div class="welcome-panel-column">
-		<h4>Next Steps</h4>
-		<ul>
-					<li><a href="http://localhost:8080/wp-admin/post-new.php" class="welcome-icon welcome-write-blog">Write your first blog post</a></li>
-			<li><a href="http://localhost:8080/wp-admin/post-new.php?post_type=page" class="welcome-icon welcome-add-page">Add an About page</a></li>
-					<li><a href="http://localhost:8080/" class="welcome-icon welcome-view-site">View your site</a></li>
-		</ul>
-	</div>
-	<div class="welcome-panel-column welcome-panel-last">
-		<h4>More Actions</h4>
-		<ul>
-			<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="http://localhost:8080/wp-admin/widgets.php">widgets</a> or <a href="http://localhost:8080/wp-admin/nav-menus.php">menus</a></div></li>
-			<li><a href="http://localhost:8080/wp-admin/options-discussion.php" class="welcome-icon welcome-comments">Turn comments on or off</a></li>
-			<li><a href="http://codex.wordpress.org/First_Steps_With_WordPress" class="welcome-icon welcome-learn-more">Learn more about getting started</a></li>
-		</ul>
-	</div>
-	</div>
-	</div>
+			<h3>Welcome to MyBookTable!</h3>
+			<p class="about-description">We’ve assembled some links to get you started:</p>
+				<div class="welcome-panel-column-container">
+					<div class="welcome-panel-column">
+						<h4>Next Steps</h4>
+						<ul>
+							<?php if(!mbt_get_setting('installed_examples')) { ?>
+								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_books&install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
+							<?php } ?>
+							<li><a href="http://localhost:8080/wp-admin/post-new.php?post_type=mbt_books" class="welcome-icon welcome-add-page">Create your first book</a></li>
+							<?php if(mbt_get_setting('booktable_page')) { ?>
+								<li><a href="<?php echo(get_permalink(mbt_get_setting('booktable_page'))); ?>" class="welcome-icon welcome-view-site">View your Book Table</a></li>
+							<?php } ?>
+						</ul>
+					</div>
+					<div class="welcome-panel-column welcome-panel-last">
+						<h4>More Actions</h4>
+						<ul>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit.php?post_type=mbt_books')); ?>">Books</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_authors')); ?>">Authors</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_genres')); ?>">Genres</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_series')); ?>">Series</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">Settings</a></div></li>
+							<li><a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>" class="welcome-icon welcome-learn-more">Learn more about MyBookTable</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
-
 	</div>
 
 <?php
