@@ -25,7 +25,6 @@ function mbt_add_admin_pages() {
 	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_genres&amp;post_type=mbt_books");
 	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_books");
 }
-add_action('admin_menu', 'mbt_add_admin_pages', 9);
 
 function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
@@ -37,14 +36,6 @@ function mbt_render_settings_page() {
 		mbt_update_setting('featured_buybuttons', isset($_REQUEST['mbt_featured_buybuttons'])?$_REQUEST['mbt_featured_buybuttons']:array());
 
 		$settings_updated = true;
-	}
-
-	if(isset($_REQUEST['install_examples'])) {
-		mbt_install_examples();
-	}
-
-	if(isset($_REQUEST['install_pages'])) {
-		mbt_install_pages();
 	}
 
 	?>
@@ -69,6 +60,7 @@ function mbt_render_settings_page() {
 					<li><a href="#tabs-2">Buy Button Settings</a></li>
 					<li><a href="#tabs-3">Book Listings Settings</a></li>
 					<li><a href="#tabs-4">SEO Settings</a></li>
+					<li><a href="#tabs-5">Uninstall</a></li>
 				</ul>
 				<div id="tabs-1">
 					<table class="form-table">
@@ -83,7 +75,7 @@ function mbt_render_settings_page() {
 										<?php } ?>
 									</select>
 									<?php if(mbt_get_setting('booktable_page') <= 0) { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a booktable page</a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a booktable page</a>
 									<?php } ?>
 									<p class="description">The Booktable page is the main landing page for your books, it must have the [mbt_booktable] shortcode.</p>
 								</td>
@@ -92,7 +84,7 @@ function mbt_render_settings_page() {
 								<tr valign="top">
 									<th scope="row">Example Books</th>
 									<td>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&install_examples=1')); ?>" id="submit" class="button button-primary">Click here to create example books</a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_examples=1')); ?>" id="submit" class="button button-primary">Click here to create example books</a>
 										<p class="description">These examples will help you learn how to set up Genres, Series, Authors, and Books of your own.</p>
 									</td>
 								</tr>
@@ -152,6 +144,11 @@ function mbt_render_settings_page() {
 					</table>
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
 				</div>
+				<div id="tabs-5">
+					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" id="submit" class="button button-primary">Uninstall MyBookTable</a></p>
+					<p class="description">Use this to completely uninstall all MyBookTable settings, books, series, genres, and authors. WARNING: THIS IS PERMANENT.</p>
+				
+				</div>
 			</div>
 
 		</form>
@@ -202,7 +199,7 @@ function mbt_render_landing_page() {
 						<h4>Next Steps</h4>
 						<ul>
 							<?php if(!mbt_get_setting('installed_examples')) { ?>
-								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_books&install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
+								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_books&mbt_install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
 							<?php } ?>
 							<li><a href="http://localhost:8080/wp-admin/post-new.php?post_type=mbt_books" class="welcome-icon welcome-add-page">Create your first book</a></li>
 							<?php if(mbt_get_setting('booktable_page')) { ?>

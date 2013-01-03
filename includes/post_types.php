@@ -4,7 +4,6 @@
 /* Custom Post Types and Taxonomies                        */
 /*---------------------------------------------------------*/
 
-add_action('init', 'mbt_create_post_types_and_taxonomies');
 function mbt_create_post_types_and_taxonomies()
 {
 	register_post_type('mbt_books', array(

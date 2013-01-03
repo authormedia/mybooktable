@@ -36,6 +36,11 @@ function mbt_overview_metabox($post)
 /* Metadata Metabox                                        */
 /*---------------------------------------------------------*/
 
+function mbt_include_media_uploader() {
+	wp_enqueue_script("bmt_sample_upload", plugins_url('js/sample-upload.js', dirname(__FILE__)));
+}
+add_action("admin_enqueue_scripts", "mbt_include_media_uploader");
+
 function mbt_metadata_metabox($post)
 {
 ?>
@@ -61,6 +66,14 @@ function mbt_metadata_metabox($post)
 				<p class="description">Optional</p>
 			</td>
 		</tr>
+		<tr>
+			<th><label for="mbt_price">Sample Chapter</label></th>
+			<td>
+				<input type="text" id="mbt_sample_url" name="mbt_sample_url" value="<?php echo(get_post_meta($post->ID, "mbt_sample_url", true)); ?>" />  
+        		<input id="mbt_upload_sample_button" type="button" class="button" value="Upload" />
+				<p class="description">Upload a sample chapter from your book to give viewers a preview.</p>
+			</td>
+		</tr>
 	</table>
 <?php
 }
@@ -74,6 +87,7 @@ function mbt_save_metadata_metabox($post_id)
 		if(isset($_POST['mbt_book_id'])) { update_post_meta($post_id, "mbt_book_id", $_POST['mbt_book_id']); }
 		if(isset($_POST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_POST['mbt_price']); }
 		if(isset($_POST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_POST['mbt_sale_price']); }
+		if(isset($_POST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_POST['mbt_sample_url']); }
 	}
 }
 add_action('save_post', 'mbt_save_metadata_metabox');
@@ -142,26 +156,8 @@ function mbt_save_seo_metabox($post_id)
 
 	if(get_post_type($post_id) == "mbt_books")
 	{
-		if(isset($_POST['mbt_seo_title'])) {
-			if(empty($_POST['mbt_seo_title'])) {
-				$terms = get_the_terms($post_id, "mbt_authors");
-				$authors = '';
-				if($terms) {
-					foreach($terms as $term) {
-						$authors .= $term->name . ', ';
-					}
-					$authors = rtrim(trim($authors), ',');
-				}
-				$_POST['mbt_seo_title'] = $_POST['post_title']." by ".$authors;
-			}
-			update_post_meta($post_id, "mbt_seo_title", $_POST['mbt_seo_title']);
-		}
-		if(isset($_POST['mbt_seo_metadesc'])) {
-			if(empty($_POST['mbt_seo_metadesc'])) {
-				$_POST['mbt_seo_metadesc'] = $_POST['excerpt'];
-			}
-			update_post_meta($post_id, "mbt_seo_metadesc", $_POST['mbt_seo_metadesc']);
-		}
+		if(isset($_POST['mbt_seo_title'])) { update_post_meta($post_id, "mbt_seo_title", $_POST['mbt_seo_title']); }
+		if(isset($_POST['mbt_seo_metadesc'])) { update_post_meta($post_id, "mbt_seo_metadesc", $_POST['mbt_seo_metadesc']); }
 	}
 }
 add_action('save_post', 'mbt_save_seo_metabox');

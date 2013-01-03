@@ -1,5 +1,9 @@
 <?php
 
+/*---------------------------------------------------------*/
+/* WPSEO Integration Functions                             */
+/*---------------------------------------------------------*/
+
 function mbt_filter_wpseo_options($options) {
 	if(!isset($options['title-mbt_books']) or empty($options['title-mbt_books'])) {
 		$options['title-mbt_books'] = '%%title%% by %%ct_mbt_authors%%';
@@ -46,5 +50,46 @@ function mbt_detect_wpseo_reset($input) {
 	return $input;
 }
 add_filter('wp_redirect', 'mbt_detect_wpseo_reset', 50);
-
 add_action('activate_wordpress-seo/wp-seo.php', 'mbt_reset_wpseo_defaults');
+
+
+/*---------------------------------------------------------*/
+/* MyBookTable SEO Functions                               */
+/*---------------------------------------------------------*/
+
+//override page title
+function mbt_seo_wp_title($title) {
+	if(mbt_is_seo_active() and is_singular('mbt_books')) {
+		global $post;
+		$seo_title = get_post_meta($post->ID, 'mbt_seo_title', true);
+		if(empty($seo_title)) {
+			$terms = get_the_terms($post->ID, "mbt_authors");
+			$authors = '';
+			if($terms) {
+				foreach($terms as $term) {
+					$authors .= $term->name . ', ';
+				}
+				$authors = rtrim(trim($authors), ',');
+			}
+			$title = get_the_title()." by ".$authors." ";
+		} else {
+			$title = $seo_title." ";
+		}
+	}
+	return $title;
+}
+add_filter('wp_title', 'mbt_seo_wp_title', 999);
+
+//add page meta
+function mbt_seo_add_metadesc() {
+	if(mbt_is_seo_active() and is_singular('mbt_books')) {
+		global $post;
+		$seo_metadesc = get_post_meta($post->ID, 'mbt_seo_metadesc', true);
+		if(empty($seo_metadesc)) {
+			echo('<meta name="description" content="'.get_the_excerpt().'"/>');
+		} else {
+			echo('<meta name="description" content="'.$seo_metadesc.'"/>');
+		}
+	}
+}
+add_action('wp_head', 'mbt_seo_add_metadesc');

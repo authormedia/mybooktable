@@ -7,6 +7,14 @@
 function mbt_init() {
 	mbt_upgradecheck();
 	mbt_load_settings();
+
+	if(isset($_GET['mbt_uninstall'])) {
+		return mbt_uninstall();
+	}
+
+	add_action('admin_menu', 'mbt_add_admin_pages', 9);
+	add_action('init', 'mbt_create_post_types_and_taxonomies');
+	add_action('admin_init', 'mbt_admin_init');
 }
 add_action('plugins_loaded', 'mbt_init');
 
@@ -126,7 +134,7 @@ function mbt_admin_installed_notice() {
 	<?php
 }
 
-function mbt_admin_notices_styles() {
+function mbt_admin_init() {
 	if(mbt_get_setting('installed') < 2) {
 		if(mbt_get_setting('installed') == 0) {
 			if(isset($_GET['install_mbt'])) {
@@ -147,8 +155,15 @@ function mbt_admin_notices_styles() {
 			}
 		}
 	}
+
+	if(isset($_GET['mbt_install_examples'])) {
+		mbt_install_examples();
+	}
+
+	if(isset($_GET['mbt_install_pages'])) {
+		mbt_install_pages();
+	}
 }
-add_action('admin_print_styles', 'mbt_admin_notices_styles');
 
 
 
@@ -158,6 +173,39 @@ add_action('admin_print_styles', 'mbt_admin_notices_styles');
 
 function mbt_activate() {
 	//flush rewrite rules
+	mbt_create_post_types_and_taxonomies();
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Uninstallation Functions                                */
+/*---------------------------------------------------------*/
+
+function mbt_uninstall() {
+	//erase options
+	delete_option('mbt_settings');
+
+	//erase taxonomies
+	mbt_erase_taxonomy('mbt_authors');
+	mbt_erase_taxonomy('mbt_series');
+	mbt_erase_taxonomy('mbt_genres');
+
+	//erase books
+	global $wpdb;
+	$wpdb->query("DELETE FROM $wpdb->posts WHERE post_type = 'mbt_books'");
+
+	//erase plugins
+	$active_plugins = get_option('active_plugins');
+	$plugin = plugin_basename(dirname(dirname(__FILE__))."/book-table.php");
+	unset($active_plugins[array_search($plugin, $active_plugins)]);
+	update_option('active_plugins', $active_plugins);
+}
+
+function mbt_erase_taxonomy($name) {
+	global $wpdb;
+	$wpdb->query("DELETE term_rel.* FROM $wpdb->term_relationships AS term_rel INNER JOIN $wpdb->term_taxonomy AS term_tax WHERE term_rel.term_taxonomy_id = term_tax.term_taxonomy_id AND term_tax.taxonomy = '".$name."'");
+	$wpdb->query("DELETE FROM $wpdb->term_taxonomy WHERE taxonomy = '".$name."'");
 }
