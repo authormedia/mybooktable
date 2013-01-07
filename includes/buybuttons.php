@@ -5,7 +5,7 @@
 /*---------------------------------------------------------*/
 
 function mbt_get_buybuttons() {
-	return apply_filters("mbt_buybutton", array());
+	return apply_filters("mbt_buybuttons", array());
 }
 
 function mbt_default_buybutton_editor($data, $id, $buybuttons) {
@@ -29,7 +29,7 @@ function mbt_add_basic_buybuttons($buybuttons) {
 	$buybuttons['amazon'] = array('name' => 'Amazon', 'desc' => 'Amazon.com Product Button', 'editor' => 'mbt_default_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
 	return $buybuttons;
 }
-add_filter('mbt_buybutton', 'mbt_add_basic_buybuttons');
+add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
 
 function mbt_amazon_buybutton_settings() {
 ?>

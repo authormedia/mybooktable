@@ -14,6 +14,12 @@ get_header();
 		<?php if(have_posts()) { ?>
 
 			<header class="entry-header">
+				<?php
+					$img = mbt_get_taxonomy_image(get_queried_object()->taxonomy, get_queried_object()->term_id);
+					if(!empty($img)) {
+						echo('<img class="mbt-archive-image" src='.$img.'>');
+					}
+				?>
 				<h1 class="entry-title">
 					<?php
 						if(is_post_type_archive('mbt_books')) {
@@ -32,6 +38,7 @@ get_header();
 						echo('<div class="mbt-archive-description">'.get_queried_object()->description.'</div>');
 					}
 				?>
+				<div style="clear:both;"></div>
 			</header>
 
 			<div class="entry-content">

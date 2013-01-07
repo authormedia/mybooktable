@@ -1,26 +1,6 @@
 <?php
 
 /*---------------------------------------------------------*/
-/* Initialize Plugin                                       */
-/*---------------------------------------------------------*/
-
-function mbt_init() {
-	mbt_upgradecheck();
-	mbt_load_settings();
-
-	if(isset($_GET['mbt_uninstall'])) {
-		return mbt_uninstall();
-	}
-
-	add_action('admin_menu', 'mbt_add_admin_pages', 9);
-	add_action('init', 'mbt_create_post_types_and_taxonomies');
-	add_action('admin_init', 'mbt_admin_init');
-}
-add_action('plugins_loaded', 'mbt_init');
-
-
-
-/*---------------------------------------------------------*/
 /* Upgrade Database                                        */
 /*---------------------------------------------------------*/
 
@@ -168,19 +148,6 @@ function mbt_admin_init() {
 
 
 /*---------------------------------------------------------*/
-/* Activation Functions                                    */
-/*---------------------------------------------------------*/
-
-function mbt_activate() {
-	//flush rewrite rules
-	mbt_create_post_types_and_taxonomies();
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
-}
-
-
-
-/*---------------------------------------------------------*/
 /* Uninstallation Functions                                */
 /*---------------------------------------------------------*/
 
@@ -197,9 +164,9 @@ function mbt_uninstall() {
 	global $wpdb;
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE post_type = 'mbt_books'");
 
-	//erase plugins
+	//erase plugin
 	$active_plugins = get_option('active_plugins');
-	$plugin = plugin_basename(dirname(dirname(__FILE__))."/book-table.php");
+	$plugin = plugin_basename(dirname(dirname(__FILE__))."/mybooktable.php");
 	unset($active_plugins[array_search($plugin, $active_plugins)]);
 	update_option('active_plugins', $active_plugins);
 }

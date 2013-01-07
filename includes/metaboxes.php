@@ -38,6 +38,7 @@ function mbt_overview_metabox($post)
 
 function mbt_include_media_uploader() {
 	wp_enqueue_script("bmt_sample_upload", plugins_url('js/sample-upload.js', dirname(__FILE__)));
+	wp_enqueue_media();
 }
 add_action("admin_enqueue_scripts", "mbt_include_media_uploader");
 

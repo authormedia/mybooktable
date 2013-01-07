@@ -225,3 +225,44 @@ function mbt_render_landing_page() {
 
 <?php
 }
+
+
+
+/*---------------------------------------------------------*/
+/* Custom Images for Taxonomies                            */
+/*---------------------------------------------------------*/
+
+add_filter('mbt_authors_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
+add_filter('mbt_authors_add_form_fields', 'mbt_add_taxonomy_image_add_form');
+add_action('edited_mbt_authors', 'mbt_save_taxonomy_image_edit_form');
+add_action('created_mbt_authors', 'mbt_save_taxonomy_image_add_form', 1);
+
+function mbt_add_taxonomy_image_edit_form() {
+?>
+	<tr class="form-field">
+		<th scope="row" valign="top"><label for="mbt_tax_image_url">Image</label></th>
+		<td>
+			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />  
+    		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
+        </td>
+	</tr>
+<?php
+}
+
+function mbt_add_taxonomy_image_add_form() {
+?>
+	<div class="form-field">
+		<label for="mbt_tax_image_url">Image</label>
+		<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="" />  
+		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
+	</div>
+<?php
+}
+
+function mbt_save_taxonomy_image_edit_form() {
+	mbt_save_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'], $_REQUEST['mbt_tax_image_url']);
+}
+
+function mbt_save_taxonomy_image_add_form($term_id) {
+	mbt_save_taxonomy_image($_REQUEST['taxonomy'], $term_id, $_REQUEST['mbt_tax_image_url']);
+}

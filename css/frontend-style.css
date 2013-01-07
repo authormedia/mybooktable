@@ -150,11 +150,29 @@
 /* Book Archive Styling                                    */
 /*---------------------------------------------------------*/
 
-.archive .mbt-archive-description {
+.entry-header .mbt-archive-image {
+	float: left;
+	width: 10%;
+	padding-right: 20px;
+	padding-bottom: 10px;
+}
+
+.entry-header .entry-title {
+	clear: none;
+	width: 70%;
+	float: left;
+	padding-bottom: 14px;
+}
+
+.entry-header .mbt-archive-description {
 	border-radius: 8px; 
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	background: #EAEAEA;
+
+	clear: none;
+	width: 70%;
+	float: left;
 
 	margin: 0px 0px 20px 0px;
 	position: relative;
@@ -162,14 +180,14 @@
 	min-height: 50px;
 }
 
-.archive .mbt-archive-description p {
+.entry-header .mbt-archive-description p {
 	font-style: italic;
 	color: #444;
 	line-height: 20px;
 	margin: 0px;
 }
 
-.archive .mbt-archive-description:before {
+.entry-header .mbt-archive-description:before {
 	content: '\201C';
 	position: absolute;
 	left: 9px;

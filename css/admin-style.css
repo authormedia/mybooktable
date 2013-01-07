@@ -50,6 +50,17 @@
 	font-weight: bold;
 }
 
+/*---------------------------------------------------------*/
+/* Taxonomy Pages                                          */
+/*---------------------------------------------------------*/
+
+#mbt_tax_image_url {
+	width: 50%;
+}
+
+#mbt_upload_tax_image_button {
+	width: 80px;
+}
 
 /*---------------------------------------------------------*/
 /* Install Messages                                        */
@@ -70,7 +81,6 @@
 
 	padding-right: 10px;
 	margin: 5px 10px 2px;
-	/*width: 95%;*/
 	overflow: hidden;
 }
 
@@ -90,11 +100,6 @@
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-}
-
-.wp-core-ui .button-primary {
-
-
 }
 
 .mbt-install-message .install-button {
