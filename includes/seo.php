@@ -71,7 +71,7 @@ function mbt_seo_wp_title($title) {
 				}
 				$authors = rtrim(trim($authors), ',');
 			}
-			$title = get_the_title()." by ".$authors." ";
+			$title = get_the_title().(empty($authors) ? "" : " by ".$authors)." ";
 		} else {
 			$title = $seo_title." ";
 		}

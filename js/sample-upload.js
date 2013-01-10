@@ -32,5 +32,7 @@ function make_uploader(button, urlbox, title) {
 	});
 };
 
-make_uploader('#mbt_upload_sample_button', '#mbt_sample_url', 'Sample Chapter Image');
-make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', 'Taxonomy Image');
+jQuery(document).ready(function() {
+	make_uploader('#mbt_upload_sample_button', '#mbt_sample_url', 'Sample Chapter Image');
+	make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', 'Taxonomy Image');
+});

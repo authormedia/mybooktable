@@ -5,8 +5,8 @@ function bss_add_metaboxes()
 	add_meta_box('mbt_blurb', 'Book Blurb', 'mbt_book_blurb_metabox', 'mbt_books', 'normal', 'high');
 	add_meta_box('mbt_overview', 'Book Overview', 'mbt_overview_metabox', 'mbt_books', 'normal', 'high');
 	add_meta_box('mbt_metadata', 'Book Metadata', 'mbt_metadata_metabox', 'mbt_books', 'normal', 'high');
+	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_books', 'normal', 'high');
 	if(mbt_is_seo_active()) { add_meta_box('mbt_seo', 'SEO Information', 'mbt_seo_metabox', 'mbt_books', 'normal', 'high'); }
-	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_books', 'normal');
 }
 add_action('add_meta_boxes', 'bss_add_metaboxes', 9);
 
@@ -19,7 +19,7 @@ function mbt_book_blurb_metabox($post)
 {
 ?>
 	<label class="screen-reader-text" for="excerpt">Excerpt</label><textarea rows="1" cols="40" name="excerpt" id="excerpt"><?php echo($post->post_excerpt); ?></textarea>
-	<p>Book Blurbs are hand-crafted summaries of your book. <a href="<?php echo(admin_url('edit.php?post_type=mbt_books&page=mbt_help')); ?>" target="_blank">Learn more about writing your book blurb.</a></p>
+	<p>Book Blurbs are hand-crafted summaries of your book. <a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>" target="_blank">Learn more about writing your book blurb.</a></p>
 <?php
 }
 
@@ -30,6 +30,7 @@ function mbt_book_blurb_metabox($post)
 function mbt_overview_metabox($post)
 {
 	wp_editor($post->post_content, 'content', array('dfw' => true, 'tabfocus_elements' => 'sample-permalink,post-preview', 'editor_height' => 360) );
+	echo('<p>Book Overview is a longer description of your book. This typically includes all the text from the back cover of the book plus, endorsements and any other promotional materials from interior flaps or initial pages. This is also a good place to embed a book trailer if you have one.');
 }
 
 /*---------------------------------------------------------*/
@@ -50,21 +51,21 @@ function mbt_metadata_metabox($post)
 			<th><label for="mbt_book_id">Book ID</label></th>
 			<td>
 				<input type="text" name="mbt_book_id" id="mbt_book_id" value="<?php echo(get_post_meta($post->ID, "mbt_book_id", true)); ?>" />
-				<p class="description">SKU or Unique ID</p>
+				<p class="description">SKU or Unique ID (optional)</p>
 			</td>
 		</tr>
 		<tr>
 			<th><label for="mbt_price">Book Price</label></th>
 			<td>
 				$ <input type="text" name="mbt_price" id="mbt_price" value="<?php echo(get_post_meta($post->ID, "mbt_price", true)); ?>" />
-				<p class="description">Optional</p>
+				<p class="description">(optional)</p>
 			</td>
 		</tr>
 		<tr>
 			<th><label for="mbt_price">Book Sale Price</label></th>
 			<td>
 				$ <input type="text" name="mbt_sale_price" id="mbt_sale_price" value="<?php echo(get_post_meta($post->ID, "mbt_sale_price", true)); ?>" />
-				<p class="description">Optional</p>
+				<p class="description">(optional)</p>
 			</td>
 		</tr>
 		<tr>
@@ -185,8 +186,6 @@ function mbt_buybuttons_metabox($post)
 
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
-			var adding = false;
-
 			function reset_numbers() {
 				jQuery('#mbt_buybutton_editors .mbt_buybutton_editor').each(function(i) {
 					jQuery(this).find("input, textarea, select").each(function() {
@@ -195,23 +194,23 @@ function mbt_buybuttons_metabox($post)
 				});
 			}
 
-			jQuery('#mbt_buybutton_adder').click(function() {
-				if(!adding) {
-					adding = true;
-					jQuery.post(ajaxurl,
-						{
-							action: 'mbt_buybuttons_metabox',
-							type: jQuery('#mbt_buybutton_selector').val(),
-							num: 0
-						},
-						function(response) {
-							var element = jQuery(response);
-							jQuery("#mbt_buybutton_editors").prepend(element);
-							reset_numbers();
-							adding = false;
-						}
-					);
-				}
+			jQuery('#mbt_buybutton_adder').click(function(e) {
+				if(!jQuery('#mbt_buybutton_selector').val()){return false;}
+				jQuery('#mbt_buybutton_selector').attr('disabled', 'disabled');
+				jQuery('#mbt_buybutton_adder').attr('disabled', 'disabled');
+				jQuery.post(ajaxurl,
+					{
+						action: 'mbt_buybuttons_metabox',
+						type: jQuery('#mbt_buybutton_selector').val(),
+						num: 0
+					},
+					function(response) {
+						jQuery('#mbt_buybutton_selector').removeAttr('disabled');
+						jQuery('#mbt_buybutton_adder').removeAttr('disabled');
+						jQuery("#mbt_buybutton_editors").prepend(jQuery(response));
+						reset_numbers();
+					}
+				);
 				return false;
 			});
 
@@ -227,6 +226,7 @@ function mbt_buybuttons_metabox($post)
 	$buybuttons = mbt_get_buybuttons();
 	echo('Choose One:');
 	echo('<select id="mbt_buybutton_selector">');
+  		echo('<option value=""> -- Choose One -- </option>');
 	foreach($buybuttons as $slug => $buybutton) {
   		echo('<option value="'.$slug.'">'.$buybutton['name'].'</option>');
   	}

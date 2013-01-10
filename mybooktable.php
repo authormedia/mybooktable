@@ -4,7 +4,7 @@ Plugin Name: MyBookTable
 Plugin URI: http://www.mybooktable.com
 Description: A simple store plugin for books, allowing you to integrate with external shopping carts and booktable websites.
 Author: Castle Media Group
-Version: 0.3.0
+Version: 0.5.0
 */
 
 require_once("includes/functions.php");

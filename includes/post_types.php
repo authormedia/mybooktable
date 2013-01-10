@@ -112,4 +112,13 @@ function mbt_override_parent_files() {
 
 	return $parent_file;
 }
-add_filter("parent_file", 'mbt_override_parent_files'); 
+add_filter('parent_file', 'mbt_override_parent_files'); 
+
+function mbt_override_post_updated_messages($messages) {
+	$post_id = isset($_GET['post']) ? intval($_GET['post']) : (isset($_POST['post_ID']) ? intval($_POST['post_ID']) : 0);
+	if(get_post_type($post_id) == "mbt_books") {
+		$messages['post'][1] = sprintf('Book updated. <a href="%s">View book</a>', esc_url(get_permalink($post_id)));
+	}
+	return $messages;
+}
+add_filter('post_updated_messages', 'mbt_override_post_updated_messages');

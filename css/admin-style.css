@@ -24,6 +24,16 @@
 	color: red;
 }
 
+#mbt_buybuttons .error_message {
+	font-weight: bold;
+	color: red;
+}
+
+#mbt_buybuttons .success_message {
+	font-weight: bold;
+	color: green;
+}
+
 /*---------------------------------------------------------*/
 /* Landing Page                                            */
 /*---------------------------------------------------------*/
@@ -35,6 +45,62 @@
 .mbt-landing-page .welcome-video {
 	display: inline-block;
 	text-align: center;
+}
+
+
+.mbt-landing-page .buttons-container {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.mbt-landing-page .buttons-container .add-new-book {
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 16px!important;
+	line-height: 16px!important;
+	vertical-align: middle;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+	border: 1px solid #21759B;
+	border-bottom-color: #1E6A8D;
+	border-radius: 5px;
+	background-color: #21759B;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
+	background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+	background-image: linear-gradient(to bottom,#2a95c5,#21759b);
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+
+	display: inline-block;
+	margin: 0;
+	padding: 6px 15px;
+
+	-webkit-transition-duration: .3s;
+	-moz-transition-duration: .3s;
+	cursor: pointer;
+}
+
+.mbt-landing-page .buttons-container .add-new-book:active {
+	background-color: #278AB7;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
+	background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: -moz-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: -ms-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: -o-linear-gradient(top,#2e9fd2,#21759b);
+	background-image: linear-gradient(to bottom,#2e9fd2,#21759b);
+	border-color: #1B607F;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+	opacity: 1;
+	-webkit-transition-duration: .3s;
 }
 
 /*---------------------------------------------------------*/

@@ -189,6 +189,10 @@ function mbt_render_landing_page() {
 			</div>
 		</div>
 
+		<div class="buttons-container">
+			<a href="<?php echo(admin_url('post-new.php?post_type=mbt_books')); ?>" class="add-new-book">Add New Book</a>
+		</div>
+
 		<div id="welcome-panel" class="welcome-panel">
  		<input type="hidden" id="welcomepanelnonce" name="welcomepanelnonce" value="5ca8d9de51">
 			<div class="welcome-panel-content">
@@ -201,7 +205,7 @@ function mbt_render_landing_page() {
 							<?php if(!mbt_get_setting('installed_examples')) { ?>
 								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_books&mbt_install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
 							<?php } ?>
-							<li><a href="http://localhost:8080/wp-admin/post-new.php?post_type=mbt_books" class="welcome-icon welcome-add-page">Create your first book</a></li>
+							<li><a href="<?php echo(admin_url('post-new.php?post_type=mbt_books')); ?>" class="welcome-icon welcome-add-page">Create your first book</a></li>
 							<?php if(mbt_get_setting('booktable_page')) { ?>
 								<li><a href="<?php echo(get_permalink(mbt_get_setting('booktable_page'))); ?>" class="welcome-icon welcome-view-site">View your Book Table</a></li>
 							<?php } ?>
@@ -235,7 +239,17 @@ function mbt_render_landing_page() {
 add_filter('mbt_authors_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
 add_filter('mbt_authors_add_form_fields', 'mbt_add_taxonomy_image_add_form');
 add_action('edited_mbt_authors', 'mbt_save_taxonomy_image_edit_form');
-add_action('created_mbt_authors', 'mbt_save_taxonomy_image_add_form', 1);
+add_action('created_mbt_authors', 'mbt_save_taxonomy_image_add_form');
+
+add_filter('mbt_genres_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
+add_filter('mbt_genres_add_form_fields', 'mbt_add_taxonomy_image_add_form');
+add_action('edited_mbt_genres', 'mbt_save_taxonomy_image_edit_form');
+add_action('created_mbt_genres', 'mbt_save_taxonomy_image_add_form');
+
+add_filter('mbt_series_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
+add_filter('mbt_series_add_form_fields', 'mbt_add_taxonomy_image_add_form');
+add_action('edited_mbt_series', 'mbt_save_taxonomy_image_edit_form');
+add_action('created_mbt_series', 'mbt_save_taxonomy_image_add_form');
 
 function mbt_add_taxonomy_image_edit_form() {
 ?>

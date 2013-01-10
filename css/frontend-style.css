@@ -63,23 +63,48 @@
 	clear: both;
 }
 
-.mbt_books .mbt-book-buttons {
-	padding: .3em;
-	margin: .2em;
-}
-
-.mbt_books .mbt-book-button  {
+.mbt_books .mbt-book-buttons .mbt-book-button  {
 	width: auto;
 	float: left;
 	clear: none;
-	margin: 5px 0px 2px 0px;
+	padding: 5px 5px 2px 5px;
 }
 
-.mbt_books .mbt-book-button img {
-    background: none;
-    border: 0px solid #FFF;
+.mbt_books .mbt-book-buttons .mbt-book-button .mbt-custom-button  {
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 16px;
+	vertical-align: middle;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+	border: 1px solid #21759B;
+	border-bottom-color: #1E6A8D;
+	border-radius: 5px;
+	background-color: #21759B;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
+	background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+	background-image: linear-gradient(to bottom,#2a95c5,#21759b);
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+
+	display: inline-block;
+	margin: 0;
+	padding: 6px 15px;
+	min-width: 70px;
+}
+
+.mbt_books .mbt-book-buttons .mbt-book-button img {
+    background: transparent;
+    border: none;
     height: auto;
-    padding: 3px 4px 3px 0px;
+    width: auto;
 	border-radius: 0px;
 	box-shadow: none;
 }
