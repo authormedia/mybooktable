@@ -9,7 +9,7 @@ get_header();
 <div id="<?php echo((get_option('template') === 'twentyeleven') ? 'primary' : 'container'); ?>">
 	<div id="content" role="main">
 		<div class="entry-content">
-			
+
 		<?php if(function_exists('woo_loop_before')) { woo_loop_before(); } ?>
 
 		<div itemscope="" itemtype="http://schema.org/Product" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -25,18 +25,19 @@ get_header();
 					<?php echo(get_the_term_list($post->ID, 'mbt_genres', "Genres: ", ", ")); ?><br>
 				</div>
 				<div itemprop="description" class="mbt-book-blurb"><?php echo($post->post_excerpt); ?></div>
+				<?php echo(mbt_format_book_sample($post->ID)); ?>
 			</div>
-			<?php echo(mbt_get_book_buttons($post->ID)); ?>
+			<?php echo(mbt_format_book_buttons($post->ID)); ?>
 			<div class="mbt-book-overview">
 				<?php echo(apply_filters("the_content", $post->post_content)); ?>
 			</div>
-			<?php echo(mbt_get_book_series($post->ID)); ?>
+			<?php echo(mbt_format_book_series($post->ID)); ?>
 
 			<div style="clear:both;"></div>
 		</div>
 
 		<?php if(function_exists('woo_loop_after')) { woo_loop_after(); } ?>
-		
+
 		</div>
 	</div>
 </div>

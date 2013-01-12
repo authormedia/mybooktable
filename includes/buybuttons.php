@@ -5,7 +5,9 @@
 /*---------------------------------------------------------*/
 
 function mbt_get_buybuttons() {
-	return apply_filters("mbt_buybuttons", array());
+	$buybuttons = apply_filters("mbt_buybuttons", array());
+	ksort($buybuttons);
+	return $buybuttons;
 }
 
 function mbt_default_buybutton_editor($data, $id, $buybuttons) {
@@ -32,15 +34,15 @@ function mbt_custom_buybutton_editor($data, $id, $buybuttons) {
 }
 
 function mbt_custom_buybutton_button($data) {
-	return empty($data['value']) ? '' : '<div class="mbt-book-button"><a class="mbt-custom-button" href="'.$data['value'].'" target="_blank">'.$data['text'].'</a></div>'; 
+	return empty($data['value']) ? '' : '<div class="mbt-book-button"><a class="mbt-custom-button" href="'.$data['value'].'" target="_blank">'.$data['text'].'</a></div>';
 }
 
 function mbt_audible_buybutton_button($data) {
-	return empty($data['value']) ? '' : '<div class="mbt-book-button"><a href="'.$data['value'].'" target="_blank"><img src="'.plugins_url('images/audible_button.png', dirname(__FILE__)).'" border="0" alt="Buy from Audible.com"/></a></div>'; 
+	return empty($data['value']) ? '' : '<div class="mbt-book-button"><a href="'.$data['value'].'" target="_blank"><img src="'.plugins_url('images/audible_button.png', dirname(__FILE__)).'" border="0" alt="Buy from Audible.com"/></a></div>';
 }
 
 function mbt_bnn_buybutton_button($data) {
-	return empty($data['value']) ? '' : '<div class="mbt-book-button"><a href="'.$data['value'].'" target="_blank"><img src="'.plugins_url('images/bnn_button.png', dirname(__FILE__)).'" border="0" alt="Buy from Barnes and Noble"/></a></div>'; 
+	return empty($data['value']) ? '' : '<div class="mbt-book-button"><a href="'.$data['value'].'" target="_blank"><img src="'.plugins_url('images/bnn_button.png', dirname(__FILE__)).'" border="0" alt="Buy from Barnes and Noble"/></a></div>';
 }
 
 
@@ -69,16 +71,16 @@ function mbt_get_amazon_product_request($id) {
 		'ItemId' => $id,
 		'ResponseGroup' => 'Small,Images'
 	);
- 
+
 	ksort($parameters);
- 
+
 	$query_vars = array();
 	foreach ($parameters as $parameter => $value) {
 		$parameter = str_replace("%7E", "~", rawurlencode($parameter));
 		$value = str_replace("%7E", "~", rawurlencode($value));
 		$query_vars[] = $parameter.'='.$value;
-	}   
- 
+	}
+
 	$query = implode('&', $query_vars);
 	$signature = urlencode(base64_encode(hash_hmac('sha256', "GET\nwebservices.amazon.com\n/onca/xml\n".$query, $secret_key, true)));
 	return 'http://webservices.amazon.com/onca/xml?'.$query.'&Signature='.$signature;
@@ -143,7 +145,7 @@ function mbt_amazon_buybutton_editor($data, $id, $buybuttons) {
 function mbt_amazon_buybutton_button($data) {
 	$id = mbt_get_amazon_AISN($data['value']);
 	$affiliatecode = mbt_get_setting('buybutton_amazon_affiliate_code');
-	return empty($id) ? '' : '<div class="mbt-book-button"><a href="http://www.amazon.com/dp/'.$id.'?tag='.(empty($affiliatecode)?'mybooktable-20':$affiliatecode).'" target="_blank"><img src="'.plugins_url('images/amazon_button.png', dirname(__FILE__)).'" border="0" alt="Buy from Amazon"/></a></div>'; 
+	return empty($id) ? '' : '<div class="mbt-book-button"><a href="http://www.amazon.com/dp/'.$id.'?tag='.(empty($affiliatecode)?'mybooktable-20':$affiliatecode).'" target="_blank"><img src="'.plugins_url('images/amazon_button.png', dirname(__FILE__)).'" border="0" alt="Buy from Amazon"/></a></div>';
 }
 
 function mbt_amazon_buybutton_settings() {

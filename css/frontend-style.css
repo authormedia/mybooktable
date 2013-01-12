@@ -26,7 +26,7 @@
 }
 
 .mbt_books .mbt-book-summary .mbt-book-blurb {
-	border-radius: 8px; 
+	border-radius: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	background: #EAEAEA;
@@ -190,7 +190,7 @@
 }
 
 .entry-header .mbt-archive-description {
-	border-radius: 8px; 
+	border-radius: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	background: #EAEAEA;
@@ -198,6 +198,7 @@
 	clear: none;
 	width: 70%;
 	float: left;
+	line-height: 1.5;
 
 	margin: 0px 0px 20px 0px;
 	position: relative;

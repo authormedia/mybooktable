@@ -53,7 +53,7 @@ function mbt_booktable_shortcode( $atts ) {
 		$old_wp_query = $wp_query;
 		$wp_query = new WP_Query(array('post_type' => 'mbt_books'));
 	?>
-	
+
 	<?php if(have_posts()) { ?>
 
 		<div class="mbt-book-listing">
@@ -136,7 +136,7 @@ function mbt_format_price($post_id) {
 }
 
 //format the buttons for the book
-function mbt_get_book_buttons($post_id, $featured_only = false) {
+function mbt_format_book_buttons($post_id, $featured_only = false) {
 	$output = '<div class="mbt-book-buttons">';
 
 	if($featured_only) { $featured_buybuttons = mbt_get_setting('featured_buybuttons'); }
@@ -155,7 +155,7 @@ function mbt_get_book_buttons($post_id, $featured_only = false) {
 	return $output;
 }
 
-function mbt_get_book_series($post_id) {
+function mbt_format_book_series($post_id) {
 	$output = '';
 	$series_all = wp_get_post_terms($post_id, 'mbt_series');
 	if(!empty($series_all)) {
@@ -176,4 +176,9 @@ function mbt_get_book_series($post_id) {
 		}
 	}
 	return $output;
+}
+
+function mbt_format_book_sample($post_id) {
+	$sample = get_post_meta($post_id, "mbt_sample_url", true);
+	return empty($sample) ? '' : '<a class="mbt-book-sample" href="'.$sample.'">Download Sample Chapter</a>';
 }
