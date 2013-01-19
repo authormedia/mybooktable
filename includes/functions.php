@@ -26,10 +26,9 @@ function mbt_update_setting($name, $value) {
 /* General                                                 */
 /*---------------------------------------------------------*/
 
-function mbt_is_seo_active() {
-	$active = !mbt_get_setting('disable_seo');
-	if(defined('WPSEO_FILE')) { $active = false; }
-	return apply_filters('mbt_is_seo_active', $active);
+function mbt_is_socialmedia_active() {
+	$active = !mbt_get_setting('disable_socialmedia');
+	return apply_filters('mbt_is_socialmedia_active', $active);
 }
 
 function mbt_save_taxonomy_image($taxonomy, $term, $url) {

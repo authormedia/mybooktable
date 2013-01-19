@@ -28,6 +28,7 @@ get_header();
 				<?php echo(mbt_format_book_sample($post->ID)); ?>
 			</div>
 			<?php echo(mbt_format_book_buttons($post->ID)); ?>
+			<?php if(mbt_is_socialmedia_active()) { echo(mbt_format_socialmedia($post->ID)); } ?>
 			<div class="mbt-book-overview">
 				<?php echo(apply_filters("the_content", $post->post_content)); ?>
 			</div>

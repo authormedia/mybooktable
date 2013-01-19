@@ -1,6 +1,6 @@
 
 /*---------------------------------------------------------*/
-/* Book Content Styling                                    */
+/* Book Images                                             */
 /*---------------------------------------------------------*/
 
 .mbt_books .mbt-book-images {
@@ -13,6 +13,12 @@
 	border-radius: 0px;
 	box-shadow: none;
 }
+
+
+
+/*---------------------------------------------------------*/
+/* Book Summay                                             */
+/*---------------------------------------------------------*/
 
 .mbt_books .mbt-book-summary {
 	width: 52%;
@@ -54,13 +60,47 @@
 	line-height: 98px;
 }
 
-.mbt_books .mbt-book-buttons {
-	width: 52%;
-	float: right;
+
+
+/*---------------------------------------------------------*/
+/* Book Price                                              */
+/*---------------------------------------------------------*/
+
+.mbt_books .mbt-book-price {
+	margin: 10px 0px;
+	font-size: 1.2em;
+	font-weight: bold;
 }
+
+.mbt_books .mbt-book-price .oldprice  {
+	text-decoration: line-through;
+	color: #AEAEAE;
+	margin-right: 10px;
+}
+
+.mbt_books .mbt-book-price .newprice  {
+	color: #152400;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Book Overview                                           */
+/*---------------------------------------------------------*/
 
 .mbt_books .mbt-book-overview {
 	clear: both;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Book Buttons                                            */
+/*---------------------------------------------------------*/
+
+.mbt_books .mbt-book-buttons {
+	width: 52%;
+	float: right;
 }
 
 .mbt_books .mbt-book-buttons .mbt-book-button  {
@@ -109,23 +149,25 @@
 	box-shadow: none;
 }
 
-.mbt_books .mbt-book-price {
-	margin: 10px 0px;
-	font-size: 1.2em;
-	font-weight: bold;
+
+
+/*---------------------------------------------------------*/
+/* Book Social Media                                       */
+/*---------------------------------------------------------*/
+
+.mbt_books .mbt-book-socialmedia {
+	width: 52%;
+	float: right;
 }
 
-.mbt_books .mbt-book-price .oldprice  {
-	text-decoration: line-through;
-	color: #AEAEAE;
-	margin-right: 10px;
-}
 
-.mbt_books .mbt-book-price .newprice  {
-	color: #152400;
-}
+
+/*---------------------------------------------------------*/
+/* Book Series                                             */
+/*---------------------------------------------------------*/
 
 .mbt_books .mbt-book-series {
+	clear:both;
 	background: whiteSmoke;
 	background-image: -webkit-gradient(linear,left bottom,left top,from(#f5f5f5),to(#fafafa));
 	background-image: -webkit-linear-gradient(bottom,#f5f5f5,#fafafa);
@@ -156,19 +198,20 @@
 	float: left;
 }
 
-.mbt_books .mbt-book-series .mbt-book-title {
+.mbt_books .mbt-book-series .mbt-book .mbt-book-title {
 	font-size: 1.5em;
 	font-weight: bold;
 }
 
-.mbt_books .mbt-book-series .mbt-book-title a {
+.mbt_books .mbt-book-series .mbt-book .mbt-book-title a {
 	color: black;
 }
 
-.mbt_books .mbt-book-series .mbt-book-images {
+.mbt_books .mbt-book-series .mbt-book .mbt-book-images {
 	width: 150px;
 	float: auto;
 }
+
 
 
 /*---------------------------------------------------------*/

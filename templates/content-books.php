@@ -19,6 +19,8 @@
 			?>
 		</div>
 	</div>
-	<?php echo(mbt_get_book_buttons($post->ID, true)); ?>
+	<?php echo(mbt_format_book_buttons($post->ID, true)); ?>
+	<?php if(mbt_get_setting('socialmedia_in_excerpts') and mbt_is_socialmedia_active()) { echo(mbt_format_socialmedia($post->ID)); } ?>
+	<?php if(mbt_get_setting('series_in_excerpts')) { echo(mbt_format_book_series($post->ID)); } ?>
 	<div style="clear:both;"></div>
 </div>

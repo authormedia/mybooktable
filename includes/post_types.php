@@ -27,11 +27,11 @@ function mbt_create_post_types_and_taxonomies()
 		'capability_type' => 'post',
 		'hierarchical' => false,
 		'menu_icon' => plugins_url('images/option-icon-cart.png', dirname(__FILE__)),
-		'menu_position' => 5, 
+		'menu_position' => 5,
 		'exclude_from_search' => false,
 		'has_archive' => true,
 		'supports' => array('title', 'thumbnail'),
-		'rewrite' => array('slug' => 'books')
+		'rewrite' => array('slug' => apply_filters('mbt_books_rewrite_name', 'books'))
 	));
 
 	register_taxonomy('mbt_authors', 'mbt_books', array(
@@ -52,7 +52,7 @@ function mbt_create_post_types_and_taxonomies()
 		),
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => 'authors')
+		'rewrite' => array('slug' => apply_filters('mbt_authors_rewrite_name', 'authors'))
 	));
 
 	register_taxonomy('mbt_genres', 'mbt_books', array(
@@ -73,7 +73,7 @@ function mbt_create_post_types_and_taxonomies()
 		),
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => 'genre')
+		'rewrite' => array('slug' => apply_filters('mbt_genres_rewrite_name', 'genre'))
 	));
 
 	register_taxonomy('mbt_series', 'mbt_books', array(
@@ -94,13 +94,13 @@ function mbt_create_post_types_and_taxonomies()
 		),
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => 'series')
+		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', 'series'))
 	));
 }
 
 function mbt_override_parent_files() {
 	global $pagenow, $parent_file, $submenu_file;
-	
+
 	if($pagenow == "edit-tags.php" and ($_GET['taxonomy'] == "mbt_series" or $_GET['taxonomy'] == "mbt_genres" or $_GET['taxonomy'] == "mbt_authors")) {
 		$parent_file = "mbt_landing_page";
 	}
@@ -112,7 +112,7 @@ function mbt_override_parent_files() {
 
 	return $parent_file;
 }
-add_filter('parent_file', 'mbt_override_parent_files'); 
+add_filter('parent_file', 'mbt_override_parent_files');
 
 function mbt_override_post_updated_messages($messages) {
 	$post_id = isset($_GET['post']) ? intval($_GET['post']) : (isset($_POST['post_ID']) ? intval($_POST['post_ID']) : 0);

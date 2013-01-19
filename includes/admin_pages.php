@@ -30,9 +30,12 @@ function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
 		do_action("mbt_buybutton_settings_save");
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
+		mbt_update_setting('book_image_size', $_REQUEST['mbt_book_image_size']);
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
+		mbt_update_setting('socialmedia_in_excerpts', isset($_REQUEST['mbt_socialmedia_in_excerpts'])?true:false);
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 		mbt_update_setting('disable_seo', isset($_REQUEST['mbt_disable_seo'])?true:false);
+		mbt_update_setting('disable_socialmedia', isset($_REQUEST['mbt_disable_socialmedia'])?true:false);
 		mbt_update_setting('featured_buybuttons', isset($_REQUEST['mbt_featured_buybuttons'])?$_REQUEST['mbt_featured_buybuttons']:array());
 
 		$settings_updated = true;
@@ -53,14 +56,13 @@ function mbt_render_settings_page() {
 		<?php } ?>
 
 		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
-		
+
 			<div id="mbt-tabs">
 				<ul>
 					<li><a href="#tabs-1">General Settings</a></li>
 					<li><a href="#tabs-2">Buy Button Settings</a></li>
 					<li><a href="#tabs-3">Book Listings Settings</a></li>
-					<li><a href="#tabs-4">SEO Settings</a></li>
-					<li><a href="#tabs-5">Uninstall</a></li>
+					<li><a href="#tabs-4">Uninstall</a></li>
 				</ul>
 				<div id="tabs-1">
 					<table class="form-table">
@@ -89,6 +91,29 @@ function mbt_render_settings_page() {
 									</td>
 								</tr>
 							<?php } ?>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_disable_seo">Book Image Size</label></th>
+								<td>
+									<input type="radio" value="small" name="mbt_book_image_size" id="mbt_book_image_size" <?php echo(mbt_get_setting('book_image_size') == 'small' ? ' checked="checked"' : ''); ?> > Small (160x160)<br>
+									<input type="radio" value="medium" name="mbt_book_image_size" id="mbt_book_image_size" <?php echo(mbt_get_setting('book_image_size') == 'medium' ? ' checked="checked"' : ''); ?> > Medium (255x255)<br>
+									<input type="radio" value="large" name="mbt_book_image_size" id="mbt_book_image_size" <?php echo(mbt_get_setting('book_image_size') == 'large' ? ' checked="checked"' : ''); ?> > Large (300x300)<br>
+									<p class="description">Choose the size that the book images will display at on book pages and book listings.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_disable_seo">Disable SEO</label></th>
+								<td>
+									<input type="checkbox" name="mbt_disable_seo" id="mbt_disable_seo" <?php echo(mbt_get_setting('disable_seo') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable MyBookTable's built-in SEO features.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_disable_seo">Disable Social Media</label></th>
+								<td>
+									<input type="checkbox" name="mbt_disable_socialmedia" id="mbt_disable_socialmedia" <?php echo(mbt_get_setting('disable_socialmedia') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable MyBookTable's built-in social media features.</p>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
@@ -105,6 +130,13 @@ function mbt_render_settings_page() {
 								<td>
 									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
 									<p class="description">If checked, the related books will display in book excerpts in book listings.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_series_in_excerpts">Show social media buttons in excerpts</label></th>
+								<td>
+									<input type="checkbox" name="mbt_socialmedia_in_excerpts" id="mbt_socialmedia_in_excerpts" <?php echo(mbt_get_setting('socialmedia_in_excerpts') ? ' checked="checked"' : ''); ?> >
+									<p class="description">If checked, the social media buttons will display in book excerpts in book listings.</p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -131,23 +163,9 @@ function mbt_render_settings_page() {
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
 				</div>
 				<div id="tabs-4">
-					<table class="form-table">
-						<tbody>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_disable_seo">Disable SEO</label></th>
-								<td>
-									<input type="checkbox" name="mbt_disable_seo" id="mbt_disable_seo"  <?php echo(mbt_get_setting('disable_seo') ? ' checked="checked"' : ''); ?> >
-									<p class="description">Check to disable MyBookTable's built-in SEO features.</p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
-				</div>
-				<div id="tabs-5">
 					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" id="submit" class="button button-primary">Uninstall MyBookTable</a></p>
 					<p class="description">Use this to completely uninstall all MyBookTable settings, books, series, genres, and authors. WARNING: THIS IS PERMANENT.</p>
-				
+
 				</div>
 			</div>
 
@@ -256,7 +274,7 @@ function mbt_add_taxonomy_image_edit_form() {
 	<tr class="form-field">
 		<th scope="row" valign="top"><label for="mbt_tax_image_url">Image</label></th>
 		<td>
-			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />  
+			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />
     		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
         </td>
 	</tr>
@@ -267,7 +285,7 @@ function mbt_add_taxonomy_image_add_form() {
 ?>
 	<div class="form-field">
 		<label for="mbt_tax_image_url">Image</label>
-		<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="" />  
+		<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="" />
 		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
 	</div>
 <?php

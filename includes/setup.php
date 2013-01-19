@@ -24,9 +24,12 @@ function mbt_upgrade_initial() {
 		'installed' => 0,
 		'installed_examples' => 0,
 		'booktable_page' => 0,
-		'series_in_excerpts' => true,
+		'book_image_size' => 'large',
+		'series_in_excerpts' => false,
+		'socialmedia_in_excerpts' => true,
 		'posts_per_page' => false,
 		'featured_buybuttons' => array('amazon' => 'on'),
+		'disable_socialmedia' => false,
 		'disable_seo' => false
 	);
 	$defaults = apply_filters("mbt_default_settings", $defaults);
@@ -60,7 +63,7 @@ function mbt_install_pages() {
 
 function mbt_install_examples() {
 	if(!mbt_get_setting('installed_examples')) {
-		
+
 		//Create Genre
 		$fantasy = wp_insert_term('Fantasy', 'mbt_genres', array('slug' => 'fantasy'));
 

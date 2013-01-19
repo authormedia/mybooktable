@@ -28,18 +28,28 @@ function mbt_load_book_templates($template) {
 }
 add_filter('template_include', 'mbt_load_book_templates');
 
-//add image sizes
-function mbt_add_image_size() {
+//add book image sizes
+function mbt_get_book_image_size() {
+	$size_name = apply_filters('mbt_book_image_size_name', mbt_get_setting('book_image_size'));
+	$size = array(300, 300);
+	if($size == 'small') { $size = array(160, 160); }
+	if($size == 'medium') { $size = array(225, 225); }
+	if($size == 'large') { $size = array(300, 300); }
+	$size = apply_filters('mbt_book_image_size', $size);
+	return $size;
+}
+
+function mbt_add_book_image_size() {
 	if(function_exists('add_image_size')) {
-		add_image_size('book-image', 300, 300);
+		$size = mbt_get_book_image_size();
+		add_image_size('book-image', $size[0], $size[1]);
 	}
 }
-add_action('init', 'mbt_add_image_size');
-
+add_action('init', 'mbt_add_book_image_size');
 
 //change the number of posts per page for the book archives
 function mbt_set_books_posts_per_page($query) {
-	if(get_post_type() != 'mbt_books' and $query->is_main_query()) { // is only for min_book archives and only on main query
+	if(!is_admin() and get_post_type() != 'mbt_books' and $query->is_main_query()) {
 		$query->query_vars['posts_per_page'] = !empty($mbt_get_settings['posts_per_page']) ? mbt_get_setting('posts_per_page') : get_option('posts_per_page');
 	}
 }
@@ -84,12 +94,13 @@ function mbt_booktable_shortcode( $atts ) {
 }
 add_shortcode('mbt_booktable', 'mbt_booktable_shortcode');
 
-//override body class
-add_filter('body_class', 'mbt_body_class', 100);
-function mbt_body_class($classes) {
+add_filter('body_class', 'mbt_override_body_class', 100);
+function mbt_override_body_class($classes) {
 	if(is_singular('mbt_books')) {
-		$key = array_search('singular', $classes);
-		if($key !== false ) { unset($classes[$key]); }
+		if(apply_filters('mbt_disable_singular', true)) {
+			$key = array_search('singular', $classes);
+			if($key !== false ) { unset($classes[$key]); }
+		}
 		$classes[] = "mbt_page";
 	}
 
@@ -102,7 +113,6 @@ function mbt_body_class($classes) {
 /* Content Output Functions                                */
 /*---------------------------------------------------------*/
 
-//format image
 function mbt_format_image($post_id) {
 	$src = '';
 
@@ -112,30 +122,32 @@ function mbt_format_image($post_id) {
 	} else {
 		$src = plugins_url('images/book-placeholder.png', dirname(__FILE__));
 	}
-	return '<img itemprop="image" src="'.$src.'" class="mbt-book-image">';
+	$output = '<img itemprop="image" src="'.$src.'" class="mbt-book-image">';
+
+	return apply_filters('mbt_format_image', $output);
 }
 
-//format price
 function mbt_format_price($post_id) {
 	$price = get_post_meta($post_id, 'mbt_price', true);
 	$sale_price = get_post_meta($post_id, 'mbt_sale_price', true);
+	$output = '';
 
 	if(!empty($price) and !empty($sale_price)) {
-		return '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="mbt-book-price">
+		$output ='<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="mbt-book-price">
 					<span itemprop="price" class="price">
 						<span class="oldprice">'.'$'.number_format(preg_replace("/[^0-9,.]/", "", $price), 2).'</span>
 						<span class="newprice">'.'$'.number_format(preg_replace("/[^0-9,.]/", "", $sale_price), 2).'</span>
 					</span>
 				</div>';
 	} elseif(!empty($price)) {
-		return '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="mbt-book-price">
+		$output = '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="mbt-book-price">
 					<span itemprop="price" class="price">'.'$'.number_format(preg_replace("/[^0-9,.]/", "", $price), 2).'</span>
 				</div>';
 	}
-	return '';
+
+	return apply_filters('mbt_format_price', $output);
 }
 
-//format the buttons for the book
 function mbt_format_book_buttons($post_id, $featured_only = false) {
 	$output = '<div class="mbt-book-buttons">';
 
@@ -152,7 +164,7 @@ function mbt_format_book_buttons($post_id, $featured_only = false) {
 
 	$output .= '</div>';
 
-	return $output;
+	return apply_filters('mbt_format_book_buttons', $output);
 }
 
 function mbt_format_book_series($post_id) {
@@ -175,10 +187,28 @@ function mbt_format_book_series($post_id) {
 			}
 		}
 	}
-	return $output;
+	return apply_filters('mbt_format_book_series', $output);
 }
 
 function mbt_format_book_sample($post_id) {
 	$sample = get_post_meta($post_id, "mbt_sample_url", true);
-	return empty($sample) ? '' : '<a class="mbt-book-sample" href="'.$sample.'">Download Sample Chapter</a>';
+	$output = empty($sample) ? '' : '<a class="mbt-book-sample" href="'.$sample.'">Download Sample Chapter</a>';
+	return apply_filters('mbt_format_book_sample', $output);
+}
+
+function mbt_format_socialmedia($post_id) {
+	$url = get_permalink($post_id);
+	$output = '<div class="mbt-book-socialmedia">';
+
+	if(function_exists('install_ShareThis')) {
+		$output .= st_add_widget('');
+	} else {
+		$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.urlencode($url).'&size=medium&count=true&annotation=bubble" class="gplusone" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" frameborder="0" scrolling="no" allowtransparency="true"></iframe>';
+		$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.urlencode($url).'&layout=button_count" class="fblike" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
+		$output .= '<iframe src="http://platform.twitter.com/widgets/tweet_button.html?url='.urlencode($url).'&count=horizontal&size=m" class="twittershare" style="height: 20px; width: 100px; margin: 0px; border: none; overflow: hidden;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
+	}
+
+	$output .= apply_filters('mbt_format_socialmedia_buttons', '');
+	$output .= '</div>';
+	return apply_filters('mbt_format_socialmedia', $output);
 }
