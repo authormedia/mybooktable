@@ -17,21 +17,21 @@ function mbt_is_seo_active() {
 /*---------------------------------------------------------*/
 
 function mbt_filter_wpseo_options($options) {
-	if(!isset($options['title-mbt_books']) or empty($options['title-mbt_books'])) {
-		$options['title-mbt_books'] = '%%title%% by %%ct_mbt_authors%%';
-		$options['metadesc-mbt_books'] = '%%excerpt%%';
+	if(!isset($options['title-mbt_book']) or empty($options['title-mbt_book'])) {
+		$options['title-mbt_book'] = '%%title%% by %%ct_mbt_author%%';
+		$options['metadesc-mbt_book'] = '%%excerpt%%';
 	}
-	if(!isset($options['title-mbt_authors']) or empty($options['title-mbt_authors'])) {
-		$options['title-mbt_authors'] = '%%term_title%% | %%sitename%%';
-		$options['metadesc-mbt_authors'] = '%%term_description%%';
+	if(!isset($options['title-mbt_author']) or empty($options['title-mbt_author'])) {
+		$options['title-mbt_author'] = '%%term_title%% | %%sitename%%';
+		$options['metadesc-mbt_author'] = '%%term_description%%';
 	}
 	if(!isset($options['title-mbt_series']) or empty($options['title-mbt_series'])) {
 		$options['title-mbt_series'] = '%%term_title%% | %%sitename%%';
 		$options['metadesc-mbt_series'] = '%%term_description%%';
 	}
-	if(!isset($options['title-mbt_genres']) or empty($options['title-mbt_genres'])) {
-		$options['title-mbt_genres'] = '%%term_title%% | %%sitename%%';
-		$options['metadesc-mbt_genres'] = '%%term_description%%';
+	if(!isset($options['title-mbt_genre']) or empty($options['title-mbt_genre'])) {
+		$options['title-mbt_genre'] = '%%term_title%% | %%sitename%%';
+		$options['metadesc-mbt_genre'] = '%%term_description%%';
 	}
 
 	return $options;
@@ -39,14 +39,14 @@ function mbt_filter_wpseo_options($options) {
 add_filter('option_wpseo_titles', 'mbt_filter_wpseo_options');
 
 function mbt_force_filter_wpseo_options($options) {
-	$options['title-mbt_books'] = '%%title%% by %%ct_mbt_authors%%';
-	$options['metadesc-mbt_books'] = '%%excerpt_only%%';
-	$options['title-mbt_authors'] = '%%term_title%% | %%sitename%%';
-	$options['metadesc-mbt_authors'] = '%%term_description%%';
+	$options['title-mbt_book'] = '%%title%% by %%ct_mbt_author%%';
+	$options['metadesc-mbt_book'] = '%%excerpt_only%%';
+	$options['title-mbt_author'] = '%%term_title%% | %%sitename%%';
+	$options['metadesc-mbt_author'] = '%%term_description%%';
 	$options['title-mbt_series'] = '%%term_title%% | %%sitename%%';
 	$options['metadesc-mbt_series'] = '%%term_description%%';
-	$options['title-mbt_genres'] = '%%term_title%% | %%sitename%%';
-	$options['metadesc-mbt_genres'] = '%%term_description%%';
+	$options['title-mbt_genre'] = '%%term_title%% | %%sitename%%';
+	$options['metadesc-mbt_genre'] = '%%term_description%%';
 
 	return $options;
 }
@@ -72,11 +72,11 @@ add_action('activate_wordpress-seo/wp-seo.php', 'mbt_reset_wpseo_defaults');
 
 //override page title
 function mbt_seo_wp_title($title) {
-	if(mbt_is_seo_active() and is_singular('mbt_books')) {
+	if(mbt_is_seo_active() and is_singular('mbt_book')) {
 		global $post;
 		$seo_title = get_post_meta($post->ID, 'mbt_seo_title', true);
 		if(empty($seo_title)) {
-			$terms = get_the_terms($post->ID, "mbt_authors");
+			$terms = get_the_terms($post->ID, "mbt_author");
 			$authors = '';
 			if($terms) {
 				foreach($terms as $term) {
@@ -95,11 +95,11 @@ add_filter('wp_title', 'mbt_seo_wp_title', 999);
 
 //add page meta
 function mbt_seo_add_metadesc() {
-	if(mbt_is_seo_active() and is_singular('mbt_books')) {
+	if(mbt_is_seo_active() and is_singular('mbt_book')) {
 		global $post;
 		$seo_metadesc = get_post_meta($post->ID, 'mbt_seo_metadesc', true);
 		if(empty($seo_metadesc)) {
-			echo('<meta name="description" content="'.get_the_excerpt().'"/>');
+			echo('<meta name="description" content="'.strip_tags(get_the_excerpt()).'"/>');
 		} else {
 			echo('<meta name="description" content="'.$seo_metadesc.'"/>');
 		}
@@ -172,7 +172,7 @@ function mbt_save_seo_metabox($post_id)
 {
 	if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){return;}
 
-	if(get_post_type($post_id) == "mbt_books")
+	if(get_post_type($post_id) == "mbt_book")
 	{
 		if(isset($_POST['mbt_seo_title'])) { update_post_meta($post_id, "mbt_seo_title", $_POST['mbt_seo_title']); }
 		if(isset($_POST['mbt_seo_metadesc'])) { update_post_meta($post_id, "mbt_seo_metadesc", $_POST['mbt_seo_metadesc']); }
@@ -182,6 +182,6 @@ add_action('save_post', 'mbt_save_seo_metabox');
 
 function mbt_add_seo_metabox()
 {
-	if(mbt_is_seo_active()) { add_meta_box('mbt_seo', 'SEO Information', 'mbt_seo_metabox', 'mbt_books', 'normal', 'high'); }
+	if(mbt_is_seo_active()) { add_meta_box('mbt_seo', 'SEO Information', 'mbt_seo_metabox', 'mbt_book', 'normal', 'high'); }
 }
 add_action('add_meta_boxes', 'mbt_add_seo_metabox', 9);

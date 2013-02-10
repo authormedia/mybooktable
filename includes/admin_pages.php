@@ -1,29 +1,33 @@
 <?php
 
-//enqueue backend plugin styles and javascript
+function mbt_admin_pages_init() {
+	add_action('admin_menu', 'mbt_add_admin_pages', 9);
+	add_action('admin_enqueue_scripts', 'mbt_load_admin_style');
+}
+add_action('mbt_init', 'mbt_admin_pages_init');
+
 function mbt_load_admin_style() {
 	wp_register_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
 	wp_enqueue_style('mbt_admin_css');
 	wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array('jquery'), '1.9.2');
 	wp_enqueue_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css');
 }
-add_action('admin_enqueue_scripts', 'mbt_load_admin_style');
 
 function mbt_add_admin_pages() {
 	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_landing_page", 'mbt_render_landing_page', plugins_url('images/icon.png', dirname(__FILE__)), 10);
-	add_submenu_page("mbt_landing_page", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_books");
-	add_submenu_page("mbt_landing_page", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_authors");
-	add_submenu_page("mbt_landing_page", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genres");
+	add_submenu_page("mbt_landing_page", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_book");
+	add_submenu_page("mbt_landing_page", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author");
+	add_submenu_page("mbt_landing_page", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre");
 	add_submenu_page("mbt_landing_page", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series");
 	add_submenu_page("mbt_landing_page", "MyBookTable Settings", "Settings", 'manage_options', "mbt_settings", 'mbt_render_settings_page');
 	add_submenu_page("mbt_landing_page", "MyBookTable Help", "Help", 'edit_posts', "mbt_help", 'mbt_render_help_page');
 
-	remove_menu_page("edit.php?post_type=mbt_books");
-	remove_submenu_page("edit.php?post_type=mbt_books", "edit.php?post_type=mbt_books");
-	remove_submenu_page("edit.php?post_type=mbt_books", "post-new.php?post_type=mbt_books");
-	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_authors&amp;post_type=mbt_books");
-	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_genres&amp;post_type=mbt_books");
-	remove_submenu_page("edit.php?post_type=mbt_books", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_books");
+	remove_menu_page("edit.php?post_type=mbt_book");
+	remove_submenu_page("edit.php?post_type=mbt_book", "edit.php?post_type=mbt_book");
+	remove_submenu_page("edit.php?post_type=mbt_book", "post-new.php?post_type=mbt_book");
+	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
+	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
+	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
 }
 
 function mbt_render_settings_page() {
@@ -208,22 +212,21 @@ function mbt_render_landing_page() {
 		</div>
 
 		<div class="buttons-container">
-			<a href="<?php echo(admin_url('post-new.php?post_type=mbt_books')); ?>" class="add-new-book">Add New Book</a>
+			<a href="<?php echo(admin_url('post-new.php?post_type=mbt_book')); ?>" class="add-new-book">Add New Book</a>
 		</div>
 
 		<div id="welcome-panel" class="welcome-panel">
- 		<input type="hidden" id="welcomepanelnonce" name="welcomepanelnonce" value="5ca8d9de51">
 			<div class="welcome-panel-content">
-			<h3>Welcome to MyBookTable!</h3>
-			<p class="about-description">We’ve assembled some links to get you started:</p>
+				<h3>Welcome to MyBookTable!</h3>
+				<p class="about-description">We’ve assembled some links to get you started:</p>
 				<div class="welcome-panel-column-container">
 					<div class="welcome-panel-column">
 						<h4>Next Steps</h4>
 						<ul>
 							<?php if(!mbt_get_setting('installed_examples')) { ?>
-								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_books&mbt_install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
+								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_book&mbt_install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
 							<?php } ?>
-							<li><a href="<?php echo(admin_url('post-new.php?post_type=mbt_books')); ?>" class="welcome-icon welcome-add-page">Create your first book</a></li>
+							<li><a href="<?php echo(admin_url('post-new.php?post_type=mbt_book')); ?>" class="welcome-icon welcome-add-page">Create your first book</a></li>
 							<?php if(mbt_get_setting('booktable_page')) { ?>
 								<li><a href="<?php echo(get_permalink(mbt_get_setting('booktable_page'))); ?>" class="welcome-icon welcome-view-site">View your Book Table</a></li>
 							<?php } ?>
@@ -232,9 +235,9 @@ function mbt_render_landing_page() {
 					<div class="welcome-panel-column welcome-panel-last">
 						<h4>More Actions</h4>
 						<ul>
-							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit.php?post_type=mbt_books')); ?>">Books</a></div></li>
-							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_authors')); ?>">Authors</a></div></li>
-							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_genres')); ?>">Genres</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit.php?post_type=mbt_book')); ?>">Books</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_author')); ?>">Authors</a></div></li>
+							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_genre')); ?>">Genres</a></div></li>
 							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('edit-tags.php?taxonomy=mbt_series')); ?>">Series</a></div></li>
 							<li><div class="welcome-icon welcome-widgets-menus">Manage <a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">Settings</a></div></li>
 							<li><a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>" class="welcome-icon welcome-learn-more">Learn more about MyBookTable</a></li>
@@ -243,6 +246,25 @@ function mbt_render_landing_page() {
 				</div>
 			</div>
 		</div>
+
+		<div class="metabox-holder">
+			<div id="dashboard_recent_drafts" class="postbox">
+				<div class="handlediv" title="Click to toggle"><br></div>
+				<h3 class="hndle"><span>Recent News from Author Media</span></h3>
+				<div class="inside">
+					<?php wp_widget_rss_output(array(
+						'link' => 'http://www.authormedia.com/',
+						'url' => 'http://www.authormedia.com/feed/',
+						'title' => 'Recent News from Author Media',
+						'items' => 3,
+						'show_summary' => 1,
+						'show_author' => 0,
+						'show_date' => 1,
+					)); ?>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 <?php
@@ -254,15 +276,15 @@ function mbt_render_landing_page() {
 /* Custom Images for Taxonomies                            */
 /*---------------------------------------------------------*/
 
-add_filter('mbt_authors_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
-add_filter('mbt_authors_add_form_fields', 'mbt_add_taxonomy_image_add_form');
-add_action('edited_mbt_authors', 'mbt_save_taxonomy_image_edit_form');
-add_action('created_mbt_authors', 'mbt_save_taxonomy_image_add_form');
+add_filter('mbt_author_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
+add_filter('mbt_author_add_form_fields', 'mbt_add_taxonomy_image_add_form');
+add_action('edited_mbt_author', 'mbt_save_taxonomy_image_edit_form');
+add_action('created_mbt_author', 'mbt_save_taxonomy_image_add_form');
 
-add_filter('mbt_genres_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
-add_filter('mbt_genres_add_form_fields', 'mbt_add_taxonomy_image_add_form');
-add_action('edited_mbt_genres', 'mbt_save_taxonomy_image_edit_form');
-add_action('created_mbt_genres', 'mbt_save_taxonomy_image_add_form');
+add_filter('mbt_genre_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
+add_filter('mbt_genre_add_form_fields', 'mbt_add_taxonomy_image_add_form');
+add_action('edited_mbt_genre', 'mbt_save_taxonomy_image_edit_form');
+add_action('created_mbt_genre', 'mbt_save_taxonomy_image_add_form');
 
 add_filter('mbt_series_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
 add_filter('mbt_series_add_form_fields', 'mbt_add_taxonomy_image_add_form');

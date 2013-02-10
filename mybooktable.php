@@ -4,7 +4,7 @@ Plugin Name: MyBookTable
 Plugin URI: http://www.mybooktable.com
 Description: A simple store plugin for books, allowing you to integrate with external shopping carts and booktable websites.
 Author: Castle Media Group
-Version: 0.5.1
+Version: 0.6.0
 */
 
 require_once("includes/functions.php");
@@ -45,8 +45,15 @@ function mbt_init() {
 		return mbt_uninstall();
 	}
 
-	add_action('admin_menu', 'mbt_add_admin_pages', 9);
 	add_action('init', 'mbt_create_post_types_and_taxonomies');
 	add_action('admin_init', 'mbt_admin_init');
+	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
+
+	do_action('mbt_init');
 }
 add_action('plugins_loaded', 'mbt_init');
+
+function mbt_plugin_action_links($actions) {
+	$actions['settings'] = '<a href="'.admin_url('admin.php?page=mbt_settings').'">Settings</a>';
+	return $actions;
+}

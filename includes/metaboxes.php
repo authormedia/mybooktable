@@ -2,10 +2,10 @@
 
 function mbt_add_metaboxes()
 {
-	add_meta_box('mbt_blurb', 'Book Blurb', 'mbt_book_blurb_metabox', 'mbt_books', 'normal', 'high');
-	add_meta_box('mbt_overview', 'Book Overview', 'mbt_overview_metabox', 'mbt_books', 'normal', 'high');
-	add_meta_box('mbt_metadata', 'Book Metadata', 'mbt_metadata_metabox', 'mbt_books', 'normal', 'high');
-	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_books', 'normal', 'high');
+	add_meta_box('mbt_blurb', 'Book Blurb', 'mbt_book_blurb_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_overview', 'Book Overview', 'mbt_overview_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_metadata', 'Book Metadata', 'mbt_metadata_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
 }
 add_action('add_meta_boxes', 'mbt_add_metaboxes', 9);
 
@@ -83,7 +83,7 @@ function mbt_save_metadata_metabox($post_id)
 {
 	if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){return;}
 
-	if(get_post_type($post_id) == "mbt_books")
+	if(get_post_type($post_id) == "mbt_book")
 	{
 		if(isset($_POST['mbt_book_id'])) { update_post_meta($post_id, "mbt_book_id", $_POST['mbt_book_id']); }
 		if(isset($_POST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_POST['mbt_price']); }
@@ -181,7 +181,7 @@ function mbt_save_buybuttons_metabox($post_id)
 {
 	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_POST['mbt_nonce']) || !wp_verify_nonce($_POST['mbt_nonce'], plugin_basename(__FILE__))){return;}
 
-	if(get_post_type($post_id) == "mbt_books")
+	if(get_post_type($post_id) == "mbt_book")
 	{
 		$mydata = array();
 		for($i = 0; isset($_POST['mbt_buybutton'.$i]); $i++)

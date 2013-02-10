@@ -103,6 +103,11 @@
 	-webkit-transition-duration: .3s;
 }
 
+.mbt-landing-page .metabox-holder .postbox {
+	width: 40%;
+	float: left;
+}
+
 /*---------------------------------------------------------*/
 /* Settings Pages                                          */
 /*---------------------------------------------------------*/
