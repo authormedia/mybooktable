@@ -1,1 +1,4 @@
-<div class="mbt-book-buybuttons"><?php mbt_the_book_buybuttons(true); ?></div>
+<div class="mbt-book-buybuttons">
+	<?php mbt_the_book_buybuttons(true); ?>
+	<div style="clear:both;"></div>
+</div>

@@ -27,6 +27,8 @@ function mbt_templates_init() {
 	//book archive hooks
 	add_action('mbt_before_book_archive', 'mbt_do_before_book_archive');
 	add_action('mbt_after_book_archive', 'mbt_do_after_book_archive');
+	add_action('mbt_before_book_archive_listing', 'mbt_do_before_book_archive_listing');
+	add_action('mbt_after_book_archive_listing', 'mbt_do_after_book_archive_listing');
 	add_action('mbt_book_archive_header', 'mbt_do_book_archive_header');
 	add_action('mbt_book_archive_no_results', 'mbt_do_book_archive_no_results');
 
@@ -37,7 +39,6 @@ function mbt_templates_init() {
 	add_action('mbt_single_book_title', 'mbt_do_single_book_title');
 	add_action('mbt_single_book_price', 'mbt_do_single_book_price');
 	add_action('mbt_single_book_meta', 'mbt_do_single_book_meta');
-	add_action('mbt_single_book_sample', 'mbt_do_single_book_sample');
 	add_action('mbt_single_book_blurb', 'mbt_do_single_book_blurb');
 	add_action('mbt_single_book_buybuttons', 'mbt_do_single_book_buybuttons');
 	add_action('mbt_single_book_overview', 'mbt_do_single_book_overview');
@@ -56,6 +57,9 @@ function mbt_templates_init() {
 	if(mbt_get_setting('socialmedia_in_excerpts') and mbt_is_socialmedia_active()) { add_action('mbt_book_excerpt_socialmedia', 'mbt_do_book_excerpt_socialmedia'); }
 	if(mbt_get_setting('series_in_excerpts')) { add_action('mbt_book_excerpt_series', 'mbt_do_book_excerpt_series'); }
 
+	add_action('template_redirect', 'mbt_add_twentyx_theme_support');
+
+	do_action('mbt_templates_init');
 }
 add_action('mbt_init', 'mbt_templates_init');
 
@@ -121,12 +125,14 @@ function mbt_booktable_shortcode($atts) {
 	$wp_query = new WP_Query(array('post_type' => 'mbt_book'));
 
 	if(have_posts()) {
-		do_action('mbt_before_book_archive_listing');
+		?> <div class="mbt-book-listing"> <?php
+		do_action('mbt_before_bookstore_listing');
 		while(have_posts()) {
 			the_post();
 			do_action('mbt_book_excerpt');
 		}
-		do_action('mbt_after_book_archive_listing');
+		do_action('mbt_after_bookstore_listing');
+		?> </div> <?php
 	} else {
 		do_action('mbt_book_archive_no_results');
 	}
@@ -144,6 +150,14 @@ function mbt_override_body_class($classes) {
 	}
 
 	return $classes;
+}
+
+function mbt_add_twentyx_theme_support() {
+	//remove custom excerpt mores
+	if(mbt_is_mbt_page()) {
+		remove_filter('excerpt_more', 'twentyten_auto_excerpt_more');
+		remove_filter('get_the_excerpt', 'twentyten_custom_excerpt_more');
+	}
 }
 
 
@@ -172,6 +186,14 @@ function mbt_do_before_book_archive() {
 
 function mbt_do_after_book_archive() {
 	mbt_include_template("archive-book/after.php");
+}
+
+function mbt_do_before_book_archive_listing() {
+	mbt_include_template("archive-book/before-listing.php");
+}
+
+function mbt_do_after_book_archive_listing() {
+	mbt_include_template("archive-book/after-listing.php");
 }
 
 function mbt_do_book_archive_header() {
@@ -254,9 +276,6 @@ function mbt_do_single_book_overview() {
 }
 function mbt_do_single_book_series() {
 	mbt_include_template("single-book/series.php");
-}
-function mbt_do_single_book_sample() {
-	mbt_include_template("single-book/sample.php");
 }
 function mbt_do_single_book_socialmedia() {
 	mbt_include_template("single-book/socialmedia.php");
@@ -365,6 +384,15 @@ function mbt_the_book_sample_url() {
 	echo(mbt_get_book_sample_url($post->ID));
 }
 
+function mbt_get_book_sample($post_id) {
+	$url = mbt_get_book_sample_url($post_id);
+	return empty($url) ? '' : apply_filters('mbt_get_book_sample', '<br><a class="mbt-book-sample" href="'.$url.'">Download Sample Chapter</a>');
+}
+function mbt_the_book_sample() {
+	global $post;
+	echo(mbt_get_book_sample($post->ID));
+}
+
 
 
 function mbt_get_book_socialmedia($post_id) {
@@ -437,24 +465,24 @@ function mbt_the_book_blurb($read_more = false) {
 
 
 
-function mbt_get_book_authors_list($post_id, $before = "Authors: ", $sep = ", ", $after = "<br>") {
+function mbt_get_book_authors_list($post_id, $before = "<span class='meta-title'>Authors:</span> ", $sep = ", ", $after = "<br>") {
 	return apply_filters('mbt_get_book_authors_list', get_the_term_list($post_id, 'mbt_author', $before, $sep, $after));
 }
-function mbt_the_book_authors_list($before = "Authors: ", $sep = ", ", $after = "<br>") {
+function mbt_the_book_authors_list($before = "<span class='meta-title'>Authors:</span> ", $sep = ", ", $after = "<br>") {
 	global $post;
 	echo(mbt_get_book_authors_list($post->ID, $before, $sep, $after));
 }
-function mbt_get_book_series_list($post_id, $before = "Series: ", $sep = ", ", $after = "<br>") {
+function mbt_get_book_series_list($post_id, $before = "<span class='meta-title'>Series:</span> ", $sep = ", ", $after = "<br>") {
 	return apply_filters('mbt_get_book_series_list', get_the_term_list($post_id, 'mbt_series', $before, $sep, $after));
 }
-function mbt_the_book_series_list($before = "Series: ", $sep = ", ", $after = "<br>") {
+function mbt_the_book_series_list($before = "<span class='meta-title'>Series:</span> ", $sep = ", ", $after = "<br>") {
 	global $post;
 	echo(mbt_get_book_series_list($post->ID, $before, $sep, $after));
 }
-function mbt_get_book_genres_list($post_id, $before = "Genres: ", $sep = ", ", $after = "<br>") {
+function mbt_get_book_genres_list($post_id, $before = "<span class='meta-title'>Genres:</span> ", $sep = ", ", $after = "<br>") {
 	return apply_filters('mbt_get_book_genres_list', get_the_term_list($post_id, 'mbt_genre', $before, $sep, $after));
 }
-function mbt_the_book_genres_list($before = "Genres: ", $sep = ", ", $after = "<br>") {
+function mbt_the_book_genres_list($before = "<span class='meta-title'>Genres:</span> ", $sep = ", ", $after = "<br>") {
 	global $post;
 	echo(mbt_get_book_genres_list($post->ID, $before, $sep, $after));
 }
@@ -472,8 +500,8 @@ function mbt_get_book_series($post_id) {
 				$output .= '<div class="mbt-book-series-title">Other books in "'.$series->name.'":</div>';
 				foreach($relatedbooks->posts as $relatedbook) {
 					$output .= '<div class="mbt-book">';
-					$output .= '<div class="mbt-book-title"><a href="'.get_permalink($relatedbook->ID).'">'.$relatedbook->post_title.'</a></div>';
 					$output .= '<div class="mbt-book-images"><a href="'.get_permalink($relatedbook->ID).'">'.mbt_get_book_image($relatedbook->ID, 150).'</a></div>';
+					$output .= '<div class="mbt-book-title"><a href="'.get_permalink($relatedbook->ID).'">'.$relatedbook->post_title.'</a></div>';
 					$output .= '<div class="clear:both"></div>';
 					$output .= '</div>';
 				}

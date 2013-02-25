@@ -43,3 +43,8 @@ function mbt_get_taxonomy_image($taxonomy, $term) {
 	if(empty($taxonomy_images)) { $taxonomy_images = array(); }
 	return isset($taxonomy_images[$term]) ? $taxonomy_images[$term] : '';
 }
+
+function mbt_is_mbt_page() {
+	$booktable_page = intval(mbt_get_setting('booktable_page'));
+	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_singular('mbt_book') or (!empty($booktable_page) and is_page($booktable_page)));
+}
