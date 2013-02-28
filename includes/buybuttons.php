@@ -34,15 +34,15 @@ function mbt_custom_buybutton_editor($data, $id, $buybuttons) {
 }
 
 function mbt_custom_buybutton_button($data) {
-	return empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a class="mbt-custom-buybutton" href="'.$data['value'].'" target="_blank">'.$data['text'].'</a></div>';
+	return apply_filters('mbt_custom_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a class="mbt-custom-buybutton" href="'.$data['value'].'" target="_blank">'.$data['text'].'</a></div>');
 }
 
 function mbt_audible_buybutton_button($data) {
-	return empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.apply_filters('mbt_audible_buybutton_image_url', plugins_url('images/audible_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Audible.com"/></a></div>';
+	return apply_filters('mbt_audible_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.apply_filters('mbt_audible_buybutton_image_url', plugins_url('images/audible_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Audible.com"/></a></div>');
 }
 
 function mbt_bnn_buybutton_button($data) {
-	return empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.apply_filters('mbt_bnn_buybutton_image_url', plugins_url('images/bnn_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Barnes and Noble"/></a></div>';
+	return apply_filters('mbt_bnn_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.apply_filters('mbt_bnn_buybutton_image_url', plugins_url('images/bnn_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Barnes and Noble"/></a></div>');
 }
 
 
@@ -144,32 +144,7 @@ function mbt_amazon_buybutton_editor($data, $id, $buybuttons) {
 
 function mbt_amazon_buybutton_button($data) {
 	$id = mbt_get_amazon_AISN($data['value']);
-	$affiliatecode = mbt_get_setting('buybutton_amazon_affiliate_code');
-	return empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.com/dp/'.$id.'?tag='.(empty($affiliatecode)?'mybooktable-20':$affiliatecode).'" target="_blank"><img src="'.apply_filters('mbt_amazon_buybutton_image_url', plugins_url('images/amazon_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Amazon"/></a></div>';
+	$img = apply_filters('mbt_amazon_buybutton_image_url', plugins_url('images/amazon_button.png', dirname(__FILE__)));
+	$output = empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.com/dp/'.$id.'?tag=mybooktable-20" target="_blank"><img src="'.$img.'" border="0" alt="Buy from Amazon"/></a></div>';
+	return apply_filters('mbt_amazon_buybutton', $output);
 }
-
-function mbt_amazon_buybutton_settings() {
-?>
-	<table class="form-table">
-		<tbody>
-			<tr valign="top">
-				<th scope="row"><label for="mbt_amazon_buybutton_affiliate_code">Amazon Affiliate Code</label></th>
-				<td>
-					<input type="text" name="mbt_amazon_buybutton_affiliate_code" id="mbt_amazon_buybutton_affiliate_code" value="<?php echo(mbt_get_setting('buybutton_amazon_affiliate_code')); ?>" class="regular-text">
-					<p class="description">
-						You can find your amazon affiliate tracking ID by visiting the your <a href="https://affiliate-program.amazon.com/gp/associates/network/main.html" target="_blank">Amazon Affiliate Homepage</a>. The code should be near the top left of the screen and will end in "-20" if you live in the United States of America.
-					</p>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-<?php
-}
-add_filter('mbt_buybutton_settings', 'mbt_amazon_buybutton_settings');
-
-function mbt_amazon_buybutton_settings_save() {
-	if(isset($_REQUEST['mbt_amazon_buybutton_affiliate_code'])) {
-		mbt_update_setting('buybutton_amazon_affiliate_code', $_REQUEST['mbt_amazon_buybutton_affiliate_code']);
-	}
-}
-add_filter('mbt_buybutton_settings_save', 'mbt_amazon_buybutton_settings_save');

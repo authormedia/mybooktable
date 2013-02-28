@@ -64,9 +64,8 @@ function mbt_render_settings_page() {
 			<div id="mbt-tabs">
 				<ul>
 					<li><a href="#tabs-1">General Settings</a></li>
-					<li><a href="#tabs-2">Buy Button Settings</a></li>
-					<li><a href="#tabs-3">Book Listings Settings</a></li>
-					<li><a href="#tabs-4">Uninstall</a></li>
+					<li><a href="#tabs-2">Book Listings Settings</a></li>
+					<li><a href="#tabs-3">Uninstall</a></li>
 				</ul>
 				<div id="tabs-1">
 					<table class="form-table">
@@ -123,10 +122,6 @@ function mbt_render_settings_page() {
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
 				</div>
 				<div id="tabs-2">
-					<?php do_action("mbt_buybutton_settings"); ?>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
-				</div>
-				<div id="tabs-3">
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
@@ -164,9 +159,9 @@ function mbt_render_settings_page() {
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
 				</div>
-				<div id="tabs-4">
+				<div id="tabs-3">
 					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" id="submit" class="button button-primary">Uninstall MyBookTable</a></p>
 					<p class="description">Use this to completely uninstall all MyBookTable settings, books, series, genres, and authors. WARNING: THIS IS PERMANENT.</p>
 
