@@ -9,8 +9,9 @@ add_action('mbt_init', 'mbt_admin_pages_init');
 function mbt_load_admin_style() {
 	wp_register_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
 	wp_enqueue_style('mbt_admin_css');
-	wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array('jquery'), '1.9.2');
-	wp_enqueue_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css');
+	wp_enqueue_script('jquery-ui-core');
+	wp_enqueue_script('jquery-ui-tabs');
+	wp_enqueue_style('jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
 }
 
 function mbt_add_admin_pages() {
