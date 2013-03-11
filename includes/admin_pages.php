@@ -34,7 +34,6 @@ function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
 		do_action("mbt_buybutton_settings_save");
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
-		mbt_update_setting('book_image_size', $_REQUEST['mbt_book_image_size']);
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
 		mbt_update_setting('socialmedia_in_excerpts', isset($_REQUEST['mbt_socialmedia_in_excerpts'])?true:false);
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
@@ -94,15 +93,6 @@ function mbt_render_settings_page() {
 									</td>
 								</tr>
 							<?php } ?>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_disable_seo">Book Image Size</label></th>
-								<td>
-									<input type="radio" value="small" name="mbt_book_image_size" id="mbt_book_image_size" <?php echo(mbt_get_setting('book_image_size') == 'small' ? ' checked="checked"' : ''); ?> > Small (160x160)<br>
-									<input type="radio" value="medium" name="mbt_book_image_size" id="mbt_book_image_size" <?php echo(mbt_get_setting('book_image_size') == 'medium' ? ' checked="checked"' : ''); ?> > Medium (255x255)<br>
-									<input type="radio" value="large" name="mbt_book_image_size" id="mbt_book_image_size" <?php echo(mbt_get_setting('book_image_size') == 'large' ? ' checked="checked"' : ''); ?> > Large (300x300)<br>
-									<p class="description">Choose the size that the book images will display at on book pages and book listings.</p>
-								</td>
-							</tr>
 							<tr valign="top">
 								<th scope="row"><label for="mbt_disable_seo">Disable SEO</label></th>
 								<td>

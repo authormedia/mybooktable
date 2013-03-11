@@ -4,9 +4,6 @@ function mbt_templates_init() {
 	//enqueue frontend styling
 	add_action('wp_enqueue_scripts', 'mbt_enqueue_styles');
 
-	//add book image sizes
-	mbt_add_book_image_size();
-
 	//override book page templates
 	add_filter('template_include', 'mbt_load_book_templates');
 
@@ -73,7 +70,17 @@ function mbt_enqueue_styles() {
 
 function mbt_locate_template($name) {
 	$locatedtemplate = locate_template('mybooktable/'.$name);
-	return empty($locatedtemplate) ? plugin_dir_path(dirname(__FILE__)).'templates/'.$name : $locatedtemplate;
+
+	//allow template plugins to override where we look for templates
+	$template_dirs = apply_filters('mbt_template_dirs', array(plugin_dir_path(dirname(__FILE__)).'templates/'));
+
+	//look backward through template list so that the last appended folder will be searched first
+	for($dir = count($template_dirs)-1; empty($locatedtemplate) and $dir >= 0; $dir--) {
+		$locatedtemplate = $template_dirs[$dir].$name;
+		if(!file_exists($locatedtemplate)) { $locatedtemplate = ''; }
+	}
+
+	return $locatedtemplate;
 }
 
 function mbt_include_template($name) {
@@ -91,24 +98,6 @@ function mbt_load_book_templates($template) {
 	}
 
 	return $template;
-}
-
-//add book image sizes
-function mbt_get_book_image_size() {
-	$size_name = apply_filters('mbt_book_image_size_name', mbt_get_setting('book_image_size'));
-	$size = 300;
-	if($size_name == 'small') { $size = 160; }
-	if($size_name == 'medium') { $size = 225; }
-	if($size_name == 'large') { $size = 300; }
-	$size = apply_filters('mbt_book_image_size', $size);
-	return $size;
-}
-
-function mbt_add_book_image_size() {
-	if(function_exists('add_image_size')) {
-		$size = mbt_get_book_image_size();
-		add_image_size('book-image', $size[0], $size[1]);
-	}
 }
 
 //modify post query
@@ -331,23 +320,9 @@ function mbt_get_book_image($post_id, $size = 0) {
 		list($src, $width, $height) = $image;
 	} else {
 		$src = plugins_url('images/book-placeholder.png', dirname(__FILE__));
-		$width = 300;
-		$height = 300;
 	}
 
-	if(empty($size)) {
-		$size = mbt_get_book_image_size();
-	}
-
-	$scale = $size/max($width, $height);
-	$width = round($width*$scale);
-	$height = round($height*$scale);
-	$lpadding = round(($size-$width)/2);
-	$tpadding = round(($size-$height)/2);
-
-	$output = '<div class="mbt-book-image-container" style="width:'.($size-$lpadding).'px;height:'.($size-$tpadding).'px;padding:'.$tpadding.'px 0px 0px '.$lpadding.'px"><img itemprop="image" width="'.$width.'" height="'.$height.'" src="'.$src.'" class="mbt-book-image"></div>';
-
-	return apply_filters('mbt_get_book_image', $output);
+	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" class="mbt-book-image">');
 }
 function mbt_the_book_image($size = 0) {
 	global $post;
@@ -358,7 +333,7 @@ function mbt_the_book_image($size = 0) {
 
 function mbt_get_book_price($post_id) {
 	$price = get_post_meta($post_id, 'mbt_price', true);
-	return apply_filters('mbt_get_book_price', empty($price) ? '' : number_format((double)(preg_replace("/[^0-9,.]/", "", $price)), 2), $post_id);
+	return apply_filters('mbt_get_book_price', empty($price) ? '' : "$".number_format((double)(preg_replace("/[^0-9,.]/", "", $price)), 2), $post_id);
 }
 function mbt_the_book_price() {
 	global $post;
@@ -368,7 +343,7 @@ function mbt_the_book_price() {
 function mbt_add_book_sale_price($price, $post_id) {
 	$sale_price = get_post_meta($post_id, 'mbt_sale_price', true);
 	if(!empty($sale_price)) {
-		$price = '<span class="normal-price">'.$price.'</span><span class="sale-price">'.number_format((double)(preg_replace("/[^0-9,.]/", "", $sale_price)), 2).'</span>';
+		$price = '<span class="normal-price">'.$price.'</span><span class="sale-price">$'.number_format((double)(preg_replace("/[^0-9,.]/", "", $sale_price)), 2).'</span>';
 	}
 	return $price;
 }

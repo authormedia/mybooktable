@@ -24,7 +24,6 @@ function mbt_upgrade_initial() {
 		'installed' => 0,
 		'installed_examples' => 0,
 		'booktable_page' => 0,
-		'book_image_size' => 'large',
 		'series_in_excerpts' => false,
 		'socialmedia_in_excerpts' => false,
 		'posts_per_page' => false,
