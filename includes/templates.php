@@ -28,6 +28,8 @@ function mbt_templates_init() {
 	add_action('mbt_after_book_archive_listing', 'mbt_do_after_book_archive_listing');
 	add_action('mbt_book_archive_header', 'mbt_do_book_archive_header');
 	add_action('mbt_book_archive_no_results', 'mbt_do_book_archive_no_results');
+	add_action('mbt_after_book_archive', 'mbt_do_book_archive_pagination');
+	add_action('mbt_after_bookstore_listing', 'mbt_do_book_archive_pagination');
 
 	//single book hooks
 	add_action('mbt_before_single_book', 'mbt_do_before_single_book');
@@ -111,7 +113,7 @@ function mbt_pre_get_posts($query) {
 function mbt_booktable_shortcode($atts) {
 	global $wp_query, $post;
 	$old_wp_query = $wp_query;
-	$wp_query = new WP_Query(array('post_type' => 'mbt_book'));
+	$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'paged' => $old_wp_query->get('paged')));
 
 	if(have_posts()) {
 		?> <div class="mbt-book-listing"> <?php
@@ -233,6 +235,10 @@ function mbt_do_book_archive_no_results() {
 	mbt_include_template("archive-book/no-results.php");
 }
 
+function mbt_do_book_archive_pagination() {
+	mbt_include_template("archive-book/pagination.php");
+}
+
 /*---------------------------------------------------------*/
 /* Book Excerpt Template Functions                         */
 /*---------------------------------------------------------*/
@@ -322,7 +328,7 @@ function mbt_get_book_image($post_id, $size = 0) {
 		$src = plugins_url('images/book-placeholder.png', dirname(__FILE__));
 	}
 
-	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" class="mbt-book-image">');
+	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
 }
 function mbt_the_book_image($size = 0) {
 	global $post;
@@ -439,27 +445,37 @@ function mbt_the_book_blurb($read_more = false) {
 }
 
 
+function mbt_get_the_term_list($post_id, $tax, $name, $name_plural) {
+	$terms = get_the_terms($post_id, $tax);
+	if(is_wp_error($terms) or empty($terms)){ return ''; }
 
-function mbt_get_book_authors_list($post_id, $before = "<span class='meta-title'>Authors:</span> ", $sep = ", ", $after = "<br>") {
-	return apply_filters('mbt_get_book_authors_list', get_the_term_list($post_id, 'mbt_author', $before, $sep, $after));
+	foreach($terms as $term) {
+		$link = get_term_link($term, $taxonomy);
+		$term_links[] = '<a href="'.esc_url($link).'" rel="tag">'.$term->name.'</a>';
+	}
+
+	return "<span class='meta-title'>".(count($terms) > 1 ? $name_plural : $name).":</span> ".join(", ", $term_links)."<br>";
 }
-function mbt_the_book_authors_list($before = "<span class='meta-title'>Authors:</span> ", $sep = ", ", $after = "<br>") {
+function mbt_get_book_authors_list($post_id) {
+	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_author', 'Author', 'Authors'));
+}
+function mbt_the_book_authors_list() {
 	global $post;
 	echo(mbt_get_book_authors_list($post->ID, $before, $sep, $after));
 }
-function mbt_get_book_series_list($post_id, $before = "<span class='meta-title'>Series:</span> ", $sep = ", ", $after = "<br>") {
-	return apply_filters('mbt_get_book_series_list', get_the_term_list($post_id, 'mbt_series', $before, $sep, $after));
+function mbt_get_book_series_list($post_id) {
+	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_series', 'Series', 'Series'));
 }
-function mbt_the_book_series_list($before = "<span class='meta-title'>Series:</span> ", $sep = ", ", $after = "<br>") {
+function mbt_the_book_series_list() {
 	global $post;
-	echo(mbt_get_book_series_list($post->ID, $before, $sep, $after));
+	echo(mbt_get_book_series_list($post->ID));
 }
-function mbt_get_book_genres_list($post_id, $before = "<span class='meta-title'>Genres:</span> ", $sep = ", ", $after = "<br>") {
-	return apply_filters('mbt_get_book_genres_list', get_the_term_list($post_id, 'mbt_genre', $before, $sep, $after));
+function mbt_get_book_genres_list($post_id) {
+	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_genre', 'Genre', 'Genres'));
 }
-function mbt_the_book_genres_list($before = "<span class='meta-title'>Genres:</span> ", $sep = ", ", $after = "<br>") {
+function mbt_the_book_genres_list() {
 	global $post;
-	echo(mbt_get_book_genres_list($post->ID, $before, $sep, $after));
+	echo(mbt_get_book_genres_list($post->ID));
 }
 
 

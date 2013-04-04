@@ -382,3 +382,23 @@
 	margin-bottom: 40px;
 	border-bottom: 1px solid #E0E2E2;
 }
+
+.mbt-archive-pagination a {
+	color: #235970;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.mbt-archive-pagination a:hover {
+	text-decoration: underline;
+}
+
+.mbt-archive-pagination-back {
+	float: left;
+	text-align: left;
+}
+
+.mbt-archive-pagination-forward {
+	float: right;
+	text-align: right;
+}
