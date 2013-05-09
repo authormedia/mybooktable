@@ -104,8 +104,9 @@ function mbt_load_book_templates($template) {
 
 //modify post query
 function mbt_pre_get_posts($query) {
-	if(!is_admin() and get_post_type() != 'mbt_book' and $query->is_main_query()) {
-		$query->query_vars['posts_per_page'] = !empty($mbt_get_settings['posts_per_page']) ? mbt_get_setting('posts_per_page') : get_option('posts_per_page');
+	if(!is_admin() and ($query->is_post_type_archive('mbt_book') or $query->is_tax('mbt_author') or $query->is_tax('mbt_series') or $query->is_tax('mbt_genre')) and $query->is_main_query()) {
+		$posts_per_page = mbt_get_setting('posts_per_page');
+		$query->query_vars['posts_per_page'] = !empty($posts_per_page) ? $posts_per_page : get_option('posts_per_page');
 	}
 }
 
@@ -113,7 +114,8 @@ function mbt_pre_get_posts($query) {
 function mbt_booktable_shortcode($atts) {
 	global $wp_query, $post;
 	$old_wp_query = $wp_query;
-	$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'paged' => $old_wp_query->get('paged')));
+	$posts_per_page = mbt_get_setting('posts_per_page');
+	$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'paged' => $old_wp_query->get('paged'), 'posts_per_page' => !empty($posts_per_page) ? $posts_per_page : get_option('posts_per_page')));
 
 	if(have_posts()) {
 		?> <div class="mbt-book-listing"> <?php
@@ -325,7 +327,7 @@ function mbt_get_book_image($post_id, $size = 0) {
 	if($image) {
 		list($src, $width, $height) = $image;
 	} else {
-		$src = plugins_url('images/book-placeholder.png', dirname(__FILE__));
+		$src = apply_filters('mbt_frontend_styles', plugins_url('images/book-placeholder.png', dirname(__FILE__)));
 	}
 
 	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
@@ -445,12 +447,24 @@ function mbt_the_book_blurb($read_more = false) {
 }
 
 
+
+function mbt_get_book_unique_id($post_id) {
+	$unique_id = get_post_meta($post_id, 'mbt_unique_id', true);
+	return empty($unique_id) ? "" : "<span class='meta-title'>ISBN:</span> ".$unique_id."<br>";
+}
+function mbt_the_book_unique_id() {
+	global $post;
+	echo(mbt_get_book_unique_id($post->ID));
+}
+
+
+
 function mbt_get_the_term_list($post_id, $tax, $name, $name_plural) {
 	$terms = get_the_terms($post_id, $tax);
 	if(is_wp_error($terms) or empty($terms)){ return ''; }
 
 	foreach($terms as $term) {
-		$link = get_term_link($term, $taxonomy);
+		$link = get_term_link($term, $tax);
 		$term_links[] = '<a href="'.esc_url($link).'" rel="tag">'.$term->name.'</a>';
 	}
 
@@ -461,7 +475,7 @@ function mbt_get_book_authors_list($post_id) {
 }
 function mbt_the_book_authors_list() {
 	global $post;
-	echo(mbt_get_book_authors_list($post->ID, $before, $sep, $after));
+	echo(mbt_get_book_authors_list($post->ID));
 }
 function mbt_get_book_series_list($post_id) {
 	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_series', 'Series', 'Series'));

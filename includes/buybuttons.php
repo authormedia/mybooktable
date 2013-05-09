@@ -38,11 +38,11 @@ function mbt_custom_buybutton_button($data) {
 }
 
 function mbt_audible_buybutton_button($data) {
-	return apply_filters('mbt_audible_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.apply_filters('mbt_audible_buybutton_image_url', plugins_url('images/audible_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Audible.com"/></a></div>');
+	return apply_filters('mbt_audible_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.mbt_image_url('audible_button.png').'" border="0" alt="Buy from Audible.com"/></a></div>');
 }
 
 function mbt_bnn_buybutton_button($data) {
-	return apply_filters('mbt_bnn_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.apply_filters('mbt_bnn_buybutton_image_url', plugins_url('images/bnn_button.png', dirname(__FILE__))).'" border="0" alt="Buy from Barnes and Noble"/></a></div>');
+	return apply_filters('mbt_bnn_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.mbt_image_url('bnn_button.png').'" border="0" alt="Buy from Barnes and Noble"/></a></div>');
 }
 
 
@@ -54,6 +54,12 @@ function mbt_get_amazon_AISN($value) {
 	$matches = array();
 	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(o\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $value, $matches);
 	return empty($matches) ? '' : $matches[9];
+}
+
+function mbt_get_amazon_tld($value) {
+	$matches = array();
+	preg_match("/amazon\.([a-zA-Z\.]+)/", $value, $matches);
+	return empty($matches) ? '' : $matches[1];
 }
 
 function mbt_get_amazon_product_request($id) {
@@ -144,7 +150,8 @@ function mbt_amazon_buybutton_editor($data, $id, $buybuttons) {
 
 function mbt_amazon_buybutton_button($data) {
 	$id = mbt_get_amazon_AISN($data['value']);
-	$img = apply_filters('mbt_amazon_buybutton_image_url', plugins_url('images/amazon_button.png', dirname(__FILE__)));
-	$output = empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.com/dp/'.$id.'?tag=mybooktable-20" target="_blank"><img src="'.$img.'" border="0" alt="Buy from Amazon"/></a></div>';
+	$tld = mbt_get_amazon_tld($data['value']);
+	$img = mbt_image_url('amazon_button.png');
+	$output = empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.'.$tld.'/dp/'.$id.'?tag=mybooktable-20" target="_blank"><img src="'.$img.'" border="0" alt="Buy from Amazon"/></a></div>';
 	return apply_filters('mbt_amazon_buybutton', $output);
 }

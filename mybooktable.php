@@ -4,7 +4,7 @@ Plugin Name: MyBookTable
 Plugin URI: http://www.mybooktable.com
 Description: A WordPress Plugin to help authors sell more books and make affiliate money through sites like Amazon and Barnes & Noble.
 Author: Castle Media Group
-Version: 0.6.5
+Version: 0.6.6
 */
 
 require_once("includes/functions.php");
@@ -38,7 +38,7 @@ register_activation_hook(__FILE__, 'mbt_activate');
 /*---------------------------------------------------------*/
 
 function mbt_init() {
-	mbt_upgradecheck();
+	mbt_database_check();
 	mbt_load_settings();
 
 	if(isset($_GET['mbt_uninstall'])) {
@@ -46,6 +46,7 @@ function mbt_init() {
 	}
 
 	add_action('init', 'mbt_create_post_types_and_taxonomies');
+	add_action('wp_update_plugins', 'mbt_update_check');
 	add_action('admin_init', 'mbt_admin_init');
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
 

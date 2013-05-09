@@ -47,10 +47,10 @@ function mbt_metadata_metabox($post)
 ?>
 	<table class="form-table mbt_metadata_metabox">
 		<tr>
-			<th><label for="mbt_book_id">Book ID</label></th>
+			<th><label for="mbt_unique_id">ISBN</label></th>
 			<td>
-				<input type="text" name="mbt_book_id" id="mbt_book_id" value="<?php echo(get_post_meta($post->ID, "mbt_book_id", true)); ?>" />
-				<p class="description">SKU or Unique ID (optional)</p>
+				<input type="text" name="mbt_unique_id" id="mbt_unique_id" value="<?php echo(get_post_meta($post->ID, "mbt_unique_id", true)); ?>" />
+				<p class="description">Unique ID or SKU (optional)</p>
 			</td>
 		</tr>
 		<tr>
@@ -85,7 +85,7 @@ function mbt_save_metadata_metabox($post_id)
 
 	if(get_post_type($post_id) == "mbt_book")
 	{
-		if(isset($_POST['mbt_book_id'])) { update_post_meta($post_id, "mbt_book_id", $_POST['mbt_book_id']); }
+		if(isset($_POST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", $_POST['mbt_unique_id']); }
 		if(isset($_POST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_POST['mbt_price']); }
 		if(isset($_POST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_POST['mbt_sale_price']); }
 		if(isset($_POST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_POST['mbt_sample_url']); }

@@ -35,6 +35,7 @@ function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
 		do_action("mbt_buybutton_settings_save");
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
+		mbt_update_setting('buybutton_style', $_REQUEST['mbt_buybutton_style']);
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
 		mbt_update_setting('socialmedia_in_excerpts', isset($_REQUEST['mbt_socialmedia_in_excerpts'])?true:false);
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
@@ -64,8 +65,9 @@ function mbt_render_settings_page() {
 			<div id="mbt-tabs">
 				<ul>
 					<li><a href="#tabs-1">General Settings</a></li>
-					<li><a href="#tabs-2">Book Listings Settings</a></li>
-					<li><a href="#tabs-3">Uninstall</a></li>
+					<li><a href="#tabs-2">Buy Button Settings</a></li>
+					<li><a href="#tabs-3">Book Listings Settings</a></li>
+					<li><a href="#tabs-4">Uninstall</a></li>
 				</ul>
 				<div id="tabs-1">
 					<table class="form-table">
@@ -116,6 +118,31 @@ function mbt_render_settings_page() {
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
+								<th scope="row"><label for="mbt_buybutton_style">Buy Buttons Style</label></th>
+								<td>
+									<select name="mbt_buybutton_style" id="mbt_buybutton_style">
+										<?php $style = mbt_get_setting('buybutton_style'); ?>
+										<option value="default" <?php echo((empty($style) or $style == 'default') ? ' selected="selected"' : '') ?> >Default</option>
+										<?php /*foreach(mbt_get_buybutton_styles() as $style) { ?>
+
+
+											<?php <option value="<?php echo($page->ID); ?>" <?php echo(mbt_get_setting('booktable_page') == $page->ID ? ' selected="selected"' : ''); ?> ><?php echo($page->post_title); ?></option> ?>
+
+
+										<?php }*/ ?>
+									</select>
+									<p class="description">Choose the style pack you would like for your buttons.</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<?php do_action("mbt_buybutton_settings"); ?>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
+				</div>
+				<div id="tabs-3">
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
 								<th scope="row"><label for="mbt_series_in_excerpts">Show other books in the same Series in excerpts</label></th>
 								<td>
 									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
@@ -150,12 +177,11 @@ function mbt_render_settings_page() {
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
 				</div>
-				<div id="tabs-3">
+				<div id="tabs-4">
 					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" id="submit" class="button button-primary">Uninstall MyBookTable</a></p>
 					<p class="description">Use this to completely uninstall all MyBookTable settings, books, series, genres, and authors. WARNING: THIS IS PERMANENT.</p>
-
 				</div>
 			</div>
 
@@ -234,7 +260,7 @@ function mbt_render_landing_page() {
 		</div>
 
 		<div class="metabox-holder">
-			<div id="dashboard_recent_drafts" class="postbox">
+			<div id="mbt_dashboard_rss" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle"><span>Recent News from Author Media</span></h3>
 				<div class="inside">

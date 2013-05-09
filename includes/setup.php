@@ -4,12 +4,12 @@
 /* Upgrade Database                                        */
 /*---------------------------------------------------------*/
 
-function mbt_upgradecheck()
+function mbt_database_check()
 {
 	$version = get_option("mbt_version");
 
 	if(empty($version)) {
-		$version = mbt_upgrade_initial();
+		$version = mbt_database_initial();
 	}
 
 	/*if($version < 1.5) {
@@ -19,11 +19,12 @@ function mbt_upgradecheck()
 	update_option("mbt_version", $version);
 }
 
-function mbt_upgrade_initial() {
+function mbt_database_initial() {
 	$defaults = array(
 		'installed' => 0,
 		'installed_examples' => 0,
 		'booktable_page' => 0,
+		'buybutton_style' => 'default',
 		'series_in_excerpts' => false,
 		'socialmedia_in_excerpts' => false,
 		'posts_per_page' => false,
