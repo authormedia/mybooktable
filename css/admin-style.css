@@ -119,6 +119,9 @@
 	font-weight: bold;
 }
 
+.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .current-version {
+	color: #21759b;
+}
 
 /*---------------------------------------------------------*/
 /* Settings Pages                                          */

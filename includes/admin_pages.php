@@ -34,6 +34,10 @@ function mbt_add_admin_pages() {
 function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
 		do_action("mbt_buybutton_settings_save");
+		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
+			mbt_verify_api_key($_REQUEST['mbt_api_key']);
+			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
+		}
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
 		mbt_update_setting('buybutton_style', $_REQUEST['mbt_buybutton_style']);
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
@@ -73,7 +77,14 @@ function mbt_render_settings_page() {
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
-								<th scope="row"><label for="blogname">Booktable Page</label></th>
+								<th scope="row">API Key</th>
+								<td>
+									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" />
+									<p class="description">If you have purchased an API Key for MyBookTable, enter it here to activate your enhanced features.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row">Booktable Page</th>
 								<td>
 									<select name="mbt_booktable_page" id="mbt_booktable_page">
 										<option value="0" <?php echo(mbt_get_setting('booktable_page') <= 0 ? ' selected="selected"' : '') ?> > -- Choose One -- </option>
@@ -121,15 +132,11 @@ function mbt_render_settings_page() {
 								<th scope="row"><label for="mbt_buybutton_style">Buy Buttons Style</label></th>
 								<td>
 									<select name="mbt_buybutton_style" id="mbt_buybutton_style">
-										<?php $style = mbt_get_setting('buybutton_style'); ?>
-										<option value="default" <?php echo((empty($style) or $style == 'default') ? ' selected="selected"' : '') ?> >Default</option>
-										<?php /*foreach(mbt_get_buybutton_styles() as $style) { ?>
-
-
-											<?php <option value="<?php echo($page->ID); ?>" <?php echo(mbt_get_setting('booktable_page') == $page->ID ? ' selected="selected"' : ''); ?> ><?php echo($page->post_title); ?></option> ?>
-
-
-										<?php }*/ ?>
+										<?php $current_style = mbt_get_setting('buybutton_style'); ?>
+										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> >Default</option>
+										<?php foreach(mbt_get_buybutton_styles() as $style) { ?>
+											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
+										<?php } ?>
 									</select>
 									<p class="description">Choose the style pack you would like for your buttons.</p>
 								</td>
@@ -198,6 +205,8 @@ function mbt_render_help_page() {
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
 
+		<h4>Tutorial videos coming soon! In the meantime, we have these:</h4>
+
 		<h3>How do I kittens?</h3>
 		<iframe width="640" height="360" src="https://www.youtube.com/embed/gppbrYIcR80?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 		<p>In this video we describe how to blah blah blah</p>
@@ -205,6 +214,8 @@ function mbt_render_help_page() {
 		<h3>How do I puppies?</h3>
 		<iframe width="640" height="360" src="https://www.youtube.com/embed/5L28TM48bF0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 		<p>In this video we describe how to blah blah blah</p>
+
+		<?php do_action("mbt_render_help_page"); ?>
 
 	</div>
 
@@ -262,7 +273,7 @@ function mbt_render_landing_page() {
 		<div class="metabox-holder">
 			<div id="mbt_dashboard_rss" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span>Recent News from Author Media</span></h3>
+				<h3 class="hndle">Recent News from Author Media</h3>
 				<div class="inside">
 					<?php wp_widget_rss_output(array(
 						'link' => 'http://www.authormedia.com/',
@@ -273,6 +284,29 @@ function mbt_render_landing_page() {
 						'show_author' => 0,
 						'show_date' => 1,
 					)); ?>
+				</div>
+			</div>
+			<div id="mbt_dashboard_upsell" class="postbox">
+				<div class="handlediv" title="Click to toggle"><br></div>
+				<h3 class="hndle">Current Version</h3>
+				<div class="inside">
+					<?php if(mbt_get_setting('dev_active')) { ?>
+						<h1 class="currently-using pro">You are currently using <span class="current-version">MyBookTable Developer</span></h1>
+						<h2 class="thank-you">Thank you for your support!</h2>
+					<?php } else if(mbt_get_setting('pro_active')) { ?>
+						<h1 class="currently-using pro">You are currently using <span class="current-version">MyBookTable Professional</span></h1>
+						<h2 class="thank-you">Thank you for your support!</h2>
+					<?php } else { ?>
+						<h1 class="currently-using basic">You are currently using <span class="current-version">MyBookTable Basic</span></h1>
+						<h2 class="upgrade-title">Upgrade to MyBookTable Pro and get:</h2>
+						<ul class="upgrade-list">
+							<li>Free Support</li>
+							<li>Amazon Affiliate Integration</li>
+							<li>Barnes &amp; Noble Support</li>
+							<li>Universal Buy Button</li>
+							<li><a href="http://mybooktable.com" target="_blank">And much much more</a></li>
+						</ul>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

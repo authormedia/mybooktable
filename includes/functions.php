@@ -49,25 +49,59 @@ function mbt_is_mbt_page() {
 	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_singular('mbt_book') or (!empty($booktable_page) and is_page($booktable_page)));
 }
 
-function mbt_image_url($image) {
-	return apply_filters('mbt_image_url_'.$image, plugins_url('images/'.$image, dirname(__FILE__)));
-}
-
-
 
 
 /*---------------------------------------------------------*/
 /* API Interface                                           */
 /*---------------------------------------------------------*/
 
-function mbt_check_for_update() {
-	$version = get_option("mbt_version");
-	if(empty($version)) { return; }
+function mbt_verify_api_key($api_key) {
+	global $wp_version;
 
 	$to_send = array(
 		'action' => 'basic_check',
-		'version' => $version,
-		'api-key' => md5(get_bloginfo('url'))
+		'version' => MBT_VERSION,
+		'api-key' => $api_key,
+		'site' => md5(get_bloginfo('url'))
+	);
+
+	$options = array(
+		'timeout' => 3,
+		'body' => $to_send,
+		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
+	);
+
+	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/key-check', $options);
+
+	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) { return false; }
+
+	$response = maybe_unserialize(wp_remote_retrieve_body($raw_response));
+
+	if(!is_array($response)) { return; }
+
+	$key_valid = $response['key_valid'];
+
+	if($key_valid) {
+		$pro_active = $response['pro_active'];
+		mbt_update_setting('pro_active', !empty($pro_active));
+		$dev_active = $response['dev_active'];
+		mbt_update_setting('dev_active', !empty($dev_active));
+	} else {
+		mbt_update_setting('pro_active', false);
+		mbt_update_setting('dev_active', false);
+	}
+}
+
+function mbt_update_check() {
+	global $wp_version;
+	$api_key = mbt_get_setting('api_key');
+	if(empty($api_key)) { return; }
+
+	$to_send = array(
+		'action' => 'basic_check',
+		'version' => MBT_VERSION,
+		'api-key' => $api_key,
+		'site' => get_bloginfo('url')
 	);
 
 	$options = array(
@@ -76,7 +110,7 @@ function mbt_check_for_update() {
 		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
 	);
 
-	$raw_response = wp_remote_post('http://api.authormedia.com/plugins/mybooktable/update-check', $options);
+	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/update-check', $options);
 
 	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) { return false; }
 
@@ -89,7 +123,7 @@ function mbt_check_for_update() {
 
 	if(empty($new_version) or empty($response)) { return; }
 
-	$plugin_folder = plugin_basename(dirname(__FILE__));
+	$plugin_folder = plugin_basename(dirname(dirname(__FILE__)));
 	$data = (object) array(
 		'slug' => $plugin_folder,
 		'new_version' => $new_version,

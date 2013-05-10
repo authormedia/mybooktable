@@ -102,7 +102,10 @@ function mbt_buybuttons_metabox_ajax() {
 	echo('<div class="mbt_buybutton_editor">');
 	echo('<button class="mbt_buybutton_remover" style="float:right">Remove</button>');
 	$buybuttons = mbt_get_buybuttons();
-	echo($buybuttons[$_POST['type']]['editor'](array('type' => $_POST['type'], 'value' => ''), "mbt_buybutton".$_POST['num'], $buybuttons));
+	if(!isset($buybuttons[$_POST['type']])) { die(); }
+	$type = $buybuttons[$_POST['type']];
+	if(empty($type)) { die(); }
+	echo($type['editor'](array('type' => $_POST['type'], 'value' => ''), "mbt_buybutton".$_POST['num'], $buybuttons));
 	echo('</div>');
 	die();
 }
@@ -154,6 +157,7 @@ function mbt_buybuttons_metabox($post)
 	<?php
 
 	$buybuttons = mbt_get_buybuttons();
+	ksort($buybuttons);
 	echo('Choose One:');
 	echo('<select id="mbt_buybutton_selector">');
   		echo('<option value=""> -- Choose One -- </option>');
@@ -168,9 +172,13 @@ function mbt_buybuttons_metabox($post)
 	if(!empty($post_buybuttons)) {
 		for($i = 0; $i < count($post_buybuttons); $i++)
 		{
+			$button = $post_buybuttons[$i];
+			if(!isset($buybuttons[$button['type']])) { continue; }
+			$type = $buybuttons[$button['type']];
+			if(empty($type)) { continue; }
 			echo('<div class="mbt_buybutton_editor">');
 			echo('<button class="mbt_buybutton_remover" style="float:right">Remove</button>');
-			echo($buybuttons[$post_buybuttons[$i]['type']]['editor']($post_buybuttons[$i], "mbt_buybutton".$i, $buybuttons));
+			echo($type['editor']($post_buybuttons[$i], "mbt_buybutton".$i, $type));
 			echo('</div>');
 		}
 	}

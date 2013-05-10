@@ -62,6 +62,8 @@ function mbt_templates_init() {
 }
 add_action('mbt_init', 'mbt_templates_init');
 
+
+
 /*---------------------------------------------------------*/
 /* Template Overload Functions                             */
 /*---------------------------------------------------------*/
@@ -423,7 +425,11 @@ function mbt_get_formatted_book_buybuttons($post_id, $featured_only = false) {
 	if(!empty($book_buybuttons)) {
 		for($i = 0; $i < count($book_buybuttons); $i++)
 		{
-			$output .= $buybuttons[$book_buybuttons[$i]['type']]['button']($book_buybuttons[$i]);
+			$button = $book_buybuttons[$i];
+			if(!isset($buybuttons[$button['type']])) { continue; }
+			$type = $buybuttons[$button['type']];
+			if(empty($type)) { continue; }
+			$output .= $type['button']($button, $type);
 		}
 	}
 

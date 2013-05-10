@@ -5,45 +5,26 @@
 /*---------------------------------------------------------*/
 
 function mbt_get_buybuttons() {
-	$buybuttons = apply_filters("mbt_buybuttons", array());
-	ksort($buybuttons);
-	return $buybuttons;
-}
-
-function mbt_default_buybutton_editor($data, $id, $buybuttons) {
-	echo('<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">');
-	echo('<b>'.$buybuttons[$data['type']]['name'].':</b><br><textarea name="'.$id.'[value]" cols="80">'.$data['value'].'</textarea>');
-	echo('<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>');
+	return apply_filters("mbt_buybuttons", array());
 }
 
 function mbt_add_basic_buybuttons($buybuttons) {
 	$buybuttons['amazon'] = array('name' => 'Amazon', 'desc' => 'Amazon.com Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
-	$buybuttons['audible'] = array('name' => 'Audible.com', 'desc' => 'Audible.com Buy Button', 'editor' => 'mbt_default_buybutton_editor', 'button' => 'mbt_audible_buybutton_button');
-	$buybuttons['bnn'] = array('name' => 'Barnes and Noble', 'desc' => 'Barnes and Noble Buy Button', 'editor' => 'mbt_default_buybutton_editor', 'button' => 'mbt_bnn_buybutton_button');
-	$buybuttons['custom'] = array('name' => 'Custom Buy Button', 'desc' => 'Custom Buy Button', 'editor' => 'mbt_custom_buybutton_editor', 'button' => 'mbt_custom_buybutton_button');
+	$buybuttons['kindle'] = array('name' => 'Kindle', 'desc' => 'Kindle Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
 	return $buybuttons;
 }
 add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
 
-function mbt_custom_buybutton_editor($data, $id, $buybuttons) {
+function mbt_default_buybutton_editor($data, $id, $type) {
 	echo('<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">');
-	echo('<b>'.$buybuttons[$data['type']]['name'].':</b><br>');
-	echo('Button Text: <input type="text" name="'.$id.'[text]" value="'.(isset($data['text'])?$data['text']:'').'"><br>');
-	echo('Button Link: <input type="text" name="'.$id.'[value]" value="'.$data['value'].'">');
+	echo('<b>'.$type['name'].':</b><br><textarea name="'.$id.'[value]" cols="80">'.$data['value'].'</textarea>');
 	echo('<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>');
 }
 
-function mbt_custom_buybutton_button($data) {
-	return apply_filters('mbt_custom_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a class="mbt-custom-buybutton" href="'.$data['value'].'" target="_blank">'.$data['text'].'</a></div>');
+function mbt_default_buybutton_button($data, $type) {
+	return apply_filters('mbt_'.$data['type'].'_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>');
 }
 
-function mbt_audible_buybutton_button($data) {
-	return apply_filters('mbt_audible_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.mbt_image_url('audible_button.png').'" border="0" alt="Buy from Audible.com"/></a></div>');
-}
-
-function mbt_bnn_buybutton_button($data) {
-	return apply_filters('mbt_bnn_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.mbt_image_url('bnn_button.png').'" border="0" alt="Buy from Barnes and Noble"/></a></div>');
-}
 
 
 /*---------------------------------------------------------*/
@@ -125,7 +106,7 @@ function mbt_amazon_buybutton_preview() {
 }
 add_action('wp_ajax_mbt_amazon_buybutton_preview', 'mbt_amazon_buybutton_preview');
 
-function mbt_amazon_buybutton_editor($data, $id, $buybuttons) {
+function mbt_amazon_buybutton_editor($data, $id, $type) {
 	?>
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
@@ -144,14 +125,73 @@ function mbt_amazon_buybutton_editor($data, $id, $buybuttons) {
 		</script>
 	<?php
 	echo('<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">');
-	echo('<b>'.$buybuttons[$data['type']]['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_value" name="'.$id.'[value]" cols="80" rows="5">'.$data['value'].'</textarea>');
+	echo('<b>'.$type['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_value" name="'.$id.'[value]" cols="80" rows="5">'.$data['value'].'</textarea>');
 	echo('<p>Paste in the Amazon affiliate URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a></p>');
 }
 
-function mbt_amazon_buybutton_button($data) {
+function mbt_amazon_buybutton_button($data, $type) {
 	$id = mbt_get_amazon_AISN($data['value']);
 	$tld = mbt_get_amazon_tld($data['value']);
-	$img = mbt_image_url('amazon_button.png');
-	$output = empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.'.$tld.'/dp/'.$id.'?tag=mybooktable-20" target="_blank"><img src="'.$img.'" border="0" alt="Buy from Amazon"/></a></div>';
-	return apply_filters('mbt_amazon_buybutton', $output);
+	$img = mbt_image_url($data['type'].'_button.png');
+	$output = empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.'.$tld.'/dp/'.$id.'?tag=mybooktable-20" target="_blank"><img src="'.$img.'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
+	return apply_filters('mbt_'.$data['type'].'_buybutton', $output);
 }
+
+
+
+/*---------------------------------------------------------*/
+/* Styles                                                  */
+/*---------------------------------------------------------*/
+
+function mbt_image_url($image) {
+	$style = mbt_get_setting('buybutton_style');
+	if(empty($style)) { $style = 'Default'; }
+
+	$url = mbt_styled_image_url($image, $style);
+	if(empty($url)) { $url = mbt_styled_image_url($image, 'Default'); }
+	if(empty($url)) { $url = plugins_url('styles/Default/'.$image, dirname(__FILE__)); }
+
+	return apply_filters('mbt_image_url_'.$image, $url);
+}
+
+function mbt_styled_image_url($image, $style) {
+	$directories = mbt_get_style_directories();
+
+	foreach($directories as $directory) {
+		if(file_exists($directory['dir'].'/'.$style)) {
+			if(file_exists($directory['dir'].'/'.$style.'/'.$image)) {
+				return $directory['url'].'/'.$style.'/'.$image;
+			}
+		}
+	}
+
+	return '';
+}
+
+function mbt_get_buybutton_styles() {
+	$directories = mbt_get_style_directories();
+	$styles = array();
+
+	foreach($directories as $directory) {
+		if($handle = opendir($directory['dir'])) {
+			while(false !== ($folder = readdir($handle))) {
+				if ($folder != '.' and $folder != '..' and $folder != 'Default' and !in_array($folder, $styles)) {
+					$styles[] = $folder;
+				}
+			}
+			closedir($handle);
+		}
+	}
+
+	return $styles;
+}
+
+function mbt_get_style_directories() {
+	return apply_filters('mbt_style_directories', array());
+}
+
+function mbt_add_default_style_directory($directories) {
+	$directories[] = array('dir' => plugin_dir_path(dirname(__FILE__)).'styles', 'url' => plugins_url('styles', dirname(__FILE__)));
+	return $directories;
+}
+add_filter('mbt_style_directories', 'mbt_add_default_style_directory', 100);
