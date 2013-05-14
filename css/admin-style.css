@@ -106,11 +106,12 @@
 .mbt-landing-page .metabox-holder .postbox {
 	width: 40%;
 	float: left;
-	margin: 0px 20px 20px 0px;
+	margin: 0px 10px 10px 0px;
 }
 
 .mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside {
 	text-align: center;
+	padding: 15px 0;
 }
 
 .mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside ul {
@@ -121,6 +122,10 @@
 
 .mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .current-version {
 	color: #21759b;
+}
+
+.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .thank-you {
+	padding: 15px 0px 10px 0
 }
 
 /*---------------------------------------------------------*/

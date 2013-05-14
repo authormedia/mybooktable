@@ -13,6 +13,9 @@ function mbt_templates_init() {
 	//register booktable shortcode
 	add_shortcode('mbt_booktable', 'mbt_booktable_shortcode');
 
+	//register image size
+	add_image_size('mbt_book_image', 400, 400, false);
+
 	//modify body class
 	add_filter('body_class', 'mbt_override_body_class', 100);
 
@@ -322,21 +325,21 @@ function mbt_do_book_excerpt_series() {
 /* General Book Template Functions                         */
 /*---------------------------------------------------------*/
 
-function mbt_get_book_image($post_id, $size = 0) {
+function mbt_get_book_image($post_id) {
 	$src = '';
 
-	$image = apply_filters('mbt_book_image', wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'book-image'));
+	$image = apply_filters('mbt_book_image', wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'mbt_book_image'));
 	if($image) {
 		list($src, $width, $height) = $image;
 	} else {
-		$src = apply_filters('mbt_frontend_styles', plugins_url('images/book-placeholder.png', dirname(__FILE__)));
+		$src = apply_filters('mbt_frontend_styles', plugins_url('images/book-placeholder.jpg', dirname(__FILE__)));
 	}
 
 	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
 }
-function mbt_the_book_image($size = 0) {
+function mbt_the_book_image() {
 	global $post;
-	echo(mbt_get_book_image($post->ID, $size));
+	echo(mbt_get_book_image($post->ID));
 }
 
 
@@ -426,6 +429,7 @@ function mbt_get_formatted_book_buybuttons($post_id, $featured_only = false) {
 		for($i = 0; $i < count($book_buybuttons); $i++)
 		{
 			$button = $book_buybuttons[$i];
+			if(!empty($button['text_only'])) { continue; }
 			if(!isset($buybuttons[$button['type']])) { continue; }
 			$type = $buybuttons[$button['type']];
 			if(empty($type)) { continue; }
@@ -511,7 +515,7 @@ function mbt_get_book_series($post_id) {
 				$output .= '<div class="mbt-book-series-title">Other books in "'.$series->name.'":</div>';
 				foreach($relatedbooks->posts as $relatedbook) {
 					$output .= '<div class="mbt-book">';
-					$output .= '<div class="mbt-book-images"><a href="'.get_permalink($relatedbook->ID).'">'.mbt_get_book_image($relatedbook->ID, 150).'</a></div>';
+					$output .= '<div class="mbt-book-images"><a href="'.get_permalink($relatedbook->ID).'">'.mbt_get_book_image($relatedbook->ID).'</a></div>';
 					$output .= '<div class="mbt-book-title"><a href="'.get_permalink($relatedbook->ID).'">'.$relatedbook->post_title.'</a></div>';
 					$output .= '<div class="clear:both"></div>';
 					$output .= '</div>';

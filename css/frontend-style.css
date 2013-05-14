@@ -170,7 +170,7 @@
 
 
 /*---------------------------------------------------------*/
-/* Book Buttons                                            */
+/* Buy Buttons                                             */
 /*---------------------------------------------------------*/
 
 .mbt_book .mbt-book-buybuttons {
@@ -181,7 +181,7 @@
 	width: auto;
 	float: left;
 	clear: none;
-	padding: 5px 5px 2px 5px;
+	padding: 5px 10px 0px 0px;
 }
 
 .mbt_book .mbt-book-buybuttons .mbt-book-buybutton .mbt-custom-buybutton  {
@@ -273,6 +273,10 @@
 	padding-left: 5px;
 }
 
+.mbt-book-listing .mbt_book .mbt-book-socialmedia {
+	margin-left: 20px;
+}
+
 
 
 /*---------------------------------------------------------*/
@@ -330,7 +334,9 @@
 
 .mbt_book .mbt-book-series .mbt-book .mbt-book-images {
 	width: 150px;
-	padding: 20px;
+	height: 150px;
+	margin: 20px;
+	overflow: hidden;
 }
 
 

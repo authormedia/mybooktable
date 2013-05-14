@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress Plugin to help authors sell more books and make affiliate money through sites like Amazon and Barnes & Noble.
+A WordPress Bookstore Plugin to help authors sell more books.
 
 == Description ==
 

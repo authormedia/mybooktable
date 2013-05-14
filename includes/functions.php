@@ -55,8 +55,10 @@ function mbt_is_mbt_page() {
 /* API Interface                                           */
 /*---------------------------------------------------------*/
 
-function mbt_verify_api_key($api_key) {
+function mbt_set_api_key($api_key) {
 	global $wp_version;
+
+	if($api_key == mbt_get_setting('api_key')) { return; }
 
 	$to_send = array(
 		'action' => 'basic_check',
@@ -90,6 +92,8 @@ function mbt_verify_api_key($api_key) {
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	}
+
+	mbt_update_setting('api_key', $api_key);
 }
 
 function mbt_update_check() {

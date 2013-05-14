@@ -15,7 +15,7 @@ function mbt_load_admin_style() {
 }
 
 function mbt_add_admin_pages() {
-	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_landing_page", 'mbt_render_landing_page', plugins_url('images/icon.png', dirname(__FILE__)), 10);
+	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_landing_page", 'mbt_render_landing_page', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
 	add_submenu_page("mbt_landing_page", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_book");
 	add_submenu_page("mbt_landing_page", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author");
 	add_submenu_page("mbt_landing_page", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre");
@@ -34,10 +34,7 @@ function mbt_add_admin_pages() {
 function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
 		do_action("mbt_buybutton_settings_save");
-		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
-			mbt_verify_api_key($_REQUEST['mbt_api_key']);
-			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
-		}
+		mbt_set_api_key($_REQUEST['mbt_api_key']);
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
 		mbt_update_setting('buybutton_style', $_REQUEST['mbt_buybutton_style']);
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
@@ -205,15 +202,11 @@ function mbt_render_help_page() {
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
 
-		<h4>Tutorial videos coming soon! In the meantime, we have these:</h4>
+		<h3>Books and Series</h3>
+		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>
+		<p>This video shows you how to add books into a series.</p>
 
-		<h3>How do I kittens?</h3>
-		<iframe width="640" height="360" src="https://www.youtube.com/embed/gppbrYIcR80?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-		<p>In this video we describe how to blah blah blah</p>
-
-		<h3>How do I puppies?</h3>
-		<iframe width="640" height="360" src="https://www.youtube.com/embed/5L28TM48bF0?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
-		<p>In this video we describe how to blah blah blah</p>
+		<br><br><h2>More tutorial videos coming soon!</h2>
 
 		<?php do_action("mbt_render_help_page"); ?>
 
@@ -229,7 +222,7 @@ function mbt_render_landing_page() {
 		<div id="icon-index" class="icon32"><br></div><h2>MyBookTable</h2>
 		<div class="welcome-video-container">
 			<div class="welcome-video welcome-panel">
-				<iframe width="640" height="360" src="https://www.youtube.com/embed/gppbrYIcR80?feature=player_detailpage" frameborder="0" allowfullscreen></iframe><br>
+				<iframe width="640" height="360" src="http://player.vimeo.com/video/66113243" frameborder="0" allowfullscreen></iframe><br>
 				<a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>">More Tutorial Videos</a>
 			</div>
 		</div>
@@ -273,7 +266,7 @@ function mbt_render_landing_page() {
 		<div class="metabox-holder">
 			<div id="mbt_dashboard_rss" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle">Recent News from Author Media</h3>
+				<h3 class="hndle">Book Marketing Tips from Author Media</h3>
 				<div class="inside">
 					<?php wp_widget_rss_output(array(
 						'link' => 'http://www.authormedia.com/',
@@ -291,13 +284,13 @@ function mbt_render_landing_page() {
 				<h3 class="hndle">Current Version</h3>
 				<div class="inside">
 					<?php if(mbt_get_setting('dev_active')) { ?>
-						<h1 class="currently-using pro">You are currently using <span class="current-version">MyBookTable Developer</span></h1>
+						<h1 class="currently-using pro">You are currently using <span class="current-version">MyBookTable Developer <?php echo(MBT_VERSION); ?></span></h1>
 						<h2 class="thank-you">Thank you for your support!</h2>
 					<?php } else if(mbt_get_setting('pro_active')) { ?>
-						<h1 class="currently-using pro">You are currently using <span class="current-version">MyBookTable Professional</span></h1>
+						<h1 class="currently-using pro">You are currently using <span class="current-version">MyBookTable Professional <?php echo(MBT_VERSION); ?></span></h1>
 						<h2 class="thank-you">Thank you for your support!</h2>
 					<?php } else { ?>
-						<h1 class="currently-using basic">You are currently using <span class="current-version">MyBookTable Basic</span></h1>
+						<h1 class="currently-using basic">You are currently using <span class="current-version">MyBookTable Basic <?php echo(MBT_VERSION); ?></span></h1>
 						<h2 class="upgrade-title">Upgrade to MyBookTable Pro and get:</h2>
 						<ul class="upgrade-list">
 							<li>Free Support</li>
@@ -321,6 +314,14 @@ function mbt_render_landing_page() {
 /*---------------------------------------------------------*/
 /* Custom Images for Taxonomies                            */
 /*---------------------------------------------------------*/
+
+function mbt_taxonomy_image_add_screen_post_type() {
+	global $current_screen, $taxonomy;
+	if(isset($_REQUEST['taxonomy']) and ($_REQUEST['taxonomy'] == 'mbt_author' or $_REQUEST['taxonomy'] == 'mbt_genre' or $_REQUEST['taxonomy'] == 'mbt_series')) {
+		$current_screen->post_type = "mbt_book";
+	}
+}
+add_action('in_admin_header', 'mbt_taxonomy_image_add_screen_post_type');
 
 add_filter('mbt_author_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
 add_filter('mbt_author_add_form_fields', 'mbt_add_taxonomy_image_add_form');

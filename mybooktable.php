@@ -2,12 +2,13 @@
 /*
 Plugin Name: MyBookTable
 Plugin URI: http://www.mybooktable.com
-Description: A WordPress Plugin to help authors sell more books and make affiliate money through sites like Amazon and Barnes & Noble.
-Author: Castle Media Group
-Version: 0.6.7
+Description: A WordPress Bookstore Plugin to help authors sell more books.
+Author: Author Media
+Author URI: http://www.authormedia.com
+Version: 0.6.8
 */
 
-define("MBT_VERSION", "0.6.7");
+define("MBT_VERSION", "0.6.8");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");

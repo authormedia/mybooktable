@@ -10,7 +10,7 @@ function mbt_get_buybuttons() {
 
 function mbt_add_basic_buybuttons($buybuttons) {
 	$buybuttons['amazon'] = array('name' => 'Amazon', 'desc' => 'Amazon.com Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
-	$buybuttons['kindle'] = array('name' => 'Kindle', 'desc' => 'Kindle Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
+	$buybuttons['kindle'] = array('name' => 'Amazon Kindle', 'desc' => 'Amazon Kindle Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
 	return $buybuttons;
 }
 add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
@@ -18,6 +18,7 @@ add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
 function mbt_default_buybutton_editor($data, $id, $type) {
 	echo('<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">');
 	echo('<b>'.$type['name'].':</b><br><textarea name="'.$id.'[value]" cols="80">'.$data['value'].'</textarea>');
+	//echo('<input name="'.$id.'[text_only]" type="checkbox" '.(!empty($data['text_only']) ? ' checked="checked"' : '').'> Show text only?');
 	echo('<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>');
 }
 

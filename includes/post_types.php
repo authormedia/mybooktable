@@ -26,7 +26,6 @@ function mbt_create_post_types_and_taxonomies()
 		'query_var' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
-		'menu_icon' => plugins_url('images/option-icon-cart.png', dirname(__FILE__)),
 		'menu_position' => 5,
 		'exclude_from_search' => false,
 		'has_archive' => true,
