@@ -175,9 +175,9 @@ function mbt_buybuttons_metabox($post)
 			});
 
 			function display_description(display) {
-				if(display == "book_only") { return "This button will be displayed only on the book page."; }
-				if(display == "text_only") { return "This button will be displayed as text underneith the other buttons on the book page."; }
-				if(display == "featured") { return "This button will be displayed on the book listings and the book page."; }
+				if(display == "book_only") { return "This store will be displayed as a button only on the book page."; }
+				if(display == "text_only") { return "This store will be displayed as text underneith the other buttons only on the book page."; }
+				if(display == "featured") { return "This store will be displayed as a button on the book listings and the book page."; }
 			}
 			function apply_display_title() {
 				element = jQuery(this)
@@ -197,7 +197,7 @@ function mbt_buybuttons_metabox($post)
 			jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
 
 			function enable_sortability(element) {
-				element.sortable({cancel: ".mbt_buybutton_editor_fields", cursor: "move", stop: function(){reset_numbers();console.log("reset");}});
+				element.sortable({cancel: ".mbt_buybutton_editor_fields", cursor:"move", stop: function(){reset_numbers();}});
 				element.find(".mbt_buybutton_editor_header").disableSelection();
 			}
 			enable_sortability(jQuery("#mbt_buybutton_editors"));
