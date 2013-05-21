@@ -7,10 +7,13 @@ function mbt_admin_pages_init() {
 add_action('mbt_init', 'mbt_admin_pages_init');
 
 function mbt_load_admin_style() {
-	wp_register_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
-	wp_enqueue_style('mbt_admin_css');
+	wp_enqueue_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
 	wp_enqueue_script('jquery-ui-core');
+	wp_enqueue_script('jquery-ui-widget');
+	wp_enqueue_script('jquery-ui-position');
 	wp_enqueue_script('jquery-ui-tabs');
+	wp_enqueue_script('jquery-ui-sortable');
+	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
 	wp_enqueue_style('jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
 }
 
@@ -33,16 +36,19 @@ function mbt_add_admin_pages() {
 
 function mbt_render_settings_page() {
 	if(isset($_REQUEST['save_settings'])) {
-		do_action("mbt_buybutton_settings_save");
+		do_action('mbt_settings_save');
+
 		mbt_set_api_key($_REQUEST['mbt_api_key']);
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
-		mbt_update_setting('buybutton_style', $_REQUEST['mbt_buybutton_style']);
-		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
-		mbt_update_setting('socialmedia_in_excerpts', isset($_REQUEST['mbt_socialmedia_in_excerpts'])?true:false);
-		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
+		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
+
+		mbt_update_setting('mbt_disable_socialmedia_badges_single_book', isset($_REQUEST['mbt_disable_socialmedia_badges_single_book'])?true:false);
+		mbt_update_setting('mbt_disable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_disable_socialmedia_badges_book_excerpt'])?true:false);
+		mbt_update_setting('mbt_disable_socialmedia_bar_single_book', isset($_REQUEST['mbt_disable_socialmedia_bar_single_book'])?true:false);
+
 		mbt_update_setting('disable_seo', isset($_REQUEST['mbt_disable_seo'])?true:false);
-		mbt_update_setting('disable_socialmedia', isset($_REQUEST['mbt_disable_socialmedia'])?true:false);
-		mbt_update_setting('featured_buybuttons', isset($_REQUEST['mbt_featured_buybuttons'])?$_REQUEST['mbt_featured_buybuttons']:array());
+		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
+		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
 		$settings_updated = true;
 	}
@@ -67,8 +73,10 @@ function mbt_render_settings_page() {
 				<ul>
 					<li><a href="#tabs-1">General Settings</a></li>
 					<li><a href="#tabs-2">Buy Button Settings</a></li>
-					<li><a href="#tabs-3">Book Listings Settings</a></li>
-					<li><a href="#tabs-4">Uninstall</a></li>
+					<li><a href="#tabs-3">Social Media Settings</a></li>
+					<li><a href="#tabs-4">SEO Settings</a></li>
+					<li><a href="#tabs-5">Book Listings Settings</a></li>
+					<li><a href="#tabs-6">Uninstall</a></li>
 				</ul>
 				<div id="tabs-1">
 					<table class="form-table">
@@ -76,6 +84,17 @@ function mbt_render_settings_page() {
 							<tr valign="top">
 								<th scope="row">API Key</th>
 								<td>
+									<div class="mbt_api_key_feedback">
+										<?php
+										if(mbt_get_setting('api_key')) {
+											if(mbt_get_setting('api_key_valid')) {
+												echo('<span class="key_valid">API Key Valid for MyBookTable '.(mbt_get_setting('dev_active') ? 'Developer' : (mbt_get_setting('pro_active') ? 'Professional' : 'Basic')).'</span>');
+											} else {
+												echo('<span class="key_invalid">Invalid API Key</span>');
+											}
+										}
+										?>
+									</div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" />
 									<p class="description">If you have purchased an API Key for MyBookTable, enter it here to activate your enhanced features.</p>
 								</td>
@@ -105,17 +124,16 @@ function mbt_render_settings_page() {
 								</tr>
 							<?php } ?>
 							<tr valign="top">
-								<th scope="row"><label for="mbt_disable_seo">Disable SEO</label></th>
+								<th scope="row"><label for="mbt_style_pack">Style Pack</label></th>
 								<td>
-									<input type="checkbox" name="mbt_disable_seo" id="mbt_disable_seo" <?php echo(mbt_get_setting('disable_seo') ? ' checked="checked"' : ''); ?> >
-									<p class="description">Check to disable MyBookTable's built-in SEO features.</p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_disable_seo">Disable Social Media</label></th>
-								<td>
-									<input type="checkbox" name="mbt_disable_socialmedia" id="mbt_disable_socialmedia" <?php echo(mbt_get_setting('disable_socialmedia') ? ' checked="checked"' : ''); ?> >
-									<p class="description">Check to disable MyBookTable's built-in social media features.</p>
+									<select name="mbt_style_pack" id="mbt_style_pack">
+										<?php $current_style = mbt_get_setting('style_pack'); ?>
+										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> >Default</option>
+										<?php foreach(mbt_get_style_packs() as $style) { ?>
+											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
+										<?php } ?>
+									</select>
+									<p class="description">Choose the style pack you would like for your buy buttons.</p>
 								</td>
 							</tr>
 						</tbody>
@@ -123,41 +141,59 @@ function mbt_render_settings_page() {
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
 				</div>
 				<div id="tabs-2">
-					<table class="form-table">
-						<tbody>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_buybutton_style">Buy Buttons Style</label></th>
-								<td>
-									<select name="mbt_buybutton_style" id="mbt_buybutton_style">
-										<?php $current_style = mbt_get_setting('buybutton_style'); ?>
-										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> >Default</option>
-										<?php foreach(mbt_get_buybutton_styles() as $style) { ?>
-											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
-										<?php } ?>
-									</select>
-									<p class="description">Choose the style pack you would like for your buttons.</p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<?php do_action("mbt_buybutton_settings"); ?>
+					<?php do_action("mbt_buybutton_settings_render"); ?>
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
 				</div>
 				<div id="tabs-3">
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
-								<th scope="row"><label for="mbt_series_in_excerpts">Show other books in the same Series in excerpts</label></th>
+								<th scope="row"><label for="mbt_disable_socialmedia_badges_single_book">Disable Social Media Badges on Book Pages</label></th>
 								<td>
-									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
-									<p class="description">If checked, the related books will display in book excerpts in book listings.</p>
+									<input type="checkbox" name="mbt_disable_socialmedia_badges_single_book" id="mbt_disable_socialmedia_badges_single_book" <?php echo(mbt_get_setting('disable_socialmedia_badges_single_book') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable MyBookTable's social media badges on book pages.</p>
 								</td>
 							</tr>
 							<tr valign="top">
-								<th scope="row"><label for="mbt_series_in_excerpts">Show social media buttons in excerpts</label></th>
+								<th scope="row"><label for="mbt_disable_socialmedia_badges_book_excerpt">Disable Social Media Badges on Book Listings</label></th>
 								<td>
-									<input type="checkbox" name="mbt_socialmedia_in_excerpts" id="mbt_socialmedia_in_excerpts" <?php echo(mbt_get_setting('socialmedia_in_excerpts') ? ' checked="checked"' : ''); ?> >
-									<p class="description">If checked, the social media buttons will display in book excerpts in book listings.</p>
+									<input type="checkbox" name="mbt_disable_socialmedia_badges_book_excerpt" id="mbt_disable_socialmedia_badges_book_excerpt" <?php echo(mbt_get_setting('disable_socialmedia_badges_book_excerpt') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable MyBookTable's social media badges on book listings.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_disable_socialmedia_bar_single_book">Disable Social Media Bar on Book Pages</label></th>
+								<td>
+									<input type="checkbox" name="mbt_disable_socialmedia_bar_single_book" id="mbt_disable_socialmedia_bar_single_book" <?php echo(mbt_get_setting('disable_socialmedia_bar_single_book') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable the social media bar on book pages.</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
+				</div>
+				<div id="tabs-4">
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_disable_seo">Disable SEO</label></th>
+								<td>
+									<input type="checkbox" name="mbt_disable_seo" id="mbt_disable_seo" <?php echo(mbt_get_setting('disable_seo') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to disable MyBookTable's built-in SEO features.</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
+				</div>
+				<div id="tabs-5">
+					<table class="form-table">
+						<tbody>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_series_in_excerpts">Show other books in the same Series in book listings</label></th>
+								<td>
+									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
+									<p class="description">If checked, the related books will display under the book in book listings.</p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -167,23 +203,11 @@ function mbt_render_settings_page() {
 									<p class="description">Choose the number of books to show per page on the book listings.</p>
 								</td>
 							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="blogname">Featured Buy Buttons</label></th>
-								<td>
-									<?php
-										$mbt_featured_buybuttons = mbt_get_setting('featured_buybuttons');
-										foreach(mbt_get_buybuttons() as $type=>$button) {
-											echo('<input type="checkbox" name="mbt_featured_buybuttons['.$type.']" '.(isset($mbt_featured_buybuttons[$type]) ? ' checked="checked"' : '').' > '.$button['name'].'<br>');
-										}
-									?>
-									<p class="description">Featured Buy Buttons show up on book listings.</p>
-								</td>
-							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
+					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=4');"></p>
 				</div>
-				<div id="tabs-4">
+				<div id="tabs-6">
 					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" id="submit" class="button button-primary">Uninstall MyBookTable</a></p>
 					<p class="description">Use this to completely uninstall all MyBookTable settings, books, series, genres, and authors. WARNING: THIS IS PERMANENT.</p>
 				</div>
@@ -201,6 +225,8 @@ function mbt_render_help_page() {
 
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
+
+		<h4>MyBookTable is still in Beta and we are changing and improving things all the time. We hope the following tutorials prove helpful, but they are not guaranteed to exactly line up with the current MyBookTable interface.</h4>
 
 		<h3>Books and Series</h3>
 		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>

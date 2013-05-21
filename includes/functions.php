@@ -52,18 +52,81 @@ function mbt_is_mbt_page() {
 
 
 /*---------------------------------------------------------*/
-/* API Interface                                           */
+/* Styles                                                  */
+/*---------------------------------------------------------*/
+
+function mbt_image_url($image) {
+	$style = mbt_get_setting('style_pack');
+	if(empty($style)) { $style = 'Default'; }
+
+	$url = mbt_styled_image_url($image, $style);
+	if(empty($url)) { $url = mbt_styled_image_url($image, 'Default'); }
+	if(empty($url)) { $url = plugins_url('styles/Default/'.$image, dirname(__FILE__)); }
+
+	return apply_filters('mbt_image_url_'.$image, $url);
+}
+
+function mbt_styled_image_url($image, $style) {
+	$folders = mbt_get_style_folders();
+
+	foreach($folders as $folder) {
+		if(file_exists($folder['dir'].'/'.$style)) {
+			if(file_exists($folder['dir'].'/'.$style.'/'.$image)) {
+				return $folder['url'].'/'.$style.'/'.$image;
+			}
+		}
+	}
+
+	return '';
+}
+
+function mbt_get_style_packs() {
+	$folders = mbt_get_style_folders();
+	$styles = array();
+
+	foreach($folders as $folder) {
+		if($handle = opendir($folder['dir'])) {
+			while(false !== ($entry = readdir($handle))) {
+				if ($entry != '.' and $entry != '..' and $entry != 'Default' and !in_array($entry, $styles)) {
+					$styles[] = $entry;
+				}
+			}
+			closedir($handle);
+		}
+	}
+
+	return $styles;
+}
+
+function mbt_get_style_folders() {
+	return apply_filters('mbt_style_folders', array());
+}
+
+function mbt_add_default_style_folder($folders) {
+	$folders[] = array('dir' => plugin_dir_path(dirname(__FILE__)).'styles', 'url' => plugins_url('styles', dirname(__FILE__)));
+	return $folders;
+}
+add_filter('mbt_style_folders', 'mbt_add_default_style_folder', 100);
+
+
+
+/*---------------------------------------------------------*/
+/* API / Updates                                           */
 /*---------------------------------------------------------*/
 
 function mbt_set_api_key($api_key) {
-	global $wp_version;
-
 	if($api_key == mbt_get_setting('api_key')) { return; }
+	mbt_update_setting('api_key', $api_key);
+	mbt_verify_api_key();
+}
+
+function mbt_verify_api_key() {
+	global $wp_version;
 
 	$to_send = array(
 		'action' => 'basic_check',
 		'version' => MBT_VERSION,
-		'api-key' => $api_key,
+		'api-key' => mbt_get_setting('api_key'),
 		'site' => md5(get_bloginfo('url'))
 	);
 
@@ -84,19 +147,19 @@ function mbt_set_api_key($api_key) {
 	$key_valid = $response['key_valid'];
 
 	if($key_valid) {
+		mbt_update_setting('api_key_valid', true);
 		$pro_active = $response['pro_active'];
 		mbt_update_setting('pro_active', !empty($pro_active));
 		$dev_active = $response['dev_active'];
 		mbt_update_setting('dev_active', !empty($dev_active));
 	} else {
+		mbt_update_setting('api_key_valid', false);
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	}
-
-	mbt_update_setting('api_key', $api_key);
 }
 
-function mbt_update_check() {
+function mbt_update_check($updates) {
 	global $wp_version;
 	$api_key = mbt_get_setting('api_key');
 	if(empty($api_key)) { return; }
@@ -135,7 +198,15 @@ function mbt_update_check() {
 		'package' => $package
 	);
 
-	$plugin_transient = get_site_transient('update_plugins');
-	$plugin_transient->response[$plugin_folder.'/mybooktable.php'] = $data;
-	set_site_transient('update_plugins', $plugin_transient);
+	$updates->response[$plugin_folder.'/mybooktable.php'] = $data;
+
+	return apply_filters('mbt_update_check', $updates);
 }
+
+function mbt_plugin_information() {
+	if($_REQUEST['plugin'] == "mybooktable") {
+		wp_redirect('http://www.authormedia.com/mybooktable');
+		die();
+	}
+}
+add_action('install_plugins_pre_plugin-information', 'mbt_plugin_information');

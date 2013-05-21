@@ -24,6 +24,52 @@
 	color: red;
 }
 
+#mbt_buybuttons .mbt_buybutton_editor {
+	border: 1px solid #DFDFDF;
+	border-radius: 5px;
+	margin: 5px;
+	background: #F5F5F5;
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_editor_header {
+	background: #ececec;
+	border-radius: 5px 5px 0px 0px;
+	padding: 5px;
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_title {
+	margin: 5px;
+	font-size: 14px;
+	display: inline-block;
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_remover {
+	float: right;
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_editor_fields {
+	padding: 5px;
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_display_selector {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_display_selector.display_featured {
+	background: url('../images/display_featured.png');
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_display_selector.display_book_only {
+	background: url('../images/display_book_only.png');
+}
+
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_display_selector.display_text_only {
+	background: url('../images/display_text_only.png');
+}
+
 #mbt_buybuttons .error_message {
 	font-weight: bold;
 	color: red;
@@ -139,6 +185,22 @@
 .mbt_settings th {
 	width:18%;
 	font-weight: bold;
+}
+
+.mbt_settings .mbt_api_key_feedback .key_valid {
+	display: inline-block;
+	padding-bottom: 8px;
+	background: url('../images/tick.png') 0px 2px no-repeat;
+	padding-left: 20px;
+	color: #5FA556;
+}
+
+.mbt_settings .mbt_api_key_feedback .key_invalid {
+	display: inline-block;
+	padding-bottom: 8px;
+	background: url('../images/exclamation.png') 0px 2px no-repeat;
+	padding-left: 20px;
+	color: #E66455;
 }
 
 /*---------------------------------------------------------*/

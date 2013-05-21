@@ -1,1 +1,0 @@
-<div class="mbt-book-socialmedia"><?php mbt_the_book_socialmedia(); ?></div>

@@ -9,14 +9,14 @@ function mbt_database_check()
 	$version = get_option("mbt_version");
 
 	if(empty($version)) {
-		$version = mbt_database_initial();
+		mbt_database_initial();
 	}
 
-	/*if($version < 1.5) {
-		$version = mbt_upgrade_1_5();
-	}*/
+	if($version == "1.0.0") {
+		mbt_database_upgrade_0_7_0();
+	}
 
-	update_option("mbt_version", $version);
+	update_option("mbt_version", MBT_VERSION);
 }
 
 function mbt_database_initial() {
@@ -25,18 +25,38 @@ function mbt_database_initial() {
 		'installed' => 0,
 		'installed_examples' => 0,
 		'booktable_page' => 0,
-		'buybutton_style' => 'Default',
+		'style_pack' => 'Default',
+		'disable_socialmedia_badges_single_book' => false,
+		'disable_socialmedia_badges_book_excerpt' => false,
+		'disable_socialmedia_bar_single_book' => false,
+		'disable_seo' => false,
 		'series_in_excerpts' => false,
-		'socialmedia_in_excerpts' => false,
-		'posts_per_page' => false,
-		'featured_buybuttons' => array('amazon' => 'on'),
-		'disable_socialmedia' => false,
-		'disable_seo' => false
+		'posts_per_page' => false
 	);
 	$defaults = apply_filters("mbt_default_settings", $defaults);
 	update_option("mbt_settings", apply_filters("mbt_update_settings", $defaults));
+}
 
-	return 1.0;
+function mbt_database_upgrade_0_7_0() {
+	global $wpdb;
+	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
+	if(!empty($books)) {
+		foreach($books as $book_id) {
+			$buybuttons = get_post_meta($book_id, 'mbt_buybuttons', true);
+			if(!empty($buybuttons)) {
+				foreach($buybuttons as &$button) {
+					if(!empty($button['value'])) {
+						$button['url'] = $button['value'];
+						unset($button['value']);
+					}
+					$button['display'] = 'featured';
+				}
+			}
+			update_post_meta($book_id, 'mbt_buybuttons', $buybuttons);
+		}
+	}
+	mbt_load_settings();
+	mbt_verify_api_key();
 }
 
 

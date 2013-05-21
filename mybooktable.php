@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: MyBookTable
-Plugin URI: http://www.mybooktable.com
+Plugin URI: http://www.authormedia.com/mybooktable
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 0.6.8
+Version: 0.7.0
 */
 
-define("MBT_VERSION", "0.6.8");
+define("MBT_VERSION", "0.7.0");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -50,7 +50,7 @@ function mbt_init() {
 
 	add_action('init', 'mbt_create_post_types_and_taxonomies');
 	add_action('admin_init', 'mbt_admin_init');
-	add_action('wp_update_plugins', 'mbt_update_check');
+	add_filter('pre_set_site_transient_update_plugins', 'mbt_update_check');
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
 
 	if(function_exists('mbtdev_init')) { mbtdev_init(); } else if(function_exists('mbtpro_init')) { mbtpro_init(); }

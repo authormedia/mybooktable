@@ -213,6 +213,7 @@
 	margin: 0;
 	padding: 6px 15px;
 	min-width: 70px;
+	min-height: 21px;
 }
 
 .mbt_book .mbt-book-buybuttons .mbt-book-buybutton img {
@@ -222,6 +223,15 @@
     width: auto;
 	border-radius: 0px;
 	box-shadow: none;
+	vertical-align: bottom;
+}
+
+.mbt_book .mbt-book-buybuttons-textonly  {
+	display: inline-block;
+}
+
+.mbt_book .mbt-book-buybuttons-textonly h3  {
+	margin: 15px 0px 0px 0px;
 }
 
 
@@ -263,18 +273,14 @@
 /* Book Social Media                                       */
 /*---------------------------------------------------------*/
 
-.mbt_book .mbt-book-socialmedia {
+.mbt_book .mbt-book-socialmedia-bar {
 	clear: both;
 	padding-top: 10px;
 }
 
-.mbt_book .mbt-book-upper-socialmedia {
+.mbt_book .mbt-book-socialmedia-badges {
 	float: right;
 	padding-left: 5px;
-}
-
-.mbt-book-listing .mbt_book .mbt-book-socialmedia {
-	margin-left: 20px;
 }
 
 

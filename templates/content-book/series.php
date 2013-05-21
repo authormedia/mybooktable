@@ -1,1 +1,1 @@
-<?php mbt_the_book_series(); ?>
+<?php mbt_the_book_series_box(); ?>

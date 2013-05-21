@@ -9,21 +9,40 @@ function mbt_get_buybuttons() {
 }
 
 function mbt_add_basic_buybuttons($buybuttons) {
-	$buybuttons['amazon'] = array('name' => 'Amazon', 'desc' => 'Amazon.com Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
-	$buybuttons['kindle'] = array('name' => 'Amazon Kindle', 'desc' => 'Amazon Kindle Buy Button', 'editor' => 'mbt_amazon_buybutton_editor', 'button' => 'mbt_amazon_buybutton_button');
+	$buybuttons['amazon'] = array('name' => 'Amazon', 'desc' => 'Amazon.com Buy Button');
+	$buybuttons['kindle'] = array('name' => 'Amazon Kindle', 'desc' => 'Amazon Kindle Buy Button');
 	return $buybuttons;
 }
 add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
 
-function mbt_default_buybutton_editor($data, $id, $type) {
-	echo('<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">');
-	echo('<b>'.$type['name'].':</b><br><textarea name="'.$id.'[value]" cols="80">'.$data['value'].'</textarea>');
-	//echo('<input name="'.$id.'[text_only]" type="checkbox" '.(!empty($data['text_only']) ? ' checked="checked"' : '').'> Show text only?');
-	echo('<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>');
+function mbt_buybutton_editor($data, $id, $type) {
+	$output  = '<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">';
+	$output .= '<textarea name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : $data['url']).'</textarea>';
+	$output .= '<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>';
+	return apply_filters('mbt_'.$data['type'].'_buybutton_editor', apply_filters('mbt_buybutton_editor', $output, $data, $id, $type), $data, $id, $type);
 }
 
-function mbt_default_buybutton_button($data, $type) {
-	return apply_filters('mbt_'.$data['type'].'_buybutton', empty($data['value']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['value'].'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>');
+function mbt_buybutton_button($data, $type) {
+	if(!empty($data['display']) and $data['display'] == 'text_only') {
+		$output = empty($data['url']) ? '' : '<li><a href="'.$data['url'].'" target="_blank">Buy from '.$type['name'].'</a></li>';
+	} else {
+		$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['url'].'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
+	}
+	return apply_filters('mbt_'.$data['type'].'_buybutton_button', apply_filters('mbt_buybutton_button', $output, $data, $type), $data, $type);
+}
+
+function mbt_get_book_buybuttons($post_id, $query = '') {
+	$buybuttons = get_post_meta($post_id, "mbt_buybuttons", true);
+	if(!empty($buybuttons) and !empty($query)) {
+		foreach($buybuttons as $i=>$button)
+		{
+			foreach($query as $key=>$value) {
+				if(!empty($button[$key]) and !((is_array($value) and in_array($button[$key], $value)) or $button[$key] == $value)) { unset($buybuttons[$i]); continue; }
+			}
+		}
+		$buybuttons = array_values($buybuttons);
+	}
+	return apply_filters('mbt_get_book_buybuttons', empty($buybuttons) ? array() : $buybuttons);
 }
 
 
@@ -32,167 +51,81 @@ function mbt_default_buybutton_button($data, $type) {
 /* Amazon Buy Buttons Functions                            */
 /*---------------------------------------------------------*/
 
-function mbt_get_amazon_AISN($value) {
+function mbt_get_amazon_AISN($url) {
 	$matches = array();
-	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(o\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $value, $matches);
+	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(o\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $url, $matches);
 	return empty($matches) ? '' : $matches[9];
 }
 
-function mbt_get_amazon_tld($value) {
+function mbt_get_amazon_tld($url) {
 	$matches = array();
-	preg_match("/amazon\.([a-zA-Z\.]+)/", $value, $matches);
+	preg_match("/amazon\.([a-zA-Z\.]+)/", $url, $matches);
 	return empty($matches) ? '' : $matches[1];
 }
 
-function mbt_get_amazon_product_request($id) {
-	$access_key = '';
-	$secret_key = '';
-
-	$parameters = array(
-		'Service' => 'AWSECommerceService',
-		'AWSAccessKeyId' => $access_key,
-		'AssociateTag' => 'mybooktable-20',
-		'Timestamp' => gmdate("Y-m-d\TH:i:s\Z"),
-		'Version' => '2009-03-01',
-		'Operation' => 'ItemLookup',
-		'IdType' => 'ASIN',
-		'ItemId' => $id,
-		'ResponseGroup' => 'Small,Images'
-	);
-
-	ksort($parameters);
-
-	$query_vars = array();
-	foreach ($parameters as $parameter => $value) {
-		$parameter = str_replace("%7E", "~", rawurlencode($parameter));
-		$value = str_replace("%7E", "~", rawurlencode($value));
-		$query_vars[] = $parameter.'='.$value;
-	}
-
-	$query = implode('&', $query_vars);
-	$signature = urlencode(base64_encode(hash_hmac('sha256', "GET\nwebservices.amazon.com\n/onca/xml\n".$query, $secret_key, true)));
-	return 'http://webservices.amazon.com/onca/xml?'.$query.'&Signature='.$signature;
-}
-
-function mbt_get_amazon_product_preview($id) {
-	$response = wp_remote_get(mbt_get_amazon_product_request($id));
-	if(is_wp_error($response)) { return '<span class="error_message">Error sending request to verify code.</span>'; }
-
-	$xml = new SimpleXMLElement($response['body']);
-	if($xml) {
-		if($xml->Error) {
-			return '<span class="error_message">Amazon API Error:<br>'.$xml->Error->Code.':<br>'.$xml->Error->Message.'</span>';
-		}
-		if($xml->Items) {
-			if($xml->Items->Request) {
-				if($xml->Items->Request->Errors) {
-					return '<span class="error_message">Amazon API Error:<br>'.$xml->Items->Request->Errors->Error->Code.':<br>'.$xml->Items->Request->Errors->Error->Message.'</span>';
-				}
-				if($xml->Items->Item) {
-					if($xml->Items->Item->SmallImage) {
-						return '<img src="'.$xml->Items->Item->SmallImage->URL.'">';
-					}
-				}
-			}
-		}
-	}
-	return '<span class="error_message">Amazon API Response Error.</span>';
-}
-
 function mbt_amazon_buybutton_preview() {
-	$id = mbt_get_amazon_AISN($_POST['value']);
-	//$product = empty($id) ? '' : mbt_get_amazon_product_preview($id);
+	$id = mbt_get_amazon_AISN($_POST['url']);
 	echo(empty($id) ? '<span class="error_message">Invalid Amazon code.</span>' : '<span class="success_message">Valid Amazon code.</span>');
 	die();
 }
 add_action('wp_ajax_mbt_amazon_buybutton_preview', 'mbt_amazon_buybutton_preview');
 
-function mbt_amazon_buybutton_editor($data, $id, $type) {
-	?>
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				jQuery('#<?php echo($id); ?>_value').change(function(){
-					jQuery.post(ajaxurl,
-						{
-							action: 'mbt_amazon_buybutton_preview',
-							value: jQuery('#<?php echo($id); ?>_value').val()
-						},
-						function(response) {
-							jQuery('#<?php echo($id); ?>_preview').html(response);
-						}
-					);
-				});
+function mbt_amazon_buybutton_editor($editor, $data, $id, $type) {
+	$editor = '
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery("#'.$id.'_url").change(function() {
+				jQuery.post(ajaxurl,
+					{
+						action: "mbt_amazon_buybutton_preview",
+						url: jQuery("#'.$id.'_url").val()
+					},
+					function(response) {
+						jQuery("#<?php echo($id); ?>_preview").html(response);
+					}
+				);
 			});
-		</script>
-	<?php
-	echo('<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">');
-	echo('<b>'.$type['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_value" name="'.$id.'[value]" cols="80" rows="5">'.$data['value'].'</textarea>');
-	echo('<p>Paste in the Amazon affiliate URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a></p>');
+		});
+	</script>';
+	$editor .= '<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">';
+	$editor .= '<b>'.$type['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80" rows="5">'.(empty($data['url']) ? '' : $data['url']).'</textarea>';
+	$editor .= '<p>Paste in the Amazon affiliate URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a></p>';
+	return $editor;
 }
+add_action('mbt_amazon_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);
+add_action('mbt_kindle_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);
 
-function mbt_amazon_buybutton_button($data, $type) {
-	$id = mbt_get_amazon_AISN($data['value']);
-	$tld = mbt_get_amazon_tld($data['value']);
-	$img = mbt_image_url($data['type'].'_button.png');
-	$output = empty($id) ? '' : '<div class="mbt-book-buybutton"><a href="http://www.amazon.'.$tld.'/dp/'.$id.'?tag=mybooktable-20" target="_blank"><img src="'.$img.'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
-	return apply_filters('mbt_'.$data['type'].'_buybutton', $output);
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Styles                                                  */
-/*---------------------------------------------------------*/
-
-function mbt_image_url($image) {
-	$style = mbt_get_setting('buybutton_style');
-	if(empty($style)) { $style = 'Default'; }
-
-	$url = mbt_styled_image_url($image, $style);
-	if(empty($url)) { $url = mbt_styled_image_url($image, 'Default'); }
-	if(empty($url)) { $url = plugins_url('styles/Default/'.$image, dirname(__FILE__)); }
-
-	return apply_filters('mbt_image_url_'.$image, $url);
-}
-
-function mbt_styled_image_url($image, $style) {
-	$directories = mbt_get_style_directories();
-
-	foreach($directories as $directory) {
-		if(file_exists($directory['dir'].'/'.$style)) {
-			if(file_exists($directory['dir'].'/'.$style.'/'.$image)) {
-				return $directory['url'].'/'.$style.'/'.$image;
-			}
+function mbt_amazon_buybutton_button($button, $data, $type) {
+	if(!empty($data['url'])) {
+		$tld = mbt_get_amazon_tld($data['url']);
+		$aisn = mbt_get_amazon_AISN($data['url']);
+		$data['url'] = (empty($tld) or empty($aisn)) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=mybooktable-20';
+		if($data['display'] == 'text_only') {
+			$button = empty($data['url']) ? '' : '<li><a href="'.$data['url'].'" target="_blank">Buy from '.$type['name'].'</a></li>';
+		} else {
+			$button = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['url'].'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
 		}
 	}
-
-	return '';
+	return $button;
 }
+add_action('mbt_amazon_buybutton_button', 'mbt_amazon_buybutton_button', 10, 3);
+add_action('mbt_kindle_buybutton_button', 'mbt_amazon_buybutton_button', 10, 3);
 
-function mbt_get_buybutton_styles() {
-	$directories = mbt_get_style_directories();
-	$styles = array();
-
-	foreach($directories as $directory) {
-		if($handle = opendir($directory['dir'])) {
-			while(false !== ($folder = readdir($handle))) {
-				if ($folder != '.' and $folder != '..' and $folder != 'Default' and !in_array($folder, $styles)) {
-					$styles[] = $folder;
-				}
-			}
-			closedir($handle);
-		}
-	}
-
-	return $styles;
+function mbt_amazon_buybutton_settings_render() {
+?>
+	<table class="form-table">
+		<tbody>
+			<tr valign="top">
+				<th scope="row"><label for="mbt_amazon_buybutton_affiliate_code" style="color: #666">Amazon/Kindle Affiliate Code</label></th>
+				<td>
+					<input type="text" id="mbt_amazon_buybutton_affiliate_code" disabled="true" value="" class="regular-text">
+					<p class="description">
+						<a href="http://www.authormedia.com/mybooktable/">Upgrade to MyBookTable Pro</a> to get amazon affiliate settings!
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<?php
 }
-
-function mbt_get_style_directories() {
-	return apply_filters('mbt_style_directories', array());
-}
-
-function mbt_add_default_style_directory($directories) {
-	$directories[] = array('dir' => plugin_dir_path(dirname(__FILE__)).'styles', 'url' => plugins_url('styles', dirname(__FILE__)));
-	return $directories;
-}
-add_filter('mbt_style_directories', 'mbt_add_default_style_directory', 100);
+add_action('mbt_buybutton_settings_render', 'mbt_amazon_buybutton_settings_render');
