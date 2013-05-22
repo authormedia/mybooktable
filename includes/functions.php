@@ -49,6 +49,11 @@ function mbt_is_mbt_page() {
 	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_singular('mbt_book') or (!empty($booktable_page) and is_page($booktable_page)));
 }
 
+function mbt_is_booktable_page() {
+	global $mbt_is_booktable_page;
+	return !empty($mbt_is_booktable_page);
+}
+
 
 
 /*---------------------------------------------------------*/
@@ -138,7 +143,7 @@ function mbt_verify_api_key() {
 
 	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/key-check', $options);
 
-	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) { return false; }
+	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) { return; }
 
 	$response = maybe_unserialize(wp_remote_retrieve_body($raw_response));
 
@@ -161,13 +166,14 @@ function mbt_verify_api_key() {
 
 function mbt_update_check($updates) {
 	global $wp_version;
-	$api_key = mbt_get_setting('api_key');
-	if(empty($api_key)) { return; }
+	if(empty($updates->checked)) { return $updates; }
+
+	mbt_verify_api_key();
 
 	$to_send = array(
 		'action' => 'basic_check',
 		'version' => MBT_VERSION,
-		'api-key' => $api_key,
+		'api-key' => mbt_get_setting('api_key'),
 		'site' => get_bloginfo('url')
 	);
 
@@ -179,26 +185,24 @@ function mbt_update_check($updates) {
 
 	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/update-check', $options);
 
-	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) { return false; }
+	if(!is_wp_error($raw_response) and wp_remote_retrieve_response_code($raw_response) == 200) {
 
-	$response = maybe_unserialize(wp_remote_retrieve_body($raw_response));
+		$response = maybe_unserialize(wp_remote_retrieve_body($raw_response));
 
-	if(!is_array($response)) { return; }
+		if(is_array($response) and !empty($response['new_version']) and !empty($response['package'])) {
+			$new_version = $response['new_version'];
+			$package = $response['package'];
 
-	$new_version = $response['new_version'];
-	$package = $response['package'];
-
-	if(empty($new_version) or empty($response)) { return; }
-
-	$plugin_folder = plugin_basename(dirname(dirname(__FILE__)));
-	$data = (object) array(
-		'slug' => $plugin_folder,
-		'new_version' => $new_version,
-		'url' => "http://www.mybooktable.com",
-		'package' => $package
-	);
-
-	$updates->response[$plugin_folder.'/mybooktable.php'] = $data;
+			$plugin_folder = plugin_basename(dirname(dirname(__FILE__)));
+			$data = (object) array(
+				'slug' => 'mybooktable',
+				'new_version' => $new_version,
+				'url' => "http://www.mybooktable.com",
+				'package' => $package
+			);
+			$updates->response[$plugin_folder.'/mybooktable.php'] = $data;
+		}
+	}
 
 	return apply_filters('mbt_update_check', $updates);
 }

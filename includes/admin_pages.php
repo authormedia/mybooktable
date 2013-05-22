@@ -100,7 +100,7 @@ function mbt_render_settings_page() {
 								</td>
 							</tr>
 							<tr valign="top">
-								<th scope="row">Booktable Page</th>
+								<th scope="row">Book Table Page</th>
 								<td>
 									<select name="mbt_booktable_page" id="mbt_booktable_page">
 										<option value="0" <?php echo(mbt_get_setting('booktable_page') <= 0 ? ' selected="selected"' : '') ?> > -- Choose One -- </option>
@@ -109,9 +109,9 @@ function mbt_render_settings_page() {
 										<?php } ?>
 									</select>
 									<?php if(mbt_get_setting('booktable_page') <= 0) { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a booktable page</a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a Book Table page</a>
 									<?php } ?>
-									<p class="description">The Booktable page is the main landing page for your books, it must have the [mbt_booktable] shortcode.</p>
+									<p class="description">The Book Table page is the main landing page for your books, it must have the [mbt_booktable] shortcode.</p>
 								</td>
 							</tr>
 							<?php if(!mbt_get_setting('installed_examples')) { ?>

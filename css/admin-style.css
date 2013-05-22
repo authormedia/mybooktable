@@ -35,6 +35,7 @@
 	background: #ececec;
 	border-radius: 5px 5px 0px 0px;
 	padding: 5px;
+	cursor: move;
 }
 
 #mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_title {
@@ -52,6 +53,7 @@
 }
 
 #mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_display_selector {
+	cursor: pointer;
 	width: 24px;
 	height: 24px;
 	display: inline-block;
@@ -157,13 +159,17 @@
 
 .mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside {
 	text-align: center;
-	padding: 15px 0;
+	padding: 15px 10px;
 }
 
 .mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside ul {
 	list-style-type: circle;
 	list-style-position: inside;
 	font-weight: bold;
+}
+
+.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .currently-using {
+	line-height: 1.2;
 }
 
 .mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .current-version {

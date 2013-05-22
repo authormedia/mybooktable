@@ -13,7 +13,7 @@ function mbt_database_check()
 	}
 
 	if($version == "1.0.0") {
-		mbt_database_upgrade_0_7_0();
+		$version == mbt_database_upgrade_0_7_0();
 	}
 
 	update_option("mbt_version", MBT_VERSION);
@@ -39,6 +39,15 @@ function mbt_database_initial() {
 
 function mbt_database_upgrade_0_7_0() {
 	global $wpdb;
+
+	mbt_load_settings();
+	mbt_verify_api_key();
+
+	$booktable_page = mbt_get_setting('booktable_page');
+	if(!empty($booktable_page)) {
+		$wpdb->query('UPDATE '.$wpdb->posts.' SET post_content="" WHERE ID = '.$booktable_page.' AND post_content = "[mbt_booktable]"');
+	}
+
 	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
 	if(!empty($books)) {
 		foreach($books as $book_id) {
@@ -55,8 +64,8 @@ function mbt_database_upgrade_0_7_0() {
 			update_post_meta($book_id, 'mbt_buybuttons', $buybuttons);
 		}
 	}
-	mbt_load_settings();
-	mbt_verify_api_key();
+
+	return '0.7.0';
 }
 
 
@@ -73,8 +82,8 @@ function mbt_install() {
 function mbt_install_pages() {
 	if(mbt_get_setting('booktable_page') <= 0) {
 		$post_id = wp_insert_post(array(
-			'post_title' => 'Booktable',
-			'post_content' => '[mbt_booktable]',
+			'post_title' => 'Book Table',
+			'post_content' => '',
 			'post_status' => 'publish',
 			'post_type' => 'page'
 		));

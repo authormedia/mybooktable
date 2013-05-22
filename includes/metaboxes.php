@@ -160,9 +160,8 @@ function mbt_buybuttons_metabox($post)
 						jQuery('#mbt_buybutton_selector').removeAttr('disabled');
 						jQuery('#mbt_buybutton_adder').removeAttr('disabled');
 						element = jQuery(response);
-						element.find(".mbt_buybutton_display_selector").each(apply_display_title);
-						enable_sortability(jQuery(element));
 						jQuery("#mbt_buybutton_editors").prepend(element);
+						element.find(".mbt_buybutton_display_selector").each(apply_display_title);
 						reset_numbers();
 					}
 				);
@@ -187,7 +186,7 @@ function mbt_buybuttons_metabox($post)
 			jQuery("#mbt_buybutton_editors").on("click", ".mbt_buybutton_display_selector", function() {
 				element = jQuery(this);
 				input = element.find('input');
-				old_display = input.val()
+				old_display = input.val();
 				new_display = old_display == "featured" ? "book_only" : old_display == "book_only" ? "text_only" : "featured";
 				input.val(new_display);
 				element.removeClass("display_"+old_display);
@@ -196,11 +195,7 @@ function mbt_buybuttons_metabox($post)
 			});
 			jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
 
-			function enable_sortability(element) {
-				element.sortable({cancel: ".mbt_buybutton_editor_fields", cursor:"move", stop: function(){reset_numbers();}});
-				element.find(".mbt_buybutton_editor_header").disableSelection();
-			}
-			enable_sortability(jQuery("#mbt_buybutton_editors"));
+			jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_fields,.mbt_buybutton_display_selector", stop: function(){reset_numbers();}});
 		});
 	</script>
 
