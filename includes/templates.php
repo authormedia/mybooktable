@@ -359,7 +359,7 @@ function mbt_get_book_image($post_id) {
 		$src = apply_filters('mbt_frontend_styles', plugins_url('images/book-placeholder.jpg', dirname(__FILE__)));
 	}
 
-	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
+	return apply_filters('mbt_get_book_image', '<img src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
 }
 function mbt_the_book_image() {
 	global $post;
@@ -502,13 +502,13 @@ function mbt_the_book_unique_id() {
 
 
 
-function mbt_get_the_term_list($post_id, $tax, $name, $name_plural, $rel) {
+function mbt_get_the_term_list($post_id, $tax, $name, $name_plural) {
 	$terms = get_the_terms($post_id, $tax);
 	if(is_wp_error($terms) or empty($terms)){ return ''; }
 
 	foreach($terms as $term) {
 		$link = get_term_link($term, $tax);
-		$term_links[] = '<a href="'.esc_url($link).'" rel="'.$rel.'">'.$term->name.'</a>';
+		$term_links[] = '<a href="'.esc_url($link).'">'.$term->name.'</a>';
 	}
 
 	return '<span class="meta-title">'.(count($terms) > 1 ? $name_plural : $name).':</span> '.join(', ', $term_links).'<br>';
@@ -530,7 +530,7 @@ function mbt_get_book_series_list($post_id) {
 	$series = mbt_get_book_series($post_id);
 
 	while(!empty($series) and !is_wp_error($series)) {
-		$output = '<a href="'.esc_url(get_term_link($series, 'mbt_series')).'" rel="tag">'.$series->name.'</a>'.(empty($output) ? '' : ', '.$output);
+		$output = '<a href="'.esc_url(get_term_link($series, 'mbt_series')).'">'.$series->name.'</a>'.(empty($output) ? '' : ', '.$output);
 		$series = get_term_by('id', $series->parent, 'mbt_series');
 	}
 
