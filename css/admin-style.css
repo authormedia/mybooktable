@@ -82,6 +82,11 @@
 	color: green;
 }
 
+#mbt_series_order .mbt-helper-description, #mbt_book_order .mbt-helper-description {
+	color: #666;
+	font-style: italic;
+}
+
 /*---------------------------------------------------------*/
 /* Landing Page                                            */
 /*---------------------------------------------------------*/

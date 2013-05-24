@@ -61,23 +61,27 @@ function mbt_is_booktable_page() {
 /*---------------------------------------------------------*/
 
 function mbt_image_url($image) {
+	$url = mbt_current_style_url($image);
+	return apply_filters('mbt_image_url', empty($url) ? plugins_url('styles/Default/'.$image, dirname(__FILE__)) : $url);
+}
+
+function mbt_current_style_url($url) {
 	$style = mbt_get_setting('style_pack');
 	if(empty($style)) { $style = 'Default'; }
 
-	$url = mbt_styled_image_url($image, $style);
-	if(empty($url)) { $url = mbt_styled_image_url($image, 'Default'); }
-	if(empty($url)) { $url = plugins_url('styles/Default/'.$image, dirname(__FILE__)); }
+	$url = mbt_style_url($url, $style);
+	if(empty($url)) { $url = mbt_style_url($url, 'Default'); }
 
-	return apply_filters('mbt_image_url_'.$image, $url);
+	return $url;
 }
 
-function mbt_styled_image_url($image, $style) {
+function mbt_style_url($url, $style) {
 	$folders = mbt_get_style_folders();
 
 	foreach($folders as $folder) {
 		if(file_exists($folder['dir'].'/'.$style)) {
-			if(file_exists($folder['dir'].'/'.$style.'/'.$image)) {
-				return $folder['url'].'/'.$style.'/'.$image;
+			if(file_exists($folder['dir'].'/'.$style.'/'.$url)) {
+				return $folder['url'].'/'.$style.'/'.$url;
 			}
 		}
 	}

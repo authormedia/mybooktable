@@ -1,5 +1,14 @@
 <?php
 
+function mbt_init_metaboxes()
+{
+	add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
+
+	add_action('save_post', 'mbt_save_metadata_metabox');
+	add_action('save_post', 'mbt_save_buybuttons_metabox');
+	add_action('save_post', 'mbt_save_series_order_metabox');
+}
+
 function mbt_add_metaboxes()
 {
 	add_meta_box('mbt_blurb', 'Book Blurb', 'mbt_book_blurb_metabox', 'mbt_book', 'normal', 'high');
@@ -7,6 +16,8 @@ function mbt_add_metaboxes()
 	add_meta_box('mbt_metadata', 'Book Metadata', 'mbt_metadata_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_series_order', 'Series Order', 'mbt_series_order_metabox', 'mbt_book', 'side', 'default');
+	add_meta_box('mbt_book_order', 'Book Order', 'mbt_book_order_metabox', 'mbt_book', 'side', 'low');
+
 }
 add_action('add_meta_boxes', 'mbt_add_metaboxes', 9);
 
@@ -41,12 +52,6 @@ function mbt_overview_metabox($post)
 /*---------------------------------------------------------*/
 /* Metadata Metabox                                        */
 /*---------------------------------------------------------*/
-
-function mbt_include_media_uploader() {
-	wp_enqueue_script("bmt_sample_upload", plugins_url('js/sample-upload.js', dirname(__FILE__)));
-	wp_enqueue_media();
-}
-add_action("admin_enqueue_scripts", "mbt_include_media_uploader");
 
 function mbt_metadata_metabox($post)
 {
@@ -97,7 +102,6 @@ function mbt_save_metadata_metabox($post_id)
 		if(isset($_POST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_POST['mbt_sample_url']); }
 	}
 }
-add_action('save_post', 'mbt_save_metadata_metabox');
 
 
 
@@ -126,7 +130,6 @@ function mbt_buybuttons_metabox_ajax() {
 	echo(mbt_buybuttons_metabox_editor(array('type' => $_POST['type']), $_POST['num'], $buybuttons[$_POST['type']]));
 	die();
 }
-add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
 
 function mbt_buybuttons_metabox($post)
 {
@@ -242,7 +245,6 @@ function mbt_save_buybuttons_metabox($post_id)
 		update_post_meta($post_id, "mbt_buybuttons", $book_buybuttons);
 	}
 }
-add_action('save_post', 'mbt_save_buybuttons_metabox');
 
 
 
@@ -252,6 +254,34 @@ add_action('save_post', 'mbt_save_buybuttons_metabox');
 
 function mbt_series_order_metabox($post) {
 ?>
-	<label for="menu_order">Book Number: </label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" />
+	<label for="mbt_series_order">Book Number: </label><input name="mbt_series_order" type="text" size="4" id="mbt_series_order" value="<?php echo(esc_attr(get_post_meta($post->ID, "mbt_series_order", true))); ?>" />
+	<p class="mbt-helper-description">Use this to order books within a series.</p>
+<?php
+}
+
+function mbt_save_series_order_metabox($post_id)
+{
+	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_POST['mbt_nonce']) || !wp_verify_nonce($_POST['mbt_nonce'], plugin_basename(__FILE__))){return;}
+
+	if(get_post_type($post_id) == "mbt_book")
+	{
+		if(!empty($_POST["mbt_series_order"])) {
+			update_post_meta($post_id, "mbt_series_order", $_POST["mbt_series_order"]);
+		} else {
+			update_post_meta($post_id, "mbt_series_order", 0);
+		}
+	}
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Book Order Metabox                                      */
+/*---------------------------------------------------------*/
+
+function mbt_book_order_metabox($post) {
+?>
+	<label for="menu_order">Book Order: </label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo(esc_attr($post->menu_order)); ?>" />
+	<p class="mbt-helper-description">Use this to change the order that books show up on your book table. Books with larger numbers are displayed first.</p>
 <?php
 }

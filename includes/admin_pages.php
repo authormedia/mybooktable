@@ -3,6 +3,7 @@
 function mbt_admin_pages_init() {
 	add_action('admin_menu', 'mbt_add_admin_pages', 9);
 	add_action('admin_enqueue_scripts', 'mbt_load_admin_style');
+	add_action("admin_enqueue_scripts", "mbt_include_media_uploader");
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
 
@@ -16,6 +17,12 @@ function mbt_load_admin_style() {
 	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
 	wp_enqueue_style('jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
 }
+
+function mbt_include_media_uploader() {
+	wp_enqueue_script("mbt-media-upload", plugins_url('js/media-upload.js', dirname(__FILE__)));
+	wp_enqueue_media();
+}
+add_action('mbt_init', 'mbt_init_metaboxes');
 
 function mbt_add_admin_pages() {
 	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_landing_page", 'mbt_render_landing_page', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
@@ -41,6 +48,7 @@ function mbt_render_settings_page() {
 		mbt_set_api_key($_REQUEST['mbt_api_key']);
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
 		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
+		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
 
 		mbt_update_setting('mbt_disable_socialmedia_badges_single_book', isset($_REQUEST['mbt_disable_socialmedia_badges_single_book'])?true:false);
 		mbt_update_setting('mbt_disable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_disable_socialmedia_badges_book_excerpt'])?true:false);
@@ -126,7 +134,7 @@ function mbt_render_settings_page() {
 							<tr valign="top">
 								<th scope="row"><label for="mbt_style_pack">Style Pack</label></th>
 								<td>
-									<select name="mbt_style_pack" id="mbt_style_pack">
+									<select name="mbt_style_pack" id="mbt_style_pack" style="width:100px">
 										<?php $current_style = mbt_get_setting('style_pack'); ?>
 										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> >Default</option>
 										<?php foreach(mbt_get_style_packs() as $style) { ?>
@@ -134,6 +142,16 @@ function mbt_render_settings_page() {
 										<?php } ?>
 									</select>
 									<p class="description">Choose the style pack you would like for your buy buttons.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_image_size">Book Image Size</label></th>
+								<td>
+									<?php $image_size = mbt_get_setting('image_size'); ?>
+									<?php foreach(array('small', 'medium', 'large') as $size) { ?>
+										<input type="radio" name="mbt_image_size" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> ><?php echo(ucfirst($size)); ?><br>
+									<?php } ?>
+									<p class="description">Select the size of the book images.</p>
 								</td>
 							</tr>
 						</tbody>

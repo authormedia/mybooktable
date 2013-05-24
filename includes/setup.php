@@ -26,6 +26,7 @@ function mbt_database_initial() {
 		'installed_examples' => 0,
 		'booktable_page' => 0,
 		'style_pack' => 'Default',
+		'image_size' => 'medium',
 		'disable_socialmedia_badges_single_book' => false,
 		'disable_socialmedia_badges_book_excerpt' => false,
 		'disable_socialmedia_bar_single_book' => false,

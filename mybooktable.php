@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: MyBookTable
-Plugin URI: http://www.authormedia.com/mybooktable
+Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 0.7.1
+Version: 0.7.2
 */
 
-define("MBT_VERSION", "0.7.1");
+define("MBT_VERSION", "0.7.2");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -17,8 +17,9 @@ require_once("includes/buybuttons.php");
 require_once("includes/admin_pages.php");
 require_once("includes/post_types.php");
 require_once("includes/metaboxes.php");
-require_once("includes/breadcrumbs.php");
-require_once("includes/seo.php");
+require_once("includes/extras/breadcrumbs.php");
+require_once("includes/extras/widgets.php");
+require_once("includes/extras/seo.php");
 
 
 
