@@ -27,10 +27,10 @@ function mbt_database_initial() {
 		'booktable_page' => 0,
 		'style_pack' => 'Default',
 		'image_size' => 'medium',
-		'disable_socialmedia_badges_single_book' => false,
-		'disable_socialmedia_badges_book_excerpt' => false,
-		'disable_socialmedia_bar_single_book' => false,
-		'disable_seo' => false,
+		'enable_socialmedia_badges_single_book' => true,
+		'enable_socialmedia_badges_book_excerpt' => true,
+		'enable_socialmedia_bar_single_book' => true,
+		'enable_seo' => true,
 		'series_in_excerpts' => false,
 		'posts_per_page' => false
 	);
@@ -81,7 +81,7 @@ function mbt_install() {
 }
 
 function mbt_install_pages() {
-	if(mbt_get_setting('booktable_page') <= 0) {
+	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
 		$post_id = wp_insert_post(array(
 			'post_title' => 'Book Table',
 			'post_content' => '',

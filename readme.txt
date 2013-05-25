@@ -40,3 +40,23 @@ No! The whole idea behind MyBookTable is that Amazon (and others) do all the har
 = Do I need to be an author to use MyBookTable? =
 
 No! This plugin would work great for anyone wanting to have an Amazon Affiliate Bookstore.
+
+== Changelog ==
+
+= 0.7.3 =
+* Fixed numerous bugs, including one that prevented the example books from being created
+* Improved MyBookTable dashboard and added Founders page
+
+= 0.7.2 =
+* New sidebar widget to feature books
+* Many bug fixes
+
+= 0.7.1 =
+* Redesigned and easier to use settings pages
+* New tutorial video
+* New buy button interface: You can now drag and drop the buttons in the order you want them
+* You now have options on how you want your buy buttons displayed including a text list of stores
+* Revamped series taxonomy: You can now set book number, add sub-series, and more
+* Automatic Updates
+* Improved performance, compatibility & styling
+* And many other improvements and bug fixes!

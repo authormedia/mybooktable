@@ -5,7 +5,7 @@
 /*---------------------------------------------------------*/
 
 function mbt_is_seo_active() {
-	$active = !mbt_get_setting('disable_seo');
+	$active = (bool)mbt_get_setting('enable_seo');
 	if(defined('WPSEO_FILE')) { $active = false; }
 	return apply_filters('mbt_is_seo_active', $active);
 }

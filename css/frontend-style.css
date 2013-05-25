@@ -227,11 +227,15 @@
 }
 
 .mbt_book .mbt-book-buybuttons-textonly  {
-	display: inline-block;
+	display: block;
+	float: left;
+	clear: both;
+	margin: 15px 0px 0px 0px;
 }
 
 .mbt_book .mbt-book-buybuttons-textonly h3  {
-	margin: 15px 0px 0px 0px;
+	margin: 0px;
+	padding: 0px;
 }
 
 

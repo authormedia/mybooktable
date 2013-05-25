@@ -27,7 +27,7 @@ function mbt_update_setting($name, $value) {
 /*---------------------------------------------------------*/
 
 function mbt_is_socialmedia_active() {
-	$active = !mbt_get_setting('disable_socialmedia');
+	$active = (bool)mbt_get_setting('enable_socialmedia');
 	return apply_filters('mbt_is_socialmedia_active', $active);
 }
 

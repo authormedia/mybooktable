@@ -53,7 +53,7 @@ function mbt_get_book_buybuttons($post_id, $query = '') {
 
 function mbt_get_amazon_AISN($url) {
 	$matches = array();
-	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(o\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $url, $matches);
+	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $url, $matches);
 	return empty($matches) ? '' : $matches[9];
 }
 
