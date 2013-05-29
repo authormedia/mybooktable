@@ -1,1 +1,1 @@
-<h1 class="mbt-book-title entry-title"><?php the_title(); ?></h1>
+<h1 class="mbt-book-title"><?php the_title(); ?></h1>

@@ -76,9 +76,9 @@ add_action('mbt_init', 'mbt_templates_init');
 /*---------------------------------------------------------*/
 
 function mbt_enqueue_styles() {
-	wp_enqueue_style('mbt_style', apply_filters('mbt_css', plugins_url('css/frontend-style.css', dirname(__FILE__))));
+	wp_enqueue_style('mbt-style', apply_filters('mbt_css', plugins_url('css/frontend-style.css', dirname(__FILE__))));
 	$style_pack_css = mbt_current_style_url('style.css');
-	if($style_pack_css) { wp_enqueue_style('mbt_style_pack', apply_filters('mbt_style_pack_css', $style_pack_css)); }
+	if($style_pack_css) { wp_enqueue_style('mbt-style-pack', apply_filters('mbt_style_pack_css', $style_pack_css)); }
 }
 
 function mbt_get_template_folders() {
@@ -124,7 +124,6 @@ function mbt_load_book_templates($template) {
 	return $template;
 }
 
-//modify post query
 function mbt_pre_get_posts($query) {
 	if(!is_admin() and $query->is_page(mbt_get_setting('booktable_page')) and $query->is_main_query()) {
 		global $mbt_is_booktable_page;
@@ -151,13 +150,14 @@ function mbt_override_body_class($classes) {
 }
 
 function mbt_add_image_size_css() {
-	$image_size = mbt_get_setting('image_size');
-
-	echo('<style type="text/css">');
-	if($image_size == 'small') { echo('.mbt_book .mbt-book-images { width: 15%; } .mbt_book .mbt-book-right { width: 85%; } '); }
-	else if($image_size == 'large') { echo('.mbt_book .mbt-book-images { width: 35%; } .mbt_book .mbt-book-right { width: 65%; } '); }
-	else { echo('.mbt_book .mbt-book-images { width: 25%; } .mbt_book .mbt-book-right { width: 75%; } '); }
-	echo('</style>');
+	if(mbt_is_mbt_page()) {
+		$image_size = mbt_get_setting('image_size');
+		echo('<style type="text/css">');
+		if($image_size == 'small') { echo('.mbt_book .mbt-book-images { width: 15%; } .mbt_book .mbt-book-right { width: 85%; } '); }
+		else if($image_size == 'large') { echo('.mbt_book .mbt-book-images { width: 35%; } .mbt_book .mbt-book-right { width: 65%; } '); }
+		else { echo('.mbt_book .mbt-book-images { width: 25%; } .mbt_book .mbt-book-right { width: 75%; } '); }
+		echo('</style>');
+	}
 }
 
 function mbt_add_twentyx_theme_support() {
@@ -516,17 +516,6 @@ function mbt_the_book_unique_id() {
 
 
 
-function mbt_get_the_term_list($post_id, $tax, $name, $name_plural) {
-	$terms = get_the_terms($post_id, $tax);
-	if(is_wp_error($terms) or empty($terms)){ return ''; }
-
-	foreach($terms as $term) {
-		$link = get_term_link($term, $tax);
-		$term_links[] = '<a href="'.esc_url($link).'">'.$term->name.'</a>';
-	}
-
-	return '<span class="meta-title">'.(count($terms) > 1 ? $name_plural : $name).':</span> '.join(', ', $term_links).'<br>';
-}
 function mbt_get_book_series($post_id) {
 	$series = NULL;
 
@@ -555,6 +544,17 @@ function mbt_get_book_series_list($post_id) {
 	}
 
 	return apply_filters('mbt_get_book_series_list', $output);
+}
+function mbt_get_the_term_list($post_id, $tax, $name, $name_plural) {
+	$terms = get_the_terms($post_id, $tax);
+	if(is_wp_error($terms) or empty($terms)){ return ''; }
+
+	foreach($terms as $term) {
+		$link = get_term_link($term, $tax);
+		$term_links[] = '<a href="'.esc_url($link).'">'.$term->name.'</a>';
+	}
+
+	return '<span class="meta-title">'.(count($terms) > 1 ? $name_plural : $name).':</span> '.join(', ', $term_links).'<br>';
 }
 function mbt_the_book_series_list() {
 	global $post;

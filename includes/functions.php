@@ -7,6 +7,32 @@
 function mbt_load_settings() {
 	global $mbt_settings;
 	$mbt_settings = apply_filters("mbt_settings", get_option("mbt_settings"));
+	if(empty($mbt_settings)) { mbt_reset_settings(); }
+}
+
+function mbt_reset_settings() {
+	global $mbt_settings;
+	$mbt_settings = array(
+		'version' => MBT_VERSION,
+		'api_key' => '',
+		'api_key_status' => 0,
+		'api_key_message' => '',
+		'dev_active' => false,
+		'pro_active' => false,
+		'installed' => '',
+		'installed_examples' => false,
+		'booktable_page' => 0,
+		'style_pack' => 'Default',
+		'image_size' => 'medium',
+		'enable_socialmedia_badges_single_book' => true,
+		'enable_socialmedia_badges_book_excerpt' => true,
+		'enable_socialmedia_bar_single_book' => true,
+		'enable_seo' => true,
+		'series_in_excerpts' => false,
+		'posts_per_page' => false
+	);
+	$mbt_settings = apply_filters("mbt_default_settings", $mbt_settings);
+	update_option("mbt_settings", apply_filters("mbt_update_settings", $mbt_settings));
 }
 
 function mbt_get_setting($name) {
@@ -123,12 +149,6 @@ add_filter('mbt_style_folders', 'mbt_add_default_style_folder', 100);
 /* API / Updates                                           */
 /*---------------------------------------------------------*/
 
-function mbt_set_api_key($api_key) {
-	if($api_key == mbt_get_setting('api_key')) { return; }
-	mbt_update_setting('api_key', $api_key);
-	mbt_verify_api_key();
-}
-
 function mbt_verify_api_key() {
 	global $wp_version;
 
@@ -147,22 +167,57 @@ function mbt_verify_api_key() {
 
 	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/key-check', $options);
 
-	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) { return; }
+	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) {
+		mbt_update_setting('api_key_status', -1);
+		mbt_update_setting('api_key_message', 'Unable to connect to server!');
+		return;
+	}
 
 	$response = maybe_unserialize(wp_remote_retrieve_body($raw_response));
 
-	if(!is_array($response)) { return; }
+	if(!is_array($response) or empty($response['status'])) {
+		mbt_update_setting('api_key_status', -2);
+		mbt_update_setting('api_key_message', 'Invalid response received from server');
+		return;
+	}
 
-	$key_valid = $response['key_valid'];
+	$status = $response['status'];
 
-	if($key_valid) {
-		mbt_update_setting('api_key_valid', true);
-		$pro_active = $response['pro_active'];
-		mbt_update_setting('pro_active', !empty($pro_active));
-		$dev_active = $response['dev_active'];
-		mbt_update_setting('dev_active', !empty($dev_active));
+	if($status == 10) {
+		mbt_update_setting('api_key_status', $status);
+		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
+		mbt_update_setting('api_key_message', 'Valid for MyBookTable Professional.'.$expires);
+		mbt_update_setting('pro_active', true);
+		mbt_update_setting('dev_active', false);
+	} else if($status == 11) {
+		mbt_update_setting('api_key_status', $status);
+		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
+		mbt_update_setting('api_key_message', 'Valid for MyBookTable Developer.'.$expires);
+		mbt_update_setting('pro_active', true);
+		mbt_update_setting('dev_active', true);
+	} else if($status == -10) {
+		mbt_update_setting('api_key_status', $status);
+		mbt_update_setting('api_key_message', 'Key not found');
+		mbt_update_setting('pro_active', false);
+		mbt_update_setting('dev_active', false);
+	} else if($status == -11) {
+		mbt_update_setting('api_key_status', $status);
+		mbt_update_setting('api_key_message', 'Key has been deactivated');
+		mbt_update_setting('pro_active', false);
+		mbt_update_setting('dev_active', false);
+	} else if($status == -12) {
+		mbt_update_setting('api_key_status', $status);
+		mbt_update_setting('api_key_message', 'Key has expired. Please <a href="http://www.authormedia.com/mybooktable">renew your license</a>.');
+		mbt_update_setting('pro_active', false);
+		mbt_update_setting('dev_active', false);
+	} else if($status == -20) {
+		mbt_update_setting('api_key_status', $status);
+		mbt_update_setting('api_key_message', 'Permissions error!');
+		mbt_update_setting('pro_active', false);
+		mbt_update_setting('dev_active', false);
 	} else {
-		mbt_update_setting('api_key_valid', false);
+		mbt_update_setting('api_key_status', -2);
+		mbt_update_setting('api_key_message', 'Invalid response received from server');
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	}
@@ -210,11 +265,3 @@ function mbt_update_check($updates) {
 
 	return apply_filters('mbt_update_check', $updates);
 }
-
-function mbt_plugin_information() {
-	if($_REQUEST['plugin'] == "mybooktable") {
-		wp_redirect('http://www.authormedia.com/mybooktable');
-		die();
-	}
-}
-add_action('install_plugins_pre_plugin-information', 'mbt_plugin_information');

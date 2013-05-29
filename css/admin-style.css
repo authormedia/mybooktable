@@ -4,8 +4,12 @@
 /*---------------------------------------------------------*/
 
 .mbt_metadata_metabox th {
-	width:18%;
+	width:15%;
 	font-weight: bold;
+}
+
+.mbt_metadata_metabox td {
+	width:30%;
 }
 
 .mbt_seo_metabox th {
@@ -189,7 +193,7 @@
 /* Settings Pages                                          */
 /*---------------------------------------------------------*/
 
-#icon-mbt_landing_page {
+#icon-mbt_dashboard {
 	background-image: url('../images/edit.png');
 }
 
@@ -212,6 +216,15 @@
 	background: url('../images/exclamation.png') 0px 2px no-repeat;
 	padding-left: 20px;
 	color: #E66455;
+}
+
+.mbt_settings #mbt_api_key_refresh {
+	display: inline-block;
+	vertical-align: bottom;
+	background: url('../images/refresh.png') 0px 0px no-repeat;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
 }
 
 /*---------------------------------------------------------*/

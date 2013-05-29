@@ -18,7 +18,7 @@ class MBT_Featured_Book extends WP_Widget {
 	function enqueue_widget_js() {
 		global $pagenow;
 		if($pagenow == 'widgets.php') {
-			wp_enqueue_script("mbt_widget_js", plugins_url('js/widgets.js', dirname(dirname(__FILE__))), 'jquery', '', true);
+			wp_enqueue_script("mbt-widgets", plugins_url('js/widgets.js', dirname(dirname(__FILE__))), 'jquery', '', true);
 		}
 	}
 
@@ -37,7 +37,7 @@ class MBT_Featured_Book extends WP_Widget {
 		if(!empty($book)) {
 			$permalink = get_permalink($book->ID);
 			?>
-				<div class="mbt_book mbt-featured-book">
+				<div class="mbt_book mbt-featured-book-widget">
 					<h1 class="mbt-book-title"><a href="<?php echo($permalink); ?>"><?php echo(get_the_title($book->ID)); ?></a></h1>
 					<a href="<?php echo($permalink); ?>"><?php echo(mbt_get_book_image($book->ID)); ?></a>
 					<div class="mbt-book-blurb"><?php echo(mbt_get_book_blurb($book->ID, true)); ?></div>

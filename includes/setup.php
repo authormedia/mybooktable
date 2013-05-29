@@ -1,75 +1,25 @@
 <?php
 
 /*---------------------------------------------------------*/
-/* Upgrade Database                                        */
+/* Check for Upgrades                                      */
 /*---------------------------------------------------------*/
 
-function mbt_database_check()
+function mbt_upgrade_check()
 {
-	$version = get_option("mbt_version");
+	$version = mbt_get_setting("version");
 
-	if(empty($version)) {
-		mbt_database_initial();
-	}
+	if($version < "0.7.4") { $version = mbt_database_upgrade_0_7_4(); }
 
-	if($version == "1.0.0") {
-		$version == mbt_database_upgrade_0_7_0();
-	}
-
-	update_option("mbt_version", MBT_VERSION);
+	if($version != MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
 
-function mbt_database_initial() {
-	$defaults = array(
-		'api_key' => '',
-		'installed' => 0,
-		'installed_examples' => 0,
-		'booktable_page' => 0,
-		'style_pack' => 'Default',
-		'image_size' => 'medium',
-		'enable_socialmedia_badges_single_book' => true,
-		'enable_socialmedia_badges_book_excerpt' => true,
-		'enable_socialmedia_bar_single_book' => true,
-		'enable_seo' => true,
-		'series_in_excerpts' => false,
-		'posts_per_page' => false
-	);
-	$defaults = apply_filters("mbt_default_settings", $defaults);
-	update_option("mbt_settings", apply_filters("mbt_update_settings", $defaults));
-}
-
-function mbt_database_upgrade_0_7_0() {
-	global $wpdb;
-
-	mbt_load_settings();
+function mbt_database_upgrade_0_7_4() {
+	global $mbt_settings;
+	$mbt_settings['version'] = MBT_VERSION;
+	$mbt_settings['installed'] = 'done';
+	update_option("mbt_settings", $mbt_settings);
 	mbt_verify_api_key();
-
-	$booktable_page = mbt_get_setting('booktable_page');
-	if(!empty($booktable_page)) {
-		$wpdb->query('UPDATE '.$wpdb->posts.' SET post_content="" WHERE ID = '.$booktable_page.' AND post_content = "[mbt_booktable]"');
-	}
-
-	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
-	if(!empty($books)) {
-		foreach($books as $book_id) {
-			$buybuttons = get_post_meta($book_id, 'mbt_buybuttons', true);
-			if(!empty($buybuttons)) {
-				foreach($buybuttons as &$button) {
-					if(!empty($button['value'])) {
-						$button['url'] = $button['value'];
-						unset($button['value']);
-					}
-					$button['display'] = 'featured';
-				}
-			}
-			update_post_meta($book_id, 'mbt_buybuttons', $buybuttons);
-		}
-	}
-
-	return '0.7.0';
 }
-
-
 
 /*---------------------------------------------------------*/
 /* Installation Functions                                  */
@@ -105,6 +55,52 @@ function mbt_install_examples() {
 /* Admin notices                                           */
 /*---------------------------------------------------------*/
 
+function mbt_admin_notices_init() {
+	add_action('admin_init', 'mbt_add_admin_notices', 20);
+}
+add_action('mbt_init', 'mbt_admin_notices_init');
+
+function mbt_add_admin_notices() {
+	if(!mbt_get_setting('installed')) {
+		if(isset($_GET['install_mbt'])) {
+			mbt_install();
+			mbt_update_setting('installed', 'check_api_key');
+		} elseif(isset($_GET['skip_install_mbt']) || mbt_get_setting('booktable_page') != 0) {
+			mbt_update_setting('installed', 'check_api_key');
+		} else {
+			add_action('admin_notices', 'mbt_admin_install_notice');
+		}
+	}
+	if(mbt_get_setting('installed') == 'check_api_key') {
+		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
+			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
+		} else {
+			mbt_update_setting('installed', 'post_install');
+		}
+	}
+	if(mbt_get_setting('installed') == 'post_install') {
+		if(isset($_GET['finish_install_mbt'])) {
+			do_action('mbt_installed');
+			mbt_update_setting('installed', 'done');
+		} else {
+			add_action('admin_notices', 'mbt_admin_installed_notice');
+		}
+	}
+	if(mbt_get_setting('installed') == 'done') {
+		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
+			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
+		}
+	}
+
+	if(isset($_GET['mbt_install_examples'])) {
+		mbt_install_examples();
+	}
+
+	if(isset($_GET['mbt_install_pages'])) {
+		mbt_install_pages();
+	}
+}
+
 function mbt_admin_install_notice() {
 	?>
 	<div class="mbt-install-message">
@@ -125,35 +121,13 @@ function mbt_admin_installed_notice() {
 	<?php
 }
 
-function mbt_admin_init() {
-	if(mbt_get_setting('installed') < 2) {
-		if(mbt_get_setting('installed') == 0) {
-			if(isset($_GET['install_mbt'])) {
-				mbt_install();
-				mbt_update_setting('installed', 1);
-			} elseif(isset($_GET['skip_install_mbt']) || mbt_get_setting('booktable_page') != 0) {
-				mbt_update_setting('installed', 1);
-			} else {
-				add_action('admin_notices', 'mbt_admin_install_notice');
-			}
-		}
-		if(mbt_get_setting('installed') == 1) {
-			if(isset($_GET['finish_install_mbt'])) {
-				do_action('mbt_installed');
-				mbt_update_setting('installed', 2);
-			} else {
-				add_action('admin_notices', 'mbt_admin_installed_notice');
-			}
-		}
-	}
-
-	if(isset($_GET['mbt_install_examples'])) {
-		mbt_install_examples();
-	}
-
-	if(isset($_GET['mbt_install_pages'])) {
-		mbt_install_pages();
-	}
+function mbt_admin_setup_api_key_notice() {
+	?>
+	<div id="message" class="mbt-install-message">
+		<h4><strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features</h4>
+		<a class="install-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>">Go To Settings</a>
+	</div>
+	<?php
 }
 
 

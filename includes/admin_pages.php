@@ -2,13 +2,18 @@
 
 function mbt_admin_pages_init() {
 	add_action('admin_menu', 'mbt_add_admin_pages', 9);
-	add_action('admin_enqueue_scripts', 'mbt_load_admin_style');
-	add_action("admin_enqueue_scripts", "mbt_include_media_uploader");
+	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
+	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
+	add_action('admin_init', 'mbt_save_settings_page');
+	add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
 
-function mbt_load_admin_style() {
-	wp_enqueue_style('mbt_admin_css', plugins_url('css/admin-style.css', dirname(__FILE__)));
+function mbt_enqueue_admin_styles() {
+	wp_enqueue_style('mbt-admin-css', plugins_url('css/admin-style.css', dirname(__FILE__)));
+}
+
+function mbt_enqueue_admin_js() {
 	wp_enqueue_script('jquery-ui-core');
 	wp_enqueue_script('jquery-ui-widget');
 	wp_enqueue_script('jquery-ui-position');
@@ -16,22 +21,19 @@ function mbt_load_admin_style() {
 	wp_enqueue_script('jquery-ui-sortable');
 	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
 	wp_enqueue_style('jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
-}
-
-function mbt_include_media_uploader() {
 	wp_enqueue_script("mbt-media-upload", plugins_url('js/media-upload.js', dirname(__FILE__)));
+	wp_enqueue_script("mbt-settings-page", plugins_url('js/settings-page.js', dirname(__FILE__)));
 	wp_enqueue_media();
 }
-add_action('mbt_init', 'mbt_init_metaboxes');
 
 function mbt_add_admin_pages() {
-	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_landing_page", 'mbt_render_landing_page', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
-	add_submenu_page("mbt_landing_page", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_book");
-	add_submenu_page("mbt_landing_page", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author");
-	add_submenu_page("mbt_landing_page", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre");
-	add_submenu_page("mbt_landing_page", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series");
-	add_submenu_page("mbt_landing_page", "MyBookTable Settings", "Settings", 'manage_options', "mbt_settings", 'mbt_render_settings_page');
-	add_submenu_page("mbt_landing_page", "MyBookTable Help", "Help", 'edit_posts', "mbt_help", 'mbt_render_help_page');
+	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
+	add_submenu_page("mbt_dashboard", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author");
+	add_submenu_page("mbt_dashboard", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre");
+	add_submenu_page("mbt_dashboard", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series");
+	add_submenu_page("mbt_dashboard", "MyBookTable Settings", "Settings", 'manage_options', "mbt_settings", 'mbt_render_settings_page');
+	add_submenu_page("mbt_dashboard", "MyBookTable Help", "Help", 'edit_posts', "mbt_help", 'mbt_render_help_page');
 
 	remove_menu_page("edit.php?post_type=mbt_book");
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit.php?post_type=mbt_book");
@@ -41,11 +43,15 @@ function mbt_add_admin_pages() {
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
 }
 
-function mbt_render_settings_page() {
-	if(isset($_REQUEST['save_settings'])) {
+function mbt_save_settings_page() {
+	if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_settings'])) {
 		do_action('mbt_settings_save');
 
-		mbt_set_api_key($_REQUEST['mbt_api_key']); //TODO: add page refresh if apikey is changed
+		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
+			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
+			mbt_verify_api_key();
+		}
+
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
 		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
 		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
@@ -60,9 +66,27 @@ function mbt_render_settings_page() {
 
 		$settings_updated = true;
 	}
+}
 
+function mbt_api_key_refresh_ajax() {
+	mbt_update_setting('api_key', $_REQUEST['api_key']);
+	mbt_verify_api_key();
+	echo(mbt_api_key_feedback());
+	die();
+}
+
+function mbt_api_key_feedback() {
+	if(mbt_get_setting('api_key') and mbt_get_setting('api_key_status') != 0) {
+		if(mbt_get_setting('api_key_status') > 0) {
+			return '<span class="key_valid">Valid API Key: '.mbt_get_setting('api_key_message').'</span>';
+		} else {
+			return '<span class="key_invalid">Invalid API Key: '.mbt_get_setting('api_key_message').'</span>';
+		}
+	}
+}
+
+function mbt_render_settings_page() {
 	?>
-
 	<script>
 		jQuery(document).ready(function() {
 			jQuery("#mbt-tabs").tabs({active: <?php echo(isset($_REQUEST['tab'])?$_REQUEST['tab']:0); ?>});
@@ -92,18 +116,9 @@ function mbt_render_settings_page() {
 							<tr valign="top">
 								<th scope="row">API Key</th>
 								<td>
-									<div class="mbt_api_key_feedback">
-										<?php
-										if(mbt_get_setting('api_key')) {
-											if(mbt_get_setting('api_key_valid')) {
-												echo('<span class="key_valid">API Key Valid for MyBookTable '.(mbt_get_setting('dev_active') ? 'Developer' : (mbt_get_setting('pro_active') ? 'Professional' : 'Basic')).'</span>');
-											} else {
-												echo('<span class="key_invalid">Invalid API Key</span>');
-											}
-										}
-										?>
-									</div>
+									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" />
+									<div id="mbt_api_key_refresh"></div>
 									<p class="description">If you have purchased an API Key for MyBookTable, enter it here to activate your enhanced features.</p>
 								</td>
 							</tr>
@@ -260,7 +275,7 @@ function mbt_render_help_page() {
 <?php
 }
 
-function mbt_render_landing_page() {
+function mbt_render_dashboard() {
 	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_founders_page') { return mbt_render_founders_page(); }
 ?>
 
@@ -308,7 +323,7 @@ function mbt_render_landing_page() {
 					<div class="welcome-panel-column welcome-panel-last">
 						<h4>Extra Links</h4>
 						<ul>
-							<li><a href="<?php echo(admin_url('admin.php?page=mbt_landing_page&subpage=mbt_founders_page')); ?>" class="welcome-icon welcome-write-blog">View Founders List</a></li>
+							<li><a href="<?php echo(admin_url('admin.php?page=mbt_dashboard&subpage=mbt_founders_page')); ?>" class="welcome-icon welcome-write-blog">View Founders List</a></li>
 							<li><a href="http://authormedia.us1.list-manage.com/subscribe?u=b7358f48fe541fe61acdf747b&amp;id=6b5a675fcf" class="welcome-icon welcome-write-blog" target="_blank">Get Book Marketing Tips from Author Media</a></li>
 						</ul>
 					</div>
@@ -446,67 +461,4 @@ function mbt_render_founders_page() {
 	</div>
 
 <?php
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Custom Images for Taxonomies                            */
-/*---------------------------------------------------------*/
-
-function mbt_taxonomy_image_add_screen_post_type() {
-	global $current_screen, $taxonomy;
-	if(isset($_REQUEST['taxonomy']) and ($_REQUEST['taxonomy'] == 'mbt_author' or $_REQUEST['taxonomy'] == 'mbt_genre' or $_REQUEST['taxonomy'] == 'mbt_series')) {
-		$current_screen->post_type = "mbt_book";
-	}
-}
-add_action('in_admin_header', 'mbt_taxonomy_image_add_screen_post_type');
-
-add_filter('mbt_author_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
-add_filter('mbt_author_add_form_fields', 'mbt_add_taxonomy_image_add_form');
-add_action('edited_mbt_author', 'mbt_save_taxonomy_image_edit_form');
-add_action('created_mbt_author', 'mbt_save_taxonomy_image_add_form');
-
-add_filter('mbt_genre_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
-add_filter('mbt_genre_add_form_fields', 'mbt_add_taxonomy_image_add_form');
-add_action('edited_mbt_genre', 'mbt_save_taxonomy_image_edit_form');
-add_action('created_mbt_genre', 'mbt_save_taxonomy_image_add_form');
-
-add_filter('mbt_series_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
-add_filter('mbt_series_add_form_fields', 'mbt_add_taxonomy_image_add_form');
-add_action('edited_mbt_series', 'mbt_save_taxonomy_image_edit_form');
-add_action('created_mbt_series', 'mbt_save_taxonomy_image_add_form');
-
-function mbt_add_taxonomy_image_edit_form() {
-?>
-	<tr class="form-field">
-		<th scope="row" valign="top"><label for="mbt_tax_image_url">Image</label></th>
-		<td>
-			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />
-    		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
-        </td>
-	</tr>
-<?php
-}
-
-function mbt_add_taxonomy_image_add_form() {
-?>
-	<div class="form-field">
-		<label for="mbt_tax_image_url">Image</label>
-		<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="" />
-		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
-	</div>
-<?php
-}
-
-function mbt_save_taxonomy_image_edit_form() {
-	if(!empty($_REQUEST['taxonomy']) and !empty($_REQUEST['tag_ID']) and !empty($_REQUEST['mbt_tax_image_url'])) {
-		mbt_save_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'], $_REQUEST['mbt_tax_image_url']);
-	}
-}
-
-function mbt_save_taxonomy_image_add_form($term_id) {
-	if(!empty($_REQUEST['taxonomy']) and !empty($_REQUEST['mbt_tax_image_url'])) {
-		mbt_save_taxonomy_image($_REQUEST['taxonomy'], $term_id, $_REQUEST['mbt_tax_image_url']);
-	}
 }

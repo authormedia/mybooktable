@@ -1,3 +1,3 @@
-<h1 class="mbt-book-title entry-title">
+<h1 class="mbt-book-title">
 	<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 </h1>

@@ -3,11 +3,15 @@
 function mbt_init_metaboxes()
 {
 	add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
+	add_action('admin_enqueue_scripts', 'mbt_enqueue_metabox_js');
 
 	add_action('save_post', 'mbt_save_metadata_metabox');
 	add_action('save_post', 'mbt_save_buybuttons_metabox');
 	add_action('save_post', 'mbt_save_series_order_metabox');
+
+	add_action('add_meta_boxes', 'mbt_add_metaboxes', 9);
 }
+add_action('mbt_init', 'mbt_init_metaboxes');
 
 function mbt_add_metaboxes()
 {
@@ -17,9 +21,11 @@ function mbt_add_metaboxes()
 	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_series_order', 'Series Order', 'mbt_series_order_metabox', 'mbt_book', 'side', 'default');
 	add_meta_box('mbt_book_order', 'Book Order', 'mbt_book_order_metabox', 'mbt_book', 'side', 'low');
-
 }
-add_action('add_meta_boxes', 'mbt_add_metaboxes', 9);
+
+function mbt_enqueue_metabox_js() {
+	wp_enqueue_script("mbt-metaboxes", plugins_url('js/metaboxes.js', dirname(__FILE__)));
+}
 
 
 
@@ -63,18 +69,9 @@ function mbt_metadata_metabox($post)
 				<input type="text" name="mbt_unique_id" id="mbt_unique_id" value="<?php echo(get_post_meta($post->ID, "mbt_unique_id", true)); ?>" />
 				<p class="description">Unique ID or SKU (optional)</p>
 			</td>
-		</tr>
-		<tr>
 			<th><label for="mbt_price">Book Price</label></th>
 			<td>
 				$ <input type="text" name="mbt_price" id="mbt_price" value="<?php echo(get_post_meta($post->ID, "mbt_price", true)); ?>" />
-				<p class="description">(optional)</p>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="mbt_price">Book Sale Price</label></th>
-			<td>
-				$ <input type="text" name="mbt_sale_price" id="mbt_sale_price" value="<?php echo(get_post_meta($post->ID, "mbt_sale_price", true)); ?>" />
 				<p class="description">(optional)</p>
 			</td>
 		</tr>
@@ -84,6 +81,11 @@ function mbt_metadata_metabox($post)
 				<input type="text" id="mbt_sample_url" name="mbt_sample_url" value="<?php echo(get_post_meta($post->ID, "mbt_sample_url", true)); ?>" />
         		<input id="mbt_upload_sample_button" type="button" class="button" value="Upload" />
 				<p class="description">Upload a sample chapter from your book to give viewers a preview.</p>
+			</td>
+			<th><label for="mbt_price">Book Sale Price</label></th>
+			<td>
+				$ <input type="text" name="mbt_sale_price" id="mbt_sale_price" value="<?php echo(get_post_meta($post->ID, "mbt_sale_price", true)); ?>" />
+				<p class="description">(optional)</p>
 			</td>
 		</tr>
 	</table>
@@ -96,10 +98,10 @@ function mbt_save_metadata_metabox($post_id)
 
 	if(get_post_type($post_id) == "mbt_book")
 	{
-		if(isset($_POST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", $_POST['mbt_unique_id']); }
-		if(isset($_POST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_POST['mbt_price']); }
-		if(isset($_POST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_POST['mbt_sale_price']); }
-		if(isset($_POST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_POST['mbt_sample_url']); }
+		if(isset($_REQUEST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", $_REQUEST['mbt_unique_id']); }
+		if(isset($_REQUEST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_REQUEST['mbt_price']); }
+		if(isset($_REQUEST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_REQUEST['mbt_sale_price']); }
+		if(isset($_REQUEST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_REQUEST['mbt_sample_url']); }
 	}
 }
 
@@ -126,83 +128,14 @@ function mbt_buybuttons_metabox_editor($data, $num, $type) {
 
 function mbt_buybuttons_metabox_ajax() {
 	$buybuttons = mbt_get_buybuttons();
-	if(empty($buybuttons[$_POST['type']])) { die(); }
-	echo(mbt_buybuttons_metabox_editor(array('type' => $_POST['type']), $_POST['num'], $buybuttons[$_POST['type']]));
+	if(empty($buybuttons[$_REQUEST['type']])) { die(); }
+	echo(mbt_buybuttons_metabox_editor(array('type' => $_REQUEST['type']), $_REQUEST['num'], $buybuttons[$_REQUEST['type']]));
 	die();
 }
 
 function mbt_buybuttons_metabox($post)
 {
 	wp_nonce_field(plugin_basename(__FILE__), 'mbt_nonce');
-
-	?>
-
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			function reset_numbers() {
-				jQuery('#mbt_buybutton_editors .mbt_buybutton_editor').each(function(i) {
-					jQuery(this).find("input, textarea, select").each(function() {
-						ele = jQuery(this);
-						ele.attr('name', ele.attr('name').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i));
-						if(ele.attr('id')) { ele.attr('id', ele.attr('id').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i)); }
-					});
-				});
-			}
-
-			jQuery('#mbt_buybutton_adder').click(function(e) {
-				if(!jQuery('#mbt_buybutton_selector').val()){return false;}
-				jQuery('#mbt_buybutton_selector').attr('disabled', 'disabled');
-				jQuery('#mbt_buybutton_adder').attr('disabled', 'disabled');
-				jQuery.post(ajaxurl,
-					{
-						action: 'mbt_buybuttons_metabox',
-						type: jQuery('#mbt_buybutton_selector').val(),
-						num: 0
-					},
-					function(response) {
-						jQuery('#mbt_buybutton_selector').removeAttr('disabled');
-						jQuery('#mbt_buybutton_adder').removeAttr('disabled');
-						element = jQuery(response);
-						jQuery("#mbt_buybutton_editors").prepend(element);
-						element.find(".mbt_buybutton_display_selector").each(apply_display_title);
-						reset_numbers();
-					}
-				);
-				return false;
-			});
-
-			jQuery("#mbt_buybutton_editors").on("click", ".mbt_buybutton_remover", function() {
-				jQuery(this).parents('.mbt_buybutton_editor').remove();
-				reset_numbers();
-			});
-
-			function display_description(display) {
-				if(display == "book_only") { return "This store will be displayed as a button only on the book page."; }
-				if(display == "text_only") { return "This store will be displayed as text underneith the other buttons only on the book page."; }
-				if(display == "featured") { return "This store will be displayed as a button on the book listings and the book page."; }
-			}
-			function apply_display_title() {
-				element = jQuery(this)
-				element.tooltip();
-				element.tooltip("option", "content", display_description(element.find("input").val()));
-			}
-			jQuery("#mbt_buybutton_editors").on("click", ".mbt_buybutton_display_selector", function() {
-				element = jQuery(this);
-				input = element.find('input');
-				old_display = input.val();
-				new_display = old_display == "featured" ? "book_only" : old_display == "book_only" ? "text_only" : "featured";
-				input.val(new_display);
-				element.removeClass("display_"+old_display);
-				element.addClass("display_"+new_display);
-				element.tooltip("option", "content", display_description(new_display));
-			});
-			jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
-
-			jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_fields,.mbt_buybutton_display_selector", stop: function(){reset_numbers();}});
-		});
-	</script>
-
-	<?php
 
 	$buybuttons = mbt_get_buybuttons();
 	ksort($buybuttons);
@@ -230,15 +163,15 @@ function mbt_buybuttons_metabox($post)
 
 function mbt_save_buybuttons_metabox($post_id)
 {
-	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_POST['mbt_nonce']) || !wp_verify_nonce($_POST['mbt_nonce'], plugin_basename(__FILE__))){return;}
+	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_REQUEST['mbt_nonce']) || !wp_verify_nonce($_REQUEST['mbt_nonce'], plugin_basename(__FILE__))){return;}
 
 	if(get_post_type($post_id) == "mbt_book")
 	{
 		$buybuttons = mbt_get_buybuttons();
 		$book_buybuttons = array();
-		for($i = 0; isset($_POST['mbt_buybutton'.$i]); $i++)
+		for($i = 0; isset($_REQUEST['mbt_buybutton'.$i]); $i++)
 		{
-			$button = $_POST['mbt_buybutton'.$i];
+			$button = $_REQUEST['mbt_buybutton'.$i];
 			if(empty($buybuttons[$button['type']])) { continue; }
 			$book_buybuttons[] = apply_filters('mbt_'.$button['type'].'_buybutton_save', $button, $buybuttons[$button['type']]);
 		}
@@ -261,12 +194,12 @@ function mbt_series_order_metabox($post) {
 
 function mbt_save_series_order_metabox($post_id)
 {
-	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_POST['mbt_nonce']) || !wp_verify_nonce($_POST['mbt_nonce'], plugin_basename(__FILE__))){return;}
+	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_REQUEST['mbt_nonce']) || !wp_verify_nonce($_REQUEST['mbt_nonce'], plugin_basename(__FILE__))){return;}
 
 	if(get_post_type($post_id) == "mbt_book")
 	{
-		if(!empty($_POST["mbt_series_order"])) {
-			update_post_meta($post_id, "mbt_series_order", $_POST["mbt_series_order"]);
+		if(!empty($_REQUEST["mbt_series_order"])) {
+			update_post_meta($post_id, "mbt_series_order", $_REQUEST["mbt_series_order"]);
 		} else {
 			update_post_meta($post_id, "mbt_series_order", 0);
 		}

@@ -17,16 +17,16 @@ add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
 
 function mbt_buybutton_editor($data, $id, $type) {
 	$output  = '<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">';
-	$output .= '<textarea name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : $data['url']).'</textarea>';
+	$output .= '<textarea name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
 	$output .= '<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>';
 	return apply_filters('mbt_'.$data['type'].'_buybutton_editor', apply_filters('mbt_buybutton_editor', $output, $data, $id, $type), $data, $id, $type);
 }
 
 function mbt_buybutton_button($data, $type) {
 	if(!empty($data['display']) and $data['display'] == 'text_only') {
-		$output = empty($data['url']) ? '' : '<li><a href="'.$data['url'].'" target="_blank">Buy from '.$type['name'].'</a></li>';
+		$output = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank">Buy from '.$type['name'].'</a></li>';
 	} else {
-		$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['url'].'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
+		$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.htmlspecialchars($data['url']).'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
 	}
 	return apply_filters('mbt_'.$data['type'].'_buybutton_button', apply_filters('mbt_buybutton_button', $output, $data, $type), $data, $type);
 }
@@ -64,7 +64,7 @@ function mbt_get_amazon_tld($url) {
 }
 
 function mbt_amazon_buybutton_preview() {
-	$id = mbt_get_amazon_AISN($_POST['url']);
+	$id = mbt_get_amazon_AISN($_REQUEST['url']);
 	echo(empty($id) ? '<span class="error_message">Invalid Amazon code.</span>' : '<span class="success_message">Valid Amazon code.</span>');
 	die();
 }
@@ -88,7 +88,7 @@ function mbt_amazon_buybutton_editor($editor, $data, $id, $type) {
 		});
 	</script>';
 	$editor .= '<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">';
-	$editor .= '<b>'.$type['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80" rows="5">'.(empty($data['url']) ? '' : $data['url']).'</textarea>';
+	$editor .= '<b>'.$type['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80" rows="5">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
 	$editor .= '<p>Paste in the Amazon affiliate URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a></p>';
 	return $editor;
 }
@@ -101,9 +101,9 @@ function mbt_amazon_buybutton_button($button, $data, $type) {
 		$aisn = mbt_get_amazon_AISN($data['url']);
 		$data['url'] = (empty($tld) or empty($aisn)) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=mybooktable-20';
 		if($data['display'] == 'text_only') {
-			$button = empty($data['url']) ? '' : '<li><a href="'.$data['url'].'" target="_blank">Buy from '.$type['name'].'</a></li>';
+			$button = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank">Buy from '.$type['name'].'</a></li>';
 		} else {
-			$button = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.$data['url'].'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
+			$button = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.htmlspecialchars($data['url']).'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
 		}
 	}
 	return $button;
@@ -120,7 +120,7 @@ function mbt_amazon_buybutton_settings_render() {
 				<td>
 					<input type="text" id="mbt_amazon_buybutton_affiliate_code" disabled="true" value="" class="regular-text">
 					<p class="description">
-						<a href="http://www.authormedia.com/mybooktable/">Upgrade to MyBookTable Pro</a> to get amazon affiliate settings!
+						<a href="http://www.authormedia.com/mybooktable/">Upgrade your MyBookTable</a> to get amazon affiliate settings!
 					</p>
 				</td>
 			</tr>
