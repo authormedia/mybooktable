@@ -43,6 +43,11 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 0.7.5 =
+* Fixed numerous bugs
+* Added additional help messages to ease installation
+* Added "Book Order" option to order books on book page
+
 = 0.7.3 =
 * Fixed numerous bugs, including one that prevented the example books from being created
 * Improved MyBookTable dashboard and added Founders page

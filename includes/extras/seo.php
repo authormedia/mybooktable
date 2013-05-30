@@ -70,7 +70,6 @@ add_action('activate_wordpress-seo/wp-seo.php', 'mbt_reset_wpseo_defaults');
 /* MyBookTable SEO Functions                               */
 /*---------------------------------------------------------*/
 
-//override page title
 function mbt_seo_wp_title($title) {
 	if(mbt_is_seo_active() and is_singular('mbt_book')) {
 		global $post;
@@ -97,7 +96,6 @@ function mbt_seo_wp_title($title) {
 }
 add_filter('wp_title', 'mbt_seo_wp_title', 999);
 
-//add page meta
 function mbt_seo_add_metadesc() {
 	if(mbt_is_seo_active() and is_singular('mbt_book')) {
 		global $post;

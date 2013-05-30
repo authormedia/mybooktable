@@ -9,8 +9,8 @@ function mbt_get_buybuttons() {
 }
 
 function mbt_add_basic_buybuttons($buybuttons) {
-	$buybuttons['amazon'] = array('name' => 'Amazon', 'desc' => 'Amazon.com Buy Button');
-	$buybuttons['kindle'] = array('name' => 'Amazon Kindle', 'desc' => 'Amazon Kindle Buy Button');
+	$buybuttons['amazon'] = array('name' => 'Amazon', 'search' => 'http://amazon.com/books');
+	$buybuttons['kindle'] = array('name' => 'Amazon Kindle', 'search' => 'http://amazon.com/kindle-ebooks');
 	return $buybuttons;
 }
 add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
@@ -18,7 +18,7 @@ add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');
 function mbt_buybutton_editor($data, $id, $type) {
 	$output  = '<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">';
 	$output .= '<textarea name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
-	$output .= '<p>Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>';
+	$output .= '<p>Paste in the affiliate link URL for this item.'.(empty($type['search']) ? '' : ' <a href="'.$type['search'].'" target="_blank">Search for books on '.$type['name'].'.</a>').' <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a></p>';
 	return apply_filters('mbt_'.$data['type'].'_buybutton_editor', apply_filters('mbt_buybutton_editor', $output, $data, $id, $type), $data, $id, $type);
 }
 
@@ -81,7 +81,7 @@ function mbt_amazon_buybutton_editor($editor, $data, $id, $type) {
 						url: jQuery("#'.$id.'_url").val()
 					},
 					function(response) {
-						jQuery("#<?php echo($id); ?>_preview").html(response);
+						jQuery("#'.$id.'_preview").html(response);
 					}
 				);
 			});
@@ -89,7 +89,7 @@ function mbt_amazon_buybutton_editor($editor, $data, $id, $type) {
 	</script>';
 	$editor .= '<input name="'.$id.'[type]" type="hidden" value="'.$data['type'].'">';
 	$editor .= '<b>'.$type['name'].':</b><br><div id="'.$id.'_preview"></div><textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80" rows="5">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
-	$editor .= '<p>Paste in the Amazon affiliate URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a></p>';
+	$editor .= '<p>Paste in the Amazon affiliate URL or Button code for this item.'.(empty($type['search']) ? '' : ' <a href="'.$type['search'].'" target="_blank">Search for books on '.$type['name'].'.</a>').' <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a></p>';
 	return $editor;
 }
 add_action('mbt_amazon_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);

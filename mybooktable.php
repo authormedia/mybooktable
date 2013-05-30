@@ -5,10 +5,10 @@ Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 0.7.5
+Version: 0.7.6
 */
 
-define("MBT_VERSION", "0.7.5");
+define("MBT_VERSION", "0.7.6");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -29,13 +29,18 @@ require_once("includes/extras/seo.php");
 /*---------------------------------------------------------*/
 
 function mbt_activate() {
-	//flush rewrite rules
 	mbt_create_post_types();
 	mbt_create_taxonomies();
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
 }
 register_activation_hook(__FILE__, 'mbt_activate');
+
+function mbt_deactivate() {
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules();
+}
+register_deactivation_hook(__FILE__, 'mbt_deactivate');
 
 
 
