@@ -43,6 +43,13 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.0.0 =
+* First release version
+
+= 0.7.7 =
+* Added theme compatability for a wide range of plugins
+* Fixed CSS errors
+
 = 0.7.5 =
 * Fixed numerous bugs
 * Added additional help messages to ease installation
