@@ -153,9 +153,9 @@ function mbt_add_image_size_css() {
 	if(mbt_is_mbt_page()) {
 		$image_size = mbt_get_setting('image_size');
 		echo('<style type="text/css">');
-		if($image_size == 'small') { echo('.mbt_book .mbt-book-images { width: 15%; } .mbt_book .mbt-book-right { width: 85%; } '); }
-		else if($image_size == 'large') { echo('.mbt_book .mbt-book-images { width: 35%; } .mbt_book .mbt-book-right { width: 65%; } '); }
-		else { echo('.mbt_book .mbt-book-images { width: 25%; } .mbt_book .mbt-book-right { width: 75%; } '); }
+		if($image_size == 'small') { echo('.mbt_page .mbt_book .mbt-book-images { width: 15%; } .mbt_page .mbt_book .mbt-book-right { width: 85%; } '); }
+		else if($image_size == 'large') { echo('.mbt_page .mbt_book .mbt-book-images { width: 35%; } .mbt_page .mbt_book .mbt-book-right { width: 65%; } '); }
+		else { echo('.mbt_page .mbt_book .mbt-book-images { width: 25%; } .mbt_page .mbt_book .mbt-book-right { width: 75%; } '); }
 		echo('</style>');
 	}
 }
