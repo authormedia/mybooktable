@@ -202,9 +202,12 @@
 	font-weight: bold;
 }
 
+.mbt_settings .mbt_api_key_feedback {
+	padding-bottom: 8px;
+}
+
 .mbt_settings .mbt_api_key_feedback .key_valid {
 	display: inline-block;
-	padding-bottom: 8px;
 	background: url('../images/tick.png') 0px 2px no-repeat;
 	padding-left: 20px;
 	color: #5FA556;
@@ -212,7 +215,6 @@
 
 .mbt_settings .mbt_api_key_feedback .key_invalid {
 	display: inline-block;
-	padding-bottom: 8px;
 	background: url('../images/exclamation.png') 0px 2px no-repeat;
 	padding-left: 20px;
 	color: #E66455;

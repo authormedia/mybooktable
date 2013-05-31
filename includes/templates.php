@@ -237,7 +237,10 @@ function mbt_book_archive_image() {
 
 function mbt_get_book_archive_title() {
 	$output = '';
-	if(is_post_type_archive('mbt_book')) {
+	if(mbt_is_booktable_page()) {
+		$booktable_page = get_post(mbt_get_setting('booktable_page'));
+		$output .= $booktable_page->post_title;
+	} else if(is_post_type_archive('mbt_book')) {
 		$output .= 'Books';
 	} else if(is_tax('mbt_author')) {
 		$output .= 'Author: '.get_queried_object()->name;
@@ -245,8 +248,6 @@ function mbt_get_book_archive_title() {
 		$output .= 'Genre: '.get_queried_object()->name;
 	} else if(is_tax('mbt_series')) {
 		$output .= 'Series: '.get_queried_object()->name;
-	} else if(mbt_is_booktable_page()) {
-		$output .= 'Book Table';
 	}
 
 	return apply_filters('mbt_get_book_archive_title', $output);

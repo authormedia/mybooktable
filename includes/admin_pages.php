@@ -76,13 +76,20 @@ function mbt_api_key_refresh_ajax() {
 }
 
 function mbt_api_key_feedback() {
+	$output = '';
 	if(mbt_get_setting('api_key') and mbt_get_setting('api_key_status') != 0) {
 		if(mbt_get_setting('api_key_status') > 0) {
-			return '<span class="key_valid">Valid API Key: '.mbt_get_setting('api_key_message').'</span>';
+			$output .= '<span class="key_valid">Valid API Key: '.mbt_get_setting('api_key_message').'</span>';
+			if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
+				$output .= '<br><a href="http://www.authormedia.com/mybooktable/">Download the MyBookTable Developer Add-on to activate your advanced features!</a>';
+			} else if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
+				$output .= '<br><a href="http://www.authormedia.com/mybooktable/">Download the MyBookTable Professional Add-on to activate your advanced features!</a>';
+			}
 		} else {
-			return '<span class="key_invalid">Invalid API Key: '.mbt_get_setting('api_key_message').'</span>';
+			$output .= '<span class="key_invalid">Invalid API Key: '.mbt_get_setting('api_key_message').'</span>';
 		}
 	}
+	return $output;
 }
 
 function mbt_render_settings_page() {
