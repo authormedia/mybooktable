@@ -13,33 +13,6 @@ add_action('mbt_init', 'mbt_init_taxonomies');
 
 function mbt_create_taxonomies()
 {
-	register_post_type('mbt_book', array(
-		'labels' => array(
-			'name' => 'Books',
-			'singular_name' => 'Book',
-			'all_items' => 'Books',
-			'add_new' => 'Add New Book',
-			'add_new_item' => 'Add New Book',
-			'new_item_name' => 'New Book',
-			'edit_item' => 'Edit Book',
-			'view_item' => 'View Book',
-			'update_item' => 'Update Book',
-			'search_items' => 'Search Books',
-			'parent_item' => 'Parent Book',
-			'parent_item_colon' => 'Parent Book:'
-		),
-		'public' => true,
-		'show_ui' => true,
-		'query_var' => true,
-		'capability_type' => 'post',
-		'hierarchical' => false,
-		'menu_position' => 5,
-		'exclude_from_search' => false,
-		'has_archive' => true,
-		'supports' => array('title', 'thumbnail'),
-		'rewrite' => array('slug' => apply_filters('mbt_book_rewrite_name', 'books'))
-	));
-
 	register_taxonomy('mbt_author', 'mbt_book', array(
 		'hierarchical' => true,
 		'labels' => array(

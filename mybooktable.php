@@ -49,14 +49,15 @@ register_deactivation_hook(__FILE__, 'mbt_deactivate');
 /*---------------------------------------------------------*/
 
 function mbt_init() {
+	global $pagenow;
+	if($pagenow == "plugins.php" and current_user_can('install_plugins') and isset($_GET['mbt_uninstall'])) {
+		return mbt_uninstall();
+	}
+
 	do_action('mbt_before_init');
 
 	mbt_load_settings();
 	mbt_upgrade_check();
-
-	if(isset($_GET['mbt_uninstall'])) {
-		return mbt_uninstall();
-	}
 
 	add_filter('pre_set_site_transient_update_plugins', 'mbt_update_check');
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');

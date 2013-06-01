@@ -141,7 +141,7 @@ function mbt_render_settings_page() {
 									<?php if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) { ?>
 										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a Book Table page</a>
 									<?php } ?>
-									<p class="description">The Book Table page is the main landing page for your books, it must have the [mbt_booktable] shortcode.</p>
+									<p class="description">The Book Table page is the main landing page for your books.</p>
 								</td>
 							</tr>
 							<?php if(!mbt_get_setting('installed_examples')) { ?>

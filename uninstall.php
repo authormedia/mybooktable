@@ -1,3 +1,4 @@
 <?php
 if(!defined('WP_UNINSTALL_PLUGIN')){exit();}
-delete_option("mbt_settings");
+require_once("includes/setup.php");
+mbt_uninstall();

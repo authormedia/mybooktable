@@ -149,6 +149,9 @@ function mbt_uninstall() {
 	global $wpdb;
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE post_type = 'mbt_book'");
 
+	//erase rewrites
+	add_action('admin_init', 'flush_rewrite_rules');
+
 	//erase plugin
 	$active_plugins = get_option('active_plugins');
 	$plugin = plugin_basename(dirname(dirname(__FILE__))."/mybooktable.php");
