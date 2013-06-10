@@ -30,7 +30,6 @@ function mbt_create_post_types()
 		),
 		'public' => true,
 		'show_ui' => true,
-		'query_var' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
 		'menu_position' => 5,

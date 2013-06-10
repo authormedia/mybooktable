@@ -43,11 +43,17 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.1.0 =
+* Added "compatability mode" to increase theme compatability
+* Added Barnes & Noble and Audible Buttons to free version
+* Added [mybooktable] shortcode
+* Fixed numerous bugs
+
 = 1.0.0 =
 * First release version
 
 = 0.7.7 =
-* Added theme compatability for a wide range of plugins
+* Added theme compatability for several themes
 * Fixed CSS errors
 
 = 0.7.5 =

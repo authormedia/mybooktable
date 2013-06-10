@@ -8,17 +8,13 @@ function mbt_upgrade_check()
 {
 	$version = mbt_get_setting("version");
 
-	if($version < "0.7.4") { $version = mbt_database_upgrade_0_7_4(); }
+	if($version < "1.1.0") { $version = mbt_upgrade_1_1_0(); }
 
 	if($version != MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
 
-function mbt_database_upgrade_0_7_4() {
-	global $mbt_settings;
-	$mbt_settings['version'] = MBT_VERSION;
-	$mbt_settings['installed'] = 'done';
-	update_option("mbt_settings", $mbt_settings);
-	mbt_verify_api_key();
+function mbt_upgrade_1_1_0() {
+	mbt_update_setting('compatibility_mode', true);
 }
 
 /*---------------------------------------------------------*/
@@ -91,6 +87,11 @@ function mbt_add_admin_notices() {
 			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
 		}
 	}
+	if(mbt_get_setting('installed') == 'done') {
+		if((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) or (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION'))) {
+			add_action('admin_notices', 'mbt_admin_download_addon_notice');
+		}
+	}
 
 	if(isset($_GET['mbt_install_examples'])) {
 		mbt_install_examples();
@@ -126,6 +127,16 @@ function mbt_admin_setup_api_key_notice() {
 	<div id="message" class="mbt-install-message">
 		<h4><strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features</h4>
 		<a class="install-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>">Go To Settings</a>
+	</div>
+	<?php
+}
+
+function mbt_admin_download_addon_notice() {
+	$name = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? "Developer" : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? "Professional" : "");
+	?>
+	<div id="message" class="mbt-install-message">
+		<h4><strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!</h4>
+		<a class="install-button primary" href="https://www.authormedia.com/my-account/" target="_blank">Download</a>
 	</div>
 	<?php
 }

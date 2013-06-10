@@ -22,6 +22,7 @@ function mbt_reset_settings() {
 		'installed' => '',
 		'installed_examples' => false,
 		'booktable_page' => 0,
+		'compatibility_mode' => true,
 		'style_pack' => 'Default',
 		'image_size' => 'medium',
 		'enable_socialmedia_badges_single_book' => true,
@@ -70,14 +71,24 @@ function mbt_get_taxonomy_image($taxonomy, $term) {
 	return isset($taxonomy_images[$term]) ? $taxonomy_images[$term] : '';
 }
 
+function mbt_get_posts_per_page() {
+	$posts_per_page = mbt_get_setting('posts_per_page');
+	return empty($posts_per_page) ? get_option('posts_per_page') : $posts_per_page;
+}
+
 function mbt_is_mbt_page() {
-	$booktable_page = intval(mbt_get_setting('booktable_page'));
-	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_singular('mbt_book') or (!empty($booktable_page) and is_page($booktable_page)));
+	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_singular('mbt_book') or mbt_is_booktable_page() or mbt_is_taxonomy_query());
 }
 
 function mbt_is_booktable_page() {
 	global $mbt_is_booktable_page;
 	return !empty($mbt_is_booktable_page);
+}
+
+function mbt_get_booktable_url() {
+	$url = get_permalink(mbt_get_setting('booktable_page'));
+	if(empty($url)) { $url = get_post_type_archive_link('mbt_book'); }
+	return $url;
 }
 
 

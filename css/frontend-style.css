@@ -2,13 +2,13 @@
 /* General Book Styling                                    */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book {
+#mbt-container .mbt-book {
 	clear: both;
 	padding-bottom: 10px;
 	font-family: Helvetica, sans-serif
 }
 
-.mbt_page .mbt_book .mbt-book-right {
+#mbt-container .mbt-book .mbt-book-right {
 	float: left;
 	width: 75%;
 }
@@ -51,12 +51,12 @@
 /* Book Images                                             */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book .mbt-book-images {
+#mbt-container .mbt-book .mbt-book-images {
 	float: left;
 	width: 25%;
 }
 
-.mbt_page .mbt_book .mbt-book-images .mbt-book-image {
+#mbt-container .mbt-book .mbt-book-images .mbt-book-image {
 	width: 100%;
 	border-radius: 0px;
 	box-shadow: none;
@@ -72,10 +72,10 @@
 /* Book Title                                              */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book .mbt-book-title {
-	clear: none !important;
-	margin: 0 0 0 33px !important;
-	padding: 0 !important;
+#mbt-container .mbt-book .mbt-book-title {
+	clear: none;
+	margin: 0 0 0 33px;
+	padding: 0;
 
 	color: #484949;
 	font-size: 25px;
@@ -84,14 +84,14 @@
 	background: none;
 }
 
-.mbt_page .mbt_book .mbt-book-title a {
+#mbt-container .mbt-book .mbt-book-title a {
 	color: #326481;
 	font-size: 25px;
 	text-decoration: none;
 	font-weight: normal;
 }
 
-.mbt_page .mbt_book .mbt-book-title a:hover {
+#mbt-container .mbt-book .mbt-book-title a:hover {
 	color: #326481;
 	font-size: 25px;
 	text-decoration: underline;
@@ -103,20 +103,20 @@
 /*---------------------------------------------------------*/
 /* Book Price                                              */
 /*---------------------------------------------------------*/
-.mbt_page .mbt_book .mbt-book-price {
+#mbt-container .mbt-book .mbt-book-price {
 	margin: 10px 0px 10px 33px;
 	font-size: 16px;
 	font-weight: bold;
 	color: #484949;
 }
 
-.mbt_page .mbt_book .mbt-book-price .normal-price  {
+#mbt-container .mbt-book .mbt-book-price .normal-price  {
 	text-decoration: line-through;
 	color: #AEAEAE;
 	margin-right: 10px;
 }
 
-.mbt_page .mbt_book .mbt-book-price .sale-price  {
+#mbt-container .mbt-book .mbt-book-price .sale-price  {
 	color: #484949;
 }
 
@@ -125,24 +125,24 @@
 /*---------------------------------------------------------*/
 /* Book Meta                                              */
 /*---------------------------------------------------------*/
-.mbt_page .mbt_book .mbt-book-meta {
+#mbt-container .mbt-book .mbt-book-meta {
 	font-size: 14px;
 	line-height: 1.5;
 	margin-left: 33px;
 }
 
-.mbt_page .mbt_book .mbt-book-meta .meta-title {
+#mbt-container .mbt-book .mbt-book-meta .meta-title {
 	color: #484949;
 	font-weight: bold;
 }
 
-.mbt_page .mbt_book .mbt-book-meta a {
+#mbt-container .mbt-book .mbt-book-meta a {
 	color: #235970;
 	font-weight: 600;
 	text-decoration: none;
 }
 
-.mbt_page .mbt_book .mbt-book-meta a:hover {
+#mbt-container .mbt-book .mbt-book-meta a:hover {
 	text-decoration: underline;
 }
 
@@ -152,7 +152,7 @@
 /*---------------------------------------------------------*/
 /* Book Blurb                                              */
 /*---------------------------------------------------------*/
-.mbt_page .mbt_book .mbt-book-blurb {
+#mbt-container .mbt-book .mbt-book-blurb {
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
@@ -168,7 +168,7 @@
 	min-height: 50px;
 }
 
-.mbt_page .mbt_book .mbt-book-sample {
+#mbt-container .mbt-book .mbt-book-sample {
 	font-family: Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 14px;
@@ -206,22 +206,22 @@
 /* Buy Buttons                                             */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book .mbt-book-buybuttons {
+#mbt-container .mbt-book .mbt-book-buybuttons {
 	margin: 15px 0px 0px 20px;
 }
 
-.mbt_page .mbt_book .mbt-book-buybuttons .mbt-book-buybutton  {
+#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton  {
 	width: auto;
 	float: left;
 	clear: none;
 	padding: 5px 10px 0px 0px;
 }
 
-.mbt_page .mbt_book .mbt-book-buybuttons .mbt-book-buybutton img {
-    background: transparent;
-    border: none;
-    height: auto;
-    width: auto;
+#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img {
+	background: transparent;
+	border: none;
+	height: auto;
+	width: auto;
 	border-radius: 0px;
 	box-shadow: none;
 	vertical-align: bottom;
@@ -229,14 +229,14 @@
 	margin: 0;
 }
 
-.mbt_page .mbt_book .mbt-book-buybuttons-textonly  {
+#mbt-container .mbt-book .mbt-book-buybuttons-textonly  {
 	display: block;
 	float: left;
 	clear: both;
 	margin: 15px 0px 0px 0px;
 }
 
-.mbt_page .mbt_book .mbt-book-buybuttons-textonly h3  {
+#mbt-container .mbt-book .mbt-book-buybuttons-textonly h3  {
 	margin: 0px;
 	padding: 0px;
 }
@@ -247,7 +247,7 @@
 /* Book Overview                                           */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book .mbt-book-overview {
+#mbt-container .mbt-book .mbt-book-overview {
 	width: 100%;
 	clear: both;
 	float: left;
@@ -260,7 +260,7 @@
 	line-height: 21px;
 }
 
-.mbt_page .mbt_book .mbt-book-overview .mbt-book-overview-title {
+#mbt-container .mbt-book .mbt-book-overview .mbt-book-overview-title {
 	margin: 0;
 	padding: 0;
 	padding-bottom: 15px;
@@ -280,12 +280,12 @@
 /* Book Social Media                                       */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book .mbt-book-socialmedia-bar {
+#mbt-container .mbt-book .mbt-book-socialmedia-bar {
 	clear: both;
 	padding-top: 10px;
 }
 
-.mbt_page .mbt_book .mbt-book-socialmedia-badges {
+#mbt-container .mbt-book .mbt-book-socialmedia-badges {
 	float: right;
 	padding-left: 5px;
 }
@@ -296,7 +296,7 @@
 /* Book Series                                             */
 /*---------------------------------------------------------*/
 
-.mbt_page .mbt_book .mbt-book-series {
+#mbt-container .mbt-book .mbt-book-series {
 	clear: both;
 	font-size: 13px;
 
@@ -310,20 +310,20 @@
 	padding: 15px 23px;
 }
 
-.mbt_page .mbt_book .mbt-book-series .mbt-book-series-title {
+#mbt-container .mbt-book .mbt-book-series .mbt-book-series-title {
 	font-size: 16px;
 	font-weight: bold;
 	color: #484949;
 }
 
-.mbt_page .mbt_book .mbt-book-series .mbt-book {
+#mbt-container .mbt-book .mbt-book-series .mbt-book {
 	display: inline-block;
 	padding: 10px;
 	float: left;
 	text-align: center;
 }
 
-.mbt_page .mbt_book .mbt-book-series .mbt-book .mbt-book-title {
+#mbt-container .mbt-book .mbt-book-series .mbt-book .mbt-book-title {
 	font-size: 14px;
 	font-weight: bold;
 	clear: both;
@@ -331,21 +331,21 @@
 	margin: 0px;
 }
 
-.mbt_page .mbt_book .mbt-book-series .mbt-book .mbt-book-title a {
+#mbt-container .mbt-book .mbt-book-series .mbt-book .mbt-book-title a {
 	color: #235970;
 	font-size: 14px;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-.mbt_page .mbt_book .mbt-book-series .mbt-book .mbt-book-title a:hover {
+#mbt-container .mbt-book .mbt-book-series .mbt-book .mbt-book-title a:hover {
 	color: #235970;
 	font-size: 14px;
 	text-decoration: underline;
 	font-weight: bold;
 }
 
-.mbt_page .mbt_book .mbt-book-series .mbt-book .mbt-book-images {
+#mbt-container .mbt-book .mbt-book-series .mbt-book .mbt-book-images {
 	width: 150px;
 	height: 150px;
 	margin: 20px;
@@ -358,18 +358,23 @@
 /* Book Archive Styling                                    */
 /*---------------------------------------------------------*/
 
-.mbt_page .entry-header {
+#mbt-container .mbt-book-archive-header {
 	margin-bottom: 30px;
 	padding-bottom: 0px;
 }
 
-.mbt_page .entry-header .mbt-archive-image {
+#mbt-container .mbt-book-archive-header .mbt-book-archive-image {
 	float: left;
 	width: 15%;
-	padding-right: 24px;
+	padding: 0 24px 0 0;
+	border-radius: 0px;
+	box-shadow: none;
+	border: none;
+	background: transparent;
+	margin: 0;
 }
 
-.mbt_page .entry-header .entry-title {
+#mbt-container .mbt-book-archive-header .mbt-book-archive-title {
 	clear: none;
 	width: 75%;
 	float: left;
@@ -383,7 +388,7 @@
 	line-height: 1.3;
 }
 
-.mbt_page .entry-header .mbt-archive-description {
+#mbt-container .mbt-book-archive-header .mbt-book-archive-description {
 	clear: none;
 	width: 75%;
 	float: left;
@@ -397,31 +402,31 @@
 	position: relative;
 }
 
-.mbt_page .mbt-book-listing {
+#mbt-container .mbt-book-archive {
 	clear: both;
 }
 
-.mbt_page .mbt-book-listing .mbt_book {
+#mbt-container .mbt-book-archive .mbt-book {
 	margin-bottom: 40px;
 	border-bottom: 1px solid #E0E2E2;
 }
 
-.mbt_page .mbt-archive-pagination a {
+#mbt-container .mbt-book-archive-pagination a {
 	color: #235970;
 	font-weight: 600;
 	text-decoration: none;
 }
 
-.mbt_page .mbt-archive-pagination a:hover {
+#mbt-container .mbt-book-archive-pagination a:hover {
 	text-decoration: underline;
 }
 
-.mbt_page .mbt-archive-pagination-back {
+#mbt-container .mbt-book-archive-pagination-back {
 	float: left;
 	text-align: left;
 }
 
-.mbt_page .mbt-archive-pagination-forward {
+#mbt-container .mbt-book-archive-pagination-forward {
 	float: right;
 	text-align: right;
 }
@@ -432,26 +437,28 @@
 /* Widget Styling                                          */
 /*---------------------------------------------------------*/
 
-.mbt_book.mbt-featured-book-widget {
+.mbt-featured-book-widget {
 	text-align: center;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-title {
-	margin: 0 5px 15px 0 !important;
+.mbt-featured-book-widget .mbt-book-title {
+	margin: 0 5px 15px 0;
 	text-align: left;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-title a {
+.mbt-featured-book-widget .mbt-book-title a {
 	color: black;
 	font-size: 18px;
+	text-decoration: none;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-title a:hover {
+.mbt-featured-book-widget .mbt-book-title a:hover {
 	color: black;
 	font-size: 18px;
+	text-decoration: underline;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-image {
+.mbt-featured-book-widget .mbt-book-image {
 	width: 60%;
 	margin: 0 0 15px 0;
 	border-radius: 0px;
@@ -461,7 +468,8 @@
 	padding: 0;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-blurb {
+.mbt-featured-book-widget .mbt-book-blurb {
+	font-size: 14px;
 	text-align: left;
 	margin: 0 0 10px 0;
 	padding: 0;
@@ -469,13 +477,13 @@
 	border: none;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-blurb .read-more {
+.mbt-featured-book-widget .mbt-book-blurb .read-more {
 	display: block;
 	padding-top: 10px;
 	text-align: right;
 }
 
-.mbt_book.mbt-featured-book-widget .mbt-book-buybutton {
+.mbt-featured-book-widget .mbt-book-buybutton {
 	display: block;
 	text-align: left;
 }

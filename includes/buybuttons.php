@@ -11,6 +11,9 @@ function mbt_get_buybuttons() {
 function mbt_add_basic_buybuttons($buybuttons) {
 	$buybuttons['amazon'] = array('name' => 'Amazon', 'search' => 'http://amazon.com/books');
 	$buybuttons['kindle'] = array('name' => 'Amazon Kindle', 'search' => 'http://amazon.com/kindle-ebooks');
+	$buybuttons['audible'] = array('name' => 'Audible.com', 'search' => 'http://www.audible.com/search');
+	$buybuttons['bnn'] = array('name' => 'Barnes and Noble', 'search' => 'http://www.barnesandnoble.com/s/?store=book');
+	$buybuttons['nook'] = array('name' => 'Barnes and Noble Nook', 'search' => 'http://www.barnesandnoble.com/s/?store=ebook');
 	return $buybuttons;
 }
 add_filter('mbt_buybuttons', 'mbt_add_basic_buybuttons');

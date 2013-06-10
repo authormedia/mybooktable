@@ -30,7 +30,6 @@ function mbt_create_taxonomies()
 			'parent_item_colon' => 'Parent Authors:'
 		),
 		'show_ui' => true,
-		'query_var' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', 'authors'))
 	));
 
@@ -51,7 +50,6 @@ function mbt_create_taxonomies()
 			'parent_item_colon' => 'Parent Genres:'
 		),
 		'show_ui' => true,
-		'query_var' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', 'genre'))
 	));
 
@@ -72,7 +70,6 @@ function mbt_create_taxonomies()
 			'parent_item_colon' => 'Parent Series:'
 		),
 		'show_ui' => true,
-		'query_var' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', 'series'))
 	));
 }
@@ -88,13 +85,12 @@ function mbt_override_taxonomy_parent_files() {
 }
 
 
+
 /*---------------------------------------------------------*/
 /* Custom Images for Taxonomies                            */
 /*---------------------------------------------------------*/
 
 function mbt_init_taxonomy_editors() {
-	add_action('in_admin_header', 'mbt_taxonomy_image_add_screen_post_type');
-
 	add_filter('mbt_author_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
 	add_filter('mbt_author_add_form_fields', 'mbt_add_taxonomy_image_add_form');
 	add_action('edited_mbt_author', 'mbt_save_taxonomy_image_edit_form');
@@ -111,21 +107,14 @@ function mbt_init_taxonomy_editors() {
 	add_action('created_mbt_series', 'mbt_save_taxonomy_image_add_form');
 }
 
-function mbt_taxonomy_image_add_screen_post_type() {
-	global $current_screen, $taxonomy;
-	if(isset($_REQUEST['taxonomy']) and ($_REQUEST['taxonomy'] == 'mbt_author' or $_REQUEST['taxonomy'] == 'mbt_genre' or $_REQUEST['taxonomy'] == 'mbt_series')) {
-		$current_screen->post_type = "mbt_book";
-	}
-}
-
 function mbt_add_taxonomy_image_edit_form() {
 ?>
 	<tr class="form-field">
 		<th scope="row" valign="top"><label for="mbt_tax_image_url">Image</label></th>
 		<td>
 			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />
-    		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
-        </td>
+			<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
+		</td>
 	</tr>
 <?php
 }

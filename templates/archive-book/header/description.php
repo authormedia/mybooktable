@@ -1,0 +1,1 @@
+<div class="mbt-book-archive-description"><?php mbt_the_book_archive_description(); ?></div>

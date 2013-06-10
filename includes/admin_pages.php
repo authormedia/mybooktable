@@ -4,7 +4,6 @@ function mbt_admin_pages_init() {
 	add_action('admin_menu', 'mbt_add_admin_pages', 9);
 	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
 	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
-	add_action('admin_init', 'mbt_save_settings_page');
 	add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
@@ -29,9 +28,9 @@ function mbt_enqueue_admin_js() {
 function mbt_add_admin_pages() {
 	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
 	add_submenu_page("mbt_dashboard", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author");
-	add_submenu_page("mbt_dashboard", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre");
-	add_submenu_page("mbt_dashboard", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series");
+	add_submenu_page("mbt_dashboard", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
 	add_submenu_page("mbt_dashboard", "MyBookTable Settings", "Settings", 'manage_options', "mbt_settings", 'mbt_render_settings_page');
 	add_submenu_page("mbt_dashboard", "MyBookTable Help", "Help", 'edit_posts', "mbt_help", 'mbt_render_help_page');
 
@@ -41,31 +40,6 @@ function mbt_add_admin_pages() {
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
-}
-
-function mbt_save_settings_page() {
-	if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_settings'])) {
-		do_action('mbt_settings_save');
-
-		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
-			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
-			mbt_verify_api_key();
-		}
-
-		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
-		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
-		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
-
-		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book'])?true:false);
-		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt'])?true:false);
-		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book'])?true:false);
-
-		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo'])?true:false);
-		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
-		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
-
-		$settings_updated = true;
-	}
 }
 
 function mbt_api_key_refresh_ajax() {
@@ -81,9 +55,9 @@ function mbt_api_key_feedback() {
 		if(mbt_get_setting('api_key_status') > 0) {
 			$output .= '<span class="key_valid">Valid API Key: '.mbt_get_setting('api_key_message').'</span>';
 			if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
-				$output .= '<br><a href="http://www.authormedia.com/mybooktable/">Download the MyBookTable Developer Add-on to activate your advanced features!</a>';
+				$output .= '<br><a href="https://www.authormedia.com/my-account/">Download the MyBookTable Developer Add-on to activate your advanced features!</a>';
 			} else if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
-				$output .= '<br><a href="http://www.authormedia.com/mybooktable/">Download the MyBookTable Professional Add-on to activate your advanced features!</a>';
+				$output .= '<br><a href="https://www.authormedia.com/my-account/">Download the MyBookTable Professional Add-on to activate your advanced features!</a>';
 			}
 		} else {
 			$output .= '<span class="key_invalid">Invalid API Key: '.mbt_get_setting('api_key_message').'</span>';
@@ -93,6 +67,30 @@ function mbt_api_key_feedback() {
 }
 
 function mbt_render_settings_page() {
+	if(isset($_REQUEST['save_settings'])) {
+		do_action('mbt_settings_save');
+
+		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
+			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
+			mbt_verify_api_key();
+		}
+
+		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
+		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode'])?true:false);
+		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
+		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
+
+		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book'])?true:false);
+		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt'])?true:false);
+		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book'])?true:false);
+
+		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo'])?true:false);
+		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
+		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
+
+		$settings_updated = true;
+	}
+
 	?>
 	<script>
 		jQuery(document).ready(function() {
@@ -102,7 +100,7 @@ function mbt_render_settings_page() {
 
 	<div class="wrap mbt_settings">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Settings</h2>
-		<?php if(isset($settings_updated)) { ?>
+		<?php if(!empty($settings_updated)) { ?>
 			<div id="setting-error-settings_updated" class="updated settings-error"><p><strong>Settings saved.</strong></p></div>
 		<?php } ?>
 
@@ -142,6 +140,13 @@ function mbt_render_settings_page() {
 										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a Book Table page</a>
 									<?php } ?>
 									<p class="description">The Book Table page is the main landing page for your books.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_compatibility_mode">Compatability Mode</label></th>
+								<td>
+									<input type="checkbox" name="mbt_compatibility_mode" id="mbt_compatibility_mode" <?php echo(mbt_get_setting('compatibility_mode') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Turn on theme compatability mode.</p>
 								</td>
 							</tr>
 							<?php if(!mbt_get_setting('installed_examples')) { ?>
@@ -263,11 +268,10 @@ function mbt_render_settings_page() {
 
 function mbt_render_help_page() {
 ?>
-
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
 
-		<h4>MyBookTable is still in Beta and we are changing and improving things all the time. We hope the following tutorials prove helpful, but they are not guaranteed to exactly line up with the current MyBookTable interface.</h4>
+		<h4>MyBookTable is still changing and improving all the time. We hope the following tutorials prove helpful, but they are not guaranteed to exactly line up with the current MyBookTable interface.</h4>
 
 		<h3>Books and Series</h3>
 		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>
@@ -276,7 +280,6 @@ function mbt_render_help_page() {
 		<br><br><h2>More tutorial videos coming soon!</h2>
 
 		<?php do_action("mbt_render_help_page"); ?>
-
 	</div>
 
 <?php
@@ -311,9 +314,7 @@ function mbt_render_dashboard() {
 								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_book&mbt_install_examples=1')); ?>" class="welcome-icon">Look at some example Books</a></li>
 							<?php } ?>
 							<li><a href="<?php echo(admin_url('post-new.php?post_type=mbt_book')); ?>" class="welcome-icon welcome-add-page">Create your first book</a></li>
-							<?php if(mbt_get_setting('booktable_page')) { ?>
-								<li><a href="<?php echo(get_permalink(mbt_get_setting('booktable_page'))); ?>" class="welcome-icon welcome-view-site">View your Book Table</a></li>
-							<?php } ?>
+							<li><a href="<?php echo(mbt_get_booktable_url()); ?>" class="welcome-icon welcome-view-site">View your Book Table</a></li>
 						</ul>
 					</div>
 					<div class="welcome-panel-column">

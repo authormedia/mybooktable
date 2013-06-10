@@ -1,14 +1,14 @@
 <?php
 /*
-Plugin Name: MyBookTable
+Plugin Name: MyBookTable (Experimental)
 Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 1.0.0
+Version: 1.1.0
 */
 
-define("MBT_VERSION", "1.0.0");
+define("MBT_VERSION", "1.1.0");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -18,9 +18,10 @@ require_once("includes/admin_pages.php");
 require_once("includes/post_types.php");
 require_once("includes/taxonomies.php");
 require_once("includes/metaboxes.php");
-require_once("includes/extras/breadcrumbs.php");
 require_once("includes/extras/widgets.php");
 require_once("includes/extras/seo.php");
+require_once("includes/extras/shortcodes.php");
+require_once("includes/extras/compatibility.php");
 
 
 
@@ -49,10 +50,7 @@ register_deactivation_hook(__FILE__, 'mbt_deactivate');
 /*---------------------------------------------------------*/
 
 function mbt_init() {
-	global $pagenow;
-	if($pagenow == "plugins.php" and current_user_can('install_plugins') and isset($_GET['mbt_uninstall'])) {
-		return mbt_uninstall();
-	}
+	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['mbt_uninstall'])) { return mbt_uninstall(); }
 
 	do_action('mbt_before_init');
 

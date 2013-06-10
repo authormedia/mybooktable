@@ -79,7 +79,7 @@ function mbt_metadata_metabox($post)
 			<th><label for="mbt_price">Sample Chapter</label></th>
 			<td>
 				<input type="text" id="mbt_sample_url" name="mbt_sample_url" value="<?php echo(get_post_meta($post->ID, "mbt_sample_url", true)); ?>" />
-        		<input id="mbt_upload_sample_button" type="button" class="button" value="Upload" />
+				<input id="mbt_upload_sample_button" type="button" class="button" value="Upload" />
 				<p class="description">Upload a sample chapter from your book to give viewers a preview.</p>
 			</td>
 			<th><label for="mbt_price">Book Sale Price</label></th>
