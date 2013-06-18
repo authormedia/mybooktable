@@ -103,7 +103,7 @@ function mbt_amazon_buybutton_button($button, $data, $type) {
 		$tld = mbt_get_amazon_tld($data['url']);
 		$aisn = mbt_get_amazon_AISN($data['url']);
 		$data['url'] = (empty($tld) or empty($aisn)) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=mybooktable-20';
-		if($data['display'] == 'text_only') {
+		if(!empty($data['display']) and $data['display'] == 'text_only') {
 			$button = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank">Buy from '.$type['name'].'</a></li>';
 		} else {
 			$button = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.htmlspecialchars($data['url']).'" target="_blank"><img src="'.mbt_image_url($data['type'].'_button.png').'" border="0" alt="Buy from '.$type['name'].'"/></a></div>';
@@ -123,7 +123,15 @@ function mbt_amazon_buybutton_settings_render() {
 				<td>
 					<input type="text" id="mbt_amazon_buybutton_affiliate_code" disabled="true" value="" class="regular-text">
 					<p class="description">
-						<a href="http://www.authormedia.com/mybooktable/">Upgrade your MyBookTable</a> to get amazon affiliate settings!
+						<?php
+						if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
+							echo('<a href="https://www.authormedia.com/my-account/">Download the MyBookTable Developer Add-on to activate your advanced features!</a>');
+						} else if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
+							echo('<a href="https://www.authormedia.com/my-account/">Download the MyBookTable Professional Add-on to activate your advanced features!</a>');
+						} else {
+							echo('<a href="http://www.authormedia.com/mybooktable/add-ons">Upgrade your MyBookTable</a> to get amazon affiliate settings!');
+						}
+						?>
 					</p>
 				</td>
 			</tr>

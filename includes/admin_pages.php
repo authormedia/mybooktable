@@ -4,6 +4,7 @@ function mbt_admin_pages_init() {
 	add_action('admin_menu', 'mbt_add_admin_pages', 9);
 	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
 	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
+	add_action('admin_init', 'mbt_save_settings_page');
 	add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
@@ -42,6 +43,33 @@ function mbt_add_admin_pages() {
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
 }
 
+//needs to happen before setup.php admin_init in order to properly update admin notices
+function mbt_save_settings_page() {
+	if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_settings'])) {
+		do_action('mbt_settings_save');
+
+		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
+			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
+			mbt_verify_api_key();
+		}
+
+		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
+		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode'])?true:false);
+		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
+		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
+
+		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book'])?true:false);
+		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt'])?true:false);
+		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book'])?true:false);
+
+		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo'])?true:false);
+		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
+		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
+
+		$settings_updated = true;
+	}
+}
+
 function mbt_api_key_refresh_ajax() {
 	mbt_update_setting('api_key', $_REQUEST['api_key']);
 	mbt_verify_api_key();
@@ -67,31 +95,8 @@ function mbt_api_key_feedback() {
 }
 
 function mbt_render_settings_page() {
-	if(isset($_REQUEST['save_settings'])) {
-		do_action('mbt_settings_save');
+?>
 
-		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
-			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
-			mbt_verify_api_key();
-		}
-
-		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
-		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode'])?true:false);
-		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
-		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
-
-		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book'])?true:false);
-		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt'])?true:false);
-		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book'])?true:false);
-
-		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo'])?true:false);
-		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
-		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
-
-		$settings_updated = true;
-	}
-
-	?>
 	<script>
 		jQuery(document).ready(function() {
 			jQuery("#mbt-tabs").tabs({active: <?php echo(isset($_REQUEST['tab'])?$_REQUEST['tab']:0); ?>});
@@ -267,6 +272,10 @@ function mbt_render_settings_page() {
 }
 
 function mbt_render_help_page() {
+	if(!mbt_get_setting('help_page_email_subscribe_popup')) {
+		mbt_update_setting('help_page_email_subscribe_popup', 'show');
+		mbt_admin_email_subscribe_notice();
+	}
 ?>
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
@@ -289,7 +298,7 @@ function mbt_render_dashboard() {
 	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_founders_page') { return mbt_render_founders_page(); }
 ?>
 
-	<div class="wrap mbt-landing-page">
+	<div class="wrap mbt-dashboard">
 		<div id="icon-index" class="icon32"><br></div><h2>MyBookTable</h2>
 		<div class="welcome-video-container">
 			<div class="welcome-video welcome-panel">

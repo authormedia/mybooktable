@@ -43,6 +43,11 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.1.2 =
+* Changed Featured Book Widget to display buy buttons directly instead of redirecting to book page
+* Improved book listing pagination
+* Fixed numerous bugs
+
 = 1.1.0 =
 * Added "compatability mode" to increase theme compatability
 * Added Barnes & Noble and Audible Buttons to free version

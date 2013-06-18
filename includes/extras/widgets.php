@@ -41,7 +41,13 @@ class MBT_Featured_Book extends WP_Widget {
 					<h1 class="mbt-book-title"><a href="<?php echo($permalink); ?>"><?php echo(get_the_title($book->ID)); ?></a></h1>
 					<a href="<?php echo($permalink); ?>"><?php echo(mbt_get_book_image($book->ID)); ?></a>
 					<div class="mbt-book-blurb"><?php echo(mbt_get_book_blurb($book->ID, true)); ?></div>
-					<div class="mbt-book-buybutton"><a class="mbt-button" href="<?php echo($permalink); ?>">Buy Now</a></div>
+					<div class="mbt-book-buybuttons">
+						<?php
+							$book_buybuttons = mbt_get_book_buybuttons($book->ID, array('display' => 'featured'));
+							echo(mbt_format_buybuttons($book_buybuttons));
+						?>
+						<div style="clear:both;"></div>
+					</div>
 				</div>
 			<?php
 		}

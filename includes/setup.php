@@ -88,8 +88,28 @@ function mbt_add_admin_notices() {
 		}
 	}
 	if(mbt_get_setting('installed') == 'done') {
-		if((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) or (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION'))) {
+		if((mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) or ((!mbt_get_setting('dev_active') and mbt_get_setting('pro_active')) and !defined('MBTPRO_VERSION'))) {
 			add_action('admin_notices', 'mbt_admin_download_addon_notice');
+		}
+	}
+	if(mbt_get_setting('help_page_email_subscribe_popup') == 'show') {
+		if(isset($_POST['mbt_email_subscribe'])) {
+			mbt_update_setting('help_page_email_subscribe_popup', 'done');
+
+			if($_POST['mbt_email_address']) {
+				wp_remote_post('http://AuthorMedia.us1.list-manage1.com/subscribe/post', array(
+					'method' => 'POST',
+					'body' => array(
+						'u' => 'b7358f48fe541fe61acdf747b',
+						'id' => '6b5a675fcf',
+						'MERGE0' => $_POST['mbt_email_address'],
+						'MERGE1' => 'MyBookTable User',
+						'MERGE3' => '',
+				)));
+				add_action('admin_notices', 'mbt_admin_email_subscribe_thankyou_notice');
+			}
+		} else {
+			add_action('admin_notices', 'mbt_admin_email_subscribe_notice');
 		}
 	}
 
@@ -104,29 +124,29 @@ function mbt_add_admin_notices() {
 
 function mbt_admin_install_notice() {
 	?>
-	<div class="mbt-install-message">
+	<div class="mbt-admin-notice">
 		<h4><strong>Welcome to MyBookTable</strong> &#8211; You're almost ready to start promoting your books :)</h4>
-		<a class="install-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&install_mbt=1')); ?>">Install MyBookTable Pages</a>
-		<a class="install-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&skip_install_mbt=1')); ?>">Skip setup</a>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&install_mbt=1')); ?>">Install MyBookTable Pages</a>
+		<a class="notice-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&skip_install_mbt=1')); ?>">Skip setup</a>
 	</div>
 	<?php
 }
 
 function mbt_admin_installed_notice() {
 	?>
-	<div id="message" class="mbt-install-message">
+	<div id="message" class="mbt-admin-notice">
 		<h4><strong>MyBookTable has been installed</strong> &#8211; You're ready to start promoting your books :)</h4>
-		<a class="install-button primary" href="<?php echo(admin_url('admin.php?page=mbt_help&finish_install_mbt=1')); ?>">Show Me How</a>
-		<a class="install-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&finish_install_mbt=1')); ?>">Thanks, I Got This</a>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_help&finish_install_mbt=1')); ?>">Show Me How</a>
+		<a class="notice-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&finish_install_mbt=1')); ?>">Thanks, I Got This</a>
 	</div>
 	<?php
 }
 
 function mbt_admin_setup_api_key_notice() {
 	?>
-	<div id="message" class="mbt-install-message">
+	<div id="message" class="mbt-admin-notice">
 		<h4><strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features</h4>
-		<a class="install-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>">Go To Settings</a>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>">Go To Settings</a>
 	</div>
 	<?php
 }
@@ -134,9 +154,31 @@ function mbt_admin_setup_api_key_notice() {
 function mbt_admin_download_addon_notice() {
 	$name = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? "Developer" : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? "Professional" : "");
 	?>
-	<div id="message" class="mbt-install-message">
+	<div id="message" class="mbt-admin-notice">
 		<h4><strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!</h4>
-		<a class="install-button primary" href="https://www.authormedia.com/my-account/" target="_blank">Download</a>
+		<a class="notice-button primary" href="https://www.authormedia.com/my-account/" target="_blank">Download</a>
+	</div>
+	<?php
+}
+
+function mbt_admin_email_subscribe_notice() {
+	?>
+	<div class="mbt-admin-notice mbt-email-subscribe-message">
+		<h4><strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to our newsletter!</h4>
+		<form action="" method="POST">
+			<input type="hidden" name="mbt_email_subscribe" value="1">
+			<input type="email" name="mbt_email_address" id="mbt_email_address" autocapitalize="off" autocorrect="off" size="25" value="" placeholder="you@example.com">
+			<input type="Submit" class="notice-button primary" value="Subscribe" onclick="if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(jQuery('#mbt_email_address').val())){jQuery('#mbt_email_address').focus().css('background', '#FFEBE8');return false;}">
+			<input type="Submit" class="notice-button secondary" value="No Thanks">
+		</form>
+	</div>
+	<?php
+}
+
+function mbt_admin_email_subscribe_thankyou_notice() {
+	?>
+	<div class="mbt-admin-notice mbt-email-subscribe-message">
+		<h4><strong>Thank you for subscribing!</strong> &#8211; Please check your inbox for a confirmation letter.</h4>
 	</div>
 	<?php
 }

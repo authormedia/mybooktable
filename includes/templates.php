@@ -31,7 +31,7 @@ function mbt_templates_init() {
 	add_action('mbt_book_archive_header_description', 'mbt_do_book_archive_header_description');
 	add_action('mbt_book_archive_loop', 'mbt_do_book_archive_loop');
 	add_action('mbt_book_archive_no_results', 'mbt_do_book_archive_no_results');
-	add_action('mbt_after_book_archive_loop', 'mbt_do_book_archive_pagination');
+	add_action('mbt_after_book_archive_loop', 'mbt_the_book_archive_pagination');
 
 	//single book hooks
 	add_action('mbt_single_book_content', 'mbt_do_single_book_content');
@@ -84,19 +84,25 @@ function mbt_load_book_templates($template) {
 }
 
 function mbt_pre_get_posts($query) {
-	if(!is_admin() and $query->is_main_query() and mbt_get_setting('booktable_page') and ($booktable_page = get_post(mbt_get_setting('booktable_page')))) {
-		if($query->is_post_type_archive('mbt_book')) {
-			$paged = $query->get('paged');
-			$query->init();
-			$query->set('page_id', $booktable_page->ID);
-			$query->set('paged', $paged);
-			$query->parse_query();
+	if(!is_admin() and $query->is_main_query()) {
+		if(mbt_get_setting('booktable_page') and ($booktable_page = get_post(mbt_get_setting('booktable_page')))) {
+			if($query->is_post_type_archive('mbt_book')) {
+				$paged = $query->get('paged');
+				$query->init();
+				$query->set('page_id', $booktable_page->ID);
+				$query->set('paged', $paged);
+				$query->parse_query();
+			}
+			if($query->is_page() and ($query->get('page_id') == $booktable_page->ID or $query->get('pagename') == $booktable_page->post_name)) {
+				global $mbt_is_booktable_page;
+				$mbt_is_booktable_page = true;
+				add_action('mbt_before_book_archive', 'mbt_do_before_booktable_page');
+				add_action('mbt_after_book_archive', 'mbt_do_after_booktable_page');
+			}
 		}
-		if($query->is_page() and ($query->get('page_id') == $booktable_page->ID or $query->get('pagename') == $booktable_page->post_name)) {
-			global $mbt_is_booktable_page;
-			$mbt_is_booktable_page = true;
-			add_action('mbt_before_book_archive', 'mbt_do_before_booktable_page');
-			add_action('mbt_after_book_archive', 'mbt_do_after_booktable_page');
+		if($query->is_post_type_archive('mbt_book') or $query->is_tax('mbt_author') or $query->is_tax('mbt_genre') or $query->is_tax('mbt_series')) {
+			$query->set('orderby', 'menu_order');
+			$query->set('posts_per_page', mbt_get_posts_per_page());
 		}
 	}
 }
@@ -209,9 +215,6 @@ function mbt_do_book_archive_loop() {
 }
 function mbt_do_book_archive_no_results() {
 	mbt_include_template("archive-book/no-results.php");
-}
-function mbt_do_book_archive_pagination() {
-	mbt_include_template("archive-book/pagination.php");
 }
 
 
@@ -356,6 +359,59 @@ function mbt_get_book_archive_description() {
 function mbt_the_book_archive_description() {
 	echo(mbt_get_book_archive_description());
 }
+
+function mbt_get_book_archive_pagination() {
+	global $wp_query;
+
+	$posts_per_page = intval($wp_query->get('posts_per_page'));
+	$paged = max(1, absint($wp_query->get('paged')));
+	$total_pages = max(1, absint($wp_query->max_num_pages));
+	if($total_pages < 2) { return; }
+
+	$pages_to_show = 7;
+	$pages_to_show_minus_1 = $pages_to_show - 1;
+	$half_page_start = floor($pages_to_show_minus_1/2);
+	$half_page_end = ceil($pages_to_show_minus_1/2);
+	$start_page = max(1, $paged - $half_page_start);
+
+	$end_page = $paged + $half_page_end;
+
+	if(($end_page - $start_page) != $pages_to_show_minus_1) {
+		$end_page = $start_page + $pages_to_show_minus_1;
+	}
+
+	if($end_page > $total_pages) {
+		$start_page = max(1, $total_pages - $pages_to_show_minus_1);
+		$end_page = $total_pages;
+	}
+
+	$prev_text = apply_filters('mbt_book_archive_pagination_previous', '&larr; Back');
+	$next_text = apply_filters('mbt_book_archive_pagination_next', 'More Books &rarr;');
+
+	$output = '<nav class="mbt-book-archive-pagination">';
+
+	if($paged > 1) { $output .= '<a href="'.get_pagenum_link($paged - 1).'" class="mbt-book-archive-pagination-previous">'.$prev_text.'</a>'; }
+	if($start_page >= 2 && $pages_to_show < $total_pages) { $output .= '<span class="mbt-book-archive-pagination-delimiter">'.apply_filters('mbt_book_archive_pagination_delimiter', '&hellip;').'</span>'; }
+
+	foreach(range($start_page, $end_page) as $i) {
+		if($i == $paged) {
+			$output .= '<span class="mbt-book-archive-pagination-page current">'.apply_filters('mbt_book_archive_pagination_page', strval($i)).'</span>';
+		} else {
+			$output .= '<a href="'.get_pagenum_link($i).'" class="mbt-book-archive-pagination-page">'.apply_filters('mbt_book_archive_pagination_page', strval($i)).'</a>';
+		}
+	}
+
+	if($end_page < $total_pages) { $output .= '<span class="mbt-book-archive-pagination-delimiter">'.apply_filters('mbt_book_archive_pagination_delimiter', '&hellip;').'</span>'; }
+	if($paged < $total_pages) { $output .= '<a href="'.get_pagenum_link($paged + 1).'" class="mbt-book-archive-pagination-next">'.$next_text.'</a>'; }
+
+	$output .= "</nav>";
+
+	return apply_filters('mbt_get_book_archive_pagination', $output);
+}
+function mbt_the_book_archive_pagination() {
+	echo(mbt_get_book_archive_pagination());
+}
+
 
 
 

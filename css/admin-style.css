@@ -95,22 +95,22 @@
 /* Landing Page                                            */
 /*---------------------------------------------------------*/
 
-.mbt-landing-page .welcome-video-container {
+.mbt-dashboard .welcome-video-container {
 	text-align: center;
 }
 
-.mbt-landing-page .welcome-video {
+.mbt-dashboard .welcome-video {
 	display: inline-block;
 	text-align: center;
 }
 
 
-.mbt-landing-page .buttons-container {
+.mbt-dashboard .buttons-container {
 	margin: 0 auto;
 	text-align: center;
 }
 
-.mbt-landing-page .buttons-container .add-new-book {
+.mbt-dashboard .buttons-container .add-new-book {
 	font-family: Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 16px!important;
@@ -143,7 +143,7 @@
 	cursor: pointer;
 }
 
-.mbt-landing-page .buttons-container .add-new-book:active {
+.mbt-dashboard .buttons-container .add-new-book:active {
 	background-color: #278AB7;
 	background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
 	background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);
@@ -160,32 +160,32 @@
 	-webkit-transition-duration: .3s;
 }
 
-.mbt-landing-page .metabox-holder .postbox {
+.mbt-dashboard .metabox-holder .postbox {
 	width: 40%;
 	float: left;
 	margin: 0px 10px 10px 0px;
 }
 
-.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside {
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside {
 	text-align: center;
 	padding: 15px 10px;
 }
 
-.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside ul {
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside ul {
 	list-style-type: circle;
 	list-style-position: inside;
 	font-weight: bold;
 }
 
-.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .currently-using {
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .currently-using {
 	line-height: 1.2;
 }
 
-.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .current-version {
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .current-version {
 	color: #21759b;
 }
 
-.mbt-landing-page .metabox-holder #mbt_dashboard_upsell .inside .thank-you {
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .thank-you {
 	padding: 15px 0px 10px 0
 }
 
@@ -245,7 +245,7 @@
 /* Install Messages                                        */
 /*---------------------------------------------------------*/
 
-.mbt-install-message {
+.mbt-admin-notice {
 	position: relative;
 	z-index: 100;
 	border: 1px solid #21759b;
@@ -257,13 +257,14 @@
 	box-shadow: inset 0 0 15px rgba(0,0,0,0.04);
 	background: #2a95c5;
 	display: inline-block;
+	min-width: 50%;
 
 	padding-right: 10px;
 	margin: 5px 10px 2px;
 	overflow: hidden;
 }
 
-.mbt-install-message h4 {
+.mbt-admin-notice h4 {
 	font-size: 18px;
 	font-family: "Helvetica Neue",Helvetica,Arial,"Lucida Grande",Verdana,"Bitstream Vera Sans",sans-serif;
 	font-weight: normal;
@@ -281,7 +282,7 @@
 	border-radius: 5px;
 }
 
-.mbt-install-message .install-button {
+.mbt-admin-notice .notice-button {
 	font-family: "Helvetica Neue",Helvetica,Arial,"Lucida Grande",Verdana,"Bitstream Vera Sans",sans-serif;
 	font-weight: bold;
 	font-size: 16px!important;
@@ -314,11 +315,11 @@
 	cursor: pointer;
 }
 
-.mbt-install-message .install-button.secondary {
+.mbt-admin-notice .notice-button.secondary {
 	opacity: .5;
 }
 
-.mbt-install-message .install-button:hover, .mbt-install-message .install-button:active {
+.mbt-admin-notice .notice-button:hover, .mbt-admin-notice .notice-button:active {
 	background-color: #278AB7;
 	background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
 	background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);
@@ -333,4 +334,16 @@
 
 	opacity: 1;
 	-webkit-transition-duration: .3s;
+}
+
+.mbt-email-subscribe-message h4 {
+	padding-right: 20px;
+}
+
+.mbt-email-subscribe-message form {
+	float: right;
+}
+
+.mbt-email-subscribe-message form input {
+	vertical-align: middle;
 }

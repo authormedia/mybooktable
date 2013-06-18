@@ -411,24 +411,69 @@
 	border-bottom: 1px solid #E0E2E2;
 }
 
+#mbt-container .mbt-book-archive-pagination {
+	text-align: center;
+}
+
 #mbt-container .mbt-book-archive-pagination a {
-	color: #235970;
-	font-weight: 600;
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 14px;
+	vertical-align: middle;
+	color: white;
+	text-align: center;
 	text-decoration: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+
+	border: 1px solid #345873;
+	border-radius: 5px;
+
+	background-color: #36738d;
+	background-image: -moz-linear-gradient(top,  #36738d 0%, #2f5a79 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#36738d), color-stop(100%,#2f5a79));
+	background-image: -webkit-linear-gradient(top,  #36738d 0%,#2f5a79 100%);
+	background-image: -o-linear-gradient(top,  #36738d 0%,#2f5a79 100%);
+	background-image: -ms-linear-gradient(top,  #36738d 0%,#2f5a79 100%);
+	background-image: linear-gradient(to bottom,  #36738d 0%,#2f5a79 100%);
+
+	-webkit-box-shadow: inset 1px 1px 0 rgba(141,184,211,0.7);
+	box-shadow: inset 1px 1px 0 rgba(141,184,211,0.7);
+
+	display: inline-block;
+	margin: 0px 5px 0px 0px;
+	padding: 6px 8px;
+
 }
 
 #mbt-container .mbt-book-archive-pagination a:hover {
 	text-decoration: underline;
 }
 
-#mbt-container .mbt-book-archive-pagination-back {
-	float: left;
-	text-align: left;
+#mbt-container .mbt-book-archive-pagination span {
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 14px;
+	vertical-align: middle;
+	color: #214756;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+
+	display: inline-block;
+	margin: 0px 5px 0px 0px;
+	padding: 6px 8px;
 }
 
-#mbt-container .mbt-book-archive-pagination-forward {
-	float: right;
-	text-align: right;
+#mbt-container .mbt-book-archive-pagination .mbt-book-archive-pagination-next {
+	margin-left: 5px;
+	padding: 6px 15px;
+}
+
+#mbt-container .mbt-book-archive-pagination .mbt-book-archive-pagination-previous {
+	margin-right: 10px;
+	padding: 6px 15px;
 }
 
 
@@ -483,7 +528,26 @@
 	text-align: right;
 }
 
-.mbt-featured-book-widget .mbt-book-buybutton {
-	display: block;
+.mbt-featured-book-widget .mbt-book-buybuttons {
+	display: inline-block;
 	text-align: left;
+}
+
+.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton  {
+	width: auto;
+	float: left;
+	clear: none;
+	padding: 5px 10px 0px 0px;
+}
+
+.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton img {
+	background: transparent;
+	border: none;
+	height: auto;
+	width: auto;
+	border-radius: 0px;
+	box-shadow: none;
+	vertical-align: bottom;
+	padding: 0;
+	margin: 0;
 }
