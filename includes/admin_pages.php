@@ -280,13 +280,20 @@ function mbt_render_help_page() {
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
 
-		<h4>MyBookTable is still changing and improving all the time. We hope the following tutorials prove helpful, but they are not guaranteed to exactly line up with the current MyBookTable interface.</h4>
-
+		<h2>Tutorial Videos</h2>
 		<h3>Books and Series</h3>
 		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>
 		<p>This video shows you how to add books into a series.</p>
 
-		<br><br><h2>More tutorial videos coming soon!</h2>
+		<h3>Buy Button Tutorial</h3>
+		<iframe width="640" height="360" src="http://player.vimeo.com/video/68790296" frameborder="0" allowfullscreen></iframe>
+		<p>This video shows you how to add buy buttons to your books.</p>
+
+		<h3>Book Blurbs</h3>
+		<iframe width="640" height="360" src="http://www.youtube.com/embed/LABESfhThhY" frameborder="0" allowfullscreen></iframe>
+		<p>This video shows you how to write book blurbs for your books.</p>
+
+		<h2>More tutorial videos coming soon!</h2>
 
 		<?php do_action("mbt_render_help_page"); ?>
 	</div>

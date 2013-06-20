@@ -43,16 +43,21 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.1.3 =
+* Added new Tutorial Videos and help text
+* Changed book price system to allow non-USD currencies
+* Fixed various bugs
+
 = 1.1.2 =
 * Changed Featured Book Widget to display buy buttons directly instead of redirecting to book page
 * Improved book listing pagination
-* Fixed numerous bugs
+* Fixed various bugs
 
 = 1.1.0 =
 * Added "compatability mode" to increase theme compatability
 * Added Barnes & Noble and Audible Buttons to free version
 * Added [mybooktable] shortcode
-* Fixed numerous bugs
+* Fixed various bugs
 
 = 1.0.0 =
 * First release version

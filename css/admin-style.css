@@ -28,6 +28,18 @@
 	color: red;
 }
 
+#mbt_metadata .mbt-cover-image-title {
+	margin: .5em 0;
+}
+
+#mbt_metadata .mbt-book-image {
+	width: 100%;
+}
+
+#mbt_metadata .form-table td {
+	vertical-align: top;
+}
+
 #mbt_buybuttons .mbt_buybutton_editor {
 	border: 1px solid #DFDFDF;
 	border-radius: 5px;

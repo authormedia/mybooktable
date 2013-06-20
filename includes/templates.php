@@ -418,7 +418,7 @@ function mbt_the_book_archive_pagination() {
 function mbt_get_book_image($post_id) {
 	$src = '';
 
-	$image = apply_filters('mbt_book_image', wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'mbt_book_image'));
+	$image = apply_filters('mbt_book_image', wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image'));
 	if($image) {
 		list($src, $width, $height) = $image;
 	} else {
@@ -436,7 +436,7 @@ function mbt_the_book_image() {
 
 function mbt_get_book_price($post_id) {
 	$price = get_post_meta($post_id, 'mbt_price', true);
-	return apply_filters('mbt_get_book_price', empty($price) ? '' : "$".number_format((double)(preg_replace("/[^0-9,.]/", "", $price)), 2), $post_id);
+	return apply_filters('mbt_get_book_price', preg_match("/^[0-9,.]+$/", $price) ? "$".number_format((double)$price, 2) : $price, $post_id);
 }
 function mbt_the_book_price() {
 	global $post;
@@ -446,7 +446,7 @@ function mbt_the_book_price() {
 function mbt_add_book_sale_price($price, $post_id) {
 	$sale_price = get_post_meta($post_id, 'mbt_sale_price', true);
 	if(!empty($sale_price)) {
-		$price = '<span class="normal-price">'.$price.'</span><span class="sale-price">$'.number_format((double)(preg_replace("/[^0-9,.]/", "", $sale_price)), 2).'</span>';
+		$price = '<span class="normal-price">'.$price.'</span><span class="sale-price">'.(preg_match("/^[0-9,.]*$/", $sale_price) ? "$".number_format((double)$sale_price, 2) : $sale_price).'</span>';
 	}
 	return $price;
 }

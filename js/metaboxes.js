@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
 
 	function display_description(display) {
 		if(display == "book_only") { return "This store will be displayed as a button only on the book page."; }
-		if(display == "text_only") { return "This store will be displayed as text underneith the other buttons only on the book page."; }
+		if(display == "text_only") { return "This store will be displayed as text underneath the other buttons only on the book page."; }
 		if(display == "featured") { return "This store will be displayed as a button on the book listings and the book page."; }
 	}
 	function apply_display_title() {
@@ -59,4 +59,19 @@ jQuery(document).ready(function() {
 	jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
 
 	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_fields,.mbt_buybutton_display_selector", stop: function(){reset_numbers();}});
+
+	jQuery("#mbt_book_image_id").change(function(){
+		jQuery.post(ajaxurl,
+			{
+				action: 'mbt_metadata_metabox',
+				image_id: jQuery('#mbt_book_image_id').val(),
+				num: 0
+			},
+			function(response) {
+				if(response) {
+					jQuery('#mbt_metadata .mbt-book-image').after(jQuery(response)).remove();
+				}
+			}
+		);
+	});
 });

@@ -8,7 +8,8 @@ function mbt_upgrade_check()
 {
 	$version = mbt_get_setting("version");
 
-	if($version < "1.1.0") { $version = mbt_upgrade_1_1_0(); }
+	if($version < "1.1.0") { mbt_upgrade_1_1_0(); }
+	if($version < "1.1.3") { mbt_upgrade_1_1_3(); }
 
 	if($version != MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
@@ -16,6 +17,19 @@ function mbt_upgrade_check()
 function mbt_upgrade_1_1_0() {
 	mbt_update_setting('compatibility_mode', true);
 }
+
+function mbt_upgrade_1_1_3() {
+	global $wpdb;
+	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
+	if(!empty($books)) {
+		foreach($books as $book_id) {
+			$image_id = get_post_meta($book_id, '_thumbnail_id', true);
+			update_post_meta($book_id, 'mbt_book_image_id', $image_id);
+		}
+	}
+}
+
+
 
 /*---------------------------------------------------------*/
 /* Installation Functions                                  */
@@ -164,7 +178,7 @@ function mbt_admin_download_addon_notice() {
 function mbt_admin_email_subscribe_notice() {
 	?>
 	<div class="mbt-admin-notice mbt-email-subscribe-message">
-		<h4><strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to our newsletter!</h4>
+		<h4><strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to the Author Media newsletter!</h4>
 		<form action="" method="POST">
 			<input type="hidden" name="mbt_email_subscribe" value="1">
 			<input type="email" name="mbt_email_address" id="mbt_email_address" autocapitalize="off" autocorrect="off" size="25" value="" placeholder="you@example.com">

@@ -1,4 +1,4 @@
-function make_uploader(button, urlbox, title) {
+function make_uploader(button, urlbox, title, desired_data) {
 	var file_frame;
 
 	jQuery(button).live('click', function(event) {
@@ -24,7 +24,7 @@ function make_uploader(button, urlbox, title) {
 			attachment = file_frame.state().get('selection').first().toJSON();
 
 			// Save the returned url
-			jQuery(urlbox).val(attachment['url']);
+			jQuery(urlbox).val(attachment[typeof desired_data !== 'undefined' ? desired_data : 'url']).trigger('change');
 		});
 
 		// Finally, open the modal
@@ -35,4 +35,5 @@ function make_uploader(button, urlbox, title) {
 jQuery(document).ready(function() {
 	make_uploader('#mbt_upload_sample_button', '#mbt_sample_url', 'Sample Chapter Image');
 	make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', 'Taxonomy Image');
+	make_uploader('#mbt_set_book_image_button', '#mbt_book_image_id', 'Book Cover Image', 'id');
 });
