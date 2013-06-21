@@ -80,7 +80,7 @@ function mbt_metadata_metabox($post)
 		<tr>
 			<td rowspan="4">
 				<h4 class="mbt-cover-image-title">Book Cover Image</h4>
-				<?php mbt_the_book_image(); ?>
+				<?php mbt_the_book_image(); ?><br>
 				<input type="hidden" id="mbt_book_image_id" name="mbt_book_image_id" value="<?php echo(get_post_meta($post->ID, "mbt_book_image_id", true)); ?>" />
 				<input id="mbt_set_book_image_button" type="button" class="button" value="Set cover image" />
 			</td>
