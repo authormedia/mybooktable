@@ -11,5 +11,4 @@ do_action('mbt_single_book_buybuttons');
 ?></div><?php
 do_action('mbt_single_book_overview');
 do_action('mbt_single_book_socialmedia');
-do_action('mbt_single_book_series');
 do_action('mbt_after_single_book');

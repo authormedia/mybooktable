@@ -9,6 +9,5 @@ do_action('mbt_book_excerpt_meta');
 do_action('mbt_book_excerpt_blurb');
 do_action('mbt_book_excerpt_buybuttons');
 do_action('mbt_book_excerpt_socialmedia');
-do_action('mbt_book_excerpt_series');
 ?></div><?php
 do_action('mbt_after_book_excerpt');

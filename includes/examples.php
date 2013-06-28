@@ -11,14 +11,14 @@ if(!is_wp_error($ringermanson)) { $ringermanson_id = array($ringermanson['term_i
 //Writing Fiction for Dummies
 $post_id = wp_insert_post(array(
 	'post_title' => 'Writing Fiction for Dummies',
-	'post_content' => 'So you want to write a novel? Great! That’s a worthy goal, no matter what your reason. But don’t settle for just writing a novel. Aim high. Write a novel that you intend to sell to a publisher. <em>Writing Fiction for Dummies</em> is a complete guide designed to coach you every step along the path from beginning writer to royalty-earning author. Here are some things you’ll learn in Writing Fiction for Dummies:Strategic Planning: Pinpoint where you are on the roadmap to publication; discover what every reader desperately wants from a story; home in on a marketable category; choose from among the four most common creative styles; and learn the self-management methods of professional writers.Writing Powerful Fiction: Construct a story world that rings true; create believable, unpredictable characters; build a strong plot with all six layers of complexity of a modern novel; and infuse it all with a strong theme.Self-Editing Your Novel: Psychoanalyze your characters to bring them fully to life; edit your story structure from the top down; fix broken scenes; and polish your action and dialogue.Finding An Agent and Getting Published: Write a query letter, a synopsis, and a proposal; pitch your work to agents and editors without fear.Writing Fiction For Dummies takes you from being a writer to being an author. It can happen—if you have the talent and persistence to do what you need to do.',
+	'post_content' => 'So you want to write a novel? Great! That’s a worthy goal, no matter what your reason. But don’t settle for just writing a novel. Aim high. Write a novel that you intend to sell to a publisher. <em>Writing Fiction for Dummies</em> is a complete guide designed to coach you every step along the path from beginning writer to royalty-earning author. Here are some things you’ll learn in Writing Fiction for Dummies:Strategic Planning: Pinpoint where you are on the roadmap to publication; discover what every reader desperately wants from a story; home in on a marketable category; choose from among the four most common creative styles; and learn the self-management methods of professional writers.Writing Powerful Fiction: Construct a story world that rings true; create believable, unpredictable characters; build a strong plot with all six layers of complexity of a modern novel; and infuse it all with a strong theme.Self-Editing Your Novel: Psychoanalyze your characters to bring them fully to life; edit your story structure from the top down; fix broken scenes; and polish your action and dialogue.Finding An Agent and Getting Published: Write a query letter, a synopsis, and a proposal; pitch your work to agents and editors without fear. Writing Fiction For Dummies takes you from being a writer to being an author. It can happen—if you have the talent and persistence to do what you need to do.',
 	'post_excerpt' => 'The Most Wished For book in the Fiction Writing Reference category on Amazon is Writing Fiction for Dummies, the complete guide for writing and selling your novel.',
 	'post_status' => 'publish',
 	'post_type' => 'mbt_book'
 ));
 if(!is_wp_error($writing)) { wp_set_post_terms($post_id, $writing_id, "mbt_genre"); }
 if(!is_wp_error($ringermanson)) { wp_set_post_terms($post_id, $ringermanson_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:106:"http://www.barnesandnoble.com/w/writing-fiction-for-dummies-randy-ingermanson/1100297881?ean=9780470530702";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:78:"http://www.amazon.com/Writing-Fiction-Dummies-Randy-Ingermanson/dp/0470530707/";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:106:"http://www.barnesandnoble.com/w/writing-fiction-for-dummies-randy-ingermanson/1100297881?ean=9780470530702";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:78:"http://www.amazon.com/Writing-Fiction-Dummies-Randy-Ingermanson/dp/0470530707/";}}'));
 
 
 
@@ -40,7 +40,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($webdesign)) { wp_set_post_terms($post_id, $webdesign_id, "mbt_genre"); }
 if(!is_wp_error($cschmitt)) { wp_set_post_terms($post_id, $cschmitt_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:96:"http://www.barnesandnoble.com/w/designing-web-and-mobile-graphics-christopher-schmitt/1111631892";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:78:"http://www.amazon.com/Designing-Web-Mobile-Graphics-Fundamental/dp/0321858549/";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:114:"http://www.barnesandnoble.com/w/designing-web-and-mobile-graphics-christopher-schmitt/1111631892?ean=9780321858542";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:78:"http://www.amazon.com/Designing-Web-Mobile-Graphics-Fundamental/dp/0321858549/";}}'));
 
 
 
@@ -62,7 +62,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($inspirational)) { wp_set_post_terms($post_id, $inspirational_id, "mbt_genre"); }
 if(!is_wp_error($njlindquist)) { wp_set_post_terms($post_id, $njlindquist_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:106:"http://www.barnesandnoble.com/w/a-second-cup-of-hot-apple-cider-n-j-lindquist/1115136868?ean=9780978496319";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:111:"http://www.amazon.com/Second-Cup-Hot-Apple-Cider/dp/0978496310/ref=sr_1_3?s=books&ie=UTF8&qid=1366743096&sr=1-3";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:106:"http://www.barnesandnoble.com/w/a-second-cup-of-hot-apple-cider-n-j-lindquist/1115136868?ean=9780978496319";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:111:"http://www.amazon.com/Second-Cup-Hot-Apple-Cider/dp/0978496310/ref=sr_1_3?s=books&ie=UTF8&qid=1366743096&sr=1-3";}}'));
 
 
 
@@ -80,7 +80,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($writing)) { wp_set_post_terms($post_id, $writing_id, "mbt_genre"); }
 if(!is_wp_error($mrjames)) { wp_set_post_terms($post_id, $mrjames_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:1:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:35:"http://www.amazon.com/dp/B008R1F446";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:1:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:35:"http://www.amazon.com/dp/B008R1F446";}}'));
 
 
 
@@ -102,7 +102,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($thriller)) { wp_set_post_terms($post_id, $thriller_id, "mbt_genre"); }
 if(!is_wp_error($remcdermott)) { wp_set_post_terms($post_id, $remcdermott_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:70:"http://www.barnesandnoble.com/w/deadly-straits-re-mcdermott/1103871471";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:68:"http://www.amazon.com/Deadly-Straits-Dugan-Novel-ebook/dp/B0057AMO2A";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:88:"http://www.barnesandnoble.com/w/deadly-straits-re-mcdermott/1103871471?ean=9780983741701";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:68:"http://www.amazon.com/Deadly-Straits-Dugan-Novel-ebook/dp/B0057AMO2A";}}'));
 
 
 
@@ -120,7 +120,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($writing)) { wp_set_post_terms($post_id, $writing_id, "mbt_genre"); }
 if(!is_wp_error($mdemuth)) { wp_set_post_terms($post_id, $mdemuth_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:104:"http://www.barnesandnoble.com/w/11-secrets-of-getting-published-mary-demuth/1102378897?ean=2940012611758";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:151:"http://www.amazon.com/gp/product/098343672X/ref=as_li_ss_tl?ie=UTF8&tag=wwwrelevantpr-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=098343672X";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:104:"http://www.barnesandnoble.com/w/11-secrets-of-getting-published-mary-demuth/1102378897?ean=2940012611758";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:151:"http://www.amazon.com/gp/product/098343672X/ref=as_li_ss_tl?ie=UTF8&tag=wwwrelevantpr-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=098343672X";}}'));
 
 
 
@@ -142,7 +142,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($christianliving)) { wp_set_post_terms($post_id, $christianliving_id, "mbt_genre"); }
 if(!is_wp_error($ngrisham)) { wp_set_post_terms($post_id, $ngrisham_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:83:"http://www.barnesandnoble.com/w/thriving-nancy-grisham/1113451228?ean=9780801015434";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:134:"http://www.amazon.com/Thriving-Trusting-God-Life-Fullest/dp/080101543X/ref=sr_1_1?ie=UTF8&qid=1366995488&sr=8-1&keywords=nancy+grisham";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:83:"http://www.barnesandnoble.com/w/thriving-nancy-grisham/1113451228?ean=9780801015434";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:134:"http://www.amazon.com/Thriving-Trusting-God-Life-Fullest/dp/080101543X/ref=sr_1_1?ie=UTF8&qid=1366995488&sr=8-1&keywords=nancy+grisham";}}'));
 
 
 
@@ -160,7 +160,7 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($christianliving)) { wp_set_post_terms($post_id, $christianliving_id, "mbt_genre"); }
 if(!is_wp_error($mmittleberg)) { wp_set_post_terms($post_id, $mmittleberg_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:92:"http://www.barnesandnoble.com/w/confident-faith-mark-mittelberg/1113896998?ean=9781414329963";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:153:"http://www.amazon.com/Confident-Faith-Building-Foundation-Beliefs/dp/1414329962/ref=sr_1_2?s=books&ie=UTF8&qid=1367018844&sr=1-2&keywords=confident+faith";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:92:"http://www.barnesandnoble.com/w/confident-faith-mark-mittelberg/1113896998?ean=9781414329963";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:153:"http://www.amazon.com/Confident-Faith-Building-Foundation-Beliefs/dp/1414329962/ref=sr_1_2?s=books&ie=UTF8&qid=1367018844&sr=1-2&keywords=confident+faith";}}'));
 
 
 
@@ -182,6 +182,6 @@ $post_id = wp_insert_post(array(
 ));
 if(!is_wp_error($historicalfiction)) { wp_set_post_terms($post_id, $historicalfiction_id, "mbt_genre"); }
 if(!is_wp_error($jvaughan)) { wp_set_post_terms($post_id, $jvaughan_id, "mbt_author"); }
-update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:3:"bnn";s:3:"url";s:89:"http://www.barnesandnoble.com/w/flying-solo-jeanette-vaughan/1115228279?ean=9780615618883";}i:1;a:3:{s:7:"display";s:8:"featured";s:4:"type";s:6:"amazon";s:3:"url";s:162:"http://www.amazon.com/Flying-Solo-Unconventional-Navigates-Turbulence/dp/061561888X/ref=sr_1_1?ie=UTF8&qid=1366856431&sr=8-1&keywords=jeanette+vaughan+flying+solo";}}'));
+update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:89:"http://www.barnesandnoble.com/w/flying-solo-jeanette-vaughan/1115228279?ean=9780615618883";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:162:"http://www.amazon.com/Flying-Solo-Unconventional-Navigates-Turbulence/dp/061561888X/ref=sr_1_1?ie=UTF8&qid=1366856431&sr=8-1&keywords=jeanette+vaughan+flying+solo";}}'));
 
 

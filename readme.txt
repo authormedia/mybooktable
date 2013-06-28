@@ -1,5 +1,5 @@
 === MyBookTable ===
-Contributors: zookatron
+Contributors: authormedia, zookatron
 Donate link: http://www.authormedia.com/mybooktable/
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store
 Requires at least: 3.5.0
@@ -43,9 +43,15 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.1.4 =
+* Improved default Buy Button images and styling
+* Added new tutorial videos
+* Fixed various bugs
+
 = 1.1.3 =
 * Added new Tutorial Videos and help text
 * Changed book price system to allow non-USD currencies
+* Changed featured book image system to increase theme compatability
 * Fixed various bugs
 
 = 1.1.2 =

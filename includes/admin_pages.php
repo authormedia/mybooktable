@@ -114,7 +114,7 @@ function mbt_render_settings_page() {
 			<div id="mbt-tabs">
 				<ul>
 					<li><a href="#tabs-1">General Settings</a></li>
-					<li><a href="#tabs-2">Buy Button Settings</a></li>
+					<li><a href="#tabs-2">Affiliate Settings</a></li>
 					<li><a href="#tabs-3">Social Media Settings</a></li>
 					<li><a href="#tabs-4">SEO Settings</a></li>
 					<li><a href="#tabs-5">Book Listings Settings</a></li>
@@ -192,7 +192,7 @@ function mbt_render_settings_page() {
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
 				</div>
 				<div id="tabs-2">
-					<?php do_action("mbt_buybutton_settings_render"); ?>
+					<?php do_action("mbt_affiliate_settings_render"); ?>
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
 				</div>
 				<div id="tabs-3">
@@ -288,6 +288,10 @@ function mbt_render_help_page() {
 		<h3>Buy Button Tutorial</h3>
 		<iframe width="640" height="360" src="http://player.vimeo.com/video/68790296" frameborder="0" allowfullscreen></iframe>
 		<p>This video shows you how to add buy buttons to your books.</p>
+
+		<h3>How to Setup an Amazon Affiliate Account With MyBookTable</h3>
+		<iframe width="640" height="360" src="http://player.vimeo.com/video/69188658" frameborder="0" allowfullscreen></iframe>
+		<p>This video walks you through setting up an Amazon Affiliate account and how to take your affiliate code and insert it into your MyBookTable plugin.</p>
 
 		<h3>Book Blurbs</h3>
 		<iframe width="640" height="360" src="http://www.youtube.com/embed/LABESfhThhY" frameborder="0" allowfullscreen></iframe>

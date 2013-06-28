@@ -11,16 +11,13 @@ add_action('mbt_init', 'mbt_shorcodes_init');
 /*---------------------------------------------------------*/
 
 function mbt_mybooktable_shortcode($attrs) {
-	global $wp_query, $posts, $post, $mbt_shortcode_old_wp_query, $mbt_shortcode_old_posts, $mbt_shortcode_old_post;
+	global $wp_query, $posts, $post, $mbt_shortcode_old_wp_query, $mbt_shortcode_old_posts, $mbt_shortcode_old_post, $mbt_in_custom_page_content;
 
 	$max_books = empty($attr['max-books']) ? -1 : $attr['max-books'];
 
 	$mbt_shortcode_old_post = $post;
 	$mbt_shortcode_old_posts = $posts;
 	$mbt_shortcode_old_wp_query = $wp_query;
-	/*if(!empty($attrs['book'])) {
-		$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'name' => $attrs['book']));
-	} else */
 	if(!empty($attrs['author'])) {
 		$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_author' => $attrs['author'], 'orderby' => 'menu_order', 'posts_per_page' => $max_books));
 	} else if(!empty($attrs['series'])) {
@@ -35,29 +32,19 @@ function mbt_mybooktable_shortcode($attrs) {
 
 	ob_start();
 
+	$mbt_in_custom_page_content = true;
 	if(is_singular('mbt_book')) {
-		do_action('mbt_before_single_book');
-		do_action('mbt_single_book_images');
-		?><div class="mbt-book-right"><?php
-		do_action('mbt_single_book_title');
-		do_action('mbt_single_book_price');
-		do_action('mbt_single_book_meta');
-		do_action('mbt_single_book_blurb');
-		do_action('mbt_single_book_buybuttons');
-		?></div><?php
-		do_action('mbt_single_book_overview');
-		do_action('mbt_single_book_socialmedia');
-		do_action('mbt_single_book_series');
-		do_action('mbt_after_single_book');
-	} else {
-		do_action('mbt_before_book_archive');
-		if(have_posts()) {
-			do_action('mbt_book_archive_loop');
+		if(!empty($attrs['display']) and $attrs['display'] == 'summary') {
+			echo('<div id="mbt-container">');
+			include(mbt_locate_template('excerpt-book.php'));
+			echo('</div>');
 		} else {
-			do_action('mbt_book_archive_no_results');
+			include(mbt_locate_template('single-book/content.php'));
 		}
-		do_action('mbt_after_book_archive');
+	} else {
+		include(mbt_locate_template('archive-book/content.php'));
 	}
+	$mbt_in_custom_page_content = false;
 
 	$output = ob_get_contents();
 	ob_end_clean();

@@ -33,7 +33,7 @@
 }
 
 #mbt_metadata .mbt-book-image {
-	width: 50%;
+	height: 200px;
 }
 
 #mbt_metadata .form-table td {
@@ -64,7 +64,7 @@
 	float: right;
 }
 
-#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_editor_fields {
+#mbt_buybuttons .mbt_buybutton_editor .mbt_buybutton_editor_content {
 	padding: 5px;
 }
 
@@ -104,8 +104,12 @@
 }
 
 /*---------------------------------------------------------*/
-/* Landing Page                                            */
+/* Dashboard Page                                          */
 /*---------------------------------------------------------*/
+
+#icon-mbt_dashboard {
+	background-image: url('../images/edit.png');
+}
 
 .mbt-dashboard .welcome-video-container {
 	text-align: center;
@@ -204,10 +208,6 @@
 /*---------------------------------------------------------*/
 /* Settings Pages                                          */
 /*---------------------------------------------------------*/
-
-#icon-mbt_dashboard {
-	background-image: url('../images/edit.png');
-}
 
 .mbt_settings th {
 	width:18%;

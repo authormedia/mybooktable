@@ -43,8 +43,8 @@ class MBT_Featured_Book extends WP_Widget {
 					<div class="mbt-book-blurb"><?php echo(mbt_get_book_blurb($book->ID, true)); ?></div>
 					<div class="mbt-book-buybuttons">
 						<?php
-							$book_buybuttons = mbt_get_book_buybuttons($book->ID, array('display' => 'featured'));
-							echo(mbt_format_buybuttons($book_buybuttons));
+							$buybuttons = mbt_get_buybuttons($book->ID, array('display' => 'featured'));
+							echo(mbt_format_buybuttons($buybuttons));
 						?>
 						<div style="clear:both;"></div>
 					</div>

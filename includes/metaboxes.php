@@ -87,7 +87,15 @@ function mbt_metadata_metabox($post)
 			<th><label for="mbt_unique_id">ISBN</label></th>
 			<td>
 				<input type="text" name="mbt_unique_id" id="mbt_unique_id" value="<?php echo(get_post_meta($post->ID, "mbt_unique_id", true)); ?>" />
-				<p class="description">Unique ID or SKU (optional)</p>
+				<p class="description">(optional)</p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="mbt_price">Sample Chapter</label></th>
+			<td>
+				<input type="text" id="mbt_sample_url" name="mbt_sample_url" value="<?php echo(get_post_meta($post->ID, "mbt_sample_url", true)); ?>" />
+				<input id="mbt_upload_sample_button" type="button" class="button" value="Upload" />
+				<p class="description">Upload a sample chapter from your book to give viewers a preview. (optional)</p>
 			</td>
 		</tr>
 		<tr>
@@ -104,14 +112,6 @@ function mbt_metadata_metabox($post)
 				<p class="description">(optional)</p>
 			</td>
 		</tr>
-		<tr>
-			<th><label for="mbt_price">Sample Chapter</label></th>
-			<td>
-				<input type="text" id="mbt_sample_url" name="mbt_sample_url" value="<?php echo(get_post_meta($post->ID, "mbt_sample_url", true)); ?>" />
-				<input id="mbt_upload_sample_button" type="button" class="button" value="Upload" />
-				<p class="description">Upload a sample chapter from your book to give viewers a preview. (optional)</p>
-			</td>
-		</tr>
 	</table>
 <?php
 }
@@ -123,10 +123,10 @@ function mbt_save_metadata_metabox($post_id)
 	if(get_post_type($post_id) == "mbt_book")
 	{
 		if(isset($_REQUEST['mbt_book_image_id'])) { update_post_meta($post_id, "mbt_book_image_id", $_REQUEST['mbt_book_image_id']); }
-		if(isset($_REQUEST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", $_REQUEST['mbt_unique_id']); }
+		if(isset($_REQUEST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", preg_replace("/[^0-9]/", "", $_REQUEST['mbt_unique_id'])); }
+		if(isset($_REQUEST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_REQUEST['mbt_sample_url']); }
 		if(isset($_REQUEST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_REQUEST['mbt_price']); }
 		if(isset($_REQUEST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_REQUEST['mbt_sale_price']); }
-		if(isset($_REQUEST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_REQUEST['mbt_sample_url']); }
 	}
 }
 
@@ -136,25 +136,25 @@ function mbt_save_metadata_metabox($post_id)
 /* Buy Button Metabox                                      */
 /*---------------------------------------------------------*/
 
-function mbt_buybuttons_metabox_editor($data, $num, $type) {
+function mbt_buybuttons_metabox_editor($data, $num, $store) {
 	$output  = '<div class="mbt_buybutton_editor">';
 	$output .= '<div class="mbt_buybutton_editor_header">';
 	$output .= '<button class="mbt_buybutton_remover button">Remove</button>';
 	$display = empty($data['display']) ? 'featured' : $data['display'];
 	$output .= '<div class="mbt_buybutton_display_selector display_'.$display.'" title=""><input type="hidden" name="mbt_buybutton'.$num.'[display]" value="'.$display.'"></div>';
-	$output .= '<h4 class="mbt_buybutton_title">'.$type['name'].'</h4>';
+	$output .= '<h4 class="mbt_buybutton_title">'.$store['name'].'</h4>';
 	$output .= '</div>';
-	$output .= '<div class="mbt_buybutton_editor_fields">';
-	$output .= mbt_buybutton_editor($data, "mbt_buybutton".$num, $type);
+	$output .= '<div class="mbt_buybutton_editor_content">';
+	$output .= mbt_buybutton_editor($data, "mbt_buybutton".$num, $store);
 	$output .= '</div>';
 	$output .= '</div>';
 	return $output;
 }
 
 function mbt_buybuttons_metabox_ajax() {
-	$buybuttons = mbt_get_buybuttons();
-	if(empty($buybuttons[$_REQUEST['type']])) { die(); }
-	echo(mbt_buybuttons_metabox_editor(array('type' => $_REQUEST['type']), $_REQUEST['num'], $buybuttons[$_REQUEST['type']]));
+	$stores = mbt_get_stores();
+	if(empty($stores[$_REQUEST['store']])) { die(); }
+	echo(mbt_buybuttons_metabox_editor(array('store' => $_REQUEST['store']), $_REQUEST['num'], $stores[$_REQUEST['store']]));
 	die();
 }
 
@@ -162,25 +162,25 @@ function mbt_buybuttons_metabox($post)
 {
 	wp_nonce_field(plugin_basename(__FILE__), 'mbt_nonce');
 
-	$buybuttons = mbt_get_buybuttons();
-	uasort($buybuttons, create_function('$a,$b', 'return strcasecmp($a["name"],$b["name"]);'));
+	$stores = mbt_get_stores();
+	uasort($stores, create_function('$a,$b', 'return strcasecmp($a["name"],$b["name"]);'));
 	echo('Choose One:');
-	echo('<select id="mbt_buybutton_selector">');
-		echo('<option value=""> -- Choose One -- </option>');
-	foreach($buybuttons as $slug => $buybutton) {
-		echo('<option value="'.$slug.'">'.$buybutton['name'].'</option>');
+	echo('<select id="mbt_store_selector">');
+	echo('<option value=""> -- Choose One -- </option>');
+	foreach($stores as $slug => $store) {
+		echo('<option value="'.$slug.'">'.$store['name'].'</option>');
 	}
 	echo('</select>');
 	echo('<button id="mbt_buybutton_adder" class="button">Add</button>');
 
 	echo('<div id="mbt_buybutton_editors">');
-	$book_buybuttons = mbt_get_book_buybuttons($post->ID);
-	if(!empty($book_buybuttons)) {
-		for($i = 0; $i < count($book_buybuttons); $i++)
+	$buybuttons = mbt_get_buybuttons($post->ID);
+	if(!empty($buybuttons)) {
+		for($i = 0; $i < count($buybuttons); $i++)
 		{
-			$button = $book_buybuttons[$i];
-			if(empty($buybuttons[$button['type']])) { continue; }
-			echo(mbt_buybuttons_metabox_editor($button, $i, $buybuttons[$button['type']]));
+			$buybutton = $buybuttons[$i];
+			if(empty($stores[$buybutton['store']])) { continue; }
+			echo(mbt_buybuttons_metabox_editor($buybutton, $i, $stores[$buybutton['store']]));
 		}
 	}
 	echo('</div>');
@@ -192,15 +192,15 @@ function mbt_save_buybuttons_metabox($post_id)
 
 	if(get_post_type($post_id) == "mbt_book")
 	{
-		$buybuttons = mbt_get_buybuttons();
-		$book_buybuttons = array();
+		$stores = mbt_get_stores();
+		$buybuttons = array();
 		for($i = 0; isset($_REQUEST['mbt_buybutton'.$i]); $i++)
 		{
-			$button = $_REQUEST['mbt_buybutton'.$i];
-			if(empty($buybuttons[$button['type']])) { continue; }
-			$book_buybuttons[] = apply_filters('mbt_'.$button['type'].'_buybutton_save', $button, $buybuttons[$button['type']]);
+			$buybutton = $_REQUEST['mbt_buybutton'.$i];
+			if(empty($stores[$buybutton['store']])) { continue; }
+			$buybuttons[] = apply_filters('mbt_buybutton_save', $buybutton, $stores[$buybutton['store']]);
 		}
-		update_post_meta($post_id, "mbt_buybuttons", $book_buybuttons);
+		update_post_meta($post_id, "mbt_buybuttons", $buybuttons);
 	}
 }
 

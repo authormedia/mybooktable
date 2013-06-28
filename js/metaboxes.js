@@ -1,26 +1,26 @@
 jQuery(document).ready(function() {
 	function reset_numbers() {
 		jQuery('#mbt_buybutton_editors .mbt_buybutton_editor').each(function(i) {
-			jQuery(this).find("input, textarea, select").each(function() {
+			jQuery(this).find("div, input, textarea, select").each(function() {
 				ele = jQuery(this);
-				ele.attr('name', ele.attr('name').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i));
+				if(ele.attr('name')) { ele.attr('name', ele.attr('name').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i)); }
 				if(ele.attr('id')) { ele.attr('id', ele.attr('id').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i)); }
 			});
 		});
 	}
 
 	jQuery('#mbt_buybutton_adder').click(function(e) {
-		if(!jQuery('#mbt_buybutton_selector').val()){return false;}
-		jQuery('#mbt_buybutton_selector').attr('disabled', 'disabled');
+		if(!jQuery('#mbt_store_selector').val()){return false;}
+		jQuery('#mbt_store_selector').attr('disabled', 'disabled');
 		jQuery('#mbt_buybutton_adder').attr('disabled', 'disabled');
 		jQuery.post(ajaxurl,
 			{
 				action: 'mbt_buybuttons_metabox',
-				type: jQuery('#mbt_buybutton_selector').val(),
+				store: jQuery('#mbt_store_selector').val(),
 				num: 0
 			},
 			function(response) {
-				jQuery('#mbt_buybutton_selector').removeAttr('disabled');
+				jQuery('#mbt_store_selector').removeAttr('disabled');
 				jQuery('#mbt_buybutton_adder').removeAttr('disabled');
 				element = jQuery(response);
 				jQuery("#mbt_buybutton_editors").prepend(element);
@@ -58,7 +58,7 @@ jQuery(document).ready(function() {
 	});
 	jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
 
-	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_fields,.mbt_buybutton_display_selector", stop: function(){reset_numbers();}});
+	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_content,.mbt_buybutton_display_selector", stop: function(){reset_numbers();}});
 
 	jQuery("#mbt_book_image_id").change(function(){
 		jQuery.post(ajaxurl,
