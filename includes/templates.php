@@ -397,17 +397,15 @@ function mbt_the_book_archive_pagination() {
 
 
 
-
+function mbt_get_placeholder_image_src() {
+	return apply_filters('mbt_get_placeholder_image_src', array(plugins_url('images/book-placeholder.jpg', dirname(__FILE__))), 400, 400);
+}
+function mbt_get_book_image_src($post_id) {
+	$image = wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image');
+	return apply_filters('mbt_get_book_image_src', $image ? $image : mbt_get_placeholder_image_src());
+}
 function mbt_get_book_image($post_id) {
-	$src = '';
-
-	$image = apply_filters('mbt_book_image', wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image'));
-	if($image) {
-		list($src, $width, $height) = $image;
-	} else {
-		$src = apply_filters('mbt_book_placeholder_image', plugins_url('images/book-placeholder.jpg', dirname(__FILE__)));
-	}
-
+	list($src, $width, $height) = mbt_get_book_image_src($post_id);
 	return apply_filters('mbt_get_book_image', '<img src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
 }
 function mbt_the_book_image() {
@@ -622,12 +620,23 @@ function mbt_get_book_series_box($post_id) {
 			$output .= '<div class="mbt-book-series">';
 			$output .= '<div class="mbt-book-series-title">Other books in "'.$series->name.'":</div>';
 			foreach($relatedbooks->posts as $relatedbook) {
+				$size = 100;
+				list($src, $width, $height) = mbt_get_book_image_src($relatedbook->ID);
+				$scale = $size/max($width, $height);
+				$width = floor($width*$scale);
+				$width += $width%2;
+				$height = floor($height*$scale);
+				$height += $height%2;
+				$lpadding = round(($size-$width)/2);
+				$tpadding = round(($size-$height)/2);
+
 				$output .= '<div class="mbt-book">';
-				$output .= '<div class="mbt-book-images"><a href="'.get_permalink($relatedbook->ID).'">'.mbt_get_book_image($relatedbook->ID).'</a></div>';
+				$output .= '<div class="mbt-book-images" style="width:'.$width.'px; height:'.$height.'px; padding: '.$tpadding.'px '.$lpadding.'px '.$tpadding.'px '.$lpadding.'px;"><a href="'.get_permalink($relatedbook->ID).'"><img width="'.$width.'" height="'.$height.'" src="'.$src.'" class="mbt-book-image"></a></div>';
 				$output .= '<div class="mbt-book-title"><a href="'.get_permalink($relatedbook->ID).'">'.$relatedbook->post_title.'</a></div>';
-				$output .= '<div class="clear:both"></div>';
+				$output .= '<div style="clear:both"></div>';
 				$output .= '</div>';
 			}
+			$output .= '<div style="clear:both"></div>';
 			$output .= '</div>';
 		}
 	}

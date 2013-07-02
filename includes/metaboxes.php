@@ -63,11 +63,7 @@ function mbt_overview_metabox($post)
 function mbt_metadata_metabox_ajax() {
 	if($_REQUEST['image_id']) {
 		$image = wp_get_attachment_image_src($_REQUEST['image_id'], 'mbt_book_image');
-		if($image) {
-			list($src, $width, $height) = $image;
-		} else {
-			$src = apply_filters('mbt_book_placeholder', plugins_url('images/book-placeholder.jpg', dirname(__FILE__)));
-		}
+		list($src, $width, $height) = $image ? $image : mbt_get_placeholder_image_src();
 		echo('<img src="'.$src.'" class="mbt-book-image">');
 	}
 	die();
