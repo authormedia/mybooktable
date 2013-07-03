@@ -103,6 +103,12 @@
 	font-style: italic;
 }
 
+span.mce_mbt_shortcodes_button {
+	background-image: url('../images/icon.png') !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+}
+
 /*---------------------------------------------------------*/
 /* Dashboard Page                                          */
 /*---------------------------------------------------------*/

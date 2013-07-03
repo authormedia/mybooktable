@@ -3,8 +3,23 @@
 function mbt_shorcodes_init() {
 	add_shortcode('mybooktable', 'mbt_mybooktable_shortcode');
 	add_action('mbt_render_help_page', 'mbt_render_shordcode_help');
+
+	if((current_user_can('edit_posts') || current_user_can('edit_pages')) && get_user_option('rich_editing') == 'true') {
+		add_filter('mce_external_plugins', 'mbt_add_shortcode_tinymce_plugin');
+		add_filter('mce_buttons', 'mbt_register_shortcode_button');
+	}
 }
 add_action('mbt_init', 'mbt_shorcodes_init');
+
+function mbt_add_shortcode_tinymce_plugin($plugin_array) {
+	$plugin_array['mbt_shortcodes'] = plugins_url('js/shortcodes.js', dirname(dirname(__FILE__)));
+	return $plugin_array;
+}
+
+function mbt_register_shortcode_button($buttons) {
+	$buttons[] = "mbt_shortcodes_button";
+	return $buttons;
+}
 
 /*---------------------------------------------------------*/
 /* Shortcodes                                              */
