@@ -1,11 +1,13 @@
 <?php
 
 function mbt_admin_pages_init() {
-	add_action('admin_menu', 'mbt_add_admin_pages', 9);
-	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
-	add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
-	add_action('admin_init', 'mbt_save_settings_page');
-	add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
+	if(is_admin()) {
+		add_action('admin_menu', 'mbt_add_admin_pages', 9);
+		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
+		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
+		add_action('admin_init', 'mbt_save_settings_page');
+		add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
+	}
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
 
@@ -84,7 +86,7 @@ function mbt_api_key_feedback() {
 			$output .= '<span class="key_valid">Valid API Key: '.mbt_get_setting('api_key_message').'</span>';
 			if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
 				$output .= '<br><a href="https://www.authormedia.com/my-account/">Download the MyBookTable Developer Add-on to activate your advanced features!</a>';
-			} else if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
+			} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
 				$output .= '<br><a href="https://www.authormedia.com/my-account/">Download the MyBookTable Professional Add-on to activate your advanced features!</a>';
 			}
 		} else {

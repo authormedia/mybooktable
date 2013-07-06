@@ -4,6 +4,14 @@
 /* General Buy Buttons Functions                           */
 /*---------------------------------------------------------*/
 
+function mbt_buybuttons_init() {
+	add_filter('mbt_stores', 'mbt_add_basic_stores');
+	mbt_amazon_buybuttons_init();
+	mbt_bnn_buybuttons_init();
+
+}
+add_action('mbt_init', 'mbt_buybuttons_init');
+
 function mbt_get_stores() {
 	return apply_filters("mbt_stores", array());
 }
@@ -16,19 +24,13 @@ function mbt_add_basic_stores($stores) {
 	$stores['nook'] = array('name' => 'Barnes and Noble Nook', 'search' => 'http://www.barnesandnoble.com/s/?store=ebook', 'editor_desc' => 'Paste in the Barnes &amp; Noble product URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Barnes &amp; Noble Affiliate links.</a>');
 	return $stores;
 }
-add_filter('mbt_stores', 'mbt_add_basic_stores');
 
 function mbt_buybutton_editor($data, $id, $store) {
 	$output  = '<input id="'.$id.'_name" name="'.$id.'[store]" type="hidden" value="'.$data['store'].'">';
 	$output .= '<textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
+	$output .= '<p>'.(empty($store['editor_desc']) ? 'Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a>' : $store['editor_desc']).(empty($store['search']) ? '' : ' <a href="'.$store['search'].'" target="_blank">Search for books on '.$store['name'].'.</a>').'</p>';
 	return apply_filters('mbt_buybutton_editor', $output, $data, $id, $store);
 }
-
-function mbt_buybutton_editor_description($output, $data, $id, $store) {
-	$output .= '<p>'.(empty($store['editor_desc']) ? 'Paste in the affiliate link URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about adding Buy Button links.</a>' : $store['editor_desc']).(empty($store['search']) ? '' : ' <a href="'.$store['search'].'" target="_blank">Search for books on '.$store['name'].'.</a>').'</p>';
-	return $output;
-}
-add_filter('mbt_buybutton_editor', 'mbt_buybutton_editor_description', 9, 4);
 
 function mbt_format_buybutton($data, $store) {
 	$data = apply_filters('mbt_filter_buybutton_data', $data, $store);
@@ -60,6 +62,13 @@ function mbt_get_buybuttons($post_id, $query = '') {
 /* Amazon Buy Buttons Functions                            */
 /*---------------------------------------------------------*/
 
+function mbt_amazon_buybuttons_init() {
+	add_action('wp_ajax_mbt_amazon_buybutton_preview', 'mbt_amazon_buybutton_preview');
+	add_action('mbt_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);
+	add_filter('mbt_filter_buybutton_data', 'mbt_filter_amazon_buybutton_data', 10, 2);
+	add_action('mbt_affiliate_settings_render', 'mbt_amazon_affiliate_settings_render');
+}
+
 function mbt_get_amazon_AISN($url) {
 	$matches = array();
 	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $url, $matches);
@@ -77,7 +86,6 @@ function mbt_amazon_buybutton_preview() {
 	echo(empty($id) ? '<span class="error_message">Invalid Amazon product link.</span>' : '<span class="success_message">Valid Amazon product link.</span>');
 	die();
 }
-add_action('wp_ajax_mbt_amazon_buybutton_preview', 'mbt_amazon_buybutton_preview');
 
 function mbt_amazon_buybutton_editor($editor, $data, $id, $store) {
 	if($data['store'] == 'amazon' or $data['store'] == 'kindle') {
@@ -102,7 +110,6 @@ function mbt_amazon_buybutton_editor($editor, $data, $id, $store) {
 	}
 	return $editor;
 }
-add_action('mbt_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);
 
 function mbt_filter_amazon_buybutton_data($data, $store) {
 	if(($data['store'] == 'amazon' or $data['store'] == 'kindle') and !empty($data['url'])) {
@@ -112,7 +119,6 @@ function mbt_filter_amazon_buybutton_data($data, $store) {
 	}
 	return $data;
 }
-add_filter('mbt_filter_buybutton_data', 'mbt_filter_amazon_buybutton_data', 10, 2);
 
 function mbt_amazon_affiliate_settings_render() {
 ?>
@@ -126,7 +132,7 @@ function mbt_amazon_affiliate_settings_render() {
 						<?php
 						if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
 							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">Download the MyBookTable Developer Add-on to activate your advanced features!</a>');
-						} else if(mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) {
+						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
 							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">Download the MyBookTable Professional Add-on to activate your advanced features!</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
 							echo('<a href="'.admin_url('admin.php?page=mbt_settings&setup_api_key=1').'" target="_blank">Insert your API Key</a> to activate your advanced features!');
@@ -141,11 +147,17 @@ function mbt_amazon_affiliate_settings_render() {
 	</table>
 <?php
 }
-add_action('mbt_affiliate_settings_render', 'mbt_amazon_affiliate_settings_render');
 
 /*---------------------------------------------------------*/
 /* Barnes & Noble Buy Buttons Functions                    */
 /*---------------------------------------------------------*/
+
+function mbt_bnn_buybuttons_init() {
+	add_action('wp_ajax_mbt_bnn_buybutton_preview', 'mbt_bnn_buybutton_preview');
+	add_action('mbt_buybutton_editor', 'mbt_bnn_buybutton_editor', 10, 4);
+	add_action('mbt_filter_buybutton_data', 'mbt_filter_bnn_buybutton_data', 10, 2);
+	add_action('mbt_affiliate_settings_render', 'mbt_linkshare_affiliate_settings_render');
+}
 
 function mbt_get_bnn_identifier($url) {
 	$matches = array();
@@ -161,7 +173,6 @@ function mbt_bnn_buybutton_preview() {
 	echo(empty($id) ? '<span class="error_message">Invalid Barnes &amp; Noble product link.</span>' : '<span class="success_message">Valid Barnes &amp; Noble product link.</span>');
 	die();
 }
-add_action('wp_ajax_mbt_bnn_buybutton_preview', 'mbt_bnn_buybutton_preview');
 
 function mbt_bnn_buybutton_editor($editor, $data, $id, $store) {
 	if($data['store'] == 'bnn' or $data['store'] == 'nook') {
@@ -186,7 +197,6 @@ function mbt_bnn_buybutton_editor($editor, $data, $id, $store) {
 	}
 	return $editor;
 }
-add_action('mbt_buybutton_editor', 'mbt_bnn_buybutton_editor', 10, 4);
 
 function mbt_filter_bnn_buybutton_data($data, $store) {
 	if(($data['store'] == 'bnn' or $data['store'] == 'nook') and !empty($data['url'])) {
@@ -195,7 +205,6 @@ function mbt_filter_bnn_buybutton_data($data, $store) {
 	}
 	return $data;
 }
-add_action('mbt_filter_buybutton_data', 'mbt_filter_bnn_buybutton_data', 10, 2);
 
 function mbt_linkshare_affiliate_settings_render() {
 ?>
@@ -209,7 +218,7 @@ function mbt_linkshare_affiliate_settings_render() {
 						<?php
 						if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
 							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">Download the MyBookTable Developer Add-on to activate your advanced features!</a>');
-						} else if(mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) {
+						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
 							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">Download the MyBookTable Professional Add-on to activate your advanced features!</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
 							echo('<a href="'.admin_url('admin.php?page=mbt_settings&setup_api_key=1').'" target="_blank">Insert your API Key</a> to activate your advanced features!');
@@ -224,4 +233,3 @@ function mbt_linkshare_affiliate_settings_render() {
 	</table>
 <?php
 }
-add_action('mbt_affiliate_settings_render', 'mbt_linkshare_affiliate_settings_render');

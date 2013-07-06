@@ -18,7 +18,7 @@ function mbt_compat_init() {
 		add_filter('template_include', 'mbt_compat_load_book_templates');
 	}
 }
-add_action('mbt_templates_init', 'mbt_compat_init');
+add_action('mbt_init', 'mbt_compat_init', 11);
 
 
 

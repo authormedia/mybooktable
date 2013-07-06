@@ -12,7 +12,7 @@ function mbt_upgrade_check()
 	if($version < "1.1.3") { mbt_upgrade_1_1_3(); }
 	if($version < "1.1.4") { mbt_upgrade_1_1_4(); }
 
-	if($version != MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
+	if($version !== MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
 
 function mbt_upgrade_1_1_0() {
@@ -25,7 +25,8 @@ function mbt_upgrade_1_1_3() {
 	if(!empty($books)) {
 		foreach($books as $book_id) {
 			$image_id = get_post_meta($book_id, '_thumbnail_id', true);
-			update_post_meta($book_id, 'mbt_book_image_id', $image_id);
+			$mbt_book_image_id = get_post_meta($book_id, 'mbt_book_image_id', true);
+			if(empty($mbt_book_image_id)) { update_post_meta($book_id, 'mbt_book_image_id', $image_id); }
 		}
 	}
 }

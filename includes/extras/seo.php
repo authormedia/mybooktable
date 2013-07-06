@@ -21,13 +21,15 @@ function mbt_init_seo() {
 		add_action('wp_head', 'mbt_seo_add_metadesc');
 	}
 
-	//WP SEO Integration
-	add_filter('option_wpseo_titles', 'mbt_filter_wpseo_options');
-	add_filter('wp_redirect', 'mbt_detect_wpseo_reset', 50);
-	add_action('activate_wordpress-seo/wp-seo.php', 'mbt_reset_wpseo_defaults');
-	add_filter('wpseo_metadesc', 'mbt_filter_wpseo_metadesc');
-	add_filter('wpseo_canonical', 'mbt_filter_wpseo_canonical');
-	add_filter('wpseo_title', 'mbt_filter_wpseo_title');
+	if(defined('WPSEO_FILE')) {
+		//WP SEO Integration
+		add_filter('option_wpseo_titles', 'mbt_filter_wpseo_options');
+		add_filter('wp_redirect', 'mbt_detect_wpseo_reset', 50);
+		add_action('activate_wordpress-seo/wp-seo.php', 'mbt_reset_wpseo_defaults');
+		add_filter('wpseo_metadesc', 'mbt_filter_wpseo_metadesc');
+		add_filter('wpseo_canonical', 'mbt_filter_wpseo_canonical');
+		add_filter('wpseo_title', 'mbt_filter_wpseo_title');
+	}
 }
 add_action('mbt_init', 'mbt_init_seo');
 
