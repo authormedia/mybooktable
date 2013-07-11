@@ -43,6 +43,12 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.1.5 =
+* Added adjustable image sizes to Featured Book Widget
+* Added easy shortcode interface
+* Improved book series display box styling
+* Improved overall performance and fixed various bugs
+
 = 1.1.4 =
 * Improved default Buy Button images and styling
 * Added new tutorial videos
