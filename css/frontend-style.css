@@ -501,6 +501,14 @@
 	padding: 0;
 }
 
+.mbt-featured-book-widget .mbt-book-image.medium {
+	width: 45%;
+}
+
+.mbt-featured-book-widget .mbt-book-image.small {
+	width: 30%;
+}
+
 .mbt-featured-book-widget .mbt-book-blurb {
 	font-size: 14px;
 	text-align: left;

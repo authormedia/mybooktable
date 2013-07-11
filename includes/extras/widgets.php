@@ -13,6 +13,7 @@ class MBT_Featured_Book extends WP_Widget {
 	function MBT_Featured_Book() {
 		parent::WP_Widget('mbt_featured_book', 'MyBookTable Featured Book');
 		add_action('admin_enqueue_scripts', array('MBT_Featured_Book', 'enqueue_widget_js'));
+		$this->defaultargs = array('selectmode' => 'by_date', 'featured_book' => '', 'image_size' => 'medium');
 	}
 
 	function enqueue_widget_js() {
@@ -23,7 +24,7 @@ class MBT_Featured_Book extends WP_Widget {
 	}
 
 	function widget($args, $instance) {
-		extract(wp_parse_args($instance, array('selectmode' => 'by_date', 'featured_book' => '')));
+		extract(wp_parse_args($instance, $this->defaultargs));
 
 		echo($args['before_widget']);
 
@@ -39,7 +40,7 @@ class MBT_Featured_Book extends WP_Widget {
 			?>
 				<div class="mbt-featured-book-widget">
 					<h1 class="mbt-book-title"><a href="<?php echo($permalink); ?>"><?php echo(get_the_title($book->ID)); ?></a></h1>
-					<a href="<?php echo($permalink); ?>"><?php echo(mbt_get_book_image($book->ID)); ?></a>
+					<a href="<?php echo($permalink); ?>"><?php echo(mbt_get_book_image($book->ID, array('class' => $image_size))); ?></a>
 					<div class="mbt-book-blurb"><?php echo(mbt_get_book_blurb($book->ID, true)); ?></div>
 					<div class="mbt-book-buybuttons">
 						<?php
@@ -60,18 +61,20 @@ class MBT_Featured_Book extends WP_Widget {
 		$instance = $old_instance;
 		$instance['selectmode'] = strip_tags($new_instance['selectmode']);
 		$instance['featured_book'] = strip_tags($new_instance['featured_book']);
-
+		$instance['image_size'] = $new_instance['image_size'];
 		return $instance;
 	}
 
 	function form($instance) {
-		if(empty($instance)) {
-			$instance = array('selectmode' => 'by_date', 'featured_book' => '');
-		}
-		$selectmode = esc_attr($instance['selectmode']);
-		$featured_book = esc_attr($instance['featured_book']);
+		extract(wp_parse_args($instance, $this->defaultargs));
 		?>
 
+		<p>
+			<label>Book image size:</label><br>
+			<?php foreach(array('small', 'medium', 'large') as $size) { ?>
+				<input type="radio" name="<?php echo($this->get_field_name('image_size')); ?>" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> ><?php echo(ucfirst($size)); ?><br>
+			<?php } ?>
+		</p>
 		<p>
 			<label for="<?php echo($this->get_field_id('selectmode')); ?>">Choose how to select the featured book:</label>
 			<select class="mbt_featured_book_selectmode" name="<?php echo($this->get_field_name('selectmode')); ?>" id="<?php echo($this->get_field_id('selectmode')); ?>">

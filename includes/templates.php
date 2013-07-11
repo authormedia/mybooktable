@@ -404,13 +404,19 @@ function mbt_get_book_image_src($post_id) {
 	$image = wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image');
 	return apply_filters('mbt_get_book_image_src', $image ? $image : mbt_get_placeholder_image_src());
 }
-function mbt_get_book_image($post_id) {
+function mbt_get_book_image($post_id, $attrs = '') {
 	list($src, $width, $height) = mbt_get_book_image_src($post_id);
-	return apply_filters('mbt_get_book_image', '<img src="'.$src.'" alt="'.get_the_title($post_id).'" class="mbt-book-image">');
+	$attrs = wp_parse_args($attrs, array('alt' => get_the_title($post_id), 'class' => ''));
+	$attrs['class'] .= ' mbt-book-image';
+	$attributes = array();
+	foreach($attrs as $attr => $value) {
+		$attributes[] = $attr.'="'.$value.'"';
+	}
+	return apply_filters('mbt_get_book_image', '<img src="'.$src.'" '.implode($attributes, ' ').'>');
 }
-function mbt_the_book_image() {
+function mbt_the_book_image($attrs = '') {
 	global $post;
-	echo(mbt_get_book_image($post->ID));
+	echo(mbt_get_book_image($post->ID, $attrs));
 }
 
 
