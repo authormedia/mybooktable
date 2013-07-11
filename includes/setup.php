@@ -16,7 +16,9 @@ function mbt_upgrade_check()
 }
 
 function mbt_upgrade_1_1_0() {
-	mbt_update_setting('compatibility_mode', true);
+	if(mbt_get_setting('compatibility_mode') !== false) {
+		mbt_update_setting('compatibility_mode', true);
+	}
 }
 
 function mbt_upgrade_1_1_3() {
@@ -26,7 +28,7 @@ function mbt_upgrade_1_1_3() {
 		foreach($books as $book_id) {
 			$image_id = get_post_meta($book_id, '_thumbnail_id', true);
 			$mbt_book_image_id = get_post_meta($book_id, 'mbt_book_image_id', true);
-			if(empty($mbt_book_image_id)) { update_post_meta($book_id, 'mbt_book_image_id', $image_id); }
+			if(empty($mbt_book_image_id) && !empty($image_id)) { update_post_meta($book_id, 'mbt_book_image_id', $image_id); }
 		}
 	}
 }

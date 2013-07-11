@@ -1,1 +1,1 @@
-<div class="mbt-book-archive-description"><?php mbt_the_book_archive_description(); ?></div>
+<?php mbt_the_book_archive_description('<div class="mbt-book-archive-description">', '</div>'); ?>

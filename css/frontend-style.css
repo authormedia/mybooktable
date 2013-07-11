@@ -352,15 +352,10 @@
 /* Book Archive Styling                                    */
 /*---------------------------------------------------------*/
 
-#mbt-container .mbt-book-archive-header {
-	margin-bottom: 30px;
-	padding-bottom: 0px;
-}
-
 #mbt-container .mbt-book-archive-header .mbt-book-archive-image {
 	float: left;
 	width: 15%;
-	padding: 0 24px 0 0;
+	padding: 0 24px 25px 0;
 	border-radius: 0px;
 	box-shadow: none;
 	border: none;
@@ -372,7 +367,7 @@
 	clear: none;
 	width: 75%;
 	float: left;
-	padding: 0px 0px 10px 0px;
+	padding: 0px 0px 15px 0px;
 	margin: 0px;
 	background: transparent;
 
@@ -391,8 +386,7 @@
 	color: #484949;
 	line-height: 1.5;
 
-	margin: 0;
-	padding: 0;
+	padding: 0px 0px 25px 0px;
 	position: relative;
 }
 

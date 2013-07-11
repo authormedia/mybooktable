@@ -297,7 +297,7 @@ function mbt_the_book_archive_image() {
 	echo(mbt_get_book_archive_image());
 }
 
-function mbt_get_book_archive_title() {
+function mbt_get_book_archive_title($before = '', $after = '') {
 	$output = '';
 
 	if(is_tax('mbt_author')) {
@@ -317,13 +317,13 @@ function mbt_get_book_archive_title() {
 		}
 	}
 
-	return apply_filters('mbt_get_book_archive_title', $output);
+	return apply_filters('mbt_get_book_archive_title', empty($output) ? '' : $before.$output.$after, $before, $after);
 }
-function mbt_the_book_archive_title() {
-	echo(mbt_get_book_archive_title());
+function mbt_the_book_archive_title($before = '', $after = '') {
+	echo(mbt_get_book_archive_title($before, $after));
 }
 
-function mbt_get_book_archive_description() {
+function mbt_get_book_archive_description($before = '', $after = '') {
 	$output = '';
 
 	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series')) {
@@ -337,10 +337,10 @@ function mbt_get_book_archive_description() {
 		}
 	}
 
-	return apply_filters('mbt_get_book_archive_description', $output);
+	return apply_filters('mbt_get_book_archive_description', empty($output) ? '' : $before.$output.$after, $before, $after);
 }
-function mbt_the_book_archive_description() {
-	echo(mbt_get_book_archive_description());
+function mbt_the_book_archive_description($before = '', $after = '') {
+	echo(mbt_get_book_archive_description($before, $after));
 }
 
 function mbt_get_book_archive_pagination() {
