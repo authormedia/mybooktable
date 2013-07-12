@@ -4,23 +4,7 @@
 /* General SEO Functions                                   */
 /*---------------------------------------------------------*/
 
-function mbt_is_seo_active() {
-	$active = (bool)mbt_get_setting('enable_seo');
-	if(defined('WPSEO_FILE')) { $active = false; }
-	return apply_filters('mbt_is_seo_active', $active);
-}
-
 function mbt_init_seo() {
-	if(mbt_is_seo_active()) {
-		//Custom SEO metabox
-		add_action('save_post', 'mbt_save_seo_metabox');
-		add_action('add_meta_boxes', 'mbt_add_seo_metabox', 9);
-
-		//Custom SEO overrides
-		add_filter('wp_title', 'mbt_seo_wp_title', 999);
-		add_action('wp_head', 'mbt_seo_add_metadesc');
-	}
-
 	if(defined('WPSEO_FILE')) {
 		//WP SEO Integration
 		add_filter('option_wpseo_titles', 'mbt_filter_wpseo_options');
@@ -29,7 +13,20 @@ function mbt_init_seo() {
 		add_filter('wpseo_metadesc', 'mbt_filter_wpseo_metadesc');
 		add_filter('wpseo_canonical', 'mbt_filter_wpseo_canonical');
 		add_filter('wpseo_title', 'mbt_filter_wpseo_title');
+		add_filter('wpseo_opengraph_type', 'mbt_filter_wpseo_opengraph_type');
+		add_action('wpseo_opengraph', 'mbt_add_wpseo_opengraph_image', 15);
+		add_action('wpseo_opengraph', 'mbt_add_wpseo_opengraph_isbn', 30);
+	} else if(mbt_get_setting('enable_seo')) {
+		//Custom SEO metabox
+		add_action('save_post', 'mbt_save_seo_metabox');
+		add_action('add_meta_boxes', 'mbt_add_seo_metabox', 9);
+
+		//Custom SEO overrides
+		add_filter('wp_title', 'mbt_seo_wp_title', 999);
+		add_action('wp_head', 'mbt_seo_add_metadesc');
+		add_action('wp_head', 'mbt_seo_add_opengraph');
 	}
+
 }
 add_action('mbt_init', 'mbt_init_seo');
 
@@ -150,6 +147,45 @@ function mbt_filter_wpseo_title($title) {
 	return $title;
 }
 
+function mbt_filter_wpseo_opengraph_type($type) {
+	if(is_singular('mbt_book')) {
+		$type = 'book';
+	}
+	return $type;
+}
+
+function mbt_add_wpseo_opengraph_image() {
+	global $mbt_taxonomy_query, $post;
+	if(is_tax('mbt_author') or is_tax('mbt_series') or is_tax('mbt_genre')) {
+		$query_obj = get_queried_object();
+		if(!empty($query_obj) and !empty($query_obj->taxonomy)) {
+			$image = mbt_get_taxonomy_image($query_obj->taxonomy, $query_obj->term_id);
+		}
+	} else if(mbt_is_taxonomy_query()) {
+		$query_obj = $mbt_taxonomy_query->get_queried_object();
+		if(!empty($query_obj) and !empty($query_obj->taxonomy)) {
+			$image = mbt_get_taxonomy_image($query_obj->taxonomy, $query_obj->term_id);
+		}
+	} else if(is_singular('mbt_book')) {
+		$image = mbt_get_book_image_src($post->ID);
+		$image = $image[0];
+	}
+
+	if(!empty($image)) {
+		echo("<meta property='og:image' content='".esc_url($image)."'/>\n");
+		return true;
+	}
+}
+
+function mbt_add_wpseo_opengraph_isbn() {
+	global $post;
+	if(is_singular('mbt_book')) {
+		$isbn = get_post_meta($post->ID, 'mbt_unique_id', true);
+		if(!empty($isbn)) { echo("<meta property='book:isbn' content='".$isbn."'/>\n"); }
+	}
+}
+
+
 
 /*---------------------------------------------------------*/
 /* MyBookTable SEO Functions                               */
@@ -266,7 +302,59 @@ function mbt_seo_add_metadesc() {
 			echo('<meta name="description" content="'.$metadesc."\"/>\n");
 		}
 	}
+}
 
+function mbt_seo_add_opengraph() {
+	global $mbt_taxonomy_query, $post;
+	$tags = array();
+
+	if(is_tax('mbt_author') or is_tax('mbt_series') or is_tax('mbt_genre') or mbt_is_taxonomy_query()) {
+		$tags['og:type'] = 'website';
+		$tags['og:title'] = mbt_seo_tax_title();
+		$tags['og:description'] = mbt_seo_tax_metadesc();
+		if(mbt_is_taxonomy_query()) {
+			if($mbt_taxonomy_query->is_tax('mbt_author')) {
+				$tags['og:url'] = esc_url(get_term_link($mbt_taxonomy_query->get('mbt_author'), 'mbt_author'));
+			} else if($mbt_taxonomy_query->is_tax('mbt_series')) {
+				$tags['og:url'] = esc_url(get_term_link($mbt_taxonomy_query->get('mbt_series'), 'mbt_series'));
+			} else if($mbt_taxonomy_query->is_tax('mbt_genre')) {
+				$tags['og:url'] = esc_url(get_term_link($mbt_taxonomy_query->get('mbt_genre'), 'mbt_genre'));
+			}
+
+			$query_obj = $mbt_taxonomy_query->get_queried_object();
+			if(!empty($query_obj) and !empty($query_obj->taxonomy)) {
+				$tags['og:image'] = esc_url(mbt_get_taxonomy_image($query_obj->taxonomy, $query_obj->term_id));
+			}
+		} else {
+			if(is_tax('mbt_author')) {
+				$tags['og:url'] = esc_url(get_term_link(get_query_var('mbt_author'), 'mbt_author'));
+			} else if(is_tax('mbt_series')) {
+				$tags['og:url'] = esc_url(get_term_link(get_query_var('mbt_series'), 'mbt_series'));
+			} else if(is_tax('mbt_genre')) {
+				$tags['og:url'] = esc_url(get_term_link(get_query_var('mbt_genre'), 'mbt_genre'));
+			}
+
+			$query_obj = get_queried_object();
+			if(!empty($query_obj) and !empty($query_obj->taxonomy)) {
+				$tags['og:image'] = esc_url(mbt_get_taxonomy_image($query_obj->taxonomy, $query_obj->term_id));
+			}
+		}
+		$tags['og:site_name'] = get_bloginfo('name');
+	} else if(is_singular('mbt_book')) {
+		$tags['og:type'] = 'book';
+		$tags['og:title'] = mbt_seo_title();
+		$tags['og:description'] = mbt_seo_metadesc();
+		$tags['og:url'] = esc_url(get_permalink());
+		$tags['og:site_name'] = get_bloginfo('name');
+		$image = mbt_get_book_image_src($post->ID);
+		$tags['og:image'] = esc_url($image[0]);
+		$isbn = get_post_meta($post->ID, 'mbt_unique_id', true);
+		if(!empty($isbn)) { $tags['book:isbn'] = $isbn; }
+	}
+
+	foreach($tags as $tag => $content) {
+		echo('<meta property="'.$tag.'" content="'.$content.'"/>');
+	}
 }
 
 

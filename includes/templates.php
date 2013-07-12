@@ -412,7 +412,7 @@ function mbt_get_book_image($post_id, $attrs = '') {
 	foreach($attrs as $attr => $value) {
 		$attributes[] = $attr.'="'.$value.'"';
 	}
-	return apply_filters('mbt_get_book_image', '<img src="'.$src.'" '.implode($attributes, ' ').'>');
+	return apply_filters('mbt_get_book_image', '<img itemprop="image" src="'.$src.'" '.implode($attributes, ' ').'>');
 }
 function mbt_the_book_image($attrs = '') {
 	global $post;
@@ -423,21 +423,25 @@ function mbt_the_book_image($attrs = '') {
 
 function mbt_get_book_price($post_id) {
 	$price = get_post_meta($post_id, 'mbt_price', true);
-	return apply_filters('mbt_get_book_price', preg_match("/^[0-9,.]+$/", $price) ? "$".number_format((double)$price, 2) : $price, $post_id);
+	if(preg_match("/^[0-9,.]+$/", $price)) { $price =  "$".number_format((double)$price, 2); }
+
+	$sale_price = get_post_meta($post_id, 'mbt_sale_price', true);
+	if(preg_match("/^[0-9,.]+$/", $sale_price)) { $sale_price =  "$".number_format((double)$sale_price, 2); }
+
+	$output = '';
+	if(!empty($sale_price) and !empty($price)) {
+		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price old-price">'.$price.'</span><link itemprop="availability" href="http://schema.org/Discontinued" /></span>';
+		$output .= '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price new-price">'.$sale_price.'</span><link itemprop="availability" href="http://schema.org/InStock" /></span>';
+	} else if(!empty($price)) {
+		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price">'.$price.'</span><link itemprop="availability" href="http://schema.org/InStock" /></span>';
+	}
+
+	return apply_filters('mbt_get_book_price', $output, $post_id);
 }
 function mbt_the_book_price() {
 	global $post;
 	echo(mbt_get_book_price($post->ID));
 }
-
-function mbt_add_book_sale_price($price, $post_id) {
-	$sale_price = get_post_meta($post_id, 'mbt_sale_price', true);
-	if(!empty($sale_price)) {
-		$price = '<span class="normal-price">'.$price.'</span><span class="sale-price">'.(preg_match("/^[0-9,.]*$/", $sale_price) ? "$".number_format((double)$sale_price, 2) : $sale_price).'</span>';
-	}
-	return $price;
-}
-add_filter('mbt_get_book_price', 'mbt_add_book_sale_price', 20, 2);
 
 
 
@@ -547,7 +551,7 @@ function mbt_the_book_blurb($read_more = false) {
 
 function mbt_get_book_unique_id($post_id) {
 	$unique_id = get_post_meta($post_id, 'mbt_unique_id', true);
-	return empty($unique_id) ? "" : "<span class='meta-title'>ISBN:</span> ".$unique_id."<br>";
+	return empty($unique_id) ? '' : '<span class="meta-title">ISBN:</span> <span itemprop="isbn">'.$unique_id.'</span><br>';
 }
 function mbt_the_book_unique_id() {
 	global $post;
@@ -573,7 +577,7 @@ function mbt_get_book_series_list($post_id) {
 	$series = mbt_get_book_series($post_id);
 
 	while(!empty($series) and !is_wp_error($series)) {
-		$output = '<a href="'.esc_url(get_term_link($series, 'mbt_series')).'">'.$series->name.'</a>'.(empty($output) ? '' : ', '.$output);
+		$output = '<a itemprop="keywords" href="'.esc_url(get_term_link($series, 'mbt_series')).'">'.$series->name.'</a>'.(empty($output) ? '' : ', '.$output);
 		$series = get_term_by('id', $series->parent, 'mbt_series');
 	}
 
@@ -585,13 +589,13 @@ function mbt_get_book_series_list($post_id) {
 
 	return apply_filters('mbt_get_book_series_list', $output);
 }
-function mbt_get_the_term_list($post_id, $tax, $name, $name_plural) {
+function mbt_get_the_term_list($post_id, $tax, $name, $name_plural, $type) {
 	$terms = get_the_terms($post_id, $tax);
 	if(is_wp_error($terms) or empty($terms)){ return ''; }
 
 	foreach($terms as $term) {
 		$link = get_term_link($term, $tax);
-		$term_links[] = '<a href="'.esc_url($link).'">'.$term->name.'</a>';
+		$term_links[] = '<a itemprop="'.$type.'" href="'.esc_url($link).'">'.$term->name.'</a>';
 	}
 
 	return '<span class="meta-title">'.(count($terms) > 1 ? $name_plural : $name).':</span> '.join(', ', $term_links).'<br>';
@@ -608,7 +612,7 @@ function mbt_the_book_authors_list() {
 	echo(mbt_get_book_authors_list($post->ID));
 }
 function mbt_get_book_genres_list($post_id) {
-	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_genre', 'Genre', 'Genres', 'tag'));
+	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_genre', 'Genre', 'Genres', 'genre'));
 }
 function mbt_the_book_genres_list() {
 	global $post;

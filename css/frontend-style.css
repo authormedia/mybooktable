@@ -128,13 +128,13 @@
 	color: #484949;
 }
 
-#mbt-container .mbt-book .mbt-book-price .normal-price  {
+#mbt-container .mbt-book .mbt-book-price .old-price  {
 	text-decoration: line-through;
 	color: #AEAEAE;
 	margin-right: 10px;
 }
 
-#mbt-container .mbt-book .mbt-book-price .sale-price  {
+#mbt-container .mbt-book .mbt-book-price .new-price  {
 	color: #484949;
 }
 
