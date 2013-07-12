@@ -75,8 +75,8 @@ function mbt_compat_pre_get_posts($query) {
 		} else {
 			$mbt_taxonomy_query = new WP_Query(array('post_type' => 'mbt_book', 'paged' => $query->get('paged'), 'orderby' => 'menu_order', 'posts_per_page' => mbt_get_posts_per_page()));
 		}
-		add_action('mbt_before_book_archive', 'mbt_do_before_taxonomy_query');
-		add_action('mbt_after_book_archive', 'mbt_do_after_taxonomy_query');
+		add_action('mbt_before_book_archive', 'mbt_do_before_taxonomy_query', 0);
+		add_action('mbt_after_book_archive', 'mbt_do_after_taxonomy_query', 20);
 	}
 }
 

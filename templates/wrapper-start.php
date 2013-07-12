@@ -15,6 +15,14 @@ if($template == 'twentyeleven') {
 	echo('<div id="main-sidebar-container">');
 	woo_main_before();
 	echo('<div id="main" class="col-left">');
+	woo_loop_before();
+} else  if(function_exists('genesis')) {
+	get_header();
+	do_action('genesis_before_content_sidebar_wrap');
+	echo('<div id="content-sidebar-wrap">');
+	do_action('genesis_before_content');
+	echo('<div id="content" class="hfeed">');
+	do_action('genesis_before_loop');
 } else {
 	echo '<div id="container"><div id="content" role="main">';
 }

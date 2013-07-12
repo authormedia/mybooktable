@@ -45,6 +45,27 @@
 
 
 /*---------------------------------------------------------*/
+/* Breadcrumbs                                             */
+/*---------------------------------------------------------*/
+
+#mbt-container .mbt-breadcrumbs {
+	padding: 0px 0px 10px 0px;
+	color: #666;
+}
+
+#mbt-container .mbt-breadcrumbs a {
+	color: #666;
+	text-decoration: none;
+}
+
+#mbt-container .mbt-breadcrumbs a:hover {
+	color: #333;
+	text-decoration: underline;
+}
+
+
+
+/*---------------------------------------------------------*/
 /* Book Images                                             */
 /*---------------------------------------------------------*/
 

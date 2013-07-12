@@ -29,6 +29,7 @@ function mbt_reset_settings() {
 		'enable_socialmedia_badges_book_excerpt' => true,
 		'enable_socialmedia_bar_single_book' => true,
 		'enable_seo' => true,
+		'enable_breadcrumbs' => true,
 		'series_in_excerpts' => false,
 		'posts_per_page' => false
 	);
@@ -86,8 +87,12 @@ function mbt_is_booktable_page() {
 }
 
 function mbt_get_booktable_url() {
-	$url = get_permalink(mbt_get_setting('booktable_page'));
-	if(empty($url)) { $url = get_post_type_archive_link('mbt_book'); }
+
+	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
+		$url = get_post_type_archive_link('mbt_book');
+	} else {
+		$url = get_permalink(mbt_get_setting('booktable_page'));
+	}
 	return $url;
 }
 

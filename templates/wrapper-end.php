@@ -1,5 +1,6 @@
 <?php
 if(function_exists('woo_content_before')) {
+	woo_loop_after();
 	echo('</div><!-- /#main -->');
 	woo_main_after();
 	get_sidebar();
@@ -7,6 +8,13 @@ if(function_exists('woo_content_before')) {
 	get_sidebar('alt');
 	echo('</div><!-- /#content -->');
 	woo_content_after();
+} else if(function_exists('genesis')) {
+	do_action( 'genesis_after_loop' );
+	echo('</div><!-- end #content -->');
+	do_action('genesis_after_content');
+	echo('</div><!-- end #content-sidebar-wrap -->');
+	do_action( 'genesis_after_content_sidebar_wrap' );
+	get_footer();
 } else {
 	echo('</div></div>');
 }

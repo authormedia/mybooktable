@@ -22,6 +22,7 @@ require_once("includes/extras/widgets.php");
 require_once("includes/extras/seo.php");
 require_once("includes/extras/shortcodes.php");
 require_once("includes/extras/compatibility.php");
+require_once("includes/extras/breadcrumbs.php");
 
 
 

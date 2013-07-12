@@ -22,8 +22,8 @@ function mbt_templates_init() {
 
 		//book archive hooks
 		add_action('mbt_book_archive_content', 'mbt_do_book_archive_content');
-		add_action('mbt_before_book_archive', 'mbt_do_before_book_archive', -100);
-		add_action('mbt_after_book_archive', 'mbt_do_after_book_archive', 100);
+		add_action('mbt_before_book_archive', 'mbt_do_before_book_archive', 0);
+		add_action('mbt_after_book_archive', 'mbt_do_after_book_archive', 20);
 		add_action('mbt_book_archive_header', 'mbt_do_book_archive_header');
 		add_action('mbt_book_archive_header_image', 'mbt_do_book_archive_header_image');
 		add_action('mbt_book_archive_header_title', 'mbt_do_book_archive_header_title');
@@ -34,8 +34,8 @@ function mbt_templates_init() {
 
 		//single book hooks
 		add_action('mbt_single_book_content', 'mbt_do_single_book_content');
-		add_action('mbt_before_single_book', 'mbt_do_before_single_book', -100);
-		add_action('mbt_after_single_book', 'mbt_do_after_single_book', 100);
+		add_action('mbt_before_single_book', 'mbt_do_before_single_book', 0);
+		add_action('mbt_after_single_book', 'mbt_do_after_single_book', 20);
 		add_action('mbt_single_book_images', 'mbt_do_single_book_images');
 		add_action('mbt_single_book_title', 'mbt_do_single_book_title');
 		add_action('mbt_single_book_price', 'mbt_do_single_book_price');
@@ -46,8 +46,8 @@ function mbt_templates_init() {
 		add_action('mbt_after_single_book', 'mbt_the_book_series_box');
 
 		//book excerpt hooks
-		add_action('mbt_before_book_excerpt', 'mbt_do_before_book_excerpt', -100);
-		add_action('mbt_after_book_excerpt', 'mbt_do_after_book_excerpt', 100);
+		add_action('mbt_before_book_excerpt', 'mbt_do_before_book_excerpt', 0);
+		add_action('mbt_after_book_excerpt', 'mbt_do_after_book_excerpt', 20);
 		add_action('mbt_book_excerpt_images', 'mbt_do_book_excerpt_images');
 		add_action('mbt_book_excerpt_title', 'mbt_do_book_excerpt_title');
 		add_action('mbt_book_excerpt_price', 'mbt_do_book_excerpt_price');

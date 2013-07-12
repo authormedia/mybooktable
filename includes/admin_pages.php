@@ -65,6 +65,7 @@ function mbt_save_settings_page() {
 		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book'])?true:false);
 
 		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo'])?true:false);
+		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs'])?true:false);
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
@@ -233,6 +234,13 @@ function mbt_render_settings_page() {
 								<td>
 									<input type="checkbox" name="mbt_enable_seo" id="mbt_enable_seo" <?php echo(mbt_get_setting('enable_seo') ? ' checked="checked"' : ''); ?> >
 									<p class="description">Check to enable MyBookTable's built-in SEO features.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_enable_seo">Enable Breadcrumbs</label></th>
+								<td>
+									<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php echo(mbt_get_setting('enable_breadcrumbs') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to enable MyBookTable's built-in breadcrumbs.</p>
 								</td>
 							</tr>
 						</tbody>
