@@ -43,6 +43,16 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.2.0 =
+* Added GoodReads Reviews and Buy Button
+* Added new Golden Buy Button style pack
+* Added Google Analytics Integration
+* Added new single book shortcode
+* Added new breadcrumbs system
+* Improved SEO: Added new semantic markup and OpenGraph tags
+* Added new drag & drop book sorting system
+* Fixed various bugs
+
 = 1.1.5 =
 * Added adjustable image sizes to Featured Book Widget
 * Added easy shortcode interface

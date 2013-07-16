@@ -1,6 +1,6 @@
 <?php
 
-function mbt_init_metaboxes()
+function mbt_metaboxes_init()
 {
 	add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
 	add_action('wp_ajax_mbt_metadata_metabox', 'mbt_metadata_metabox_ajax');
@@ -12,7 +12,7 @@ function mbt_init_metaboxes()
 
 	add_action('add_meta_boxes', 'mbt_add_metaboxes', 9);
 }
-add_action('mbt_init', 'mbt_init_metaboxes');
+add_action('mbt_init', 'mbt_metaboxes_init');
 
 function mbt_add_metaboxes()
 {

@@ -248,6 +248,25 @@ span.mce_mbt_shortcodes_button {
 }
 
 /*---------------------------------------------------------*/
+/* Book Sorting Page                                       */
+/*---------------------------------------------------------*/
+
+.mbt_sort_books #mbt_book_sorter .mbt_book {
+	padding: 5px 8px;
+	border: 1px solid #dfdfdf;
+	border-radius: 5px;
+	width: 300px;
+	cursor: move;
+
+	background: #f1f1f1;
+	background: -webkit-gradient(linear,left bottom,left top,from(#ececec),to(#f9f9f9));
+	background: -webkit-linear-gradient(bottom,#ececec,#f9f9f9);
+	background: -moz-linear-gradient(bottom,#ececec,#f9f9f9);
+	background: -o-linear-gradient(bottom,#ececec,#f9f9f9);
+	background: linear-gradient(to top,#ececec,#f9f9f9);
+}
+
+/*---------------------------------------------------------*/
 /* Taxonomy Pages                                          */
 /*---------------------------------------------------------*/
 

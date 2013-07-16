@@ -5,10 +5,10 @@ Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 1.1.5
+Version: 1.2.0
 */
 
-define("MBT_VERSION", "1.1.5");
+define("MBT_VERSION", "1.2.0");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -18,11 +18,14 @@ require_once("includes/admin_pages.php");
 require_once("includes/post_types.php");
 require_once("includes/taxonomies.php");
 require_once("includes/metaboxes.php");
-require_once("includes/extras/widgets.php");
 require_once("includes/extras/seo.php");
+require_once("includes/extras/widgets.php");
 require_once("includes/extras/shortcodes.php");
 require_once("includes/extras/compatibility.php");
+require_once("includes/extras/googleanalytics.php");
 require_once("includes/extras/breadcrumbs.php");
+require_once("includes/extras/goodreads.php");
+require_once("includes/extras/booksorting.php");
 
 
 
@@ -31,8 +34,8 @@ require_once("includes/extras/breadcrumbs.php");
 /*---------------------------------------------------------*/
 
 function mbt_activate() {
-	mbt_create_post_types();
-	mbt_create_taxonomies();
+	mbt_register_post_types();
+	mbt_register_taxonomies();
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
 }
@@ -51,6 +54,7 @@ register_deactivation_hook(__FILE__, 'mbt_deactivate');
 /*---------------------------------------------------------*/
 
 function mbt_init() {
+	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['action']) and $_GET['action'] == 'deactivate' and isset($_GET['plugin']) and $_GET['plugin'] == plugin_basename(dirname(__FILE__)).'/mybooktable.php') { return; }
 	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['mbt_uninstall'])) { return mbt_uninstall(); }
 
 	if(function_exists('mbtdev_init')) { add_action('mbt_init', 'mbtdev_init'); } else if(function_exists('mbtpro_init')) { add_action('mbt_init', 'mbtpro_init'); }

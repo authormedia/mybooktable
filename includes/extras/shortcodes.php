@@ -33,7 +33,9 @@ function mbt_mybooktable_shortcode($attrs) {
 	$mbt_shortcode_old_post = $post;
 	$mbt_shortcode_old_posts = $posts;
 	$mbt_shortcode_old_wp_query = $wp_query;
-	if(!empty($attrs['author'])) {
+	if(!empty($attrs['book'])) {
+		$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'name' => $attrs['book']));
+	} else if(!empty($attrs['author'])) {
 		$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_author' => $attrs['author'], 'orderby' => 'menu_order', 'posts_per_page' => $max_books));
 	} else if(!empty($attrs['series'])) {
 		$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_series' => $attrs['series'], 'orderby' => 'menu_order', 'posts_per_page' => $max_books));
@@ -90,5 +92,12 @@ function mbt_render_shordcode_help() {
 	<h3>List the books written by an author</h3>
 	<pre>[mybooktable author="jrrtolkien"]</pre>
 	<p>Note that you must use the <strong>slug</strong> of the author, not the name.<p/>
+
+	<h3>Display a single book</h3>
+	<pre>[mybooktable book="the-fellowship-of-the-ring"]</pre>
+	<p>Note that you must use the <strong>slug</strong> of the book, not the name.<p/>
+
+	<h3>Display a single book summary</h3>
+	<pre>[mybooktable book="the-fellowship-of-the-ring" display="summary"]</pre>
 <?php
 }

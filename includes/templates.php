@@ -106,6 +106,8 @@ function mbt_pre_get_posts($query) {
 
 function mbt_enqueue_styles() {
 	wp_enqueue_style('mbt-style', apply_filters('mbt_css', plugins_url('css/frontend-style.css', dirname(__FILE__))));
+	$plugin_style_css = mbt_current_style_url('style.css');
+	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-plugin-style', $plugin_style_css); }
 }
 
 function mbt_get_template_folders() {

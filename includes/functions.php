@@ -107,27 +107,24 @@ function mbt_image_url($image) {
 	return apply_filters('mbt_image_url', empty($url) ? plugins_url('styles/Default/'.$image, dirname(__FILE__)) : $url);
 }
 
-function mbt_current_style_url($url) {
+function mbt_current_style_url($file) {
 	$style = mbt_get_setting('style_pack');
 	if(empty($style)) { $style = 'Default'; }
 
-	$url = mbt_style_url($url, $style);
-	if(empty($url)) { $url = mbt_style_url($url, 'Default'); }
+	$url = mbt_style_url($file, $style);
+	if(empty($url) and $style !== 'Default') { $url = mbt_style_url($file, 'Default'); }
 
 	return $url;
 }
 
-function mbt_style_url($url, $style) {
-	$folders = mbt_get_style_folders();
-
-	foreach($folders as $folder) {
+function mbt_style_url($file, $style) {
+	foreach(mbt_get_style_folders() as $folder) {
 		if(file_exists($folder['dir'].'/'.$style)) {
-			if(file_exists($folder['dir'].'/'.$style.'/'.$url)) {
-				return $folder['url'].'/'.$style.'/'.$url;
+			if(file_exists($folder['dir'].'/'.$style.'/'.$file)) {
+				return $folder['url'].'/'.$style.'/'.$file;
 			}
 		}
 	}
-
 	return '';
 }
 

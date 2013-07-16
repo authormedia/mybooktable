@@ -4,14 +4,14 @@
 /* Cusom Taxonomies                                        */
 /*---------------------------------------------------------*/
 
-function mbt_init_taxonomies() {
-	add_action('init', 'mbt_create_taxonomies');
+function mbt_taxonomies_init() {
+	add_action('init', 'mbt_register_taxonomies');
 	add_filter('parent_file', 'mbt_override_taxonomy_parent_files');
-	add_action('admin_init', 'mbt_init_taxonomy_editors');
+	add_action('admin_init', 'mbt_taxonomy_editors_init');
 }
-add_action('mbt_init', 'mbt_init_taxonomies');
+add_action('mbt_init', 'mbt_taxonomies_init');
 
-function mbt_create_taxonomies()
+function mbt_register_taxonomies()
 {
 	register_taxonomy('mbt_author', 'mbt_book', array(
 		'hierarchical' => true,
@@ -90,7 +90,7 @@ function mbt_override_taxonomy_parent_files() {
 /* Custom Images for Taxonomies                            */
 /*---------------------------------------------------------*/
 
-function mbt_init_taxonomy_editors() {
+function mbt_taxonomy_editors_init() {
 	add_filter('mbt_author_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
 	add_filter('mbt_author_add_form_fields', 'mbt_add_taxonomy_image_add_form');
 	add_action('edited_mbt_author', 'mbt_save_taxonomy_image_edit_form');

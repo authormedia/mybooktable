@@ -4,14 +4,14 @@
 /* Custom Post Types                                       */
 /*---------------------------------------------------------*/
 
-function mbt_init_post_types() {
-	add_action('init', 'mbt_create_post_types');
+function mbt_post_types_init() {
+	add_action('init', 'mbt_register_post_types');
 	add_filter('parent_file', 'mbt_override_post_types_parent_files');
 	add_filter('post_updated_messages', 'mbt_override_post_updated_messages');
 }
-add_action('mbt_init', 'mbt_init_post_types');
+add_action('mbt_init', 'mbt_post_types_init');
 
-function mbt_create_post_types()
+function mbt_register_post_types()
 {
 	register_post_type('mbt_book', array(
 		'labels' => array(

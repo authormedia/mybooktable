@@ -13,35 +13,6 @@
 	width: 75%;
 }
 
-.mbt-button  {
-	font-family: Helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 18px;
-	line-height: 20px;
-	vertical-align: middle;
-	color: #0F0B10 !important;
-	text-align: center;
-	text-decoration: none;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-
-	border: 1px solid #CCD1D2;
-	border-radius: 5px;
-
-	background: #ecf0f3;
-	background: -moz-linear-gradient(top,  #ecf0f3 0%, #f7f9fb 50%, #e0e9ee 51%, #edf1f4 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ecf0f3), color-stop(50%,#f7f9fb), color-stop(51%,#e0e9ee), color-stop(100%,#edf1f4));
-	background: -webkit-linear-gradient(top,  #ecf0f3 0%,#f7f9fb 50%,#e0e9ee 51%,#edf1f4 100%);
-	background: -o-linear-gradient(top,  #ecf0f3 0%,#f7f9fb 50%,#e0e9ee 51%,#edf1f4 100%);
-	background: -ms-linear-gradient(top,  #ecf0f3 0%,#f7f9fb 50%,#e0e9ee 51%,#edf1f4 100%);
-	background: linear-gradient(to bottom,  #ecf0f3 0%,#f7f9fb 50%,#e0e9ee 51%,#edf1f4 100%);
-
-	display: inline-block;
-	margin: 0;
-	padding: 6px 15px;
-	width: 169px;
-	min-height: 21px;
-}
-
 
 
 /*---------------------------------------------------------*/
@@ -245,6 +216,7 @@
 	vertical-align: bottom;
 	padding: 0;
 	margin: 0;
+	opacity: 1;
 }
 
 #mbt-container .mbt-book .mbt-book-buybuttons-textonly  {

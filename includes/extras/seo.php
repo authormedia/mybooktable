@@ -4,7 +4,7 @@
 /* General SEO Functions                                   */
 /*---------------------------------------------------------*/
 
-function mbt_init_seo() {
+function mbt_seo_init() {
 	if(defined('WPSEO_FILE')) {
 		//WP SEO Integration
 		add_filter('option_wpseo_titles', 'mbt_filter_wpseo_options');
@@ -28,7 +28,7 @@ function mbt_init_seo() {
 	}
 
 }
-add_action('mbt_init', 'mbt_init_seo');
+add_action('mbt_init', 'mbt_seo_init');
 
 
 

@@ -14,6 +14,8 @@
 							myself.add_shortcode(item, 'All Books in Series', '[mybooktable series=""]');
 							myself.add_shortcode(item, 'All Books in Genre', '[mybooktable genre=""]');
 							myself.add_shortcode(item, 'All Books by Author', '[mybooktable author=""]');
+							myself.add_shortcode(item, 'Single Book', '[mybooktable book=""]');
+							myself.add_shortcode(item, 'Single Book Summary', '[mybooktable book="" display="summary"]');
 						});
 						return button;
 					}

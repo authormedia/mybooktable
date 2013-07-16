@@ -1,6 +1,6 @@
 <?php
 
-function mbt_init_breadcrumbs() {
+function mbt_breadcrumbs_init() {
 	if(mbt_get_setting('enable_breadcrumbs')) {
 		add_action('mbt_before_single_book', 'mbt_the_breadcrumbs');
 		add_action('mbt_before_book_archive', 'mbt_the_breadcrumbs');
@@ -8,7 +8,7 @@ function mbt_init_breadcrumbs() {
 	add_filter('woo_breadcrumbs_trail', 'mbt_integrate_woo_breadcrumbs');
 	add_filter('genesis_archive_crumb', 'mbt_integrate_genesis_breadcrumb_archive', 20, 2);
 }
-add_action('mbt_init', 'mbt_init_breadcrumbs');
+add_action('mbt_init', 'mbt_breadcrumbs_init');
 
 function mbt_integrate_woo_breadcrumbs($trail) {
 	global $mbt_taxonomy_query;
@@ -29,16 +29,16 @@ function mbt_integrate_genesis_breadcrumb_archive($crumb, $args) {
 function mbt_get_breadcrumbs($delimiter = '') {
 	global $wp_query;
 	$delimiter = empty($delimiter) ? ' &gt; ' : $delimiter;
-	$output = '<a href="'.mbt_get_booktable_url().'">Books</a>';
+	$output = '';
 
 	if(is_singular('mbt_book')) {
 		global $post;
-		$output .= $delimiter.'<a href="'.get_permalink().'">'.$post->post_title.'</a>';
+		$output .= '<a href="'.mbt_get_booktable_url().'">Books</a>'.$delimiter.'<a href="'.get_permalink().'">'.$post->post_title.'</a>';
 	} else if(is_tax('mbt_author') or is_tax('mbt_series') or is_tax('mbt_genre')) {
-		$output .= $delimiter.'<a href="'.get_term_link(get_queried_object()).'">'.get_queried_object()->name.'</a>';
+		$output .= '<a href="'.mbt_get_booktable_url().'">Books</a>'.$delimiter.'<a href="'.get_term_link(get_queried_object()).'">'.get_queried_object()->name.'</a>';
 	}
 
-	return apply_filters('mbt_get_breadcrumbs', '<div class="mbt-breadcrumbs">'.$output.'</div>');
+	return apply_filters('mbt_get_breadcrumbs', empty($output) ? '' : '<div class="mbt-breadcrumbs">'.$output.'</div>');
 }
 function mbt_the_breadcrumbs($delimiter = '') {
 	echo(mbt_get_breadcrumbs($delimiter));

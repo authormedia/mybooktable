@@ -472,7 +472,7 @@ function mbt_render_founders_page() {
 			<li><a href="http://wadewebster.com">Wade Webster</a></li>
 			<li><a href="http://gloriaclover.com">Gloria Clover</a>, author of <a href="http://www.amazon.com/Children-King-Book-Two-ebook/dp/B008W1AUUO/ref=sr_1_1?ie=UTF8&amp;qid=1366664833&amp;sr=8-1&amp;keywords=The+Fire+Starter%2C+Clover">The Fire Starter</a></li>
 			<li><a href="http://www.lisabergren.com">Lisa Bergren</a>, author of <a href="http://www.amazon.com/Glamorous-Illusions-Novel-Grand-Series/dp/1434764303/ref=tmm_pap_title_0">Glamorous Illusions</a></li>
-			<li><a href="http://techguyjay.com/books" target="_blank">Josh Goldsmith</a></li>
+			<li><a href="http://techguyjay.com/books" target="_blank">Jay Donovan</a></li>
 			<li><a href="http://www.DebiJHolliday.com" target="_blank">Debi J. Holliday</a></li>
 			<li><a href="http://www.nickbuchan.com" target="_blank">Nick and Lu</a></li>
 			<li><a href="http://www.sbbflonghorns.com" target="_blank">Chrisann Merriman</a></li>
