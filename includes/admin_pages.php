@@ -25,7 +25,7 @@ function mbt_enqueue_admin_js() {
 	wp_enqueue_style('jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
 	wp_enqueue_script("mbt-media-upload", plugins_url('js/media-upload.js', dirname(__FILE__)));
 	wp_enqueue_script("mbt-settings-page", plugins_url('js/settings-page.js', dirname(__FILE__)));
-	wp_enqueue_media();
+	if(function_exists('wp_enqueue_media')) { wp_enqueue_media(); }
 }
 
 function mbt_add_admin_pages() {
@@ -56,17 +56,17 @@ function mbt_save_settings_page() {
 		}
 
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
-		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode'])?true:false);
+		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode']));
 		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
 		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
 
-		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book'])?true:false);
-		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt'])?true:false);
-		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book'])?true:false);
+		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book']));
+		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt']));
+		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book']));
 
-		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo'])?true:false);
-		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs'])?true:false);
-		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts'])?true:false);
+		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo']));
+		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
+		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts']));
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
 		$settings_updated = true;

@@ -3,7 +3,7 @@ Contributors: authormedia, zookatron
 Donate link: http://www.authormedia.com/mybooktable/
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, my, book, table
 Requires at least: 3.5.0
-Tested up to: 3.5.1
+Tested up to: 3.5.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
