@@ -643,7 +643,7 @@ function mbt_get_book_series_box($post_id) {
 				$tpadding = round(($size-$height)/2);
 
 				$output .= '<div class="mbt-book">';
-				$output .= '<div class="mbt-book-images" style="width:'.$width.'px; height:'.$height.'px; padding: '.$tpadding.'px '.$lpadding.'px '.$tpadding.'px '.$lpadding.'px;"><a href="'.get_permalink($relatedbook->ID).'"><img width="'.$width.'" height="'.$height.'" src="'.$src.'" class="mbt-book-image"></a></div>';
+				$output .= '<div class="mbt-book-images" style="box-sizing: border-box; width:'.$size.'px; height:'.$size.'px; padding: '.$tpadding.'px '.$lpadding.'px '.$tpadding.'px '.$lpadding.'px;"><a href="'.get_permalink($relatedbook->ID).'"><img width="'.$width.'" height="'.$height.'" src="'.$src.'" class="mbt-book-image"></a></div>';
 				$output .= '<div class="mbt-book-title"><a href="'.get_permalink($relatedbook->ID).'">'.$relatedbook->post_title.'</a></div>';
 				$output .= '<div style="clear:both"></div>';
 				$output .= '</div>';

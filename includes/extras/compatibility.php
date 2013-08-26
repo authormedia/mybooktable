@@ -32,7 +32,7 @@ function mbt_compat_custom_page_content($content) {
 	if(empty($mbt_in_custom_page_content)) {
 		$template = '';
 
-		if(mbt_is_booktable_page() or mbt_is_taxonomy_query()) {
+		if((mbt_is_booktable_page() and $wp_query->post->ID == mbt_get_setting('booktable_page')) or (mbt_is_taxonomy_query() and $wp_query->post->ID == 0)) {
 			$template = mbt_locate_template('archive-book/content.php');
 			remove_action('mbt_book_archive_header_title', 'mbt_do_book_archive_header_title');
 		} else if(is_singular('mbt_book')) {

@@ -13,6 +13,17 @@
 	width: 75%;
 }
 
+#mbt-container .mbt-book .mbt-affiliate-disclaimer,
+#mbt-container .mbt-book .mbt-affiliate-disclaimer a {
+	color: gray;
+	font-size: 10px;
+	font-style: italic;
+}
+
+#mbt-container .mbt-book .mbt-affiliate-disclaimer {
+	padding: 10px 0px;
+}
+
 
 
 /*---------------------------------------------------------*/
@@ -134,7 +145,6 @@
 #mbt-container .mbt-book .mbt-book-meta a:hover {
 	text-decoration: underline;
 }
-
 
 
 
@@ -337,6 +347,41 @@
 
 #mbt-container .mbt-book .mbt-book-series .mbt-book .mbt-book-images {
 	margin: 10px;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Goodreads Box                                           */
+/*---------------------------------------------------------*/
+#mbt-container .mbt-book #goodreads-widget {
+	font-family: georgia, serif;
+	padding: 18px 0;
+}
+#mbt-container .mbt-book #goodreads-widget h1 {
+	font-weight:normal;
+	font-size: 16px;
+	border-bottom: 1px solid #BBB596;
+	margin-bottom: 0;
+}
+#mbt-container .mbt-book #goodreads-widget a {
+	text-decoration: none;
+	color:#660;
+}
+#mbt-container .mbt-book #goodreads-widget a:hover { text-decoration: underline; }
+#mbt-container .mbt-book #goodreads-widget a:active {
+	color:#660;
+}
+#mbt-container .mbt-book #gr_footer {
+	width: 100%;
+	border-top: 1px solid #BBB596;
+	text-align: right;
+}
+#mbt-container .mbt-book #goodreads-widget .gr_branding{
+	color: #382110;
+	font-size: 11px;
+	text-decoration: none;
+	font-family: verdana, arial, helvetica, sans-serif;
 }
 
 

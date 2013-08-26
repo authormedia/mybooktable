@@ -1,7 +1,7 @@
 === MyBookTable ===
 Contributors: authormedia, zookatron
 Donate link: http://www.authormedia.com/mybooktable/
-Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, my, book, table
+Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, my, book, table, author plugin, books post type, books widget, books plugin
 Requires at least: 3.5.0
 Tested up to: 3.5.2
 Stable tag: trunk

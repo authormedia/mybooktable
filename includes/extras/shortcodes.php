@@ -75,7 +75,7 @@ function mbt_mybooktable_shortcode($attrs) {
 
 function mbt_render_shordcode_help() {
 ?>
-	<br><br><h2>Shortcodes</h2>
+	<br><br><h2>MyBookTable Shortcodes</h2>
 	<p>MyBookTable has a single [mybooktable] shortcode that can be used for a variety of purposes:</p>
 
 	<h3>List all your books</h3>

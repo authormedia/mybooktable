@@ -1,7 +1,7 @@
 <?php
 
 function mbt_goodreads_init() {
-	add_action('mbt_affiliate_settings_render', 'mbt_goodreads_settings_render');
+	add_action('mbt_general_settings_render', 'mbt_goodreads_settings_render');
 	add_action('mbt_settings_save', 'mbtpro_goodreads_settings_save');
 	add_action('mbt_after_single_book', 'mbt_the_goodreads_reviews');
 }
@@ -21,7 +21,7 @@ function mbt_goodreads_settings_render() {
 				<th scope="row"><label for="mbt_goodreads_developer_key">GoodReads Developer Key</label></th>
 				<td>
 					<input type="text" id="mbt_goodreads_developer_key" name="mbt_goodreads_developer_key" value="<?php echo(mbt_get_setting('goodreads_developer_key')); ?>" class="regular-text">
-					<p class="description">Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages. <a href="<?php echo(admin_url('admin.php?page=mbt_help')); ?>" target="_blank">Learn how to get a GoodReads Developer Key</a></p>
+					<p class="description">Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages. <a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/" target="_blank">Learn how to get a GoodReads Developer Key</a></p>
 				</td>
 			</tr>
 		</tbody>
@@ -40,6 +40,7 @@ function mbt_get_goodreads_reviews($post_id) {
 		if(!is_wp_error($raw_response) and 200 == wp_remote_retrieve_response_code($raw_response)) {
 			$response = json_decode(wp_remote_retrieve_body($raw_response));
 			$output = empty($response->reviews_widget) ? '' : $response->reviews_widget;
+			$output = preg_replace("/<style>.*<\/style>/s", "", $output);
 		}
 	}
 	return $output;

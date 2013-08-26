@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: MyBookTable
+Plugin Name: MyBookTable - WordPress Affiliate Bookstore
 Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media

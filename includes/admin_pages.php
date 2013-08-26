@@ -59,18 +59,20 @@ function mbt_save_settings_page() {
 		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode']));
 		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
 		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
+		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
 
 		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book']));
 		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt']));
 		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book']));
 
 		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo']));
-		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts']));
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
 		$settings_updated = true;
 	}
+
+	if(isset($_REQUEST['mbt_remove_booktable_page'])) { mbt_update_setting('booktable_page', 0); }
 }
 
 function mbt_api_key_refresh_ajax() {
@@ -127,12 +129,12 @@ function mbt_render_settings_page() {
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
-								<th scope="row">API Key</th>
+								<th scope="row">MyBookTable API Key</th>
 								<td>
 									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" />
 									<div id="mbt_api_key_refresh"></div>
-									<p class="description">If you have purchased an API Key for MyBookTable, enter it here to activate your enhanced features.</p>
+									<p class="description">If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.</p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -146,6 +148,8 @@ function mbt_render_settings_page() {
 									</select>
 									<?php if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) { ?>
 										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary">Click here to create a Book Table page</a>
+									<?php } else { ?>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_remove_booktable_page=1')); ?>" id="submit" class="button button-primary">Remove Book Table page</a>
 									<?php } ?>
 									<p class="description">The Book Table page is the main landing page for your books.</p>
 								</td>
@@ -190,8 +194,16 @@ function mbt_render_settings_page() {
 									<p class="description">Select the size of the book images.</p>
 								</td>
 							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_enable_seo">Enable Breadcrumbs</label></th>
+								<td>
+									<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php echo(mbt_get_setting('enable_breadcrumbs') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to enable MyBookTable's built-in breadcrumbs.</p>
+								</td>
+							</tr>
 						</tbody>
 					</table>
+					<?php do_action("mbt_general_settings_render"); ?>
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
 				</div>
 				<div id="tabs-2">
@@ -234,13 +246,6 @@ function mbt_render_settings_page() {
 								<td>
 									<input type="checkbox" name="mbt_enable_seo" id="mbt_enable_seo" <?php echo(mbt_get_setting('enable_seo') ? ' checked="checked"' : ''); ?> >
 									<p class="description">Check to enable MyBookTable's built-in SEO features.</p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_seo">Enable Breadcrumbs</label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php echo(mbt_get_setting('enable_breadcrumbs') ? ' checked="checked"' : ''); ?> >
-									<p class="description">Check to enable MyBookTable's built-in breadcrumbs.</p>
 								</td>
 							</tr>
 						</tbody>
@@ -288,28 +293,54 @@ function mbt_render_help_page() {
 	}
 ?>
 	<div class="wrap">
-		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Help</h2>
+		<div id="icon-options-general" class="icon32"><br></div><h2 style="font-weight:bold">MyBookTable Help</h2>
 
-		<h2>Tutorial Videos</h2>
-		<h3>Books and Series</h3>
-		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>
-		<p>This video shows you how to add books into a series.</p>
+	    <h2>MyBookTable Tutorials</h2>
+		<ul>
+			<li><a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/">How to Add GoodReads Book Reviews to MyBookTable</a></li>
+		</ul>
 
-		<h3>Buy Button Tutorial</h3>
+		<h2>General WordPress Guides &amp; Tutorials</h2>
+		<ul>
+			<li><a title="10 Ways Proven to Draw Readers to Your Novel’s Website" href="http://www.authormedia.com/10-elements-proven-to-draw-readers-to-your-novels-website/" rel="bookmark">10 Ways Proven to Draw Readers to Your Novel’s Website</a></li>
+			<li><a title="How to Upload a File to Your WordPress Site" href="http://www.authormedia.com/how-to-upload-a-file-to-your-wordpress-site/" rel="bookmark">How to Upload a File to Your WordPress Site</a></li>
+			<li><a title="How to Create a PDF" href="http://www.authormedia.com/how-to-create-a-pdf/" rel="bookmark">How to Create a PDF</a></li>
+			<li><a title="How to Add a Hyperlink to WordPress" href="http://www.authormedia.com/how-to-add-a-hyperlink-to-wordpress/" rel="bookmark">How to Add a Hyperlink to WordPress</a></li>
+			<li><a title="The WordPress Hotkey Cheat Sheet Every Author Needs" href="http://www.authormedia.com/the-wordpress-hotkey-cheat-sheet-every-author-needs/" rel="bookmark">The WordPress Hotkey Cheat Sheet Every Author Needs</a></li>
+			<li><a title="How to Create or Edit Posts in WordPress" href="http://www.authormedia.com/how-to-create-or-edit-posts-in-wordpress/" rel="bookmark">How to Create or Edit Posts in WordPress</a></li>
+			<li><a title="How to Keep Your WordPress Site Secure From Hackers" href="http://www.authormedia.com/how-to-keep-your-wordpress-site-secure-from-hackers/" rel="bookmark">How to Keep Your WordPress Site Secure From Hackers</a></li>
+			<li><a title="How To Find Zen Mode in WordPress" href="http://www.authormedia.com/how-to-find-zen-mode-in-wordpress/" rel="bookmark">How To Find Zen Mode in WordPress</a></li>
+		</ul>
+
+		<h2>MyBookTable Tutorial Videos</h2>
+		<h3>MyBookTable Overview</h3>
+		<iframe width="640" height="360" src="http://player.vimeo.com/video/66113243" frameborder="0" allowfullscreen></iframe>
+		<p>This video is a general introduction to MyBookTable.</p>
+
+		<h3>How to Add Buy Buttons</h3>
 		<iframe width="640" height="360" src="http://player.vimeo.com/video/68790296" frameborder="0" allowfullscreen></iframe>
 		<p>This video shows you how to add buy buttons to your books.</p>
+
+		<h3>How to Put Books in a Series</h3>
+		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>
+		<p>This video shows you how to add books into a series.</p>
 
 		<h3>How to Setup an Amazon Affiliate Account With MyBookTable</h3>
 		<iframe width="640" height="360" src="http://player.vimeo.com/video/69188658" frameborder="0" allowfullscreen></iframe>
 		<p>This video walks you through setting up an Amazon Affiliate account and how to take your affiliate code and insert it into your MyBookTable plugin.</p>
 
-		<h3>Book Blurbs</h3>
+		<h3>Effective Book Blurb Strategies</h3>
 		<iframe width="640" height="360" src="http://www.youtube.com/embed/LABESfhThhY" frameborder="0" allowfullscreen></iframe>
 		<p>This video shows you how to write book blurbs for your books.</p>
 
 		<h2>More tutorial videos coming soon!</h2>
 
 		<?php do_action("mbt_render_help_page"); ?>
+
+		<br>
+		<h2>Additional Support</h2>
+		<p>If you have <a href="http://www.authormedia.com/product-category/wordpress-plugins/">purchased an add-on</a> in the last year you can get support by <a href="http://www.authormedia.com/my-account/">logging into your account</a>.</p>
+		<p>You can also check out WordPress’ <a href="http://wordpress.org/support/plugin/mybooktable">MyBookTable Support Forum</a>.</p>
 	</div>
 
 <?php
