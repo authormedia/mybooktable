@@ -30,6 +30,7 @@ function mbt_reset_settings() {
 		'enable_socialmedia_bar_single_book' => true,
 		'enable_seo' => true,
 		'enable_breadcrumbs' => true,
+		'show_series' => true,
 		'series_in_excerpts' => false,
 		'posts_per_page' => false
 	);

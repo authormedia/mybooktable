@@ -31,6 +31,7 @@ function mbt_enqueue_admin_js() {
 function mbt_add_admin_pages() {
 	add_menu_page("MyBookTable", "MyBookTable", 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
 	add_submenu_page("mbt_dashboard", "Books", "Books", 'edit_posts', "edit.php?post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", "Add Book", "Add Book", 'edit_posts', "post-new.php?post_type=mbt_book");
 	add_submenu_page("mbt_dashboard", "Authors", "Authors", 'edit_posts', "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
 	add_submenu_page("mbt_dashboard", "Genres", "Genres", 'edit_posts', "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
 	add_submenu_page("mbt_dashboard", "Series", "Series", 'edit_posts', "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
@@ -57,15 +58,18 @@ function mbt_save_settings_page() {
 
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
 		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode']));
-		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
-		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
-		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
 
 		mbt_update_setting('enable_socialmedia_badges_single_book', isset($_REQUEST['mbt_enable_socialmedia_badges_single_book']));
 		mbt_update_setting('enable_socialmedia_badges_book_excerpt', isset($_REQUEST['mbt_enable_socialmedia_badges_book_excerpt']));
 		mbt_update_setting('enable_socialmedia_bar_single_book', isset($_REQUEST['mbt_enable_socialmedia_bar_single_book']));
 
 		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo']));
+
+
+		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
+		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
+		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
+		mbt_update_setting('show_series', isset($_REQUEST['mbt_show_series']));
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts']));
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
@@ -122,7 +126,7 @@ function mbt_render_settings_page() {
 					<li><a href="#tabs-2">Affiliate Settings</a></li>
 					<li><a href="#tabs-3">Social Media Settings</a></li>
 					<li><a href="#tabs-4">SEO Settings</a></li>
-					<li><a href="#tabs-5">Book Listings Settings</a></li>
+					<li><a href="#tabs-5">Display Settings</a></li>
 					<li><a href="#tabs-6">Uninstall</a></li>
 				</ul>
 				<div id="tabs-1">
@@ -170,37 +174,6 @@ function mbt_render_settings_page() {
 									</td>
 								</tr>
 							<?php } ?>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_style_pack">Style Pack</label></th>
-								<td>
-									<select name="mbt_style_pack" id="mbt_style_pack" style="width:100px">
-										<?php $current_style = mbt_get_setting('style_pack'); ?>
-										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> >Default</option>
-										<?php foreach(mbt_get_style_packs() as $style) { ?>
-											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
-										<?php } ?>
-									</select>
-									<p class="description">Choose the style pack you would like for your buy buttons.</p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_image_size">Book Image Size</label></th>
-								<td>
-									<?php $image_size = mbt_get_setting('image_size'); ?>
-									<?php if(empty($image_size)) { $image_size = 'medium'; } ?>
-									<?php foreach(array('small', 'medium', 'large') as $size) { ?>
-										<input type="radio" name="mbt_image_size" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> ><?php echo(ucfirst($size)); ?><br>
-									<?php } ?>
-									<p class="description">Select the size of the book images.</p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_seo">Enable Breadcrumbs</label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php echo(mbt_get_setting('enable_breadcrumbs') ? ' checked="checked"' : ''); ?> >
-									<p class="description">Check to enable MyBookTable's built-in breadcrumbs.</p>
-								</td>
-							</tr>
 						</tbody>
 					</table>
 					<?php do_action("mbt_general_settings_render"); ?>
@@ -256,14 +229,52 @@ function mbt_render_settings_page() {
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
-								<th scope="row"><label for="mbt_series_in_excerpts">Show other books in the same Series</label></th>
+								<th scope="row"><label for="mbt_style_pack">Style Pack</label></th>
 								<td>
-									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
-									<p class="description">If checked, the related books will display under the book in book listings.</p>
+									<select name="mbt_style_pack" id="mbt_style_pack" style="width:100px">
+										<?php $current_style = mbt_get_setting('style_pack'); ?>
+										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> >Default</option>
+										<?php foreach(mbt_get_style_packs() as $style) { ?>
+											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
+										<?php } ?>
+									</select>
+									<p class="description">Choose the style pack you would like for your buy buttons.</p>
 								</td>
 							</tr>
 							<tr valign="top">
-								<th scope="row"><label for="mbt_posts_per_page">Number of Books per Page</label></th>
+								<th scope="row"><label for="mbt_image_size">Book Image Size</label></th>
+								<td>
+									<?php $image_size = mbt_get_setting('image_size'); ?>
+									<?php if(empty($image_size)) { $image_size = 'medium'; } ?>
+									<?php foreach(array('small', 'medium', 'large') as $size) { ?>
+										<input type="radio" name="mbt_image_size" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> ><?php echo(ucfirst($size)); ?><br>
+									<?php } ?>
+									<p class="description">Select the size of the book images.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_enable_seo">Enable Breadcrumbs</label></th>
+								<td>
+									<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php echo(mbt_get_setting('enable_breadcrumbs') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Check to enable MyBookTable's built-in breadcrumbs.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_show_series">Show other books in the same series</label></th>
+								<td>
+									<input type="checkbox" name="mbt_show_series" id="mbt_show_series" <?php echo(mbt_get_setting('show_series') ? ' checked="checked"' : ''); ?> >
+									<p class="description">If checked, the other books in the same series will display under the book.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_series_in_excerpts">Show other books in the same series on book listings</label></th>
+								<td>
+									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
+									<p class="description">If checked, the other books in the same series will display under the books on book listings.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_posts_per_page">Number of Books per Page on Book Listings</label></th>
 								<td>
 									<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo(mbt_get_setting('posts_per_page') ? mbt_get_setting('posts_per_page') : get_option('posts_per_page')); ?>" class="regular-text">
 									<p class="description">Choose the number of books to show per page on the book listings.</p>

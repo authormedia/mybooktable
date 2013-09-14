@@ -1,9 +1,9 @@
 === MyBookTable ===
-Contributors: authormedia, zookatron
+Contributors: authormedia, zookatron, neovita
 Donate link: http://www.authormedia.com/mybooktable/
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, my, book, table, author plugin, books post type, books widget, books plugin
 Requires at least: 3.5.0
-Tested up to: 3.5.2
+Tested up to: 3.6.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

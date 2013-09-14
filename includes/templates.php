@@ -43,7 +43,7 @@ function mbt_templates_init() {
 		add_action('mbt_single_book_blurb', 'mbt_do_single_book_blurb');
 		add_action('mbt_single_book_buybuttons', 'mbt_do_single_book_buybuttons');
 		add_action('mbt_single_book_overview', 'mbt_do_single_book_overview');
-		add_action('mbt_after_single_book', 'mbt_the_book_series_box');
+		if(mbt_get_setting('show_series')) { add_action('mbt_after_single_book', 'mbt_the_book_series_box'); }
 
 		//book excerpt hooks
 		add_action('mbt_before_book_excerpt', 'mbt_do_before_book_excerpt', 0);
@@ -629,6 +629,7 @@ function mbt_get_book_series_box($post_id) {
 	if(!empty($series)) {
 		$relatedbooks = new WP_Query(array('mbt_series' => $series->slug, 'order' => 'ASC', 'orderby' => 'meta_value', 'meta_key' => 'mbt_series_order', 'post__not_in' => array($post_id)));
 		if(!empty($relatedbooks->posts)) {
+			$output .= '<div style="clear:both"></div>';
 			$output .= '<div class="mbt-book-series">';
 			$output .= '<div class="mbt-book-series-title">Other books in "'.$series->name.'":</div>';
 			foreach($relatedbooks->posts as $relatedbook) {
@@ -643,7 +644,7 @@ function mbt_get_book_series_box($post_id) {
 				$tpadding = round(($size-$height)/2);
 
 				$output .= '<div class="mbt-book">';
-				$output .= '<div class="mbt-book-images" style="box-sizing: border-box; width:'.$size.'px; height:'.$size.'px; padding: '.$tpadding.'px '.$lpadding.'px '.$tpadding.'px '.$lpadding.'px;"><a href="'.get_permalink($relatedbook->ID).'"><img width="'.$width.'" height="'.$height.'" src="'.$src.'" class="mbt-book-image"></a></div>';
+				$output .= '<div class="mbt-book-images" style="-moz-box-sizing: border-box; box-sizing: border-box; width:'.$size.'px; height:'.$size.'px; padding: '.$tpadding.'px '.$lpadding.'px '.$tpadding.'px '.$lpadding.'px;"><a href="'.get_permalink($relatedbook->ID).'"><img width="'.$width.'" height="'.$height.'" src="'.$src.'" class="mbt-book-image"></a></div>';
 				$output .= '<div class="mbt-book-title"><a href="'.get_permalink($relatedbook->ID).'">'.$relatedbook->post_title.'</a></div>';
 				$output .= '<div style="clear:both"></div>';
 				$output .= '</div>';

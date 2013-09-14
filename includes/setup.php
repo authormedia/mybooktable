@@ -132,6 +132,11 @@ function mbt_add_admin_notices() {
 			add_action('admin_notices', 'mbt_admin_download_addon_notice');
 		}
 	}
+	if(mbt_get_setting('installed') == 'done') {
+		if(mbt_get_setting('api_key_status') === -12) {
+			add_action('admin_notices', 'mbt_admin_api_key_expired_notice');
+		}
+	}
 	if(mbt_get_setting('help_page_email_subscribe_popup') == 'show') {
 		if(isset($_POST['mbt_email_subscribe'])) {
 			mbt_update_setting('help_page_email_subscribe_popup', 'done');
@@ -197,6 +202,16 @@ function mbt_admin_download_addon_notice() {
 	<div id="message" class="mbt-admin-notice">
 		<h4><strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!</h4>
 		<a class="notice-button primary" href="https://www.authormedia.com/my-account/" target="_blank">Download</a>
+	</div>
+	<?php
+}
+
+function mbt_admin_api_key_expired_notice() {
+	?>
+	<div id="message" class="mbt-admin-notice">
+		<h4><strong>Uh Oh!</strong> &#8211; Looks like your MyBookTable API Key has expired.</h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">Go To Settings</a>
+		<a class="notice-button primary" target="_blank" href="http://www.authormedia.com/mybooktable/">Renew your License</a>
 	</div>
 	<?php
 }

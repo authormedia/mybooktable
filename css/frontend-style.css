@@ -22,6 +22,7 @@
 
 #mbt-container .mbt-book .mbt-affiliate-disclaimer {
 	padding: 10px 0px;
+	clear: both;
 }
 
 
@@ -167,7 +168,13 @@
 	min-height: 50px;
 }
 
-#mbt-container .mbt-book .mbt-book-sample {
+#mbt-container .mbt-book .mbt-book-blurb a {
+	color: #235970;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+#mbt-container .mbt-book a.mbt-book-sample {
 	font-family: Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 14px;
@@ -320,6 +327,7 @@
 	text-align: center;
 	float: left;
 	clear: none;
+	border: none;
 }
 
 #mbt-container .mbt-book .mbt-book-series .mbt-book .mbt-book-title {
@@ -509,7 +517,13 @@
 /*---------------------------------------------------------*/
 
 .mbt-featured-book-widget {
+	padding: 6px;
+	padding-bottom: 0px;
 	text-align: center;
+}
+
+.mbt-featured-book-widget .mbt-featured-book-widget-book {
+	padding-bottom: 30px;
 }
 
 .mbt-featured-book-widget .mbt-book-title {
