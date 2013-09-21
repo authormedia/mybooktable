@@ -110,7 +110,7 @@ function mbt_taxonomy_editors_init() {
 function mbt_add_taxonomy_image_edit_form() {
 ?>
 	<tr class="form-field">
-		<th scope="row" valign="top"><label for="mbt_tax_image_url"><?php __('Image', 'mybooktable') ?></label></th>
+		<th scope="row" valign="top"><label for="mbt_tax_image_url"><?php _e('Image', 'mybooktable') ?></label></th>
 		<td>
 			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />
 			<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
