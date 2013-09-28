@@ -43,6 +43,18 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixed small formatting bug related to archive headers
+* Added internationalization support for some strings
+
+= 1.2.2 =
+* Added extra notices for expired API Keys
+* Fixed some bugs related to the Other books in Series box
+* Fixed various CSS styling bugs and typos
+* Added new tutorials
+* Added new affiliate link disclaimer
+* Improved settings page layout
+
 = 1.2.0 =
 * Added GoodReads Reviews and Buy Button
 * Added new Golden Buy Button style pack

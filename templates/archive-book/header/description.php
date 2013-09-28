@@ -1,1 +1,1 @@
-<?php mbt_the_book_archive_description('<div class="mbt-book-archive-description">', '</div>'); ?>
+<?php mbt_the_book_archive_description('<div class="mbt-book-archive-description" style="width: '.(mbt_get_book_archive_image() ? '75%' : '100%').'">', '</div>'); ?>
