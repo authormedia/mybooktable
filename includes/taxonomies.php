@@ -16,18 +16,18 @@ function mbt_register_taxonomies()
 	register_taxonomy('mbt_author', 'mbt_book', array(
 		'hierarchical' => true,
 		'labels' => array(
-			'name' => 'Authors',
-			'singular_name' => 'Author',
-			'all_items' => 'All Authors',
-			'add_new' => 'Add New',
-			'add_new_item' => 'Add New Authors',
-			'new_item_name' => 'New Authors',
-			'edit_item' => 'Edit Authors',
-			'view_item' => 'View Authors',
-			'update_item' => 'Update Authors',
-			'search_items' => 'Search Authors',
-			'parent_item' => 'Parent Authors',
-			'parent_item_colon' => 'Parent Authors:'
+			'name' => __('Authors', 'mybooktable'),
+			'singular_name' => __('Author', 'mybooktable'),
+			'all_items' => __('All Authors', 'mybooktable'),
+			'add_new' => __('Add New', 'mybooktable'),
+			'add_new_item' => __('Add New Autohr', 'mybooktable'),
+			'new_item_name' => __('New Author', 'mybooktable'),
+			'edit_item' => __('Edit Author', 'mybooktable'),
+			'view_item' => __('View Authors', 'mybooktable'),
+			'update_item' => __('Update Author', 'mybooktable'),
+			'search_items' => __('Search Authors', 'mybooktable'),
+			'parent_item' => __('Parent Author', 'mybooktable'),
+			'parent_item_colon' => __('Parent Authors:', 'mybooktable'),
 		),
 		'show_ui' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', 'authors'))
@@ -36,18 +36,18 @@ function mbt_register_taxonomies()
 	register_taxonomy('mbt_genre', 'mbt_book', array(
 		'hierarchical' => true,
 		'labels' => array(
-			'name' => 'Genres',
-			'singular_name' => 'Genre',
-			'all_items' => 'All Genres',
-			'add_new' => 'Add New',
-			'add_new_item' => 'Add New Genres',
-			'new_item_name' => 'New Genres',
-			'edit_item' => 'Edit Genres',
-			'view_item' => 'View Genres',
-			'update_item' => 'Update Genres',
-			'search_items' => 'Search Genres',
-			'parent_item' => 'Parent Genres',
-			'parent_item_colon' => 'Parent Genres:'
+			'name' => __('Genres', 'mybooktable'),
+			'singular_name' => __('Genre', 'mybooktable'),
+			'all_items' => __('All Genres', 'mybooktable'),
+			'add_new' => __('Add New', 'mybooktable'),
+			'add_new_item' => __('Add New Genres', 'mybooktable'),
+			'new_item_name' => __('New Genre', 'mybooktable'),
+			'edit_item' => __('Edit Genre', 'mybooktable'),
+			'view_item' => __('View Genres', 'mybooktable'),
+			'update_item' => __('Update Genre', 'mybooktable'),
+			'search_items' => __('Search Genre', 'mybooktable'),
+			'parent_item' => __('Parent Genre', 'mybooktable'),
+			'parent_item_colon' => __('Parent Genres:', 'mybooktable'),
 		),
 		'show_ui' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', 'genre'))
@@ -56,18 +56,18 @@ function mbt_register_taxonomies()
 	register_taxonomy('mbt_series', 'mbt_book', array(
 		'hierarchical' => true,
 		'labels' => array(
-			'name' => 'Series',
-			'singular_name' => 'Series',
-			'all_items' => 'All Series',
-			'add_new' => 'Add New',
-			'add_new_item' => 'Add New Series',
-			'new_item_name' => 'New Series',
-			'edit_item' => 'Edit Series',
-			'view_item' => 'View Series',
-			'update_item' => 'Update Series',
-			'search_items' => 'Search Series',
-			'parent_item' => 'Parent Series',
-			'parent_item_colon' => 'Parent Series:'
+			'name' => __('Series', 'mybooktable'),
+			'singular_name' => __('Serie', 'mybooktable'),
+			'all_items' => __('All Series', 'mybooktable'),
+			'add_new' => __('Add New', 'mybooktable'),
+			'add_new_item' => __('All Authors', 'mybooktable'),
+			'new_item_name' => __('New Series', 'mybooktable'),
+			'edit_item' => __('Edit Series', 'mybooktable'),
+			'view_item' => __('View Series', 'mybooktable'),
+			'update_item' => __('Update Serie', 'mybooktable'),
+			'search_items' => __('Search Serie', 'mybooktable'),
+			'parent_item' => __('Parent Series', 'mybooktable'),
+			'parent_item_colon' => __('Parent Series:', 'mybooktable'),
 		),
 		'show_ui' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', 'series'))
@@ -110,7 +110,7 @@ function mbt_taxonomy_editors_init() {
 function mbt_add_taxonomy_image_edit_form() {
 ?>
 	<tr class="form-field">
-		<th scope="row" valign="top"><label for="mbt_tax_image_url">Image</label></th>
+		<th scope="row" valign="top"><label for="mbt_tax_image_url"><?php _e('Image', 'mybooktable') ?></label></th>
 		<td>
 			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />
 			<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
