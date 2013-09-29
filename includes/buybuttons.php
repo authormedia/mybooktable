@@ -23,6 +23,22 @@ function mbt_add_basic_stores($stores) {
 	$stores['bnn'] = array('name' => 'Barnes and Noble', 'search' => 'http://www.barnesandnoble.com/s/?store=book', 'editor_desc' => 'Paste in the Barnes &amp; Noble product URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Barnes &amp; Noble Affiliate links.</a>');
 	$stores['nook'] = array('name' => 'Barnes and Noble Nook', 'search' => 'http://www.barnesandnoble.com/s/?store=ebook', 'editor_desc' => 'Paste in the Barnes &amp; Noble product URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Barnes &amp; Noble Affiliate links.</a>');
 	$stores['goodreads'] = array('name' => 'GoodReads', 'search' => 'http://www.goodreads.com/search');
+	$stores['cbd'] = array('name' => 'Christian Book Distributor', 'search' => 'http://www.christianbook.com/Christian/Books/easy_find');
+	$stores['sba'] = array('name' => 'Signed by the Author', 'search' => 'http://www.signedbytheauthor.com');
+	$stores['bam'] = array('name' => 'Books-A-Million', 'search' => 'http://www.booksamillion.com/search');
+	$stores['bookbaby'] = array('name' => 'BookBaby');
+	$stores['lifeway'] = array('name' => 'Lifeway', 'search' => 'http://www.lifeway.com');
+	$stores['mardel'] = array('name' => 'Mardel', 'search' => 'http://www.mardel.com/search');
+	$stores['smashwords'] = array('name' => 'Smashwords', 'search' => 'http://www.smashwords.com');
+	$stores['indiebound'] = array('name' => 'Indie Bound', 'search' => 'http://www.indiebound.org');
+	$stores['createspace'] = array('name' => 'CreateSpace', 'search' => 'https://www.createspace.com');
+	$stores['alibris'] = array('name' => 'Alibris', 'search' => 'http://www.alibris.com');
+	$stores['bookdepository'] = array('name' => 'Book Depository', 'search' => 'http://www.bookdepository.com');
+	$stores['ibooks'] = array('name' => 'iBooks', 'search' => 'http://www.researchmaniacs.com/Search/iBookstore.html');
+	$stores['kobo'] = array('name' => 'Kobo', 'search' => 'http://www.kobobooks.com');
+	$stores['powells'] = array('name' => 'Powells', 'search' => 'http://www.powells.com');
+	$stores['scribd'] = array('name' => 'Scribd', 'search' => 'http://www.scribd.com');
+	$stores['sony'] = array('name' => 'Sony Reader', 'search' => 'https://ebookstore.sony.com');
 	return $stores;
 }
 

@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress Bookstore Plugin to help authors create powerful and effective book pages.
+A WordPress Bookstore Plugin to help authors create great looking book pages that rank well on Google.
 
 == Description ==
 
@@ -16,36 +16,157 @@ A WordPress Bookstore Plugin to help authors create powerful and effective book 
 
 Forget everything you think you know about selling your book online. We’re changing it. You won’t need SSL certificates, shopping carts, or piles of books in your basement. All you’ll need is an affiliate account and a website. Oh, and a book.
 
-= Benefit #1: Easy to Use =
-We’re building MyBookTable from the ground up to be easy to use, even for technophobes. We will also build in tutorial videos to walk you through every step. The PRO & DEVELOPER levels also come with support just in case you get stuck. We will be continually improving and refining the plugin throughout the year.
+MyBookTable allows you to have your own bookstore that links to online bookstores where visitors can buy the book.
 
-= Benefit #2: Search Optimized =
-Most authors don’t rank for their own book titles on Google. Scary, right? That means someone else (coughAmazoncough) is cashing in on your hard work. MyBookTable will help you retake control. Ranking #1 on search engines for your book title is extra valuable when you have affiliate accounts set up (see benefit #3).
+You can find a **live demo** of MyBookTable in action [here](http://www.authormedia.com/books/ "MyBookTable Demo").
 
-= Benefit #3: Affiliate Compatible (PRO & Developer only) =
-Amazon, BN.com, and CBD.com all offer affiliate programs that can help you supplement your income as an author. You won’t have to sell your book out of the back of a van to make more money.  It will also integrate with leading SEO Plugins like Yoast and Scribe.
+
+
+= FEATURES =
+
+= Make Your Individual Book Pages Look Amazing =
+MyBookTable allows you to easily make great looking book pages. Whether you want a list of books or a individual book page, MyBookTable gives you maximum control with minimum hassle.
+
+= Social Media Integration =
+MyBookTable makes it easy for visitors to like and share your books on social media sites like Facebook, Twitter and Google+. It also works with plugins like ShareThis
+
+= Drag and Drop Control the Order of Your Books Page =
+Easily control which books appear at the top of your book table page.
+
+= Beautiful Buy Buttons =
+MyBookTable comes with Buy Buttons for the following stores:
+
+* Alibris
+* Amazon
+* Amazon Kindle
+* Apple iBooks Button
+* Audible
+* Barnes & Noble
+* Barnes & Noble Nook
+* Book Depository Button
+* BookBaby
+* Books-A-Million
+* Christian Book Distributor (CBD)
+* CreateSpace
+* GoodReads
+* Indiebound
+* Kobo
+* Lifeway
+* Mardel
+* Powel’s
+* Scribd
+* Signed By The Author
+* Smashwords
+* Sony Reader
+
+= Premium Buy Buttons =
+The following buy buttons are available with the Pro & Dev Add-On for MyBookTable.
+
+* PayPal
+* 1ShoppingCart
+* eJunkie
+* Universal Buy Button
+
+= Buy Button Style Packs =
+Customize your store by showing some of the buy buttons as a bulleted list. Also choose from multiple buy button color schemes.
+
+= Featured Book Widget =
+Feature a book on your sidebar in just a few of clicks. You can even add multiple books by adding multiple widgets.
+
+=  Mobile Responsive =
+If your wordpress theme is mobile responsive, MyBookTable will react similarly, delivering maximum compatibility for visitors on phones and tablets.
+
+= Advanced Search Engine Optimization =
+
+* **A Search Optimized Page for Each Book**
+Having a search optimized book page may seems small, but this option makes a huge difference in how many people find your book. Most authors cram all their books on one page. With so many titles per page, no one book can rank or get coveted Google juice. MyBookTable allows you to create a page for each book as well as a page with all books listed, so you get the best of both worlds. Edit one and it updates the other. This gives you a much better chance of ranking higher when someone searches for one of your titles.
+
+* **Native SEO Controls**
+If you don’t currently use an SEO plugin, MyBookTable provides meta titles and descriptions as if you did, complete with optimized defaults in case you don’t  want to bother optimizing it yourself.
+
+* **Advanced SEO Integration**
+MyBookTable integrates with popular SEO plugins like WordPress SEO by Yoast and Scribe SEO. If you use one of these plugins, you get full access to their power.
+
+* **Semantic Markup and OpenGraph**
+MyBookTable has built in semantic markup giving you the edge on search engines like Google and social networks like Facebook. We do all the heavy lifting for you, so your pages are naturally searchable.  This should improve Search Engine Optimization and social optimization.
+
+
+= GoodReads Integration & Book Reviews =
+MyBookTable has deep integration with the world’s most popular social network for readers. MBT shows your GoodReads reviews, and it provides a button that allows users to add your book to their GoodReads BookShelf.
+
+= Built In Tutorial Videos =
+MyBookTable has built in tutorial videos showing you how to use the plugin for maximum effect.
+
+= Compatibility Mode =
+With thousands of Wordpress themes in existence, we can’t guarantee the MBT will work with every theme, but we have created a compatibility mode. This allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks including Genesis, Woo Canvas, Elegant Themes and many Theme Forest Themes. Thesis is the only framework known not to work.
+
+= Easy Shortcode Interface =
+MBT adds an icon to the WordPress WYSIWYG Editor that allows you to add MyBookTable shortcodes to your site with just a couple of clicks.
+
+=Built in Breadcrumbs =
+We have added breadcrumbs which will not only make your book pages easier to use for your visitors, but also improve search engine optimization. These breadcrumbs are fully compatible with the Genesis or Woo Canvas breadcrumb systems.
+
+= Affiliate Compatible (PRO & Developer only) =
+Amazon, BN.com, and CBD.com all offer affiliate programs that help you supplement your income as an author. You won’t have to sell your book out of your garage to make more money. It also integrates seamlessly with leading SEO Plugins like Yoast and Scribe.
 
 == Installation ==
 
-1. Upload the mybooktable directory to the /wp-content/plugins/ directory of your site.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Refer to the plugin help pages if you need further assistance.
+= Old Fashioned FTP Method =
+1. Download the mybooktable.zip from the WordPress plugin repository.
+2. Open the zip to a directory named mybooktbale. This should happen automatically by double clicking the zip file.
+3. Upload the mybooktable directory to the /wp-content/plugins/ directory of your site, using your favorite FTP client.
+4. Click “Activate” under the the plugin on the 'Plugins' menu in WordPress.
+
+= Zip Upload Method =
+1. Download the mybooktable.zip from the WordPress plugin repository.
+2. In your WordPress Dashboard go to Plugins -> Add New -> Upload
+3. Select choose file, select mybooktable.zip and click “install now”
+4. Click “Activate” under the the plugin on the 'Plugins' menu in WordPress.
+
+= Repository Crossload Method (Recommended) =
+1. In your WordPress Dashboard go to Plugins -> Add New -> Search
+2. Search for MyBookTable then click install
+3. Click “Install”
+4. Click “Activate” under the the plugin on the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
 
 = Will I need to ship books if I use MyBookTable? =
 
-No! The whole idea behind MyBookTable is that Amazon (and others) do all the hard work of taking credit cards and shipping for you. All you do is list your books and get your affiliate commission and royalties. The developer level does integrate with PayPal so that if you do want to ship your own books, you can. But we imagine most users won't use that feature.
+No! The whole idea behind MyBookTable is that Amazon (and other online retailers) do all the hard work of taking credit card information and dealing with postage and shipping. All you do is list your books and get your affiliate commission and royalties. The developer level does integrate with PayPal so that if you do want to ship your own books, you can. But we imagine most users won't use that feature.
 
 = Do I need to be an author to use MyBookTable? =
 
 No! This plugin would work great for anyone wanting to have an Amazon Affiliate Bookstore.
+
+== Screenshots ==
+1. This is an individual MyBookTable page.
+
+2. This is the admin interface for an individual MyBookTable page.
+
+3. This image shows the Buy Button interface on the admin interface for an individual MyBookTable page. You can change the type of buy button by clicking on the Star/Book/T icon.
+
+4. The image shows the Book Table or “Books” page. This is list or index of all your books.
+
+5. The image shows the admin interface for the Books page. This is list or index of all your books. You can arrange the order via drag and drop by clicking on “sort books”
+
+== Upgrade Notice ==
+This version adds **many** new buy button options including Apple iBooks & Sony Reader.
 
 == Changelog ==
 
 = 1.2.3 =
 * Fixed small formatting bug related to archive headers
 * Added internationalization support for some strings
+* Started adding internationalization. (Thanks to silviod)
+* Added Sony Reader Buy Button
+* Added Kobo Button
+* Added Alibris Button
+* Added Scribd Button
+* Added Powels Button
+* Added Book Depository Button
+* Added Apple iBooks Button
+* Upgraded the readme.txt to have screenshots and a better features list.
 
 = 1.2.2 =
 * Added extra notices for expired API Keys
@@ -54,6 +175,9 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 * Added new tutorials
 * Added new affiliate link disclaimer
 * Improved settings page layout
+
+= 1.2.1 =
+* Fixed various CSS styling bugs and typos
 
 = 1.2.0 =
 * Added GoodReads Reviews and Buy Button

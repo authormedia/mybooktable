@@ -332,9 +332,11 @@ function mbt_get_book_archive_description($before = '', $after = '') {
 		$output = get_queried_object()->description;
 	} else if(mbt_is_booktable_page()) {
 		$booktable_page = get_post(mbt_get_setting('booktable_page'));
+		if(function_exists('st_remove_st_add_link')) { st_remove_st_add_link(''); }
 		$output = apply_filters('the_content', $booktable_page->post_content);
 	} else if(is_post_type_archive('mbt_book')) {
 		if(mbt_get_setting('booktable_page') and ($booktable_page = get_post(mbt_get_setting('booktable_page')))) {
+			if(function_exists('st_remove_st_add_link')) { st_remove_st_add_link(''); }
 			$output = apply_filters('the_content', $booktable_page->post_content);
 		}
 	}
@@ -470,7 +472,7 @@ function mbt_get_book_socialmedia_badges($post_id) {
 	$url = urlencode(get_permalink($post_id));
 	$output = '';
 
-	$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=tall&count=true&annotation=bubble" class="gplusone" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" frameborder="0" scrolling="no" allowtransparency="true"></iframe>';
+	$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=tall&count=true&annotation=bubble" class="gplusone" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
 	$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=box_count" class="fblike" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
 
 	return apply_filters('mbt_get_book_socialmedia_badges', $output);
@@ -484,10 +486,10 @@ function mbt_get_book_socialmedia_bar($post_id) {
 	$url = urlencode(get_permalink($post_id));
 	$output = '';
 
-	if(function_exists('install_ShareThis')) {
-		$output .= st_add_widget('');
+	if(function_exists('st_makeEntries')) {
+		$output .= st_makeEntries();
 	} else {
-		$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=medium&count=true&annotation=bubble" class="gplusone" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" frameborder="0" scrolling="no" allowtransparency="true"></iframe>';
+		$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=medium&count=true&annotation=bubble" class="gplusone" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
 		$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=button_count" class="fblike" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
 		$output .= '<iframe src="http://platform.twitter.com/widgets/tweet_button.html?url='.$url.'&count=horizontal&size=m" class="twittershare" style="height: 20px; width: 100px; margin: 0px; border: none; overflow: hidden;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
 	}
