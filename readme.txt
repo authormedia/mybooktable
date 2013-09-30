@@ -155,6 +155,9 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 
 == Changelog ==
 
+= 1.2.4 =
+* Fixed a typo with the iBooks button that was causing the image to not display on some setups
+
 = 1.2.3 =
 * Fixed small formatting bug related to archive headers
 * Added internationalization support for some strings
