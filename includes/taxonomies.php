@@ -20,7 +20,7 @@ function mbt_register_taxonomies()
 			'singular_name' => __('Author', 'mybooktable'),
 			'all_items' => __('All Authors', 'mybooktable'),
 			'add_new' => __('Add New', 'mybooktable'),
-			'add_new_item' => __('Add New Autohr', 'mybooktable'),
+			'add_new_item' => __('Add New Author', 'mybooktable'),
 			'new_item_name' => __('New Author', 'mybooktable'),
 			'edit_item' => __('Edit Author', 'mybooktable'),
 			'view_item' => __('View Authors', 'mybooktable'),
