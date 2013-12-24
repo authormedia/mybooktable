@@ -30,7 +30,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Authors:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', 'authors'))
+		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', _x('authors', 'URL slug', 'mybooktable') ))
 	));
 
 	register_taxonomy('mbt_genre', 'mbt_book', array(
@@ -50,7 +50,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Genres:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', 'genre'))
+		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', _x('genre', 'URL slug', 'mybooktable') ))
 	));
 
 	register_taxonomy('mbt_series', 'mbt_book', array(
@@ -70,7 +70,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Series:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', 'series'))
+		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', _x('series', 'URL slug', 'mybooktable') ))
 	));
 }
 
