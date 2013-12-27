@@ -157,7 +157,7 @@ This version adds several cool new features including "Publisher" and "Publicati
 
 == Changelog ==
 
-= 1.2.5 =
+= 1.2.5 (December 2013) =
 * Added Publisher and Publication Year Fields
 * Added the ability to remove legal disclosures
 * Added the ability to disable affiliate system to the Professional & Developer Add-ons
@@ -167,10 +167,10 @@ This version adds several cool new features including "Publisher" and "Publicati
 * Added the Ability to Remove Affiliate Ainks Completly (Pro & Dev only)
 * Other bug fixes and typo corrections 
 
-= 1.2.4 =
+= 1.2.4 (September 2013) =
 * Fixed a typo with the iBooks button that was causing the image to not display on some setups
 
-= 1.2.3 =
+= 1.2.3 (August 2013) =
 * Fixed small formatting bug related to archive headers
 * Added internationalization support for some strings
 * Started adding internationalization. (Thanks to silviod)
@@ -183,7 +183,7 @@ This version adds several cool new features including "Publisher" and "Publicati
 * Added Apple iBooks Button
 * Upgraded the readme.txt to have screenshots and a better features list.
 
-= 1.2.2 =
+= 1.2.2 (August 2013) =
 * Added extra notices for expired API Keys
 * Fixed some bugs related to the Other books in Series box
 * Fixed various CSS styling bugs and typos
@@ -191,10 +191,10 @@ This version adds several cool new features including "Publisher" and "Publicati
 * Added new affiliate link disclaimer
 * Improved settings page layout
 
-= 1.2.1 =
+= 1.2.1 (August 2013) =
 * Fixed various CSS styling bugs and typos
 
-= 1.2.0 =
+= 1.2.0 (August 2013) =
 * Added GoodReads Reviews and Buy Button
 * Added new Golden Buy Button style pack
 * Added Google Analytics Integration
@@ -204,18 +204,18 @@ This version adds several cool new features including "Publisher" and "Publicati
 * Added new drag & drop book sorting system
 * Fixed various bugs
 
-= 1.1.5 =
+= 1.1.5 (July 2013) =
 * Added adjustable image sizes to Featured Book Widget
 * Added easy shortcode interface
 * Improved book series display box styling
 * Improved overall performance and fixed various bugs
 
-= 1.1.4 =
+= 1.1.4 (June 2013) =
 * Improved default Buy Button images and styling
 * Added new tutorial videos
 * Fixed various bugs
 
-= 1.1.3 =
+= 1.1.3 (June 2013) =
 * Added new Tutorial Videos and help text
 * Changed book price system to allow non-USD currencies
 * Changed featured book image system to increase theme compatability
@@ -226,33 +226,33 @@ This version adds several cool new features including "Publisher" and "Publicati
 * Improved book listing pagination
 * Fixed various bugs
 
-= 1.1.0 =
+= 1.1.0 (June 2013) =
 * Added "compatability mode" to increase theme compatability
 * Added Barnes & Noble and Audible Buttons to free version
 * Added [mybooktable] shortcode
 * Fixed various bugs
 
-= 1.0.0 =
+= 1.0.0 (June 2013) =
 * First release version
 
-= 0.7.7 =
+= 0.7.7 (May 2013) =
 * Added theme compatability for several themes
 * Fixed CSS errors
 
-= 0.7.5 =
+= 0.7.5 (May 2013) =
 * Fixed numerous bugs
 * Added additional help messages to ease installation
 * Added "Book Order" option to order books on book page
 
-= 0.7.3 =
+= 0.7.3 (May 2013) =
 * Fixed numerous bugs, including one that prevented the example books from being created
 * Improved MyBookTable dashboard and added Founders page
 
-= 0.7.2 =
+= 0.7.2 (May 2013) =
 * New sidebar widget to feature books
 * Many bug fixes
 
-= 0.7.1 =
+= 0.7.1 (May 2013) =
 * Redesigned and easier to use settings pages
 * New tutorial video
 * New buy button interface: You can now drag and drop the buttons in the order you want them
