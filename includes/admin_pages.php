@@ -70,6 +70,7 @@ function mbt_save_settings_page() {
 		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
 		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
 		mbt_update_setting('show_series', isset($_REQUEST['mbt_show_series']));
+		mbt_update_setting('hide_domc_notice', !isset($_REQUEST['mbt_hide_domc_notice']));
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts']));
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
@@ -278,6 +279,13 @@ function mbt_render_settings_page() {
 								<td>
 									<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo(mbt_get_setting('posts_per_page') ? mbt_get_setting('posts_per_page') : get_option('posts_per_page')); ?>" class="regular-text">
 									<p class="description">Choose the number of books to show per page on the book listings.</p>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><label for="mbt_hide_domc_notice">Show Disclosure of Material Connection Disclaimer</label></th>
+								<td>
+									<input type="checkbox" name="mbt_hide_domc_notice" id="mbt_hide_domc_notice" <?php echo(!mbt_get_setting('hide_domc_notice') ? ' checked="checked"' : ''); ?> >
+									<p class="description">Displays a Disclosure of Material Connection Disclaimer below the single book page content.</p>
 								</td>
 							</tr>
 						</tbody>

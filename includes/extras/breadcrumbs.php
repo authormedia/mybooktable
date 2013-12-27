@@ -29,13 +29,15 @@ function mbt_integrate_genesis_breadcrumb_archive($crumb, $args) {
 function mbt_get_breadcrumbs($delimiter = '') {
 	global $wp_query;
 	$delimiter = empty($delimiter) ? ' &gt; ' : $delimiter;
-	$output = '';
+	$output = '<a href="'.get_site_url().'">Home</a>';
 
 	if(is_singular('mbt_book')) {
 		global $post;
-		$output .= '<a href="'.mbt_get_booktable_url().'">Books</a>'.$delimiter.'<a href="'.get_permalink().'">'.$post->post_title.'</a>';
+		$output .= $delimiter.'<a href="'.mbt_get_booktable_url().'">Books</a>'.$delimiter.'<a href="'.get_permalink().'">'.$post->post_title.'</a>';
 	} else if(is_tax('mbt_author') or is_tax('mbt_series') or is_tax('mbt_genre')) {
-		$output .= '<a href="'.mbt_get_booktable_url().'">Books</a>'.$delimiter.'<a href="'.get_term_link(get_queried_object()).'">'.get_queried_object()->name.'</a>';
+		$output .= $delimiter.'<a href="'.mbt_get_booktable_url().'">Books</a>'.$delimiter.'<a href="'.get_term_link(get_queried_object()).'">'.get_queried_object()->name.'</a>';
+	} else if(is_post_type_archive('mbt_book') or mbt_is_booktable_page()) {
+		$output .= $delimiter.'<a href="'.mbt_get_booktable_url().'">Books</a>';
 	}
 
 	return apply_filters('mbt_get_breadcrumbs', empty($output) ? '' : '<div class="mbt-breadcrumbs">'.$output.'</div>');

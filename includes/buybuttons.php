@@ -52,9 +52,9 @@ function mbt_buybutton_editor($data, $id, $store) {
 function mbt_format_buybutton($data, $store) {
 	$data = apply_filters('mbt_filter_buybutton_data', $data, $store);
 	if(!empty($data['display']) and $data['display'] == 'text_only') {
-		$output = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank">Buy from '.$store['name'].'</a></li>';
+		$output = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow">Buy from '.$store['name'].'</a></li>';
 	} else {
-		$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.htmlspecialchars($data['url']).'" target="_blank"><img src="'.mbt_image_url($data['store'].'_button.png').'" border="0" alt="Buy from '.$store['name'].'"/></a></div>';
+		$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow"><img src="'.mbt_image_url($data['store'].'_button.png').'" border="0" alt="Buy from '.$store['name'].'"/></a></div>';
 	}
 	return apply_filters('mbt_format_buybutton', $output, $data, $store);
 }

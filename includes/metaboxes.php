@@ -74,7 +74,7 @@ function mbt_metadata_metabox($post)
 ?>
 	<table class="form-table mbt_metadata_metabox">
 		<tr>
-			<td rowspan="4">
+			<td rowspan="7">
 				<h4 class="mbt-cover-image-title">Book Cover Image</h4>
 				<?php mbt_the_book_image(); ?><br>
 				<input type="hidden" id="mbt_book_image_id" name="mbt_book_image_id" value="<?php echo(get_post_meta($post->ID, "mbt_book_image_id", true)); ?>" />
@@ -108,6 +108,27 @@ function mbt_metadata_metabox($post)
 				<p class="description">(optional)</p>
 			</td>
 		</tr>
+		<tr>
+			<th><label for="mbt_publisher_name">Publisher Name</label></th>
+			<td>
+				<input type="text" name="mbt_publisher_name" id="mbt_publisher_name" value="<?php echo(get_post_meta($post->ID, "mbt_publisher_name", true)); ?>" />
+				<p class="description">(optional)</p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="mbt_publisher_url">Publisher URL</label></th>
+			<td>
+				<input type="text" name="mbt_publisher_url" id="mbt_publisher_url" value="<?php echo(get_post_meta($post->ID, "mbt_publisher_url", true)); ?>" />
+				<p class="description">(optional)</p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="mbt_publication_year">Publication Year</label></th>
+			<td>
+				<input type="text" name="mbt_publication_year" id="mbt_publication_year" value="<?php echo(get_post_meta($post->ID, "mbt_publication_year", true)); ?>" />
+				<p class="description">(optional)</p>
+			</td>
+		</tr>
 	</table>
 <?php
 }
@@ -123,6 +144,9 @@ function mbt_save_metadata_metabox($post_id)
 		if(isset($_REQUEST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_REQUEST['mbt_sample_url']); }
 		if(isset($_REQUEST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_REQUEST['mbt_price']); }
 		if(isset($_REQUEST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_REQUEST['mbt_sale_price']); }
+		if(isset($_REQUEST['mbt_publisher_name'])) { update_post_meta($post_id, "mbt_publisher_name", $_REQUEST['mbt_publisher_name']); }
+		if(isset($_REQUEST['mbt_publisher_url'])) { update_post_meta($post_id, "mbt_publisher_url", $_REQUEST['mbt_publisher_url']); }
+		if(isset($_REQUEST['mbt_publication_year'])) { update_post_meta($post_id, "mbt_publication_year", $_REQUEST['mbt_publication_year']); }
 	}
 }
 

@@ -3,7 +3,7 @@ Contributors: authormedia, zookatron, neovita
 Donate link: http://www.authormedia.com/mybooktable/
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, my, book, table, author plugin, books post type, books widget, books plugin
 Requires at least: 3.5.0
-Tested up to: 3.6.1
+Tested up to: 3.8.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -103,7 +103,7 @@ With thousands of Wordpress themes in existence, we can’t guarantee the MBT wi
 = Easy Shortcode Interface =
 MBT adds an icon to the WordPress WYSIWYG Editor that allows you to add MyBookTable shortcodes to your site with just a couple of clicks.
 
-=Built in Breadcrumbs =
+= Built in Breadcrumbs =
 We have added breadcrumbs which will not only make your book pages easier to use for your visitors, but also improve search engine optimization. These breadcrumbs are fully compatible with the Genesis or Woo Canvas breadcrumb systems.
 
 = Affiliate Compatible (PRO & Developer only) =
@@ -151,9 +151,19 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 5. The image shows the admin interface for the Books page. This is list or index of all your books. You can arrange the order via drag and drop by clicking on “sort books”
 
 == Upgrade Notice ==
+
+= 1.2.3 =
 This version adds **many** new buy button options including Apple iBooks & Sony Reader.
 
 == Changelog ==
+
+= 1.2.5 =
+* Added Publisher and Publication Year Fields
+* Added the ability to remove legal disclosures
+* Added the ability to disable affiliate system to the Professional & Developer Add-ons
+* Added "nofollow" tags to the Buy Buttons to improve SEO
+* Added "Home" to the breadcrumb trail
+* Other bug fixes and typo corrections
 
 = 1.2.4 =
 * Fixed a typo with the iBooks button that was causing the image to not display on some setups

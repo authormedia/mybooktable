@@ -34,6 +34,7 @@
 #mbt-container .mbt-breadcrumbs {
 	padding: 0px 0px 10px 0px;
 	color: #666;
+	font-family: Helvetica, sans-serif;
 }
 
 #mbt-container .mbt-breadcrumbs a {
@@ -391,7 +392,9 @@
 	text-decoration: none;
 	font-family: verdana, arial, helvetica, sans-serif;
 }
-
+#mbt-container .mbt-book #goodreads-widget iframe {
+	width: 100%;
+}
 
 
 /*---------------------------------------------------------*/

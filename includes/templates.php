@@ -472,7 +472,7 @@ function mbt_get_book_socialmedia_badges($post_id) {
 	$url = urlencode(get_permalink($post_id));
 	$output = '';
 
-	$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=tall&count=true&annotation=bubble" class="gplusone" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
+	$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=tall&count=true&annotation=bubble" class="gplusone" style="width: 55px; height: 61px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
 	$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=box_count" class="fblike" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
 
 	return apply_filters('mbt_get_book_socialmedia_badges', $output);
@@ -553,6 +553,37 @@ function mbt_the_book_blurb($read_more = false) {
 
 
 
+function mbt_get_book_publisher($post_id) {
+	$publisher_name = get_post_meta($post_id, 'mbt_publisher_name', true);
+	$publisher_url = get_post_meta($post_id, 'mbt_publisher_url', true);
+	if(empty($publisher_name)) { return ''; }
+	if(empty($publisher_url)) {
+		$publisher_string = '<span class="mbt-publisher">'.$publisher_name.'</span><br>';
+	} else {
+		$publisher_string = '<a href="'.$publisher_url.'" target="_blank" rel="nofollow" class="mbt-publisher">'.$publisher_name.'</a><br>';
+	}
+	$output = '<span class="meta-title">Publisher:</span> '.$publisher_string;
+	return apply_filters('mbt_get_book_publisher', $output);
+}
+function mbt_the_book_publisher() {
+	global $post;
+	echo(mbt_get_book_publisher($post->ID));
+}
+
+
+
+function mbt_get_book_publication_year($post_id) {
+	$publication_year = get_post_meta($post_id, 'mbt_publication_year', true);
+	$output = empty($publication_year) ? '' : '<span class="meta-title">Publication Year:</span> '.$publication_year.'<br>';
+	return apply_filters('mbt_get_book_publication_year', $output);
+}
+function mbt_the_book_publication_year() {
+	global $post;
+	echo(mbt_get_book_publication_year($post->ID));
+}
+
+
+
 function mbt_get_book_unique_id($post_id) {
 	$unique_id = get_post_meta($post_id, 'mbt_unique_id', true);
 	return empty($unique_id) ? '' : '<span class="meta-title">ISBN:</span> <span itemprop="isbn">'.$unique_id.'</span><br>';
@@ -588,7 +619,7 @@ function mbt_get_book_series_list($post_id) {
 	if(!empty($output)) {
 		$post = get_post($post_id);
 		$series_order = get_post_meta($post->ID, 'mbt_series_order', true);
-		$output = '<span class="meta-title">'. __('Series', 'mybooktable').'</span> '.$output.(empty($series_order) ? '' : ', Book '.$series_order).'<br>';
+		$output = '<span class="meta-title">'. __('Series', 'mybooktable').':</span> '.$output.(empty($series_order) ? '' : ', Book '.$series_order).'<br>';
 	}
 
 	return apply_filters('mbt_get_book_series_list', $output);
