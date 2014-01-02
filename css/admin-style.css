@@ -379,3 +379,48 @@ span.mce_mbt_shortcodes_button {
 .mbt-email-subscribe-message form input {
 	vertical-align: middle;
 }
+
+/*---------------------------------------------------------*/
+/* Widget Editor                                           */
+/*---------------------------------------------------------*/
+
+.widget-content .mbt-featured-book-list .mbt-book {
+	padding: 5px 8px;
+	border: 1px solid #dfdfdf;
+	border-radius: 5px;
+	width: 220px;
+	cursor: move;
+	position: relative;
+
+	background: #f1f1f1;
+	background: -webkit-gradient(linear,left bottom,left top,from(#ececec),to(#f9f9f9));
+	background: -webkit-linear-gradient(bottom,#ececec,#f9f9f9);
+	background: -moz-linear-gradient(bottom,#ececec,#f9f9f9);
+	background: -o-linear-gradient(bottom,#ececec,#f9f9f9);
+	background: linear-gradient(to top,#ececec,#f9f9f9);
+}
+
+.widget-content .mbt-featured-book-list .mbt-book .mbt-book-remover {
+	position: absolute;
+	top: 3px;
+	right: 5px;
+	font-size: 13px;
+	text-decoration: none;
+	line-height: 1;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	overflow: hidden;
+}
+
+.widget-content .mbt-featured-book-list .mbt-book .mbt-book-remover:before {
+	content: '\f153';
+	display: block!important;
+	font: 400 16px/1 dashicons;
+	speak: none;
+	height: 20px;
+	margin: 2px 0;
+	text-align: center;
+	width: 20px;
+	-webkit-font-smoothing: antialiased!important;
+}

@@ -21,7 +21,7 @@ if($template == 'twentyeleven') {
 	do_action('genesis_before_content_sidebar_wrap');
 	echo('<div id="content-sidebar-wrap">');
 	do_action('genesis_before_content');
-	echo('<div id="content" class="hfeed">');
+	echo('<div id="content" class="hfeed content">');
 	do_action('genesis_before_loop');
 } else {
 	echo '<div id="container"><div id="content" role="main">';

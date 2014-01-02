@@ -6,7 +6,7 @@ function mbt_breadcrumbs_init() {
 		add_action('mbt_before_book_archive', 'mbt_the_breadcrumbs');
 	}
 	add_filter('woo_breadcrumbs_trail', 'mbt_integrate_woo_breadcrumbs');
-	add_filter('genesis_archive_crumb', 'mbt_integrate_genesis_breadcrumb_archive', 20, 2);
+	add_filter('genesis_page_crumb', 'mbt_integrate_genesis_breadcrumb_archive', 20, 2);
 }
 add_action('mbt_init', 'mbt_breadcrumbs_init');
 
@@ -20,6 +20,7 @@ function mbt_integrate_woo_breadcrumbs($trail) {
 }
 
 function mbt_integrate_genesis_breadcrumb_archive($crumb, $args) {
+	global $mbt_taxonomy_query;
 	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') || (mbt_is_taxonomy_query() && ($mbt_taxonomy_query->is_tax('mbt_author') or $mbt_taxonomy_query->is_tax('mbt_genre') or $mbt_taxonomy_query->is_tax('mbt_series')))) {
 		$crumb = '<a href="'.mbt_get_booktable_url().'">Books</a>'.$args['sep'].$crumb;
 	}

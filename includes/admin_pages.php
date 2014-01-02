@@ -163,7 +163,7 @@ function mbt_render_settings_page() {
 								<th scope="row"><label for="mbt_compatibility_mode">Compatability Mode</label></th>
 								<td>
 									<input type="checkbox" name="mbt_compatibility_mode" id="mbt_compatibility_mode" <?php echo(mbt_get_setting('compatibility_mode') ? ' checked="checked"' : ''); ?> >
-									<p class="description">Turn on theme compatability mode.</p>
+									<p class="description">Checked = More Compatible Out of the Box. Unchecked = More Developer Control.</p>
 								</td>
 							</tr>
 							<?php if(!mbt_get_setting('installed_examples')) { ?>

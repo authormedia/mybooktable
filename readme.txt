@@ -157,6 +157,13 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 
 == Changelog ==
 
+= 1.2.6 =
+* Added new Taxonomy Widget for displaying a list of Authors, Genres, or Series
+* Added the ability to select multiple featured books and choose to turn off the book blurbs on the Featured Book Widget
+* Fixed Barnes & Noble Linkshare Integration
+* Updated built-in CSS styling to be more flexible and responsive to theme styles
+* Other bug fixes and typo corrections
+
 = 1.2.5 =
 * Added Publisher and Publication Year Fields
 * Added the ability to remove legal disclosures

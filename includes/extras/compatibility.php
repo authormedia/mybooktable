@@ -29,27 +29,27 @@ add_action('mbt_init', 'mbt_compat_init', 11);
 function mbt_compat_custom_page_content($content) {
 	global $mbt_in_custom_page_content, $wp_query;
 
-	if(empty($mbt_in_custom_page_content)) {
-		$template = '';
+	if(!empty($mbt_in_custom_page_content)) { return $content; }
 
-		if((mbt_is_booktable_page() and $wp_query->post->ID == mbt_get_setting('booktable_page')) or (mbt_is_taxonomy_query() and $wp_query->post->ID == 0)) {
-			$template = mbt_locate_template('archive-book/content.php');
-			remove_action('mbt_book_archive_header_title', 'mbt_do_book_archive_header_title');
-		} else if(is_singular('mbt_book')) {
-			$template = mbt_locate_template('single-book/content.php');
-			remove_action('mbt_single_book_title', 'mbt_do_single_book_title');
-		}
+	$template = '';
 
-		if($template) {
-			$mbt_in_custom_page_content = true;
-			ob_start();
+	if((mbt_is_booktable_page() and $wp_query->post->ID == mbt_get_setting('booktable_page')) or (mbt_is_taxonomy_query() and $wp_query->post->ID == 0)) {
+		$template = mbt_locate_template('archive-book/content.php');
+		remove_action('mbt_book_archive_header_title', 'mbt_do_book_archive_header_title');
+	} else if(is_singular('mbt_book')) {
+		$template = mbt_locate_template('single-book/content.php');
+		remove_action('mbt_single_book_title', 'mbt_do_single_book_title');
+	}
 
-			include($template);
+	if($template) {
+		$mbt_in_custom_page_content = true;
+		ob_start();
 
-			$content = ob_get_contents();
-			ob_end_clean();
-			$mbt_in_custom_page_content = false;
-		}
+		include($template);
+
+		$content = ob_get_contents();
+		ob_end_clean();
+		$mbt_in_custom_page_content = false;
 	}
 
 	return $content;
@@ -113,8 +113,9 @@ function mbt_compat_override_query_posts() {
 		$wp_query->post = $post;
 		$wp_query->posts = array($post);
 		$wp_query->post_count = 1;
-		$wp_query->is_singular = true;
+		$wp_query->is_page = true;
 		$wp_query->is_tax = false;
+		$wp_query->is_archive = false;
 		$wp_query->is_post_type_archive = false;
 		$wp_query->queried_object = $post;
 		$wp_query->queried_object_id = 0;

@@ -218,7 +218,9 @@ function mbt_bnn_buybutton_editor($editor, $data, $id, $store) {
 function mbt_filter_bnn_buybutton_data($data, $store) {
 	if(($data['store'] == 'bnn' or $data['store'] == 'nook') and !empty($data['url'])) {
 		$book_id = mbt_get_bnn_identifier($data['url']);
-		$data['url'] = empty($book_id) ? '' : 'http://www.barnesandnoble.com/w/'.$book_id.'&cm_mmc=AFFILIATES-_-Linkshare-_-W1PQs9y/1/c-_-10:1';
+		$barnesandnoble_url = 'http://www.barnesandnoble.com/w/'.$book_id;
+		$data['url'] = empty($book_id) ? '' : 'http://click.linksynergy.com/deeplink?id='.(empty($affiliatecode)?'W1PQs9y/1/c':$affiliatecode).'&mid=36889&murl='.urlencode($barnesandnoble_url);
+
 	}
 	return $data;
 }

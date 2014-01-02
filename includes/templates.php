@@ -15,6 +15,9 @@ function mbt_templates_init() {
 		//override page template
 		add_filter('template_include', 'mbt_load_book_templates');
 
+		//add body tag
+		add_filter('body_class','mbt_body_class');
+
 		//general hooks
 		add_action('mbt_content_wrapper_start', 'mbt_do_wrapper_start');
 		add_action('mbt_content_wrapper_end', 'mbt_do_wrapper_end');
@@ -146,6 +149,13 @@ function mbt_add_image_size_css() {
 		else { echo('#mbt-container .mbt-book .mbt-book-images { width: 25%; } #mbt-container .mbt-book .mbt-book-right { width: 75%; } '); }
 		echo('</style>');
 	}
+}
+
+function mbt_body_class($classes) {
+	if(mbt_is_mbt_page()) {
+		$classes[] = 'mybooktable';
+	}
+	return $classes;
 }
 
 
@@ -402,7 +412,7 @@ function mbt_the_book_archive_pagination() {
 
 
 function mbt_get_placeholder_image_src() {
-	return apply_filters('mbt_get_placeholder_image_src', array(plugins_url('images/book-placeholder.jpg', dirname(__FILE__)), 400, 400));
+	return apply_filters('mbt_get_placeholder_image_src', array(plugins_url('images/book-placeholder.jpg', dirname(__FILE__)), 400, 472));
 }
 function mbt_get_book_image_src($post_id) {
 	$image = wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image');
@@ -660,7 +670,7 @@ function mbt_get_book_series_box($post_id) {
 	$output = '';
 	$series = mbt_get_book_series($post_id);
 	if(!empty($series)) {
-		$relatedbooks = new WP_Query(array('mbt_series' => $series->slug, 'order' => 'ASC', 'orderby' => 'meta_value', 'meta_key' => 'mbt_series_order', 'post__not_in' => array($post_id)));
+		$relatedbooks = new WP_Query(array('mbt_series' => $series->slug, 'order' => 'ASC', 'orderby' => 'meta_value', 'meta_key' => 'mbt_series_order', 'post__not_in' => array($post_id), 'posts_per_page' => -1));
 		if(!empty($relatedbooks->posts)) {
 			$output .= '<div style="clear:both"></div>';
 			$output .= '<div class="mbt-book-series">';

@@ -28,6 +28,9 @@ function mbt_register_shortcode_button($buttons) {
 function mbt_mybooktable_shortcode($attrs) {
 	global $wp_query, $posts, $post, $mbt_shortcode_old_wp_query, $mbt_shortcode_old_posts, $mbt_shortcode_old_post, $mbt_in_custom_page_content;
 
+	if(!empty($mbt_in_custom_page_content)) { return ''; }
+	if(mbt_is_mbt_page()) { return ''; }
+
 	$max_books = empty($attr['max-books']) ? -1 : $attr['max-books'];
 
 	$mbt_shortcode_old_post = $post;
