@@ -173,16 +173,22 @@ function mbt_do_book_excerpt() {
 	mbt_include_template("excerpt-book.php");
 }
 function mbt_do_before_booktable_page() {
-	global $wp_query, $mbt_old_wp_query;
+	global $wp_query, $posts, $post, $id, $mbt_old_wp_query, $mbt_old_posts, $mbt_old_post, $mbt_old_id;
 	if($wp_query->is_main_query()) {
 		$mbt_old_wp_query = $wp_query;
+		$mbt_old_posts = $posts;
+		$mbt_old_post = $post;
+		$mbt_old_id = $id;
 		$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'paged' => $mbt_old_wp_query->get('paged'), 'orderby' => 'menu_order', 'posts_per_page' => mbt_get_posts_per_page()));
 	}
 }
 function mbt_do_after_booktable_page() {
-	global $wp_query, $mbt_old_wp_query;
+	global $wp_query, $posts, $post, $id, $mbt_old_wp_query, $mbt_old_posts, $mbt_old_post, $mbt_old_id;
 	if($mbt_old_wp_query) {
 		$wp_query = $mbt_old_wp_query;
+		$posts = $mbt_old_posts;
+		$post = $mbt_old_post;
+		$id = $mbt_old_id;
 	}
 }
 

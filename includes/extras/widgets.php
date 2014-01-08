@@ -37,7 +37,8 @@ class MBT_Featured_Book extends WP_Widget {
 		if($selectmode == 'manual_select' and !empty($featured_books)) {
 			$books = array();
 			foreach($featured_books as $featured_book) {
-				$books[] = get_post($featured_book);
+				$new_book = get_post($featured_book);
+				if($new_book) { $books[] = $new_book; }
 			}
 		} else if($selectmode == 'random') {
 			$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'posts_per_page' => -1));
@@ -133,7 +134,9 @@ class MBT_Featured_Book extends WP_Widget {
 					echo('<ul class="mbt-featured-book-list">');
 					foreach($featured_books as $featured_book) {
 						$book = get_post($featured_book);
-						echo('<li data-id="'.$book->ID.'" class="mbt-book">'.substr($book->post_title, 0, 25).(strlen($book->post_title) > 25 ? '...' : '').'<a class="mbt-book-remover">X</a></li>');
+						if($book) {
+							echo('<li data-id="'.$book->ID.'" class="mbt-book">'.substr($book->post_title, 0, 25).(strlen($book->post_title) > 25 ? '...' : '').'<a class="mbt-book-remover">X</a></li>');
+						}
 					}
 					echo('</ul>');
 				?>

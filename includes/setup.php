@@ -11,6 +11,7 @@ function mbt_upgrade_check()
 	if($version < "1.1.0") { mbt_upgrade_1_1_0(); }
 	if($version < "1.1.3") { mbt_upgrade_1_1_3(); }
 	if($version < "1.1.4") { mbt_upgrade_1_1_4(); }
+	if($version < "1.2.7") { mbt_upgrade_1_2_7(); }
 
 	if($version !== MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
@@ -52,6 +53,12 @@ function mbt_upgrade_1_1_4() {
 			}
 			update_post_meta($book_id, 'mbt_buybuttons', $buybuttons);
 		}
+	}
+}
+
+function mbt_upgrade_1_2_7() {
+	if(mbt_get_setting('enable_default_affiliates') !== false) {
+		mbt_update_setting('enable_default_affiliates', true);
 	}
 }
 
@@ -110,6 +117,13 @@ function mbt_add_admin_notices() {
 	if(mbt_get_setting('installed') == 'check_api_key') {
 		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
 			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
+		} else {
+			mbt_update_setting('installed', 'setup_default_affiliates');
+		}
+	}
+	if(mbt_get_setting('installed') == 'setup_default_affiliates') {
+		if(!mbt_get_setting('enable_default_affiliates') and !mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !isset($_GET['mbt_setup_default_affiliates'])) {
+			add_action('admin_notices', 'mbt_admin_setup_default_affiliates_notice');
 		} else {
 			mbt_update_setting('installed', 'post_install');
 		}
@@ -192,6 +206,15 @@ function mbt_admin_setup_api_key_notice() {
 	<div id="message" class="mbt-admin-notice">
 		<h4><strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features</h4>
 		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>">Go To Settings</a>
+	</div>
+	<?php
+}
+
+function mbt_admin_setup_default_affiliates_notice() {
+	?>
+	<div id="message" class="mbt-admin-notice">
+		<h4><strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; MyBookTable your input to enable these features</h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1')); ?>">Go To Settings</a>
 	</div>
 	<?php
 }

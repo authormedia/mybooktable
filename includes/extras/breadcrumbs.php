@@ -28,7 +28,6 @@ function mbt_integrate_genesis_breadcrumb_archive($crumb, $args) {
 }
 
 function mbt_get_breadcrumbs($delimiter = '') {
-	global $wp_query;
 	$delimiter = empty($delimiter) ? ' &gt; ' : $delimiter;
 	$output = '<a href="'.get_site_url().'">Home</a>';
 

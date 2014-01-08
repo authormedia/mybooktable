@@ -97,7 +97,7 @@ function mbt_compat_override_query_posts() {
 			"comment_status" => "closed",
 			"ping_status" => "closed",
 			"post_password" => "",
-			"post_name" => "test",
+			"post_name" => "",
 			"to_ping" => "",
 			"pinged" => "",
 			"post_parent" => 0,
@@ -114,6 +114,7 @@ function mbt_compat_override_query_posts() {
 		$wp_query->posts = array($post);
 		$wp_query->post_count = 1;
 		$wp_query->is_page = true;
+		$wp_query->is_singular = true;
 		$wp_query->is_tax = false;
 		$wp_query->is_archive = false;
 		$wp_query->is_post_type_archive = false;
@@ -130,16 +131,22 @@ function mbt_is_taxonomy_query() {
 }
 
 function mbt_do_before_taxonomy_query() {
-	global $wp_query, $mbt_old_wp_query, $mbt_taxonomy_query;
+	global $wp_query, $posts, $post, $id, $mbt_old_wp_query, $mbt_old_posts, $mbt_old_post, $mbt_old_id, $mbt_taxonomy_query;
 	if($wp_query->is_main_query()) {
 		$mbt_old_wp_query = $wp_query;
+		$mbt_old_posts = $posts;
+		$mbt_old_post = $post;
+		$mbt_old_id = $id;
 		$wp_query = $mbt_taxonomy_query;
 	}
 }
 
 function mbt_do_after_taxonomy_query() {
-	global $wp_query, $mbt_old_wp_query;
+	global $wp_query, $posts, $post, $id, $mbt_old_wp_query, $mbt_old_posts, $mbt_old_post, $mbt_old_id;
 	if($mbt_old_wp_query) {
 		$wp_query = $mbt_old_wp_query;
+		$posts = $mbt_old_posts;
+		$post = $mbt_old_post;
+		$id = $mbt_old_id;
 	}
 }

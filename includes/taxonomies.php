@@ -60,7 +60,7 @@ function mbt_register_taxonomies()
 			'singular_name' => __('Series', 'mybooktable'),
 			'all_items' => __('All Series', 'mybooktable'),
 			'add_new' => __('Add New', 'mybooktable'),
-			'add_new_item' => __('All Series', 'mybooktable'),
+			'add_new_item' => __('Add New Series', 'mybooktable'),
 			'new_item_name' => __('New Series', 'mybooktable'),
 			'edit_item' => __('Edit Series', 'mybooktable'),
 			'view_item' => __('View Series', 'mybooktable'),

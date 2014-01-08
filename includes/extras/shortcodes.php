@@ -26,13 +26,14 @@ function mbt_register_shortcode_button($buttons) {
 /*---------------------------------------------------------*/
 
 function mbt_mybooktable_shortcode($attrs) {
-	global $wp_query, $posts, $post, $mbt_shortcode_old_wp_query, $mbt_shortcode_old_posts, $mbt_shortcode_old_post, $mbt_in_custom_page_content;
+	global $wp_query, $posts, $post, $id, $mbt_in_custom_page_content;
 
 	if(!empty($mbt_in_custom_page_content)) { return ''; }
 	if(mbt_is_mbt_page()) { return ''; }
 
 	$max_books = empty($attr['max-books']) ? -1 : $attr['max-books'];
 
+	$mbt_shortcode_old_id = $id;
 	$mbt_shortcode_old_post = $post;
 	$mbt_shortcode_old_posts = $posts;
 	$mbt_shortcode_old_wp_query = $wp_query;
@@ -59,9 +60,11 @@ function mbt_mybooktable_shortcode($attrs) {
 			include(mbt_locate_template('excerpt-book.php'));
 			echo('</div>');
 		} else {
+			remove_action('mbt_before_single_book', 'mbt_the_breadcrumbs');
 			include(mbt_locate_template('single-book/content.php'));
 		}
 	} else {
+		remove_action('mbt_before_book_archive', 'mbt_the_breadcrumbs');
 		include(mbt_locate_template('archive-book/content.php'));
 	}
 	$mbt_in_custom_page_content = false;
@@ -72,6 +75,7 @@ function mbt_mybooktable_shortcode($attrs) {
 	$wp_query = $mbt_shortcode_old_wp_query;
 	$posts = $mbt_shortcode_old_posts;
 	$post = $mbt_shortcode_old_post;
+	$id = $mbt_shortcode_old_id;
 
 	return $output;
 }

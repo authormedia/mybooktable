@@ -65,7 +65,6 @@ function mbt_save_settings_page() {
 
 		mbt_update_setting('enable_seo', isset($_REQUEST['mbt_enable_seo']));
 
-
 		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
 		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
 		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
@@ -75,6 +74,9 @@ function mbt_save_settings_page() {
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 
 		$settings_updated = true;
+	} else if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_default_affiliate_settings'])) {
+		if(isset($_REQUEST['mbt_enable_default_affiliates'])) { mbt_update_setting('enable_default_affiliates', true); }
+		if(isset($_REQUEST['mbt_disable_default_affiliates'])) { mbt_update_setting('enable_default_affiliates', false); }
 	}
 
 	if(isset($_REQUEST['mbt_remove_booktable_page'])) { mbt_update_setting('booktable_page', 0); }
@@ -105,6 +107,7 @@ function mbt_api_key_feedback() {
 }
 
 function mbt_render_settings_page() {
+	if(!empty($_GET['mbt_setup_default_affiliates']) and !empty($_GET['mbt_setup_default_affiliates'])) { return mbt_render_setup_default_affiliates_page(); }
 ?>
 
 	<script>
@@ -137,7 +140,7 @@ function mbt_render_settings_page() {
 								<th scope="row">MyBookTable API Key</th>
 								<td>
 									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
-									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" />
+									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" class="regular-text" />
 									<div id="mbt_api_key_refresh"></div>
 									<p class="description">If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.</p>
 								</td>
@@ -462,6 +465,26 @@ function mbt_render_dashboard() {
 
 	</div>
 
+<?php
+}
+
+function mbt_render_setup_default_affiliates_page() {
+?>
+	<div class="wrap mbt_settings">
+		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Settings</h2>
+
+		<p style="font-size:16px;">
+			MyBookTable comes with over a dozen buy buttons from stores around the web. Two of these buttons for Amazon and Barnes & Noble use affiliate links. The revenue from links is used to help support and improve the MyBookTable plugin.  If you would like to use your own affiliate links we have premium add-ons that not only come with affiliate integration but premium support as well. You may also Opt-Out from these buttons if you prefer.
+		</p>
+
+		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
+			<input type="submit" name="save_default_affiliate_settings" id="submit" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_enable_default_affiliates=1');" value="Enable Amazon and Barnes &amp; Noble Affiliate Buttons">
+			<input type="submit" name="save_default_affiliate_settings" id="submit" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_disable_default_affiliates=1');" value="Disable Amazon and Barnes &amp; Noble Affiliate Buttons">
+			<a href="http://www.authormedia.com/mybooktable/add-ons" id="submit" class="button button-primary" target="_blank">Buy a Premium Add-On with Affiliate support</a>
+		</form>
+		<br>
+		<a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1">Go to Affiliate Settings</a>
+	</div>
 <?php
 }
 

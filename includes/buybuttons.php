@@ -6,6 +6,7 @@
 
 function mbt_buybuttons_init() {
 	add_filter('mbt_stores', 'mbt_add_basic_stores');
+	add_action('mbt_affiliate_settings_render', 'mbt_affiliate_optin_render');
 	mbt_amazon_buybuttons_init();
 	mbt_bnn_buybuttons_init();
 
@@ -165,6 +166,8 @@ function mbt_amazon_affiliate_settings_render() {
 <?php
 }
 
+
+
 /*---------------------------------------------------------*/
 /* Barnes & Noble Buy Buttons Functions                    */
 /*---------------------------------------------------------*/
@@ -251,4 +254,22 @@ function mbt_linkshare_affiliate_settings_render() {
 		</tbody>
 	</table>
 <?php
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Affiliate Opt-in                                        */
+/*---------------------------------------------------------*/
+
+function mbt_affiliate_optin_render() {
+	if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
+		if(mbt_get_setting('enable_default_affiliates')) {
+			echo('Amazon and Barnes &amp; Noble Buy Buttons enabled!');
+		} else {
+			echo('Amazon and Barnes &amp; Noble Buy Buttons disabled!');
+		}
+		echo(' <a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1" style="font-size:10px">What does this mean?</a>');
+		echo('<hr>');
+	}
 }

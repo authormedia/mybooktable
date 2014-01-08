@@ -310,8 +310,8 @@
 	border: 1px solid #E1E3E3;
 	border-radius: 2px;
 
-	margin: 15px 0px 0px 10px;
-	padding: 15px 23px;
+	margin: 15px 10px 5px 10px;
+	padding: 15px 20px;
 }
 
 #mbt-container .mbt-book .mbt-book-series .mbt-book-series-title {
@@ -322,7 +322,7 @@
 
 #mbt-container .mbt-book .mbt-book-series .mbt-book {
 	display: inline-block;
-	padding: 10px;
+	padding: 15px 20px 5px 0px;
 	margin: 0px;
 	text-align: center;
 	float: left;
