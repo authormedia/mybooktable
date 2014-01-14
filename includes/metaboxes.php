@@ -186,11 +186,11 @@ function mbt_buybuttons_metabox($post)
 		echo('<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">Activate Amazon and Barnes &amp; Noble Buttons</a>');
 	}
 	if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
-		echo('<div class="mbt-buybuttons-note">Want more options? <a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Buy an add-on</a> and get the universal buy button.</div>');
+		echo('<div class="mbt-buybuttons-note">Want more options? <a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Buy an add-on</a> and get the Universal Buy Button.</div>');
 	} else if(mbt_get_setting('dev_active')) {
-		echo('<div class="mbt-buybuttons-note">Thank you for purchasing the MyBookTable Developer add-on!</div>');
+		echo('<div class="mbt-buybuttons-note">Thank you for purchasing the MyBookTable Developer add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.</div>');
 	} else if(mbt_get_setting('pro_active')) {
-		echo('<div class="mbt-buybuttons-note">Thank you for purchasing the MyBookTable Professional add-on!</div>');
+		echo('<div class="mbt-buybuttons-note">Thank you for purchasing the MyBookTable Professional add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.</div>');
 	}
 
 	$stores = mbt_get_stores();
