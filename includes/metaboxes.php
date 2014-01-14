@@ -182,6 +182,17 @@ function mbt_buybuttons_metabox($post)
 {
 	wp_nonce_field(plugin_basename(__FILE__), 'mbt_nonce');
 
+	if(!mbt_get_setting('enable_default_affiliates') and !mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
+		echo('<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">Activate Amazon and Barnes &amp; Noble Buttons</a>');
+	}
+	if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
+		echo('<div class="mbt-buybuttons-note">Want more options? <a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Buy an add-on</a> and get the universal buy button.</div>');
+	} else if(mbt_get_setting('dev_active')) {
+		echo('<div class="mbt-buybuttons-note">Thank you for purchasing the MyBookTable Developer add-on!</div>');
+	} else if(mbt_get_setting('pro_active')) {
+		echo('<div class="mbt-buybuttons-note">Thank you for purchasing the MyBookTable Professional add-on!</div>');
+	}
+
 	$stores = mbt_get_stores();
 	uasort($stores, create_function('$a,$b', 'return strcasecmp($a["name"],$b["name"]);'));
 	echo('Choose One:');

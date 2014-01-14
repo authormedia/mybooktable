@@ -35,6 +35,15 @@
 	vertical-align: top;
 }
 
+#mbt_buybuttons .mbt-buybuttons-note {
+	color: gray;
+	padding-bottom: 5px;
+}
+
+#mbt_buybuttons .mbt-buybuttons-note a {
+	opacity: 0.7;
+}
+
 #mbt_buybuttons .mbt_buybutton_editor {
 	border: 1px solid #DFDFDF;
 	border-radius: 5px;

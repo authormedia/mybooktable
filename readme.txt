@@ -155,7 +155,15 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 = 1.2.5 =
 This version adds several cool new features including "Publisher" and "Publication Year" fields
 
+= 1.2.3 =
+This version adds **many** new buy button options including Apple iBooks & Sony Reader
+
 == Changelog ==
+
+= 1.2.8 =
+* Fixed a bug that was causing Genre, Author, and Series pages to not work properly with certain themes
+* Added Opt-in page for the Amazon and Barnes & Noble buy button to clarify our affiliate system
+* Many more bug fixes and tweaks
 
 = 1.2.6 =
 * Added new Taxonomy Widget for displaying a list of Authors, Genres, or Series

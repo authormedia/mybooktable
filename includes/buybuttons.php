@@ -18,7 +18,7 @@ function mbt_get_stores() {
 }
 
 function mbt_add_basic_stores($stores) {
-	if(mbt_get_setting('enable_default_affiliates')) {
+	if(mbt_get_setting('enable_default_affiliates') or mbt_get_setting('pro_active') or mbt_get_setting('dev_active')) {
 		$stores['amazon'] = array('name' => 'Amazon', 'search' => 'http://amazon.com/books', 'editor_desc' => 'Paste in the Amazon product URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a>');
 		$stores['kindle'] = array('name' => 'Amazon Kindle', 'search' => 'http://amazon.com/kindle-ebooks', 'editor_desc' => 'Paste in the Amazon Kindle product URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a>');
 		$stores['bnn'] = array('name' => 'Barnes and Noble', 'search' => 'http://www.barnesandnoble.com/s/?store=book', 'editor_desc' => 'Paste in the Barnes &amp; Noble product URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Barnes &amp; Noble Affiliate links.</a>');

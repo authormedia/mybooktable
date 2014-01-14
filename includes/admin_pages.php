@@ -474,7 +474,7 @@ function mbt_render_setup_default_affiliates_page() {
 		<div id="icon-options-general" class="icon32"><br></div><h2>MyBookTable Settings</h2>
 
 		<p style="font-size:16px;">
-			MyBookTable comes with over a dozen buy buttons from stores around the web. Two of these buttons for Amazon and Barnes & Noble use affiliate links. The revenue from links is used to help support and improve the MyBookTable plugin.  If you would like to use your own affiliate links we have premium add-ons that not only come with affiliate integration but premium support as well. You may also Opt-Out from these buttons if you prefer.
+			MyBookTable comes with over a dozen buy buttons from stores around the web. Two of these buttons-- namely, the ones for Amazon and Barnes &amp; Noble-- use affiliate links. The revenue from these links is used to help support and improve the MyBookTable plugin. If you would like to use your own affiliate links, we have premium add-ons that come not only with affiliate integration but with premium support as well. You may also disable these buttons if you prefer.
 		</p>
 
 		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
