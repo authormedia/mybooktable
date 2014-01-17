@@ -103,7 +103,7 @@ function mbt_compat_override_query_posts() {
 			"post_parent" => 0,
 			"guid" => "",
 			"menu_order" => 0,
-			"post_type" => "",
+			"post_type" => "page",
 			"post_mime_type" => "",
 			"comment_count" => "0",
 			"filter" => "raw",

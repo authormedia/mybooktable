@@ -36,7 +36,7 @@ function mbt_register_post_types()
 		'exclude_from_search' => false,
 		'has_archive' => true,
 		'supports' => array('title'),
-		'rewrite' => array('slug' => apply_filters('mbt_book_rewrite_name', 'books'))
+		'rewrite' => array('slug' => apply_filters('mbt_book_rewrite_name', 'books'), 'with_front' => false)
 	));
 }
 

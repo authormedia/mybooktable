@@ -2,12 +2,12 @@
 
 function mbt_goodreads_init() {
 	add_action('mbt_general_settings_render', 'mbt_goodreads_settings_render');
-	add_action('mbt_settings_save', 'mbtpro_goodreads_settings_save');
+	add_action('mbt_settings_save', 'mbt_goodreads_settings_save');
 	add_action('mbt_after_single_book', 'mbt_the_goodreads_reviews');
 }
 add_action('mbt_init', 'mbt_goodreads_init');
 
-function mbtpro_goodreads_settings_save() {
+function mbt_goodreads_settings_save() {
 	if(isset($_REQUEST['mbt_goodreads_developer_key'])) {
 		mbt_update_setting('goodreads_developer_key', $_REQUEST['mbt_goodreads_developer_key']);
 	}

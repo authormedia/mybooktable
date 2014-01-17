@@ -142,7 +142,7 @@ function mbt_render_settings_page() {
 									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" class="regular-text" />
 									<div id="mbt_api_key_refresh"></div>
-									<p class="description">If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.</p>
+									<p class="description">If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://www.authormedia.com/my-account/" target="_blank">member area here</a>. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.</p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -185,6 +185,17 @@ function mbt_render_settings_page() {
 				</div>
 				<div id="tabs-2">
 					<?php do_action("mbt_affiliate_settings_render"); ?>
+					<?php
+						if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
+							echo('<hr>');
+							if(mbt_get_setting('enable_default_affiliates')) {
+								echo('Amazon and Barnes &amp; Noble Buy Buttons enabled! <a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">Disable</a>');
+							} else {
+								echo('Amazon and Barnes &amp; Noble Buy Buttons disabled! <a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">Enable</a>');
+							}
+							echo('&nbsp;&nbsp;<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1" style="font-size:10px">What does this mean?</a>');
+						}
+					?>
 					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
 				</div>
 				<div id="tabs-3">
@@ -316,6 +327,16 @@ function mbt_render_help_page() {
 ?>
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2 style="font-weight:bold">MyBookTable Help</h2>
+
+		<?php if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) { ?>
+			<br><a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Need Premium Support? Purchase an add-on here.</a><br><br>
+		<?php } else { ?>
+			<h3>Premium Support Options</h3>
+			<a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank">Submit a Ticket</a><br>
+			<a href="http://authormedia.freshdesk.com/support/discussions" target="_blank">Visit the Support Forum</a><br>
+			<a href="http://authormedia.freshdesk.com/support/discussions/topics/new" target="_blank">Suggest a Feature</a><br>
+			<a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank">Submit a Bug</a><br><br>
+		<?php } ?>
 
 	    <h2>MyBookTable Tutorials</h2>
 		<ul>

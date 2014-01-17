@@ -475,7 +475,7 @@ function mbt_the_book_sample_url() {
 
 function mbt_get_book_sample($post_id) {
 	$url = mbt_get_book_sample_url($post_id);
-	return empty($url) ? '' : apply_filters('mbt_get_book_sample', '<br><a class="mbt-book-sample" href="'.$url.'">Download Sample Chapter</a>');
+	return empty($url) ? '' : apply_filters('mbt_get_book_sample', '<br><a class="mbt-book-sample" target="_blank" href="'.$url.'">Download Sample Chapter</a>');
 }
 function mbt_the_book_sample() {
 	global $post;

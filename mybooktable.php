@@ -5,10 +5,10 @@ Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 1.2.8
+Version: 1.2.9
 */
 
-define("MBT_VERSION", "1.2.8");
+define("MBT_VERSION", "1.2.9");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -26,6 +26,7 @@ require_once("includes/extras/googleanalytics.php");
 require_once("includes/extras/breadcrumbs.php");
 require_once("includes/extras/goodreads.php");
 require_once("includes/extras/booksorting.php");
+require_once("includes/extras/getnoticed.php");
 
 
 
@@ -36,14 +37,12 @@ require_once("includes/extras/booksorting.php");
 function mbt_activate() {
 	mbt_register_post_types();
 	mbt_register_taxonomies();
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 }
 register_activation_hook(__FILE__, 'mbt_activate');
 
 function mbt_deactivate() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'mbt_deactivate');
 
@@ -65,10 +64,17 @@ function mbt_init() {
 	mbt_upgrade_check();
 	mbt_customize_plugins_page();
 	add_filter('pre_set_site_transient_update_plugins', 'mbt_update_check');
+	add_action('init', 'mbt_rewrites_check', 999);
 
 	do_action('mbt_init');
 }
 add_action('plugins_loaded', 'mbt_init');
+
+function mbt_rewrites_check() {
+	global $wp_rewrite;
+	$rules = $wp_rewrite->wp_rewrite_rules();
+	if(!isset($rules["books/?$"]) or $rules["books/?$"] !== "index.php?post_type=mbt_book") { flush_rewrite_rules(); }
+}
 
 function mbt_customize_plugins_page() {
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
