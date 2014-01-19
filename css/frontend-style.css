@@ -379,11 +379,17 @@
 	font-size: 16px;
 	border-bottom: 1px solid #BBB596;
 	margin-bottom: 0;
+	margin: 0px;
+	padding: 0px;
+	background: 0px;
 }
 #mbt-container .mbt-book #goodreads-widget a {
 	text-decoration: none;
 	border: none;
 	color:#660;
+	margin: 0px;
+	padding: 0px;
+	background: 0px;
 }
 #mbt-container .mbt-book #goodreads-widget a:hover { text-decoration: underline; }
 #mbt-container .mbt-book #goodreads-widget a:active {

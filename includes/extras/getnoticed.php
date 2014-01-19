@@ -1,18 +1,19 @@
 <?php
 
 function mbt_getnoticed_init() {
-	if(function_exists('getnoticed_setup')) {
-		add_action('after_setup_theme', 'mbt_getnoticed_compat', 20);
-	}
+	add_action('after_setup_theme', 'mbt_getnoticed_compat', 20);
 }
 add_action('mbt_init', 'mbt_getnoticed_init');
 
 function mbt_getnoticed_compat() {
-	remove_action('init', 'getnoticed_types_book_init');
-	add_filter('pre_get_posts', 'getnoticed_post_types_unindex', 20);
-	add_action('mbt_general_settings_render', 'mbt_getnoticed_settings_render');
-	add_action('init', 'mbt_getnoticed_settings_save');
-	add_action('wp_head', 'mbt_add_getnoticed_css');
+
+	if(function_exists('getnoticed_setup')) {
+		remove_action('init', 'getnoticed_types_book_init');
+		add_filter('pre_get_posts', 'getnoticed_post_types_unindex', 20);
+		add_action('mbt_general_settings_render', 'mbt_getnoticed_settings_render');
+		add_action('init', 'mbt_getnoticed_settings_save');
+		add_action('wp_head', 'mbt_add_getnoticed_css');
+	}
 }
 
 function getnoticed_post_types_unindex($query) {

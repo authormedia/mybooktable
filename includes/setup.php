@@ -8,10 +8,10 @@ function mbt_upgrade_check()
 {
 	$version = mbt_get_setting("version");
 
-	if($version < "1.1.0") { mbt_upgrade_1_1_0(); }
-	if($version < "1.1.3") { mbt_upgrade_1_1_3(); }
-	if($version < "1.1.4") { mbt_upgrade_1_1_4(); }
-	if($version < "1.2.7") { mbt_upgrade_1_2_7(); }
+	if(version_compare($version, "1.1.0") < 0) { mbt_upgrade_1_1_0(); }
+	if(version_compare($version, "1.1.3") < 0) { mbt_upgrade_1_1_3(); }
+	if(version_compare($version, "1.1.4") < 0) { mbt_upgrade_1_1_4(); }
+	if(version_compare($version, "1.2.7") < 0) { mbt_upgrade_1_2_7(); }
 
 	if($version !== MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
