@@ -1,7 +1,7 @@
 === MyBookTable ===
 Contributors: authormedia, zookatron, neovita
 Donate link: http://www.authormedia.com/mybooktable/
-Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, my, book, table, author plugin, books post type, books widget, books plugin
+Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords,
 Requires at least: 3.5.0
 Tested up to: 3.8.0
 Stable tag: trunk
@@ -74,7 +74,7 @@ Customize your store by showing some of the buy buttons as a bulleted list. Also
 Feature a book on your sidebar in just a few of clicks. You can even add multiple books by adding multiple widgets.
 
 =  Mobile Responsive =
-If your wordpress theme is mobile responsive, MyBookTable will react similarly, delivering maximum compatibility for visitors on phones and tablets.
+If your WordPress theme is mobile responsive, MyBookTable will react similarly, delivering maximum compatibility for visitors on phones and tablets.
 
 = Advanced Search Engine Optimization =
 
@@ -105,6 +105,9 @@ MBT adds an icon to the WordPress WYSIWYG Editor that allows you to add MyBookTa
 
 = Built in Breadcrumbs =
 We have added breadcrumbs which will not only make your book pages easier to use for your visitors, but also improve search engine optimization. These breadcrumbs are fully compatible with the Genesis or Woo Canvas breadcrumb systems.
+
+= GetNoticed! Theme Integration =
+MyBookTable can import books from Michael Hyatt's GetNoticed! theme. MyBookTable and GetNoticed! now work together seamlessly.
 
 = Affiliate Compatible (PRO & Developer only) =
 Amazon, BN.com, and CBD.com all offer affiliate programs that help you supplement your income as an author. You won’t have to sell your book out of your garage to make more money. It also integrates seamlessly with leading SEO Plugins like Yoast and Scribe.
@@ -153,7 +156,7 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 == Upgrade Notice ==
 
 = 1.3.0 =
-Added GetNoticed theme compatability
+Added GetNoticed theme integration  
 
 = 1.2.5 =
 This version adds several cool new features including "Publisher" and "Publication Year" fields
@@ -164,7 +167,8 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 == Changelog ==
 
 = 1.3.0 =
-* Added GetNoticed theme compatability
+* Added GetNoticed theme integration and book import
+* Improved GetNoticed theme compatibility
 * Added a fix for random 404 errors on book pages
 * Various tweaks and bug fixes
 
@@ -175,7 +179,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 
 = 1.2.8 =
 * Fixed a bug that was causing Genre, Author, and Series pages to not work properly with certain themes
-* Added Opt-in page for the Amazon and Barnes & Noble buy button to clarify our affiliate system
+* Added Opt-in page for the Amazon and Barnes & Noble buy button to clarify the affiliate system
 * Many more bug fixes and tweaks
 
 = 1.2.6 =
@@ -192,11 +196,11 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 * Added "nofollow" tags to the Buy Buttons to improve SEO
 * Fixed the GoodReads Reviews to be Better Looking and Mobile Responsive
 * Added "Home" to the breadcrumb trail
-* Added the Ability to Remove Affiliate Ainks Completly (Pro & Dev only)
+* Added the Ability to Remove Affiliate Links Completely (Pro & Dev only)
 * Other bug fixes and typo corrections
 
 = 1.2.4 =
-* Fixed a typo with the iBooks button that was causing the image to not display on some setups
+* Fixed a typo with the iBooks button that was causing the image to not display for some users
 
 = 1.2.3 =
 * Fixed small formatting bug related to archive headers
@@ -246,7 +250,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 = 1.1.3 =
 * Added new Tutorial Videos and help text
 * Changed book price system to allow non-USD currencies
-* Changed featured book image system to increase theme compatability
+* Changed featured book image system to increase theme compatibility
 * Fixed various bugs
 
 = 1.1.2 =
@@ -255,7 +259,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 * Fixed various bugs
 
 = 1.1.0 =
-* Added "compatability mode" to increase theme compatability
+* Added "compatibility mode" to increase theme compatibility
 * Added Barnes & Noble and Audible Buttons to free version
 * Added [mybooktable] shortcode
 * Fixed various bugs
@@ -264,7 +268,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 * First release version
 
 = 0.7.7 =
-* Added theme compatability for several themes
+* Added theme compatibility for several themes
 * Fixed CSS errors
 
 = 0.7.5 =
