@@ -152,6 +152,9 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Upgrade Notice ==
 
+= 1.3.0 =
+Added GetNoticed theme compatability
+
 = 1.2.5 =
 This version adds several cool new features including "Publisher" and "Publication Year" fields
 
@@ -159,6 +162,16 @@ This version adds several cool new features including "Publisher" and "Publicati
 This version adds **many** new buy button options including Apple iBooks & Sony Reader
 
 == Changelog ==
+
+= 1.3.0 =
+* Added GetNoticed theme compatability
+* Added a fix for random 404 errors on book pages
+* Various tweaks and bug fixes
+
+= 1.2.9 =
+* New usability improvements to the backend interface
+* Sample Chapters now load in a new window or tab
+* Other tweaks and bug fixes
 
 = 1.2.8 =
 * Fixed a bug that was causing Genre, Author, and Series pages to not work properly with certain themes

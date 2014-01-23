@@ -2,7 +2,8 @@
 
 function mbt_templates_init() {
 	//register image size
-	add_image_size('mbt_book_image', 400, 400, false);
+	list($width, $height) = apply_filters('mbt_book_image_size', array(400, 400));
+	add_image_size('mbt_book_image', $width, $height, false);
 
 	if(!is_admin()) {
 		//enqueue frontend styling

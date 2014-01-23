@@ -134,7 +134,7 @@ function mbt_filter_amazon_buybutton_data($data, $store) {
 	if(($data['store'] == 'amazon' or $data['store'] == 'kindle') and !empty($data['url'])) {
 		$tld = mbt_get_amazon_tld($data['url']);
 		$aisn = mbt_get_amazon_AISN($data['url']);
-		$data['url'] = (empty($tld) or empty($aisn)) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=mybooktable-20';
+		$data['url'] = (empty($tld) or empty($aisn)) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=ammbt-20';
 	}
 	return $data;
 }
