@@ -90,7 +90,6 @@ MyBookTable integrates with popular SEO plugins like WordPress SEO by Yoast and 
 * **Semantic Markup and OpenGraph**
 MyBookTable has built in semantic markup giving you the edge on search engines like Google and social networks like Facebook. We do all the heavy lifting for you, so your pages are naturally searchable.  This should improve Search Engine Optimization and social optimization.
 
-
 = GoodReads Integration & Book Reviews =
 MyBookTable has deep integration with the world’s most popular social network for readers. MBT shows your GoodReads reviews, and it provides a button that allows users to add your book to their GoodReads BookShelf.
 
@@ -98,7 +97,7 @@ MyBookTable has deep integration with the world’s most popular social network 
 MyBookTable has built in tutorial videos showing you how to use the plugin for maximum effect.
 
 = Compatibility Mode =
-With thousands of Wordpress themes in existence, we can’t guarantee the MBT will work with every theme, but we have created a compatibility mode. This allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks including Genesis, Woo Canvas, Elegant Themes and many Theme Forest Themes. Thesis is the only framework known not to work.
+With thousands of Wordpress themes in existence, we can’t guarantee the MBT will work with every theme. So we have created a compatibility mode that allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks including Genesis, Woo Canvas, Elegant Themes and many Theme Forest Themes. Thesis is the only framework known not to work.
 
 = Easy Shortcode Interface =
 MBT adds an icon to the WordPress WYSIWYG Editor that allows you to add MyBookTable shortcodes to your site with just a couple of clicks.
@@ -108,6 +107,9 @@ We have added breadcrumbs which will not only make your book pages easier to use
 
 = GetNoticed! Theme Integration =
 MyBookTable can import books from Michael Hyatt's GetNoticed! theme. MyBookTable and GetNoticed! now work together seamlessly.
+
+= Book Widgets Galore =
+MyBookTable gives you several cool book widgets. Including a featured book widget, genre widget, series widget and more!
 
 = Affiliate Compatible (PRO & Developer only) =
 Amazon, BN.com, and CBD.com all offer affiliate programs that help you supplement your income as an author. You won’t have to sell your book out of your garage to make more money. It also integrates seamlessly with leading SEO Plugins like Yoast and Scribe.
@@ -156,7 +158,7 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 == Upgrade Notice ==
 
 = 1.3.0 =
-Added GetNoticed theme integration
+This version fixes several bugs and Adds GetNoticed theme integration.
 
 = 1.2.5 =
 This version adds several cool new features including "Publisher" and "Publication Year" fields
