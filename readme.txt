@@ -1,7 +1,7 @@
 === MyBookTable ===
 Contributors: authormedia, zookatron, neovita
 Donate link: http://www.authormedia.com/mybooktable/
-Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords,
+Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords
 Requires at least: 3.5.0
 Tested up to: 3.8.0
 Stable tag: trunk
@@ -156,7 +156,7 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 == Upgrade Notice ==
 
 = 1.3.0 =
-Added GetNoticed theme integration  
+Added GetNoticed theme integration
 
 = 1.2.5 =
 This version adds several cool new features including "Publisher" and "Publication Year" fields
