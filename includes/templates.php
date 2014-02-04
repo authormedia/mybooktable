@@ -579,7 +579,7 @@ function mbt_get_book_publisher($post_id) {
 	} else {
 		$publisher_string = '<a href="'.$publisher_url.'" target="_blank" rel="nofollow" class="mbt-publisher">'.$publisher_name.'</a><br>';
 	}
-	$output = '<span class="meta-title">Publisher:</span> '.$publisher_string;
+	$output = '<span class="meta-title">'.__('Publisher', 'mybooktable').':</span> '.$publisher_string;
 	return apply_filters('mbt_get_book_publisher', $output);
 }
 function mbt_the_book_publisher() {
@@ -591,7 +591,7 @@ function mbt_the_book_publisher() {
 
 function mbt_get_book_publication_year($post_id) {
 	$publication_year = get_post_meta($post_id, 'mbt_publication_year', true);
-	$output = empty($publication_year) ? '' : '<span class="meta-title">Publication Year:</span> '.$publication_year.'<br>';
+	$output = empty($publication_year) ? '' : '<span class="meta-title">'.__('Publication Year', 'mybooktable').':</span> '.$publication_year.'<br>';
 	return apply_filters('mbt_get_book_publication_year', $output);
 }
 function mbt_the_book_publication_year() {
