@@ -10,6 +10,8 @@ Version: 1.3.0
 
 define("MBT_VERSION", "1.3.0");
 
+load_plugin_textdomain('mybooktable', false, dirname(plugin_basename(__FILE__ )));
+
 require_once("includes/functions.php");
 require_once("includes/setup.php");
 require_once("includes/templates.php");
