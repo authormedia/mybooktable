@@ -5,6 +5,7 @@ Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
+Text Domain: mybooktable
 Version: 1.3.0
 */
 
