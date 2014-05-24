@@ -5,10 +5,10 @@ Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
-Version: 1.3.0
+Version: 1.3.1
 */
 
-define("MBT_VERSION", "1.3.0");
+define("MBT_VERSION", "1.3.1");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -73,14 +73,22 @@ add_action('plugins_loaded', 'mbt_init');
 function mbt_rewrites_check() {
 	global $wp_rewrite;
 	$rules = $wp_rewrite->wp_rewrite_rules();
-	if(!isset($rules["books/?$"]) or $rules["books/?$"] !== "index.php?post_type=mbt_book") { flush_rewrite_rules(); }
+	if(!isset($rules[mbt_get_product_slug()."/?$"]) or $rules[mbt_get_product_slug()."/?$"] !== "index.php?post_type=mbt_book") { flush_rewrite_rules(); }
 }
 
 function mbt_customize_plugins_page() {
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
+	add_filter('plugin_row_meta', 'mbt_plugin_row_meta', 10, 2);
 }
 
 function mbt_plugin_action_links($actions) {
 	$actions['settings'] = '<a href="'.admin_url('admin.php?page=mbt_settings').'">Settings</a>';
 	return $actions;
+}
+
+function mbt_plugin_row_meta($links, $file) {
+	if ($file == plugin_basename(__FILE__)) {
+		$links[] = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/mybooktable?filter=5#postform">' . __('Review this plugin', 'mybooktable') . '</a>';
+	}
+	return $links;
 }

@@ -12,6 +12,7 @@ function mbt_upgrade_check()
 	if(version_compare($version, "1.1.3") < 0) { mbt_upgrade_1_1_3(); }
 	if(version_compare($version, "1.1.4") < 0) { mbt_upgrade_1_1_4(); }
 	if(version_compare($version, "1.2.7") < 0) { mbt_upgrade_1_2_7(); }
+	if(version_compare($version, "1.3.1") < 0) { mbt_upgrade_1_3_1(); }
 
 	if($version !== MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
@@ -60,6 +61,14 @@ function mbt_upgrade_1_2_7() {
 	if(mbt_get_setting('enable_default_affiliates') !== false) {
 		mbt_update_setting('enable_default_affiliates', true);
 	}
+}
+
+function mbt_upgrade_1_3_1() {
+	mbt_update_setting('help_page_email_subscribe_popup', 'show');
+	$func = create_function("", "wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'reccomended'));");
+	add_action('init', $func, 20);
+	mbt_update_setting('product_name', "Books");
+	mbt_update_setting('product_slug', "books");
 }
 
 
@@ -162,8 +171,10 @@ function mbt_add_admin_notices() {
 						'u' => 'b7358f48fe541fe61acdf747b',
 						'id' => '6b5a675fcf',
 						'MERGE0' => $_POST['mbt_email_address'],
-						'MERGE1' => 'MyBookTable User',
+						'MERGE1' => '',
 						'MERGE3' => '',
+						'group[3045][64]' => 'on',
+						'b_b7358f48fe541fe61acdf747b_6b5a675fcf' => ''
 				)));
 				add_action('admin_notices', 'mbt_admin_email_subscribe_thankyou_notice');
 			}
@@ -240,14 +251,16 @@ function mbt_admin_api_key_expired_notice() {
 }
 
 function mbt_admin_email_subscribe_notice() {
+	$current_user = wp_get_current_user();
+	$email = $current_user->user_email;
 	?>
 	<div class="mbt-admin-notice mbt-email-subscribe-message">
 		<h4><strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to the Author Media newsletter!</h4>
 		<form action="" method="POST">
 			<input type="hidden" name="mbt_email_subscribe" value="1">
-			<input type="email" name="mbt_email_address" id="mbt_email_address" autocapitalize="off" autocorrect="off" size="25" value="" placeholder="you@example.com">
+			<input type="email" name="mbt_email_address" id="mbt_email_address" autocapitalize="off" autocorrect="off" size="25" value="<?php echo($email); ?>" placeholder="you@example.com">
 			<input type="Submit" class="notice-button primary" value="Subscribe" onclick="if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(jQuery('#mbt_email_address').val())){jQuery('#mbt_email_address').focus().css('background', '#FFEBE8');return false;}">
-			<input type="Submit" class="notice-button secondary" value="No Thanks">
+			<input type="Submit" class="notice-button secondary" value="No Thanks" onclick="jQuery('#mbt_email_address').val('');">
 		</form>
 	</div>
 	<?php
@@ -275,6 +288,7 @@ function mbt_uninstall() {
 	mbt_erase_taxonomy('mbt_author');
 	mbt_erase_taxonomy('mbt_series');
 	mbt_erase_taxonomy('mbt_genre');
+	mbt_erase_taxonomy('mbt_tag');
 
 	//erase books
 	global $wpdb;

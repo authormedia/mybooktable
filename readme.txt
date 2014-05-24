@@ -1,6 +1,6 @@
 === MyBookTable ===
 Contributors: authormedia, zookatron, neovita
-Donate link: http://www.authormedia.com/mybooktable/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords
 Requires at least: 3.5.0
 Tested up to: 3.9.0
@@ -167,6 +167,13 @@ This version adds several cool new features including "Publisher" and "Publicati
 This version adds **many** new buy button options including Apple iBooks & Sony Reader
 
 == Changelog ==
+
+= 1.3.1 =
+* New "Tags" taxonomy added
+* New shortcode added that displays a list of authors, series, genres, or tags
+* Shortcode inserter has been replaced with a new and improved version
+* Users are now able to change the "Books" term used in the plugin URLs and breadcrumbs
+*
 
 = 1.3.0 =
 * Added GetNoticed theme integration and book import

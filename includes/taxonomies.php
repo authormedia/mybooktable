@@ -72,12 +72,32 @@ function mbt_register_taxonomies()
 		'show_ui' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', _x('series', 'URL slug', 'mybooktable') ))
 	));
+
+	register_taxonomy('mbt_tag', 'mbt_book', array(
+		'hierarchical' => true,
+		'labels' => array(
+			'name' => __('Tags', 'mybooktable'),
+			'singular_name' => __('Tag', 'mybooktable'),
+			'all_items' => __('All Tags', 'mybooktable'),
+			'add_new' => __('Add New', 'mybooktable'),
+			'add_new_item' => __('Add New Tag', 'mybooktable'),
+			'new_item_name' => __('New Tag', 'mybooktable'),
+			'edit_item' => __('Edit Tag', 'mybooktable'),
+			'view_item' => __('View Tags', 'mybooktable'),
+			'update_item' => __('Update Tag', 'mybooktable'),
+			'search_items' => __('Search Tags', 'mybooktable'),
+			'parent_item' => __('Parent Tag', 'mybooktable'),
+			'parent_item_colon' => __('Parent Tags:', 'mybooktable'),
+		),
+		'show_ui' => true,
+		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', _x('tag', 'URL slug', 'mybooktable') ))
+	));
 }
 
 function mbt_override_taxonomy_parent_files() {
 	global $pagenow, $parent_file, $submenu_file;
 
-	if($pagenow == "edit-tags.php" and ($_GET['taxonomy'] == "mbt_series" or $_GET['taxonomy'] == "mbt_genre" or $_GET['taxonomy'] == "mbt_author")) {
+	if($pagenow == "edit-tags.php" and ($_GET['taxonomy'] == "mbt_series" or $_GET['taxonomy'] == "mbt_genre" or $_GET['taxonomy'] == "mbt_author" or $_GET['taxonomy'] == "mbt_tag")) {
 		$parent_file = "mbt_dashboard";
 	}
 
@@ -105,6 +125,11 @@ function mbt_taxonomy_editors_init() {
 	add_filter('mbt_series_add_form_fields', 'mbt_add_taxonomy_image_add_form');
 	add_action('edited_mbt_series', 'mbt_save_taxonomy_image_edit_form');
 	add_action('created_mbt_series', 'mbt_save_taxonomy_image_add_form');
+
+	add_filter('mbt_tag_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
+	add_filter('mbt_tag_add_form_fields', 'mbt_add_taxonomy_image_add_form');
+	add_action('edited_mbt_tag', 'mbt_save_taxonomy_image_edit_form');
+	add_action('created_mbt_tag', 'mbt_save_taxonomy_image_add_form');
 }
 
 function mbt_add_taxonomy_image_edit_form() {
