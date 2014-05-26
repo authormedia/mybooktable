@@ -13,6 +13,7 @@ function mbt_upgrade_check()
 	if(version_compare($version, "1.1.4") < 0) { mbt_upgrade_1_1_4(); }
 	if(version_compare($version, "1.2.7") < 0) { mbt_upgrade_1_2_7(); }
 	if(version_compare($version, "1.3.1") < 0) { mbt_upgrade_1_3_1(); }
+	if(version_compare($version, "1.3.2") < 0) { mbt_upgrade_1_3_2(); }
 
 	if($version !== MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
@@ -70,6 +71,12 @@ function mbt_upgrade_1_3_1() {
 	mbt_update_setting('product_name', "Books");
 	mbt_update_setting('product_slug', "books");
 }
+
+function mbt_upgrade_1_3_2() {
+	$func = create_function("", "flush_rewrite_rules();");
+	add_action('init', $func, 999);
+}
+
 
 
 

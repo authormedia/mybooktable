@@ -90,7 +90,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Tags:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', _x('tag', 'URL slug', 'mybooktable') ))
+		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable') ))
 	));
 }
 

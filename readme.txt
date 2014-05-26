@@ -3,7 +3,7 @@ Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords
 Requires at least: 3.5.0
-Tested up to: 3.9.0
+Tested up to: 3.9.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -169,11 +169,15 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 == Changelog ==
 
 = 1.3.1 =
+* Fully updated to work properly with the latest version of WordPress
 * New "Tags" taxonomy added
 * New shortcode added that displays a list of authors, series, genres, or tags
 * Shortcode inserter has been replaced with a new and improved version
 * Users are now able to change the "Books" term used in the plugin URLs and breadcrumbs
-*
+* Various changes to make the plugin more friendly towards non-book stores
+* Added buy button size options to the display settings
+* Improved the GetNoticed book import tool
+* Made widget titles user editable
 
 = 1.3.0 =
 * Added GetNoticed theme integration and book import
