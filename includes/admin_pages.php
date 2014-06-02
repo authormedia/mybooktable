@@ -49,7 +49,7 @@ function mbt_add_admin_pages() {
 }
 
 function mbt_hide_api_key($key) {
-	return substr($key, 0, 4) . str_repeat("*", strlen($key)-4);
+	return substr($key, 0, 4) . str_repeat("*", max(0, strlen($key)-4));
 }
 
 //needs to happen before setup.php admin_init in order to properly update admin notices

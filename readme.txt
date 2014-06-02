@@ -168,6 +168,9 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 
 == Changelog ==
 
+= 1.3.2 =
+* Fixed conflict with WordPress tags taxonomy
+
 = 1.3.1 =
 * Fully updated to work properly with the latest version of WordPress
 * New "Tags" taxonomy added
