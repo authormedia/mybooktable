@@ -15,7 +15,7 @@ class MBT_Featured_Book extends WP_Widget {
 		$widget_ops = array('classname' => 'mbt_featured_book', 'description' => "Displays featured or random books.");
 		parent::WP_Widget('mbt_featured_book', 'MyBookTable Featured Books', $widget_ops);
 		add_action('admin_enqueue_scripts', array('MBT_Featured_Book', 'enqueue_widget_js'));
-		$this->defaultargs = array('selectmode' => 'by_date', 'featured_books' => array(), 'image_size' => 'medium', 'num_books' => 1, 'show_blurb' => true);
+		$this->defaultargs = array('title' => 'Featured Books', 'selectmode' => 'by_date', 'featured_books' => array(), 'image_size' => 'medium', 'num_books' => 1, 'show_blurb' => true);
 	}
 
 	function enqueue_widget_js() {
@@ -33,6 +33,7 @@ class MBT_Featured_Book extends WP_Widget {
 		if(!empty($featured_book)) { $featured_books = array((int)$featured_book); }
 
 		echo($args['before_widget']);
+		if($title) { echo($args['before_title'].$title.$args['after_title']); }
 
 		if($selectmode == 'manual_select' and !empty($featured_books)) {
 			$books = array();
@@ -59,7 +60,7 @@ class MBT_Featured_Book extends WP_Widget {
 				$permalink = get_permalink($book->ID);
 				?>
 					<div class="mbt-featured-book-widget-book">
-						<h1 class="mbt-book-title"><a href="<?php echo($permalink); ?>"><?php echo(get_the_title($book->ID)); ?></a></h1>
+						<h1 class="mbt-book-title widget-title"><a href="<?php echo($permalink); ?>"><?php echo(get_the_title($book->ID)); ?></a></h1>
 						<div class="mbt-book-images"><a href="<?php echo($permalink); ?>"><?php echo(mbt_get_book_image($book->ID, array('class' => $image_size))); ?></a></div>
 						<?php if($show_blurb) { ?><div class="mbt-book-blurb"><?php echo(mbt_get_book_blurb($book->ID, true)); ?></div><?php } ?>
 						<div class="mbt-book-buybuttons">
@@ -81,6 +82,7 @@ class MBT_Featured_Book extends WP_Widget {
 
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['selectmode'] = strip_tags($new_instance['selectmode']);
 		$instance['image_size'] = $new_instance['image_size'];
 		$instance['num_books'] = intval($new_instance['num_books']);
@@ -96,6 +98,9 @@ class MBT_Featured_Book extends WP_Widget {
 		?>
 
 		<div class="mbt-featured-book-widget-editor" onmouseover="mbt_initialize_featured_book_widget_editor(this);">
+			<p>
+				<label>Title: <input type="text" name="<?php echo($this->get_field_name('title')); ?>" value="<?php echo($title); ?>"></label>
+			</p>
 			<p>
 				<label>Book image size:<br>
 				<?php foreach(array('small', 'medium', 'large') as $size) { ?>
@@ -161,7 +166,7 @@ class MBT_Featured_Book extends WP_Widget {
 
 class MBT_Taxonomies extends WP_Widget {
 	function MBT_Taxonomies() {
-		$widget_ops = array('classname' => 'mbt_taxonomies', 'description' => "A list of Authors, Genres, or Series.");
+		$widget_ops = array('classname' => 'mbt_taxonomies', 'description' => "A list of Authors, Genres, Series, or Tags.");
 		parent::WP_Widget('mbt_taxonomies', 'MyBookTable Taxonomy Widget', $widget_ops);
 	}
 
@@ -173,10 +178,13 @@ class MBT_Taxonomies extends WP_Widget {
 			$title = 'Genres';
 		} else if($tax === 'mbt_series') {
 			$title = 'Series';
+		} else if($tax === 'mbt_tag') {
+			$title = 'Tags';
 		} else {
 			$tax = 'mbt_author';
 			$title = 'Authors';
 		}
+		if(!empty($instance['title'])) { $title = $instance['title']; }
 		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
 		$c = !empty($instance['count']) ? '1' : '0';
 
@@ -194,23 +202,27 @@ class MBT_Taxonomies extends WP_Widget {
 
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['count'] = !empty($new_instance['count']) ? 1 : 0;
 		$instance['tax'] = $new_instance['tax'];
 		return $instance;
 	}
 
 	function form($instance) {
-		$instance = wp_parse_args((array)$instance, array( 'title' => ''));
+		$instance = wp_parse_args((array)$instance, array('title' => ''));
 		$count = isset($instance['count']) ? (bool)$instance['count'] : false;
 		$tax = isset($instance['tax']) ? $instance['tax'] : '';
 
 		?>
+			<label>Title: <input type="text" name="<?php echo($this->get_field_name('title')); ?>" value="<?php echo($instance['title']); ?>"></label>
+			<br /><br />
 			<label for="<?php echo $this->get_field_id('tax'); ?>">Displayed taxonomy:</label>
 			<select name="<?php echo $this->get_field_name('tax'); ?>" id="<?php echo $this->get_field_id('tax'); ?>" class="widefat">
 				<option value="">-- Choose One --</option>
 				<option value="mbt_author"<?php selected($tax, 'mbt_author'); ?>>Authors</option>
 				<option value="mbt_genre"<?php selected($tax, 'mbt_genre'); ?>>Genres</option>
 				<option value="mbt_series"<?php selected($tax, 'mbt_series'); ?>>Series</option>
+				<option value="mbt_tag"<?php selected($tax, 'mbt_tag'); ?>>Tags</option>
 			</select>
 			<br /><br />
 

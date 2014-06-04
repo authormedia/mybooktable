@@ -8,7 +8,8 @@ function mbt_templates_init() {
 	if(!is_admin()) {
 		//enqueue frontend styling
 		add_action('wp_enqueue_scripts', 'mbt_enqueue_styles');
-		add_action('wp_head', 'mbt_add_image_size_css');
+		add_action('wp_enqueue_scripts', 'mbt_enqueue_js');
+		add_action('wp_head', 'mbt_add_custom_css');
 
 		//modify the post query
 		add_action('pre_get_posts', 'mbt_pre_get_posts', 20);
@@ -48,6 +49,7 @@ function mbt_templates_init() {
 		add_action('mbt_single_book_buybuttons', 'mbt_do_single_book_buybuttons');
 		add_action('mbt_single_book_overview', 'mbt_do_single_book_overview');
 		if(mbt_get_setting('show_series')) { add_action('mbt_after_single_book', 'mbt_the_book_series_box'); }
+		if(mbt_get_setting('show_find_bookstore')) { add_action('mbt_after_single_book', 'mbt_the_find_bookstore_box'); }
 
 		//book excerpt hooks
 		add_action('mbt_before_book_excerpt', 'mbt_do_before_book_excerpt', 0);
@@ -74,7 +76,7 @@ add_action('mbt_init', 'mbt_templates_init');
 /* Template Overload Functions                             */
 /*---------------------------------------------------------*/
 function mbt_load_book_templates($template) {
-	if(mbt_is_booktable_page() or is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series')) {
+	if(mbt_is_booktable_page() or is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag')) {
 		$template = mbt_locate_template('archive-book.php');
 	} else if(is_singular('mbt_book')) {
 		$template = mbt_locate_template('single-book.php');
@@ -101,7 +103,7 @@ function mbt_pre_get_posts($query) {
 				add_action('mbt_after_book_archive', 'mbt_do_after_booktable_page');
 			}
 		}
-		if($query->is_post_type_archive('mbt_book') or $query->is_tax('mbt_author') or $query->is_tax('mbt_genre') or $query->is_tax('mbt_series')) {
+		if($query->is_post_type_archive('mbt_book') or $query->is_tax('mbt_author') or $query->is_tax('mbt_genre') or $query->is_tax('mbt_series') or $query->is_tax('mbt_tag')) {
 			$query->set('orderby', 'menu_order');
 			$query->set('posts_per_page', mbt_get_posts_per_page());
 		}
@@ -112,6 +114,10 @@ function mbt_enqueue_styles() {
 	wp_enqueue_style('mbt-style', apply_filters('mbt_css', plugins_url('css/frontend-style.css', dirname(__FILE__))));
 	$plugin_style_css = mbt_current_style_url('style.css');
 	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-plugin-style', $plugin_style_css); }
+}
+
+function mbt_enqueue_js() {
+	wp_enqueue_script('mbt-frontend-js', plugins_url('js/frontend.js', dirname(__FILE__)), array('jquery'));
 }
 
 function mbt_get_template_folders() {
@@ -141,15 +147,29 @@ function mbt_include_template($name) {
 	if(file_exists($locatedtemplate)) { include($locatedtemplate); }
 }
 
-function mbt_add_image_size_css() {
-	if(mbt_is_mbt_page()) {
-		$image_size = mbt_get_setting('image_size');
-		echo('<style type="text/css">');
-		if($image_size == 'small') { echo('#mbt-container .mbt-book .mbt-book-images { width: 15%; } #mbt-container .mbt-book .mbt-book-right { width: 85%; } '); }
-		else if($image_size == 'large') { echo('#mbt-container .mbt-book .mbt-book-images { width: 35%; } #mbt-container .mbt-book .mbt-book-right { width: 65%; } '); }
-		else { echo('#mbt-container .mbt-book .mbt-book-images { width: 25%; } #mbt-container .mbt-book .mbt-book-right { width: 75%; } '); }
-		echo('</style>');
-	}
+function mbt_add_custom_css() {
+	$image_size = mbt_get_setting('image_size');
+	$book_button_size = mbt_get_setting('book_button_size');
+	$listing_button_size = mbt_get_setting('listing_button_size');
+	$widget_button_size = mbt_get_setting('widget_button_size');
+	echo('<style type="text/css">');
+	//Image Size
+	if($image_size == 'small') { echo('#mbt-container .mbt-book .mbt-book-images { width: 15%; } #mbt-container .mbt-book .mbt-book-right { width: 85%; } '); }
+	else if($image_size == 'large') { echo('#mbt-container .mbt-book .mbt-book-images { width: 35%; } #mbt-container .mbt-book .mbt-book-right { width: 65%; } '); }
+	else { echo('#mbt-container .mbt-book .mbt-book-images { width: 25%; } #mbt-container .mbt-book .mbt-book-right { width: 75%; } '); }
+	//Book Button Size
+	if($book_button_size == 'small') { echo('#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } #mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
+	else if($book_button_size == 'medium') { echo('#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } #mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
+	else { echo('#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } #mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
+	//Listing Button Size
+	if($listing_button_size == 'small') { echo('#mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } #mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
+	else if($listing_button_size == 'medium') { echo('#mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } #mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
+	else { echo('#mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } #mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
+	//Widget Button Size
+	if($widget_button_size == 'small') { echo('.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } .mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
+	else if($widget_button_size == 'medium') { echo('.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } .mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
+	else { echo('.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } .mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
+	echo('</style>');
 }
 
 function mbt_body_class($classes) {
@@ -320,11 +340,13 @@ function mbt_get_book_archive_title($before = '', $after = '') {
 	$output = '';
 
 	if(is_tax('mbt_author')) {
-		$output = __( 'Author', 'mybooktable' ).': '.get_queried_object()->name;
+		$output = __('Author', 'mybooktable').': '.get_queried_object()->name;
 	} else if(is_tax('mbt_genre')) {
-		$output = __( 'Genre', 'mybooktable' ).': '.get_queried_object()->name;
+		$output = __('Genre', 'mybooktable').': '.get_queried_object()->name;
 	} else if(is_tax('mbt_series')) {
-		$output = __( 'Series', 'mybooktable' ).': '.get_queried_object()->name;
+		$output = __('Series', 'mybooktable').': '.get_queried_object()->name;
+	} else if(is_tax('mbt_tag')) {
+		$output = __('Tag', 'mybooktable').': '.get_queried_object()->name;
 	} else if(mbt_is_booktable_page()) {
 		$booktable_page = get_post(mbt_get_setting('booktable_page'));
 		$output = $booktable_page->post_title;
@@ -332,7 +354,7 @@ function mbt_get_book_archive_title($before = '', $after = '') {
 		if(mbt_get_setting('booktable_page') and ($booktable_page = get_post(mbt_get_setting('booktable_page')))) {
 			$output = $booktable_page->post_title;
 		} else {
-			$output = __( 'Books', 'mybooktable' );
+			$output = __('Books', 'mybooktable');
 		}
 	}
 
@@ -345,7 +367,7 @@ function mbt_the_book_archive_title($before = '', $after = '') {
 function mbt_get_book_archive_description($before = '', $after = '') {
 	$output = '';
 
-	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series')) {
+	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag')) {
 		$output = get_queried_object()->description;
 	} else if(mbt_is_booktable_page()) {
 		$booktable_page = get_post(mbt_get_setting('booktable_page'));
@@ -549,7 +571,7 @@ function mbt_the_buybuttons_textonly() {
 
 	if(!empty($buybuttons)) {
 		echo('<div class="mbt-book-buybuttons-textonly">');
-		echo('<h3>' . __('Other book sellers','mybooktable') . ':</h3>');
+		echo('<h3>'.__('Other book sellers','mybooktable').':</h3>');
 		echo('<ul>'.mbt_format_buybuttons($buybuttons).'</ul>');
 		echo('</div>');
 	}
@@ -657,18 +679,25 @@ function mbt_the_book_series_list() {
 	echo(mbt_get_book_series_list($post->ID));
 }
 function mbt_get_book_authors_list($post_id) {
-	return apply_filters('mbt_get_book_authors_list', mbt_get_the_term_list($post_id, 'mbt_author', __( 'Author', 'mybooktable'), __( 'Authors', 'mybooktable'), 'author'));
+	return apply_filters('mbt_get_book_authors_list', mbt_get_the_term_list($post_id, 'mbt_author', __('Author', 'mybooktable'), __('Authors', 'mybooktable'), 'author'));
 }
 function mbt_the_book_authors_list() {
 	global $post;
 	echo(mbt_get_book_authors_list($post->ID));
 }
 function mbt_get_book_genres_list($post_id) {
-	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_genre', __( 'Genre', 'mybooktable'), __( 'Genres', 'mybooktable'), 'genre'));
+	return apply_filters('mbt_get_book_genres_list', mbt_get_the_term_list($post_id, 'mbt_genre', __('Genre', 'mybooktable'), __('Genres', 'mybooktable'), 'genre'));
 }
 function mbt_the_book_genres_list() {
 	global $post;
 	echo(mbt_get_book_genres_list($post->ID));
+}
+function mbt_get_book_tags_list($post_id) {
+	return apply_filters('mbt_get_book_tags_list', mbt_get_the_term_list($post_id, 'mbt_tag', __('Tag', 'mybooktable'), __('Tags', 'mybooktable'), 'tag'));
+}
+function mbt_the_book_tags_list() {
+	global $post;
+	echo(mbt_get_book_tags_list($post->ID));
 }
 
 
@@ -708,4 +737,27 @@ function mbt_get_book_series_box($post_id) {
 function mbt_the_book_series_box() {
 	global $post;
 	echo(mbt_get_book_series_box($post->ID));
+}
+
+
+
+function mbt_get_find_bookstore_box($post_id) {
+	$output = '';
+	$output .= '<div style="clear:both"></div>';
+	$output .= '<div class="mbt-find-bookstore">';
+	$output .= '<div class="mbt-find-bookstore-title">Find A Local Bookstore</div>';
+	$output .= '<form class="mbt-find-bookstore-form" action="http://maps.google.com/maps">';
+	$output .= '	<input type="text" class="city" placeholder="City" name="city" size="20">,';
+	$output .= '	<input type="text" class="state" placeholder="State" name="state" size="4" maxlength="4">';
+	$output .= '	<input type="text" class="zip" placeholder="Zip" name="zip" size="5" maxlength="5">';
+	$output .= '	<input type="submit" name="submit" value="Find Store">';
+	$output .= '</form>';
+	$output .= '<div style="clear:both"></div>';
+	$output .= '</div>';
+	return apply_filters('mbt_get_find_bookstore_box', $output);
+
+}
+function mbt_the_find_bookstore_box() {
+	global $post;
+	echo(mbt_get_find_bookstore_box($post->ID));
 }

@@ -63,7 +63,7 @@ function mbt_compat_load_book_templates($template) {
 }
 
 function mbt_compat_pre_get_posts($query) {
-	if(!is_admin() and $query->is_main_query() and ($query->is_post_type_archive('mbt_book') or $query->is_tax('mbt_author') or $query->is_tax('mbt_series') or $query->is_tax('mbt_genre'))) {
+	if(!is_admin() and $query->is_main_query() and ($query->is_post_type_archive('mbt_book') or $query->is_tax('mbt_author') or $query->is_tax('mbt_series') or $query->is_tax('mbt_genre') or $query->is_tax('mbt_tag'))) {
 		global $mbt_is_taxonomy_query, $mbt_taxonomy_query;
 		$mbt_is_taxonomy_query = true;
 		if($query->get('mbt_author')) {
@@ -72,6 +72,8 @@ function mbt_compat_pre_get_posts($query) {
 			$mbt_taxonomy_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_series' => $query->get('mbt_series'), 'paged' => $query->get('paged'), 'orderby' => 'menu_order', 'posts_per_page' => mbt_get_posts_per_page()));
 		} else if($query->get('mbt_genre')) {
 			$mbt_taxonomy_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_genre' => $query->get('mbt_genre'), 'paged' => $query->get('paged'), 'orderby' => 'menu_order', 'posts_per_page' => mbt_get_posts_per_page()));
+		} else if($query->get('mbt_tag')) {
+			$mbt_taxonomy_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_tag' => $query->get('mbt_tag'), 'paged' => $query->get('paged'), 'orderby' => 'menu_order', 'posts_per_page' => mbt_get_posts_per_page()));
 		} else {
 			$mbt_taxonomy_query = new WP_Query(array('post_type' => 'mbt_book', 'paged' => $query->get('paged'), 'orderby' => 'menu_order', 'posts_per_page' => mbt_get_posts_per_page()));
 		}

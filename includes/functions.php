@@ -31,10 +31,16 @@ function mbt_reset_settings() {
 		'enable_seo' => true,
 		'enable_breadcrumbs' => true,
 		'show_series' => true,
+		'show_find_bookstore' => true,
+		'book_button_size' => 'medium',
+		'listing_button_size' => 'medium',
+		'widget_button_size' => 'medium',
 		'hide_domc_notice' => false,
 		'series_in_excerpts' => false,
 		'posts_per_page' => false,
-		'enable_default_affiliates' => false
+		'enable_default_affiliates' => false,
+		'product_name' => 'Books',
+		'product_slug' => 'books'
 	);
 	$mbt_settings = apply_filters("mbt_default_settings", $mbt_settings);
 	update_option("mbt_settings", apply_filters("mbt_update_settings", $mbt_settings));
@@ -81,7 +87,7 @@ function mbt_get_posts_per_page() {
 }
 
 function mbt_is_mbt_page() {
-	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_singular('mbt_book') or mbt_is_booktable_page() or mbt_is_taxonomy_query());
+	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') or is_singular('mbt_book') or mbt_is_booktable_page() or mbt_is_taxonomy_query());
 }
 
 function mbt_is_booktable_page() {
@@ -97,6 +103,11 @@ function mbt_get_booktable_url() {
 		$url = get_permalink(mbt_get_setting('booktable_page'));
 	}
 	return $url;
+}
+
+function mbt_get_product_slug() {
+	$slug = mbt_get_setting('product_slug');
+	return apply_filters('mbt_product_slug', empty($slug) ? 'books' : $slug);
 }
 
 

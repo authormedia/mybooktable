@@ -114,6 +114,32 @@ span.mce_mbt_shortcodes_button {
 }
 
 /*---------------------------------------------------------*/
+/* Shortcode Inserter                                      */
+/*---------------------------------------------------------*/
+
+.mybooktable_shortcode_icon {
+	background:url('../images/am-logo.png') no-repeat top left;
+	display: inline-block;
+	height: 16px;
+	margin: 0 2px 0 0;
+	vertical-align: text-top;
+	width: 17px;
+}
+
+#mybooktable_shortcode_form_intro {
+	color: #aaa;
+	font-size: 3em;
+	line-height: 1.2em;
+	padding: 1em;
+}
+
+.mybooktable_shortcode_description {
+	border-bottom: 1px solid #dfdfdf;
+	padding-bottom: 1em;
+	margin: 1em;
+}
+
+/*---------------------------------------------------------*/
 /* Dashboard Page                                          */
 /*---------------------------------------------------------*/
 
