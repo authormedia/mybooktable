@@ -14,7 +14,7 @@ function make_uploader(button, urlbox, title, desired_data) {
 		// Create the media frame.
 		file_frame = wp.media.frames.file_frame = wp.media({
 			title: title,
-			button: { text: mbt_i18n.select },
+			button: { text: mbt_media_upload_i18n.select },
 			multiple: false  // Set to true to allow multiple files to be selected
 		});
 
