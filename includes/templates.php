@@ -411,8 +411,8 @@ function mbt_get_book_archive_pagination() {
 		$end_page = $total_pages;
 	}
 
-	$prev_text = apply_filters('mbt_book_archive_pagination_previous', '&larr; ' . __('Back' , 'mybooktable') );
-	$next_text = apply_filters('mbt_book_archive_pagination_next', __('More Books', 'mybooktable') . ' &rarr;');
+	$prev_text = apply_filters('mbt_book_archive_pagination_previous', '&larr; '.__('Back', 'mybooktable'));
+	$next_text = apply_filters('mbt_book_archive_pagination_next', __('More Books', 'mybooktable').' &rarr;');
 
 	$output = '<nav class="mbt-book-archive-pagination">';
 
@@ -466,17 +466,17 @@ function mbt_the_book_image($attrs = '') {
 
 function mbt_get_book_price($post_id) {
 	$price = get_post_meta($post_id, 'mbt_price', true);
-	if(preg_match("/^[0-9,.]+$/", $price)) { $price =  "$".number_format((double)$price, 2); }
+	if(preg_match("/^[0-9.]+$/", $price)) { $price =  "$".number_format((double)$price, 2); }
 
 	$sale_price = get_post_meta($post_id, 'mbt_sale_price', true);
-	if(preg_match("/^[0-9,.]+$/", $sale_price)) { $sale_price =  "$".number_format((double)$sale_price, 2); }
+	if(preg_match("/^[0-9.]+$/", $sale_price)) { $sale_price =  "$".number_format((double)$sale_price, 2); }
 
 	$output = '';
 	if(!empty($sale_price) and !empty($price)) {
-		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price old-price">'.$price.'</span><link itemprop="availability" href="http://schema.org/Discontinued" /></span>';
-		$output .= '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price new-price">'.$sale_price.'</span><link itemprop="availability" href="http://schema.org/InStock" /></span>';
+		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price old-price">'.$price.'</span><link itemprop="availability" href="http://schema.org/Discontinued"/></span>';
+		$output .= '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price new-price">'.$sale_price.'</span><link itemprop="availability" href="http://schema.org/InStock"/></span>';
 	} else if(!empty($price)) {
-		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price">'.$price.'</span><link itemprop="availability" href="http://schema.org/InStock" /></span>';
+		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price">'.$price.'</span><link itemprop="availability" href="http://schema.org/InStock"/></span>';
 	}
 
 	return apply_filters('mbt_get_book_price', $output, $post_id);
@@ -498,7 +498,7 @@ function mbt_the_book_sample_url() {
 
 function mbt_get_book_sample($post_id) {
 	$url = mbt_get_book_sample_url($post_id);
-	return empty($url) ? '' : apply_filters('mbt_get_book_sample', '<br><a class="mbt-book-sample" target="_blank" href="'.$url.'">Download Sample Chapter</a>');
+	return empty($url) ? '' : apply_filters('mbt_get_book_sample', '<br><a class="mbt-book-sample" target="_blank" href="'.$url.'">'.__('Download Sample Chapter', 'mybooktable').'</a>');
 }
 function mbt_the_book_sample() {
 	global $post;
@@ -571,7 +571,7 @@ function mbt_the_buybuttons_textonly() {
 
 	if(!empty($buybuttons)) {
 		echo('<div class="mbt-book-buybuttons-textonly">');
-		echo('<h3>'.__('Other book sellers','mybooktable').':</h3>');
+		echo('<h3>'.__('Other book sellers', 'mybooktable').':</h3>');
 		echo('<ul>'.mbt_format_buybuttons($buybuttons).'</ul>');
 		echo('</div>');
 	}
@@ -601,7 +601,7 @@ function mbt_get_book_publisher($post_id) {
 	} else {
 		$publisher_string = '<a href="'.$publisher_url.'" target="_blank" rel="nofollow" class="mbt-publisher">'.$publisher_name.'</a><br>';
 	}
-	$output = '<span class="meta-title">Publisher:</span> '.$publisher_string;
+	$output = '<span class="meta-title">'.__('Publisher', 'mybooktable').':</span> '.$publisher_string;
 	return apply_filters('mbt_get_book_publisher', $output);
 }
 function mbt_the_book_publisher() {
@@ -613,7 +613,7 @@ function mbt_the_book_publisher() {
 
 function mbt_get_book_publication_year($post_id) {
 	$publication_year = get_post_meta($post_id, 'mbt_publication_year', true);
-	$output = empty($publication_year) ? '' : '<span class="meta-title">Publication Year:</span> '.$publication_year.'<br>';
+	$output = empty($publication_year) ? '' : '<span class="meta-title">'.__('Publication Year', 'mybooktable').':</span> '.$publication_year.'<br>';
 	return apply_filters('mbt_get_book_publication_year', $output);
 }
 function mbt_the_book_publication_year() {
@@ -658,7 +658,7 @@ function mbt_get_book_series_list($post_id) {
 	if(!empty($output)) {
 		$post = get_post($post_id);
 		$series_order = get_post_meta($post->ID, 'mbt_series_order', true);
-		$output = '<span class="meta-title">'. __('Series', 'mybooktable').':</span> '.$output.(empty($series_order) ? '' : ', Book '.$series_order).'<br>';
+		$output = '<span class="meta-title">'.__('Series', 'mybooktable').':</span> '.$output.(empty($series_order) ? '' : ', Book '.$series_order).'<br>';
 	}
 
 	return apply_filters('mbt_get_book_series_list', $output);
@@ -710,7 +710,7 @@ function mbt_get_book_series_box($post_id) {
 		if(!empty($relatedbooks->posts)) {
 			$output .= '<div style="clear:both"></div>';
 			$output .= '<div class="mbt-book-series">';
-			$output .= '<div class="mbt-book-series-title">'. __('Other books in', 'mybooktable'). '"'.$series->name.'":</div>';
+			$output .= '<div class="mbt-book-series-title">'.__('Other books in', 'mybooktable').'"'.$series->name.'":</div>';
 			foreach($relatedbooks->posts as $relatedbook) {
 				$size = 100;
 				list($src, $width, $height) = mbt_get_book_image_src($relatedbook->ID);
@@ -745,12 +745,12 @@ function mbt_get_find_bookstore_box($post_id) {
 	$output = '';
 	$output .= '<div style="clear:both"></div>';
 	$output .= '<div class="mbt-find-bookstore">';
-	$output .= '<div class="mbt-find-bookstore-title">Find A Local Bookstore</div>';
+	$output .= '<div class="mbt-find-bookstore-title">'.__('Find A Local Bookstore', 'mybooktable').'</div>';
 	$output .= '<form class="mbt-find-bookstore-form" action="http://maps.google.com/maps">';
-	$output .= '	<input type="text" class="city" placeholder="City" name="city" size="20">,';
-	$output .= '	<input type="text" class="state" placeholder="State" name="state" size="4" maxlength="4">';
-	$output .= '	<input type="text" class="zip" placeholder="Zip" name="zip" size="5" maxlength="5">';
-	$output .= '	<input type="submit" name="submit" value="Find Store">';
+	$output .= '	<input type="text" class="city" placeholder="'.__('City', 'mybooktable').'" name="city" size="20">,';
+	$output .= '	<input type="text" class="state" placeholder="'.__('State', 'mybooktable').'" name="state" size="4" maxlength="4">';
+	$output .= '	<input type="text" class="zip" placeholder="'.__('Zip', 'mybooktable').'" name="zip" size="5" maxlength="5">';
+	$output .= '	<input type="submit" name="submit" value="'.__('Find Store', 'mybooktable').'">';
 	$output .= '</form>';
 	$output .= '<div style="clear:both"></div>';
 	$output .= '</div>';

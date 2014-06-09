@@ -39,8 +39,8 @@ function mbt_reset_settings() {
 		'series_in_excerpts' => false,
 		'posts_per_page' => false,
 		'enable_default_affiliates' => false,
-		'product_name' => 'Books',
-		'product_slug' => 'books'
+		'product_name' => __('Books', 'mybooktable'),
+		'product_slug' => _x('books', 'URL slug', 'mybooktable')
 	);
 	$mbt_settings = apply_filters("mbt_default_settings", $mbt_settings);
 	update_option("mbt_settings", apply_filters("mbt_update_settings", $mbt_settings));
@@ -107,7 +107,7 @@ function mbt_get_booktable_url() {
 
 function mbt_get_product_slug() {
 	$slug = mbt_get_setting('product_slug');
-	return apply_filters('mbt_product_slug', empty($slug) ? 'books' : $slug);
+	return apply_filters('mbt_product_slug', empty($slug) ? _x('books', 'URL slug', 'mybooktable') : $slug);
 }
 
 
@@ -135,7 +135,7 @@ function mbt_style_url($file, $style) {
 	foreach(mbt_get_style_folders() as $folder) {
 		if(file_exists($folder['dir'].'/'.$style)) {
 			if(file_exists($folder['dir'].'/'.$style.'/'.$file)) {
-				return $folder['url'].'/'.$style.'/'.$file;
+				return $folder['url'].'/'.rawurlencode($style).'/'.$file;
 			}
 		}
 	}
@@ -196,7 +196,7 @@ function mbt_verify_api_key() {
 
 	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) {
 		mbt_update_setting('api_key_status', -1);
-		mbt_update_setting('api_key_message', 'Unable to connect to server!');
+		mbt_update_setting('api_key_message', __('Unable to connect to server!', 'mybooktable'));
 		return;
 	}
 
@@ -204,7 +204,7 @@ function mbt_verify_api_key() {
 
 	if(!is_array($response) or empty($response['status'])) {
 		mbt_update_setting('api_key_status', -2);
-		mbt_update_setting('api_key_message', 'Invalid response received from server');
+		mbt_update_setting('api_key_message', __('Invalid response received from server', 'mybooktable'));
 		return;
 	}
 
@@ -213,38 +213,38 @@ function mbt_verify_api_key() {
 	if($status == 10) {
 		mbt_update_setting('api_key_status', $status);
 		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
-		mbt_update_setting('api_key_message', 'Valid for MyBookTable Professional.'.$expires);
+		mbt_update_setting('api_key_message', __('Valid for MyBookTable Professional.', 'mybooktable').$expires);
 		mbt_update_setting('pro_active', true);
 		mbt_update_setting('dev_active', false);
 	} else if($status == 11) {
 		mbt_update_setting('api_key_status', $status);
 		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
-		mbt_update_setting('api_key_message', 'Valid for MyBookTable Developer.'.$expires);
+		mbt_update_setting('api_key_message', __('Valid for MyBookTable Developer.', 'mybooktable').$expires);
 		mbt_update_setting('pro_active', true);
 		mbt_update_setting('dev_active', true);
 	} else if($status == -10) {
 		mbt_update_setting('api_key_status', $status);
-		mbt_update_setting('api_key_message', 'Key not found');
+		mbt_update_setting('api_key_message', __('Key not found', 'mybooktable'));
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	} else if($status == -11) {
 		mbt_update_setting('api_key_status', $status);
-		mbt_update_setting('api_key_message', 'Key has been deactivated');
+		mbt_update_setting('api_key_message', __('Key has been deactivated', 'mybooktable'));
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	} else if($status == -12) {
 		mbt_update_setting('api_key_status', $status);
-		mbt_update_setting('api_key_message', 'Key has expired. Please <a href="http://www.authormedia.com/mybooktable">renew your license</a>.');
+		mbt_update_setting('api_key_message', __('Key has expired. Please <a href="http://www.authormedia.com/mybooktable">renew your license</a>.', 'mybooktable'));
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	} else if($status == -20) {
 		mbt_update_setting('api_key_status', $status);
-		mbt_update_setting('api_key_message', 'Permissions error!');
+		mbt_update_setting('api_key_message', __('Permissions error!', 'mybooktable'));
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	} else {
 		mbt_update_setting('api_key_status', -2);
-		mbt_update_setting('api_key_message', 'Invalid response received from server');
+		mbt_update_setting('api_key_message', __('Invalid response received from server', 'mybooktable'));
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	}

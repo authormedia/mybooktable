@@ -37,9 +37,9 @@ jQuery(document).ready(function() {
 	});
 
 	function display_description(display) {
-		if(display == "book_only") { return "This store will be displayed as a button only on the book page."; }
-		if(display == "text_only") { return "This store will be displayed as text underneath the other buttons only on the book page."; }
-		if(display == "featured") { return "This store will be displayed as a button on the book listings and the book page."; }
+		if(display == "book_only") { return mbt_metabox_i18n.book_only; }
+		if(display == "text_only") { return mbt_metabox_i18n.text_only; }
+		if(display == "featured") { return mbt_metabox_i18n.featured; }
 	}
 	function apply_display_title() {
 		element = jQuery(this)

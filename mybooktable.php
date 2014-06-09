@@ -6,12 +6,10 @@ Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
 Text Domain: mybooktable
-Version: 1.3.2
+Version: 1.3.3
 */
 
-define("MBT_VERSION", "1.3.2");
-
-load_plugin_textdomain('mybooktable', false, dirname(plugin_basename(__FILE__ )));
+define("MBT_VERSION", "1.3.3");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -63,6 +61,7 @@ function mbt_init() {
 
 	do_action('mbt_before_init');
 
+	load_plugin_textdomain('mybooktable', false, dirname(plugin_basename(__FILE__)));
 	mbt_load_settings();
 	mbt_upgrade_check();
 	mbt_customize_plugins_page();
@@ -85,13 +84,13 @@ function mbt_customize_plugins_page() {
 }
 
 function mbt_plugin_action_links($actions) {
-	$actions['settings'] = '<a href="'.admin_url('admin.php?page=mbt_settings').'">Settings</a>';
+	$actions['settings'] = '<a href="'.admin_url('admin.php?page=mbt_settings').'">'.__('Settings', 'mybooktable').'</a>';
 	return $actions;
 }
 
 function mbt_plugin_row_meta($links, $file) {
 	if ($file == plugin_basename(__FILE__)) {
-		$links[] = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/mybooktable?filter=5#postform">' . __('Review this plugin', 'mybooktable') . '</a>';
+		$links[] = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/mybooktable?filter=5#postform">'.__('Review this plugin', 'mybooktable').'</a>';
 	}
 	return $links;
 }

@@ -422,18 +422,18 @@ function mbt_seo_metabox($post)
 		<tbody>
 			<tr>
 				<th scope="row">
-					<label for="mbt_seo_title">SEO Title:</label>
+					<label for="mbt_seo_title"><?php _e('SEO Title:', 'mybooktable'); ?></label>
 				</th>
 				<td>
 					<input type="text" placeholder="" id="mbt_seo_title" name="mbt_seo_title" value="<?php echo(get_post_meta($post->ID, 'mbt_seo_title', true)); ?>" class="large-text"><br>
-					<p>Title display in search engines is limited to 70 chars, <span id="mbt_seo_title-length">70</span> chars left.</p>
+					<p><?php _e('Title display in search engines is limited to 70 chars, <span id="mbt_seo_title-length">70</span> chars left.', 'mybooktable'); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="mbt_seo_metadesc">Meta Description:</label></th>
+				<th scope="row"><label for="mbt_seo_metadesc"><?php _e('Meta Description:', 'mybooktable'); ?></label></th>
 				<td>
 					<textarea class="large-text" rows="3" id="mbt_seo_metadesc" name="mbt_seo_metadesc"><?php echo(get_post_meta($post->ID, 'mbt_seo_metadesc', true)); ?></textarea>
-					<p>The <code>meta</code> description will be limited to 156 chars, <span id="mbt_seo_metadesc-length">156</span> chars left.</p>
+					<p><?php _e('The <code>meta</code> description will be limited to 156 chars, <span id="mbt_seo_metadesc-length">156</span> chars left.', 'mybooktable'); ?></p>
 				</td>
 			</tr>
 		</tbody>
@@ -454,5 +454,5 @@ function mbt_save_seo_metabox($post_id)
 
 function mbt_add_seo_metabox()
 {
-	add_meta_box('mbt_seo', 'SEO Information', 'mbt_seo_metabox', 'mbt_book', 'normal', 'default');
+	add_meta_box('mbt_seo', __('SEO Information', 'mybooktable'), 'mbt_seo_metabox', 'mbt_book', 'normal', 'default');
 }

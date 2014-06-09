@@ -66,10 +66,10 @@ function mbt_upgrade_1_2_7() {
 
 function mbt_upgrade_1_3_1() {
 	mbt_update_setting('help_page_email_subscribe_popup', 'show');
-	$func = create_function("", "wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'reccomended'));");
+	$func = create_function("", "wp_insert_term('".__("Recommended Books")."', 'mbt_tag', array('slug' => 'reccomended'));");
 	add_action('init', $func, 20);
-	mbt_update_setting('product_name', "Books");
-	mbt_update_setting('product_slug', "books");
+	mbt_update_setting('product_name', __("Books"));
+	mbt_update_setting('product_slug', _x('books', 'URL slug', 'mybooktable'));
 }
 
 function mbt_upgrade_1_3_2() {
@@ -92,7 +92,7 @@ function mbt_install() {
 function mbt_install_pages() {
 	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
 		$post_id = wp_insert_post(array(
-			'post_title' => 'Book Table',
+			'post_title' => __('Book Table', 'mybooktable'),
 			'post_content' => '',
 			'post_status' => 'publish',
 			'post_type' => 'page'
@@ -202,9 +202,9 @@ function mbt_add_admin_notices() {
 function mbt_admin_install_notice() {
 	?>
 	<div class="mbt-admin-notice">
-		<h4><strong>Welcome to MyBookTable</strong> &#8211; You're almost ready to start promoting your books :)</h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&install_mbt=1')); ?>">Install MyBookTable Pages</a>
-		<a class="notice-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&skip_install_mbt=1')); ?>">Skip setup</a>
+		<h4><?php _e('<strong>Welcome to MyBookTable</strong> &#8211; You\'re almost ready to start promoting your books :)', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&install_mbt=1')); ?>"><?php _e('Install MyBookTable Pages', 'mybooktable'); ?></a>
+		<a class="notice-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&skip_install_mbt=1')); ?>"><?php _e('Skip setup', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
@@ -212,9 +212,9 @@ function mbt_admin_install_notice() {
 function mbt_admin_installed_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><strong>MyBookTable has been installed</strong> &#8211; You're ready to start promoting your books :)</h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_help&finish_install_mbt=1')); ?>">Show Me How</a>
-		<a class="notice-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&finish_install_mbt=1')); ?>">Thanks, I Got This</a>
+		<h4><?php _e('<strong>MyBookTable has been installed</strong> &#8211; You\'re ready to start promoting your books :)', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_help&finish_install_mbt=1')); ?>"><?php _e('Show Me How', 'mybooktable'); ?></a>
+		<a class="notice-button secondary" href="<?php echo(admin_url('admin.php?page=mbt_settings&finish_install_mbt=1')); ?>"><?php _e('Thanks, I Got This', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
@@ -222,8 +222,8 @@ function mbt_admin_installed_notice() {
 function mbt_admin_setup_api_key_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features</h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>">Go To Settings</a>
+		<h4><?php _e('<strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
@@ -231,18 +231,18 @@ function mbt_admin_setup_api_key_notice() {
 function mbt_admin_setup_default_affiliates_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; MyBookTable your input to enable these features</h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1')); ?>">Go To Settings</a>
+		<h4><?php _e('<strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; MyBookTable your input to enable these features', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
 
 function mbt_admin_download_addon_notice() {
-	$name = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? "Developer" : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? "Professional" : "");
+	$name = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? __("Developer", 'mybooktable') : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? __("Professional", 'mybooktable') : "");
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!</h4>
-		<a class="notice-button primary" href="https://www.authormedia.com/my-account/" target="_blank">Download</a>
+		<h4><?php _e('<strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="https://www.authormedia.com/my-account/" target="_blank"><?php _e('Download', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
@@ -250,9 +250,9 @@ function mbt_admin_download_addon_notice() {
 function mbt_admin_api_key_expired_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><strong>Uh Oh!</strong> &#8211; Looks like your MyBookTable API Key has expired.</h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">Go To Settings</a>
-		<a class="notice-button primary" target="_blank" href="http://www.authormedia.com/mybooktable/">Renew your License</a>
+		<h4><?php _e('<strong>Uh Oh!</strong> &#8211; Looks like your MyBookTable API Key has expired.', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
+		<a class="notice-button primary" target="_blank" href="http://www.authormedia.com/mybooktable/"><?php _e('Renew your License', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
@@ -262,12 +262,12 @@ function mbt_admin_email_subscribe_notice() {
 	$email = $current_user->user_email;
 	?>
 	<div class="mbt-admin-notice mbt-email-subscribe-message">
-		<h4><strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to the Author Media newsletter!</h4>
+		<h4><?php _e('<strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to the Author Media newsletter!', 'mybooktable'); ?></h4>
 		<form action="" method="POST">
 			<input type="hidden" name="mbt_email_subscribe" value="1">
 			<input type="email" name="mbt_email_address" id="mbt_email_address" autocapitalize="off" autocorrect="off" size="25" value="<?php echo($email); ?>" placeholder="you@example.com">
-			<input type="Submit" class="notice-button primary" value="Subscribe" onclick="if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(jQuery('#mbt_email_address').val())){jQuery('#mbt_email_address').focus().css('background', '#FFEBE8');return false;}">
-			<input type="Submit" class="notice-button secondary" value="No Thanks" onclick="jQuery('#mbt_email_address').val('');">
+			<input type="Submit" class="notice-button primary" value="<?php _e('Subscribe', 'mybooktable'); ?>" onclick="if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(jQuery('#mbt_email_address').val())){jQuery('#mbt_email_address').focus().css('background', '#FFEBE8');return false;}">
+			<input type="Submit" class="notice-button secondary" value="<?php _e('No Thanks', 'mybooktable'); ?>" onclick="jQuery('#mbt_email_address').val('');">
 		</form>
 	</div>
 	<?php
@@ -276,7 +276,7 @@ function mbt_admin_email_subscribe_notice() {
 function mbt_admin_email_subscribe_thankyou_notice() {
 	?>
 	<div class="mbt-admin-notice mbt-email-subscribe-message">
-		<h4><strong>Thank you for subscribing!</strong> &#8211; Please check your inbox for a confirmation letter.</h4>
+		<h4><strong><?php _e('Thank you for subscribing!</strong> &#8211; Please check your inbox for a confirmation letter.', 'mybooktable'); ?></h4>
 	</div>
 	<?php
 }

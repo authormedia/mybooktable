@@ -28,8 +28,8 @@ function mbt_render_getnoticed_books_import_page() {
 
 	?>
 		<div class="wrap mbt_settings">
-			<div id="icon-options-general" class="icon32"><br></div><h2>GetNoticed Book Import</h2>
-			<h3>The following books were successfully imported:</h3>
+			<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('GetNoticed Book Import', 'mybooktable'); ?></h2>
+			<h3><?php _e('The following books were successfully imported:', 'mybooktable'); ?></h3>
 			<ul style="list-style:disc inside none;">
 			<?php
 				foreach($books as $book) {
@@ -37,7 +37,7 @@ function mbt_render_getnoticed_books_import_page() {
 				}
 			?>
 			</ul>
-			<a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>" id="submit" class="button button-primary">Continue</a>
+			<a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>" id="submit" class="button button-primary"><?php _e('Continue', 'mybooktable'); ?></a>
 		</div>
 	<?php
 }
@@ -47,10 +47,10 @@ function mbt_getnoticed_settings_render() {
 	<table class="form-table">
 		<tbody>
 			<tr valign="top">
-				<th scope="row"><label>GetNoticed Books Import</label></th>
+				<th scope="row"><label><?php _e('GetNoticed Books Import', 'mybooktable'); ?></label></th>
 				<td>
-					<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_getnoticed_books_import=1')); ?>" id="submit" class="button button-primary">Import</a>
-					<p class="description">Use this to import your existing books from GetNoticed into MyBookTable.</p>
+					<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_getnoticed_books_import=1')); ?>" id="submit" class="button button-primary"><?php _e('Import', 'mybooktable'); ?></a>
+					<p class="description"><?php _e('Use this to import your existing books from GetNoticed into MyBookTable.', 'mybooktable'); ?></p>
 				</td>
 			</tr>
 		</tbody>

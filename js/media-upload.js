@@ -14,7 +14,7 @@ function make_uploader(button, urlbox, title, desired_data) {
 		// Create the media frame.
 		file_frame = wp.media.frames.file_frame = wp.media({
 			title: title,
-			button: { text: "Select" },
+			button: { text: mbt_i18n.select },
 			multiple: false  // Set to true to allow multiple files to be selected
 		});
 
@@ -33,7 +33,7 @@ function make_uploader(button, urlbox, title, desired_data) {
 };
 
 jQuery(document).ready(function() {
-	make_uploader('#mbt_upload_sample_button', '#mbt_sample_url', 'Sample Chapter Image');
-	make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', 'Taxonomy Image');
-	make_uploader('#mbt_set_book_image_button', '#mbt_book_image_id', 'Book Cover Image', 'id');
+	make_uploader('#mbt_upload_sample_button', '#mbt_sample_url', mbt_media_upload_i18n.mbt_upload_sample_button);
+	make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', mbt_media_upload_i18n.mbt_upload_tax_image_button);
+	make_uploader('#mbt_set_book_image_button', '#mbt_book_image_id', mbt_media_upload_i18n.mbt_set_book_image_button, 'id');
 });

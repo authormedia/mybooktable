@@ -8,12 +8,12 @@ function mbt_booksorting_init() {
 add_action('mbt_init', 'mbt_booksorting_init');
 
 function mbt_add_sort_books_link($views) {
-	$views['sorting'] = '<a href="'.admin_url('admin.php?page=mbt_sort_books').'">Sort Books</a>';
+	$views['sorting'] = '<a href="'.admin_url('admin.php?page=mbt_sort_books').'">'.__('Sort Books', 'mybooktable').'</a>';
 	return $views;
 }
 
 function mbt_add_sort_books_page() {
-	add_submenu_page("mbt_dashboard", "MyBookTable Help", "Help", 'edit_posts', "mbt_sort_books", 'mbt_render_sort_books_page');
+	add_submenu_page("mbt_dashboard", "", "", 'edit_posts', "mbt_sort_books", 'mbt_render_sort_books_page');
 }
 
 function mbt_remove_sort_books_page() {
@@ -33,9 +33,9 @@ function mbt_render_sort_books_page() {
 	}
 ?>
 	<div class="wrap mbt_sort_books">
-		<div id="icon-options-general" class="icon32"><br></div><h2>Sort Books</h2>
+		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('Sort Books', 'mybooktable'); ?></h2>
 		<form id="mbt_sort_books_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_sort_books')); ?>">
-			<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="Save Changes" onclick="return mbt_submit_book_order();"></p>
+			<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="return mbt_submit_book_order();"></p>
 			<input id="mbt_book_order" name="mbt_book_order" type="hidden" value="">
 			<?php
 				$query = new WP_Query(array('post_type' => 'mbt_book', 'orderby' => 'menu_order', 'posts_per_page' => 499));
@@ -47,7 +47,7 @@ function mbt_render_sort_books_page() {
 					}
 					echo('</ul>');
 				} else {
-					echo("No books to sort!");
+					_e('No books to sort!', 'mybooktable');
 				}
 			?>
 		</form>

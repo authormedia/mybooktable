@@ -34,15 +34,15 @@ function mbt_get_shortcodes() {
 	//Add default shortcodes
 	$shortcodes = array(
 		'mybooktable' => array(
-			'title'			=> __( 'All Books', 'mybooktable' ),
-			'description'	=> 'List all your books in an embedded book listing.',
+			'title'			=> __('All Books', 'mybooktable'),
+			'description'	=> __('List all your books in an embedded book listing.', 'mybooktable'),
 		),
 		'mybooktable-series' => array(
-			'title'			=> __( 'All Books in Series', 'mybooktable' ),
-			'description'	=> 'List all the books in a given series in an embedded book listing.',
+			'title'			=> __('All Books in Series', 'mybooktable'),
+			'description'	=> __('List all the books in a given series in an embedded book listing.', 'mybooktable'),
 			'settings'		=> array(
 				'series'	=> array(
-					'title'			=> __( 'Series', 'mybooktable' ),
+					'title'			=> __('Series', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
 					'choices'		=> get_taxonomy_names('mbt_series')
@@ -50,11 +50,11 @@ function mbt_get_shortcodes() {
 			)
 		),
 		'mybooktable-genre' => array(
-			'title'			=> __( 'All Books in Genre', 'mybooktable' ),
-			'description'	=> 'List all the books in a given genre in an embedded book listing.',
+			'title'			=> __('All Books in Genre', 'mybooktable'),
+			'description'	=> __('List all the books in a given genre in an embedded book listing.', 'mybooktable'),
 			'settings'		=> array(
 				'genre'	=> array(
-					'title'			=> __( 'Genre', 'mybooktable' ),
+					'title'			=> __('Genre', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
 					'choices'		=> get_taxonomy_names('mbt_genre')
@@ -62,11 +62,11 @@ function mbt_get_shortcodes() {
 			)
 		),
 		'mybooktable-tag' => array(
-			'title'			=> __( 'All Books with Tag', 'mybooktable' ),
-			'description'	=> 'List all the books with a given tag in an embedded book listing.',
+			'title'			=> __('All Books with Tag', 'mybooktable'),
+			'description'	=> __('List all the books with a given tag in an embedded book listing.', 'mybooktable'),
 			'settings'		=> array(
 				'tag'	=> array(
-					'title'			=> __( 'Tag', 'mybooktable' ),
+					'title'			=> __('Tag', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
 					'choices'		=> get_taxonomy_names('mbt_tag')
@@ -74,11 +74,11 @@ function mbt_get_shortcodes() {
 			)
 		),
 		'mybooktable-author' => array(
-			'title'			=> __( 'All Books by Author', 'mybooktable' ),
-			'description'	=> 'List all the books written by a given author in an embedded book listing.',
+			'title'			=> __('All Books by Author', 'mybooktable'),
+			'description'	=> __('List all the books written by a given author in an embedded book listing.', 'mybooktable'),
 			'settings'		=> array(
 				'author'	=> array(
-					'title'			=> __( 'Author', 'mybooktable' ),
+					'title'			=> __('Author', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
 					'choices'		=> get_taxonomy_names('mbt_author')
@@ -86,38 +86,38 @@ function mbt_get_shortcodes() {
 			)
 		),
 		'mybooktable-book' => array(
-			'title'			=> __( 'Single Book', 'mybooktable' ),
-			'description'	=> 'List all the books written by a given author in an embedded book listing.',
+			'title'			=> __('Single Book', 'mybooktable'),
+			'description'	=> __('List all the books written by a given author in an embedded book listing.', 'mybooktable'),
 			'settings'		=> array(
 				'book'	=> array(
-					'title'			=> __( 'Book', 'mybooktable' ),
+					'title'			=> __('Book', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
 					'choices'		=> $books
 				),
 				'display'	=> array(
-					'title'			=> __( 'Display Style', 'mybooktable' ),
+					'title'			=> __('Display Style', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
-					'choices'		=> array("default" => "Default", "summary" => "Summary")
+					'choices'		=> array("default" => __("Default", 'mybooktable'), "summary" => __("Summary", 'mybooktable'))
 				)
 			)
 		),
 		'mybooktable-list' => array(
-			'title'			=> __( 'All Terms in Taxonomy', 'mybooktable' ),
-			'description'	=> 'This allows you to display all of the different items in a MyBookTable taxonomy.',
+			'title'			=> __('All Terms in Taxonomy', 'mybooktable'),
+			'description'	=> __('This allows you to display all of the different items in a MyBookTable taxonomy.', 'mybooktable'),
 			'settings'		=> array(
 				'list'	=> array(
-					'title'			=> __( 'Taxonomy', 'mybooktable' ),
+					'title'			=> __('Taxonomy', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
-					'choices'		=> array("series" => "Series", "genres" => "Genres", "tags" => "Tags", "authors" => "Authors")
+					'choices'		=> array("series" => __("Series", 'mybooktable'), "genres" => __("Genres", 'mybooktable'), "tags" => __("Tags", 'mybooktable'), "authors" => __("Authors", 'mybooktable'))
 				),
 				'display'	=> array(
-					'title'			=> __( 'Display Style', 'mybooktable' ),
+					'title'			=> __('Display Style', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
-					'choices'		=> array("listing" => "Listing", "bar" => "Menu Bar", "simple" => "Simple")
+					'choices'		=> array("listing" => __("Listing", 'mybooktable'), "bar" => __("Menu Bar", 'mybooktable'), "simple" => __("Simple", 'mybooktable'))
 				)
 			)
 		)
@@ -127,7 +127,7 @@ function mbt_get_shortcodes() {
 }
 
 function mbt_shortcode_button($buttons) {
-	echo '<a href="#TB_inline?width=480&inlineId=select_mybooktable_shortcode" class="thickbox button mybooktable_shortcode_button"><span class="mybooktable_shortcode_icon"></span>'.__("Insert Shortcode", "mybooktable").'</a>';
+	echo '<a href="#TB_inline?width=480&inlineId=select_mybooktable_shortcode" class="thickbox button mybooktable_shortcode_button"><span class="mybooktable_shortcode_icon"></span>'.__('Insert Shortcode', 'mybooktable').'</a>';
 }
 
 function mbt_shortcode_form() {
@@ -137,8 +137,8 @@ function mbt_shortcode_form() {
 
 	function mybooktable_insert_shortcode() {
 		var shortcode = jQuery('.shortcode-modal-content .shortcode-menu-item.active').data('shortcode');
-		if ( shortcode == '' ) {
-			alert( "<?php _e("Please select a shortcode.", "mybooktable") ?>" );
+		if(shortcode == '') {
+			alert('<?php _e("Please select a shortcode.", "mybooktable") ?>');
 			return;
 		}
 
@@ -194,7 +194,7 @@ function mbt_shortcode_form() {
 	</script>
 
 	<div id="select_mybooktable_shortcode" style="display:none;">
-		<a class="media-modal-close shortcode-modal-close" href="#" title="<?php esc_attr_e('Close'); ?>">
+		<a class="media-modal-close shortcode-modal-close" href="#" title="<?php esc_attr_e('Close', 'mybooktable'); ?>">
 			<span class="media-modal-icon"></span>
 		</a>
 		<div class="media-modal-content shortcode-modal-content">
@@ -209,12 +209,12 @@ function mbt_shortcode_form() {
 					</div>
 				</div>
 				<div class="media-frame-title">
-					<h1><?php _e( 'Insert a Shortcode', 'mybooktable' ); ?></h1>
+					<h1><?php _e('Insert a Shortcode', 'mybooktable'); ?></h1>
 				</div>
 				<div class="media-frame-router"></div>
 				<div class="media-frame-content">
 					<div id="mybooktable_shortcode_form_intro" class="mybooktable_shortcode_form_atts">
-						<?php _e( 'To get started, select a shortcode from the list on the left.', 'mybooktable' ); ?>
+						<?php _e('To get started, select a shortcode from the list on the left.', 'mybooktable'); ?>
 					</div>
 					<?php foreach ( $shortcodes as $shortcode => $atts ): ?>
 					<div id="mybooktable_shortcode_form_<?php echo $shortcode; ?>" class="mybooktable_shortcode_form_atts" style="display:none">
@@ -321,7 +321,7 @@ function mbt_shortcode_form() {
 						<a class="button media-button button-large button-cancel" style="color:#bbb;" href="#" onclick="tb_remove(); return false;"><?php _e("Cancel", "mybooktable"); ?></a>
 					</div>
 					<div class="media-toolbar-primary">
-						<input type="button" class="button media-button button-primary button-large button-insert" value="Insert Shortcode" onclick="mybooktable_insert_shortcode();"/>
+						<input type="button" class="button media-button button-primary button-large button-insert" value="<?php _e('Insert Shortcode', 'mybooktable'); ?>" onclick="mybooktable_insert_shortcode();"/>
 					</div>
 				</div></div>
 			</div>
@@ -454,7 +454,7 @@ function mbt_mybooktable_shortcode($attrs) {
 }
 
 function mbt_render_shordcode_help() {
-?>
+_e('
 	<br><br><h2>MyBookTable Shortcodes</h2>
 	<p>MyBookTable has a single [mybooktable] shortcode that can be used for a variety of purposes:</p>
 
@@ -490,5 +490,5 @@ function mbt_render_shordcode_help() {
 		This allows you to display all of the different items in a MyBookTable taxonomy, such as all the authors or all the genres.
 		The valid options for the "list" field are "authors", "series", "genres", and "tags". The valid options for the "display" field are "listing", "bar", and "simple".
 	<p/>
-<?php
+', 'mybooktable');
 }

@@ -30,7 +30,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Authors:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', _x('authors', 'URL slug', 'mybooktable') ))
+		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', _x('authors', 'URL slug', 'mybooktable')))
 	));
 
 	register_taxonomy('mbt_genre', 'mbt_book', array(
@@ -50,7 +50,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Genres:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', _x('genre', 'URL slug', 'mybooktable') ))
+		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', _x('genre', 'URL slug', 'mybooktable')))
 	));
 
 	register_taxonomy('mbt_series', 'mbt_book', array(
@@ -70,7 +70,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Series:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', _x('series', 'URL slug', 'mybooktable') ))
+		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', _x('series', 'URL slug', 'mybooktable')))
 	));
 
 	register_taxonomy('mbt_tag', 'mbt_book', array(
@@ -90,7 +90,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Tags:', 'mybooktable'),
 		),
 		'show_ui' => true,
-		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable') ))
+		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable')))
 	));
 }
 
@@ -138,7 +138,7 @@ function mbt_add_taxonomy_image_edit_form() {
 		<th scope="row" valign="top"><label for="mbt_tax_image_url"><?php _e('Image', 'mybooktable') ?></label></th>
 		<td>
 			<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="<?php echo(mbt_get_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'])); ?>" />
-			<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
+			<input id="mbt_upload_tax_image_button" type="button" class="button" value="<?php _e('Upload', 'mybooktable'); ?>" />
 		</td>
 	</tr>
 <?php
@@ -147,9 +147,9 @@ function mbt_add_taxonomy_image_edit_form() {
 function mbt_add_taxonomy_image_add_form() {
 ?>
 	<div class="form-field">
-		<label for="mbt_tax_image_url">Image</label>
+		<label for="mbt_tax_image_url"><?php _e('Image', 'mybooktable') ?></label>
 		<input type="text" id="mbt_tax_image_url" name="mbt_tax_image_url" value="" />
-		<input id="mbt_upload_tax_image_button" type="button" class="button" value="Upload" />
+		<input id="mbt_upload_tax_image_button" type="button" class="button" value="<?php _e('Upload', 'mybooktable'); ?>" />
 	</div>
 <?php
 }

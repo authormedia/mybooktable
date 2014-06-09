@@ -18,10 +18,10 @@ function mbt_goodreads_settings_render() {
 	<table class="form-table">
 		<tbody>
 			<tr valign="top">
-				<th scope="row"><label for="mbt_goodreads_developer_key">GoodReads Developer Key</label></th>
+				<th scope="row"><label for="mbt_goodreads_developer_key"><?php _e('GoodReads Developer Key', 'mybooktable'); ?></label></th>
 				<td>
 					<input type="text" id="mbt_goodreads_developer_key" name="mbt_goodreads_developer_key" value="<?php echo(mbt_get_setting('goodreads_developer_key')); ?>" class="regular-text">
-					<p class="description">Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages. <a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/" target="_blank">Learn how to get a GoodReads Developer Key</a></p>
+					<p class="description"><?php _e('Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages. <a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/" target="_blank">Learn how to get a GoodReads Developer Key', 'mybooktable'); ?></a></p>
 				</td>
 			</tr>
 		</tbody>

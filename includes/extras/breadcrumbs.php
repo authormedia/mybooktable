@@ -29,7 +29,7 @@ function mbt_integrate_genesis_breadcrumb_archive($crumb, $args) {
 
 function mbt_get_breadcrumbs($delimiter = '') {
 	$delimiter = empty($delimiter) ? ' &gt; ' : $delimiter;
-	$output = '<a href="'.get_site_url().'">Home</a>';
+	$output = '<a href="'.get_site_url().'">'.__('Home', 'mybooktable').'</a>';
 
 	if(is_singular('mbt_book')) {
 		global $post;
