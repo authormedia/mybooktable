@@ -1,5 +1,12 @@
 <?php
-if(function_exists('woo_content_before')) {
+
+$template = get_option('template');
+
+if($template == 'twentyfourteen') {
+	echo('</div></div></div>');
+	get_sidebar();
+	get_footer();
+} else if(function_exists('woo_content_before')) {
 	woo_loop_after();
 	echo('</div><!-- /#main -->');
 	woo_main_after();
@@ -8,6 +15,7 @@ if(function_exists('woo_content_before')) {
 	get_sidebar('alt');
 	echo('</div><!-- /#content -->');
 	woo_content_after();
+	get_footer();
 } else if(function_exists('genesis')) {
 	do_action( 'genesis_after_loop' );
 	echo('</div><!-- end #content -->');
@@ -17,6 +25,6 @@ if(function_exists('woo_content_before')) {
 	get_footer();
 } else {
 	echo('</div></div>');
+	get_sidebar();
+	get_footer();
 }
-get_sidebar();
-get_footer();

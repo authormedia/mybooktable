@@ -391,6 +391,7 @@
 #mbt-container .mbt-book .mbt-find-bookstore input {
 	padding: 4px 6px;
 	vertical-align: baseline;
+	width: auto;
 }
 
 
@@ -398,6 +399,7 @@
 /*---------------------------------------------------------*/
 /* Goodreads Box                                           */
 /*---------------------------------------------------------*/
+
 #mbt-container .mbt-book #goodreads-widget {
 	font-family: georgia, serif;
 	background-color: white;
@@ -439,6 +441,8 @@
 #mbt-container .mbt-book #goodreads-widget iframe {
 	width: 100%;
 }
+
+
 
 /*---------------------------------------------------------*/
 /* Book Archive Styling                                    */

@@ -1,0 +1,1584 @@
+# Copyright (C) 2014 MyBookTable - WordPress Affiliate Bookstore
+# This file is distributed under the same license as the MyBookTable - WordPress Affiliate Bookstore package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MyBookTable - WordPress Affiliate Bookstore 1.3.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/mybooktable\n"
+"POT-Creation-Date: 2014-06-18 18:52:23+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/admin_pages.php:30
+msgid "Sample Chapter Image"
+msgstr ""
+
+#: includes/admin_pages.php:31
+msgid "Taxonomy Image"
+msgstr ""
+
+#: includes/admin_pages.php:32 includes/metaboxes.php:83
+msgid "Book Cover Image"
+msgstr ""
+
+#: includes/admin_pages.php:33
+msgid "Select"
+msgstr ""
+
+#: includes/admin_pages.php:38 includes/admin_pages.php:466
+msgid "MyBookTable"
+msgstr ""
+
+#: includes/admin_pages.php:39 includes/admin_pages.php:496
+#: includes/functions.php:42 includes/post_types.php:18
+#: includes/post_types.php:20 includes/setup.php:71 includes/templates.php:357
+msgid "Books"
+msgstr ""
+
+#: includes/admin_pages.php:40
+msgid "Add Book"
+msgstr ""
+
+#: includes/admin_pages.php:41 includes/admin_pages.php:497
+#: includes/extras/shortcodes.php:114 includes/extras/widgets.php:186
+#: includes/extras/widgets.php:223 includes/taxonomies.php:19
+#: includes/templates.php:682
+msgid "Authors"
+msgstr ""
+
+#: includes/admin_pages.php:42 includes/admin_pages.php:498
+#: includes/extras/shortcodes.php:114 includes/extras/widgets.php:179
+#: includes/extras/widgets.php:224 includes/taxonomies.php:39
+#: includes/templates.php:689
+msgid "Genres"
+msgstr ""
+
+#: includes/admin_pages.php:43 includes/admin_pages.php:499
+#: includes/extras/shortcodes.php:45 includes/extras/shortcodes.php:114
+#: includes/extras/widgets.php:181 includes/extras/widgets.php:225
+#: includes/taxonomies.php:59 includes/taxonomies.php:60
+#: includes/templates.php:347 includes/templates.php:661
+msgid "Series"
+msgstr ""
+
+#: includes/admin_pages.php:44 includes/admin_pages.php:500
+#: includes/extras/shortcodes.php:114 includes/extras/widgets.php:183
+#: includes/extras/widgets.php:226 includes/taxonomies.php:79
+#: includes/templates.php:696
+msgid "Tags"
+msgstr ""
+
+#: includes/admin_pages.php:45 includes/admin_pages.php:141
+#: includes/admin_pages.php:565
+msgid "MyBookTable Settings"
+msgstr ""
+
+#: includes/admin_pages.php:45 includes/admin_pages.php:501 mybooktable.php:87
+msgid "Settings"
+msgstr ""
+
+#: includes/admin_pages.php:46 includes/admin_pages.php:398
+msgid "MyBookTable Help"
+msgstr ""
+
+#: includes/admin_pages.php:46
+msgid "Help"
+msgstr ""
+
+#: includes/admin_pages.php:116
+msgid "Valid API Key"
+msgstr ""
+
+#: includes/admin_pages.php:118 includes/buybuttons.php:153
+#: includes/buybuttons.php:242
+msgid ""
+"Download the MyBookTable Developer Add-on to activate your advanced features!"
+msgstr ""
+
+#: includes/admin_pages.php:120 includes/buybuttons.php:155
+#: includes/buybuttons.php:244
+msgid ""
+"Download the MyBookTable Professional Add-on to activate your advanced "
+"features!"
+msgstr ""
+
+#: includes/admin_pages.php:123
+msgid "Invalid API Key"
+msgstr ""
+
+#: includes/admin_pages.php:143
+msgid "Settings saved"
+msgstr ""
+
+#: includes/admin_pages.php:150
+msgid "General Settings"
+msgstr ""
+
+#: includes/admin_pages.php:151
+msgid "Affiliate Settings"
+msgstr ""
+
+#: includes/admin_pages.php:152
+msgid "Social Media Settings"
+msgstr ""
+
+#: includes/admin_pages.php:153
+msgid "SEO Settings"
+msgstr ""
+
+#: includes/admin_pages.php:154
+msgid "Display Settings"
+msgstr ""
+
+#: includes/admin_pages.php:155
+msgid "Uninstall"
+msgstr ""
+
+#: includes/admin_pages.php:161
+msgid "MyBookTable API Key"
+msgstr ""
+
+#: includes/admin_pages.php:166
+msgid ""
+"If you have purchased an Add-On API Key for MyBookTable, enter it here to "
+"activate your enhanced features. You can find it in your <a href=\"https://"
+"www.authormedia.com/my-account/\" target=\"_blank\">member area here</a>. If "
+"you would like to purchase an Add-On API key visit <a href=\"http://www."
+"authormedia.com/mybooktable/\">AuthorMedia.com/MyBookTable</a>."
+msgstr ""
+
+#: includes/admin_pages.php:170
+msgid "Book Table Page"
+msgstr ""
+
+#: includes/admin_pages.php:173 includes/extras/widgets.php:127
+#: includes/metaboxes.php:205
+msgid " -- Choose One -- "
+msgstr ""
+
+#: includes/admin_pages.php:179
+msgid "Click here to create a Book Table page"
+msgstr ""
+
+#: includes/admin_pages.php:181
+msgid "Remove Book Table page"
+msgstr ""
+
+#: includes/admin_pages.php:183
+msgid "The Book Table page is the main landing page for your books."
+msgstr ""
+
+#: includes/admin_pages.php:187
+msgid "Compatability Mode"
+msgstr ""
+
+#: includes/admin_pages.php:190
+msgid ""
+"Checked = More Compatible Out of the Box. Unchecked = More Developer Control."
+msgstr ""
+
+#: includes/admin_pages.php:195
+msgid "Example Books"
+msgstr ""
+
+#: includes/admin_pages.php:197
+msgid "Click here to create example books"
+msgstr ""
+
+#: includes/admin_pages.php:198
+msgid ""
+"These examples will help you learn how to set up Genres, Series, Authors, "
+"and Books of your own."
+msgstr ""
+
+#: includes/admin_pages.php:203
+msgid "MyBookTable Product Name"
+msgstr ""
+
+#: includes/admin_pages.php:206
+msgid ""
+"You can use this to change the \"books\" slug used in the book page urls if "
+"you are selling something other than books, such as \"DVDs\", \"Movies\", or "
+"simply \"Products\"."
+msgstr ""
+
+#: includes/admin_pages.php:212 includes/admin_pages.php:227
+#: includes/admin_pages.php:255 includes/admin_pages.php:269
+#: includes/admin_pages.php:376 includes/extras/booksorting.php:38
+msgid "Save Changes"
+msgstr ""
+
+#: includes/admin_pages.php:220
+msgid ""
+"Amazon and Barnes &amp; Noble Buy Buttons enabled! <a href=\"admin.php?"
+"page=mbt_settings&mbt_setup_default_affiliates=1\">Disable</a>"
+msgstr ""
+
+#: includes/admin_pages.php:222
+msgid ""
+"Amazon and Barnes &amp; Noble Buy Buttons disabled! <a href=\"admin.php?"
+"page=mbt_settings&mbt_setup_default_affiliates=1\">Enable</a>"
+msgstr ""
+
+#: includes/admin_pages.php:224
+msgid "What does this mean?"
+msgstr ""
+
+#: includes/admin_pages.php:233
+msgid "Enable Social Media Badges on Book Pages"
+msgstr ""
+
+#: includes/admin_pages.php:236
+msgid "Check to enable MyBookTable's social media badges on book pages."
+msgstr ""
+
+#: includes/admin_pages.php:240
+msgid "Enable Social Media Badges on Book Listings"
+msgstr ""
+
+#: includes/admin_pages.php:243
+msgid "Check to enable MyBookTable's social media badges on book listings."
+msgstr ""
+
+#: includes/admin_pages.php:247
+msgid "Enable Social Media Bar on Book Pages"
+msgstr ""
+
+#: includes/admin_pages.php:250
+msgid "Check to enable the social media bar on book pages."
+msgstr ""
+
+#: includes/admin_pages.php:261
+msgid "Enable SEO"
+msgstr ""
+
+#: includes/admin_pages.php:264
+msgid "Check to enable MyBookTable's built-in SEO features."
+msgstr ""
+
+#: includes/admin_pages.php:275
+msgid "Style Pack"
+msgstr ""
+
+#: includes/admin_pages.php:279 includes/extras/shortcodes.php:102
+msgid "Default"
+msgstr ""
+
+#: includes/admin_pages.php:284
+msgid "Choose the style pack you would like for your buy buttons."
+msgstr ""
+
+#: includes/admin_pages.php:288
+msgid "Book Image Size"
+msgstr ""
+
+#: includes/admin_pages.php:290 includes/extras/widgets.php:106
+msgid "Small"
+msgstr ""
+
+#: includes/admin_pages.php:290 includes/extras/widgets.php:106
+msgid "Medium"
+msgstr ""
+
+#: includes/admin_pages.php:290 includes/extras/widgets.php:106
+msgid "Large"
+msgstr ""
+
+#: includes/admin_pages.php:296
+msgid "Select the size of the book images."
+msgstr ""
+
+#: includes/admin_pages.php:300
+msgid "Enable Breadcrumbs"
+msgstr ""
+
+#: includes/admin_pages.php:303
+msgid "Check to enable MyBookTable's built-in breadcrumbs."
+msgstr ""
+
+#: includes/admin_pages.php:307
+msgid "Show other books in the same series"
+msgstr ""
+
+#: includes/admin_pages.php:310
+msgid ""
+"If checked, the other books in the same series will display under the book."
+msgstr ""
+
+#: includes/admin_pages.php:314
+msgid "Show other books in the same series on book listings"
+msgstr ""
+
+#: includes/admin_pages.php:317
+msgid ""
+"If checked, the other books in the same series will display under the books "
+"on book listings."
+msgstr ""
+
+#: includes/admin_pages.php:321
+msgid "Show the \"Find A Local Bookstore\" box"
+msgstr ""
+
+#: includes/admin_pages.php:324
+msgid ""
+"If checked, a box that helps your readers find places to buy your book will "
+"display under the book."
+msgstr ""
+
+#: includes/admin_pages.php:328
+msgid "Number of Books per Page on Book Listings"
+msgstr ""
+
+#: includes/admin_pages.php:331
+msgid "Choose the number of books to show per page on the book listings"
+msgstr ""
+
+#: includes/admin_pages.php:335
+msgid "Show Disclosure of Material Connection Disclaimer"
+msgstr ""
+
+#: includes/admin_pages.php:338
+msgid ""
+"Displays a Disclosure of Material Connection Disclaimer below the single "
+"book page content."
+msgstr ""
+
+#: includes/admin_pages.php:342
+msgid "Buy Button Size on Book Pages"
+msgstr ""
+
+#: includes/admin_pages.php:349
+msgid "Select the size of the buy buttons on book pages."
+msgstr ""
+
+#: includes/admin_pages.php:353
+msgid "Buy Button Size on Book Listings"
+msgstr ""
+
+#: includes/admin_pages.php:360
+msgid "Select the size of the buy buttons on book listings."
+msgstr ""
+
+#: includes/admin_pages.php:364
+msgid "Buy Button Size on Widgets"
+msgstr ""
+
+#: includes/admin_pages.php:371
+msgid "Select the size of the buy buttons on widgets."
+msgstr ""
+
+#: includes/admin_pages.php:379
+msgid "Uninstall MyBookTable"
+msgstr ""
+
+#: includes/admin_pages.php:380
+msgid ""
+"Use this to completely uninstall all MyBookTable settings, books, series, "
+"genres, tags, and authors. WARNING: THIS IS PERMANENT."
+msgstr ""
+
+#: includes/admin_pages.php:401
+msgid "Need Premium Support? Purchase an add-on here."
+msgstr ""
+
+#: includes/admin_pages.php:403
+msgid "Premium Support Options"
+msgstr ""
+
+#: includes/admin_pages.php:404
+msgid "Submit a Ticket"
+msgstr ""
+
+#: includes/admin_pages.php:405
+msgid "Visit the Support Forum"
+msgstr ""
+
+#: includes/admin_pages.php:406
+msgid "Suggest a Feature"
+msgstr ""
+
+#: includes/admin_pages.php:407
+msgid "Submit a Bug"
+msgstr ""
+
+#: includes/admin_pages.php:410
+msgid "MyBookTable Tutorials"
+msgstr ""
+
+#: includes/admin_pages.php:412
+msgid "How to Add GoodReads Book Reviews to MyBookTable"
+msgstr ""
+
+#: includes/admin_pages.php:415
+msgid "General WordPress Guides &amp; Tutorials"
+msgstr ""
+
+#: includes/admin_pages.php:417
+msgid "10 Ways Proven to Draw Readers to Your Novel’s Website"
+msgstr ""
+
+#: includes/admin_pages.php:418
+msgid "How to Upload a File to Your WordPress Site"
+msgstr ""
+
+#: includes/admin_pages.php:419
+msgid "How to Create a PDF"
+msgstr ""
+
+#: includes/admin_pages.php:420
+msgid "How to Add a Hyperlink to WordPress"
+msgstr ""
+
+#: includes/admin_pages.php:421
+msgid "The WordPress Hotkey Cheat Sheet Every Author Needs"
+msgstr ""
+
+#: includes/admin_pages.php:422
+msgid "How to Create or Edit Posts in WordPress"
+msgstr ""
+
+#: includes/admin_pages.php:423
+msgid "How to Keep Your WordPress Site Secure From Hackers"
+msgstr ""
+
+#: includes/admin_pages.php:424
+msgid "How To Find Zen Mode in WordPress"
+msgstr ""
+
+#: includes/admin_pages.php:427
+msgid "MyBookTable Tutorial Videos"
+msgstr ""
+
+#: includes/admin_pages.php:428
+msgid "MyBookTable Overview"
+msgstr ""
+
+#: includes/admin_pages.php:430
+msgid "This video is a general introduction to MyBookTable."
+msgstr ""
+
+#: includes/admin_pages.php:432
+msgid "How to Add Buy Buttons"
+msgstr ""
+
+#: includes/admin_pages.php:434
+msgid "This video shows you how to add buy buttons to your books."
+msgstr ""
+
+#: includes/admin_pages.php:436
+msgid "How to Put Books in a Series"
+msgstr ""
+
+#: includes/admin_pages.php:438
+msgid "This video shows you how to add books into a series."
+msgstr ""
+
+#: includes/admin_pages.php:440
+msgid "How to Setup an Amazon Affiliate Account With MyBookTable"
+msgstr ""
+
+#: includes/admin_pages.php:442
+msgid ""
+"This video walks you through setting up an Amazon Affiliate account and how "
+"to take your affiliate code and insert it into your MyBookTable plugin."
+msgstr ""
+
+#: includes/admin_pages.php:444
+msgid "Effective Book Blurb Strategies"
+msgstr ""
+
+#: includes/admin_pages.php:446
+msgid "This video shows you how to write book blurbs for your books."
+msgstr ""
+
+#: includes/admin_pages.php:448
+msgid "More tutorial videos coming soon!"
+msgstr ""
+
+#: includes/admin_pages.php:470
+msgid "More Tutorial Videos"
+msgstr ""
+
+#: includes/admin_pages.php:475 includes/post_types.php:21
+#: includes/post_types.php:22
+msgid "Add New Book"
+msgstr ""
+
+#: includes/admin_pages.php:480
+msgid "Welcome to MyBookTable!"
+msgstr ""
+
+#: includes/admin_pages.php:481
+msgid "We’ve assembled some links to get you started:"
+msgstr ""
+
+#: includes/admin_pages.php:484
+msgid "Next Steps"
+msgstr ""
+
+#: includes/admin_pages.php:487
+msgid "Look at some example Books"
+msgstr ""
+
+#: includes/admin_pages.php:489
+msgid "Create your first book"
+msgstr ""
+
+#: includes/admin_pages.php:490
+msgid "View your Book Table"
+msgstr ""
+
+#: includes/admin_pages.php:494
+msgid "More Actions"
+msgstr ""
+
+#: includes/admin_pages.php:496 includes/admin_pages.php:497
+#: includes/admin_pages.php:498 includes/admin_pages.php:499
+#: includes/admin_pages.php:500 includes/admin_pages.php:501
+msgid "Manage"
+msgstr ""
+
+#: includes/admin_pages.php:502
+msgid "Learn more about MyBookTable"
+msgstr ""
+
+#: includes/admin_pages.php:506
+msgid "Extra Links"
+msgstr ""
+
+#: includes/admin_pages.php:508
+msgid "View Founders List"
+msgstr ""
+
+#: includes/admin_pages.php:509
+msgid "Get Book Marketing Tips from Author Media"
+msgstr ""
+
+#: includes/admin_pages.php:519
+msgid "Book Marketing Tips from Author Media"
+msgstr ""
+
+#: includes/admin_pages.php:524
+msgid "Recent News from Author Media"
+msgstr ""
+
+#: includes/admin_pages.php:534
+msgid "Current Version"
+msgstr ""
+
+#: includes/admin_pages.php:537 includes/admin_pages.php:540
+#: includes/admin_pages.php:543
+msgid "You are currently using"
+msgstr ""
+
+#: includes/admin_pages.php:537
+msgid "MyBookTable Developer"
+msgstr ""
+
+#: includes/admin_pages.php:538 includes/admin_pages.php:541
+msgid "Thank you for your support!"
+msgstr ""
+
+#: includes/admin_pages.php:540
+msgid "MyBookTable Professional"
+msgstr ""
+
+#: includes/admin_pages.php:543
+msgid "MyBookTable Basic"
+msgstr ""
+
+#: includes/admin_pages.php:544
+msgid "Upgrade to MyBookTable Pro and get:"
+msgstr ""
+
+#: includes/admin_pages.php:546
+msgid "Free Support"
+msgstr ""
+
+#: includes/admin_pages.php:547
+msgid "Amazon Affiliate Integration"
+msgstr ""
+
+#: includes/admin_pages.php:548
+msgid "Barnes &amp; Noble Support"
+msgstr ""
+
+#: includes/admin_pages.php:549
+msgid "Universal Buy Button"
+msgstr ""
+
+#: includes/admin_pages.php:550
+msgid "And much much more"
+msgstr ""
+
+#: includes/admin_pages.php:568
+msgid ""
+"MyBookTable comes with over a dozen buy buttons from stores around the web. "
+"Two of these buttons-- namely, the ones for Amazon and Barnes &amp; Noble-- "
+"use affiliate links. The revenue from these links is used to help support "
+"and improve the MyBookTable plugin. If you would like to use your own "
+"affiliate links, we have premium add-ons that come not only with affiliate "
+"integration but with premium support as well. You may also disable these "
+"buttons if you prefer."
+msgstr ""
+
+#: includes/admin_pages.php:572
+msgid "Enable Amazon and Barnes &amp; Noble Affiliate Buttons"
+msgstr ""
+
+#: includes/admin_pages.php:573
+msgid "Disable Amazon and Barnes &amp; Noble Affiliate Buttons"
+msgstr ""
+
+#: includes/admin_pages.php:574
+msgid "Buy a Premium Add-On with Affiliate support"
+msgstr ""
+
+#: includes/admin_pages.php:577
+msgid "Go to Affiliate Settings"
+msgstr ""
+
+#: includes/admin_pages.php:586
+msgid "MyBookTable Founders"
+msgstr ""
+
+#: includes/admin_pages.php:588
+msgid ""
+"This plugin was made possible by some adventurous kickstarters  We are so "
+"grateful for the members of the writing community who backed our Kickstarter "
+"project and helped us launch this plugin! Below are the ones who sponsored "
+"at the $75 level or higher. Thank you for your support!"
+msgstr ""
+
+#: includes/buybuttons.php:50
+msgid "Paste in the product URL for this item."
+msgstr ""
+
+#: includes/buybuttons.php:50
+msgid "Learn more about adding Buy Button links."
+msgstr ""
+
+#: includes/buybuttons.php:50
+msgid "Search for books on %s."
+msgstr ""
+
+#: includes/buybuttons.php:57 includes/buybuttons.php:59
+msgid "Buy from %s."
+msgstr ""
+
+#: includes/buybuttons.php:105
+msgid "Invalid Amazon product link."
+msgstr ""
+
+#: includes/buybuttons.php:105
+msgid "Valid Amazon product link."
+msgstr ""
+
+#: includes/buybuttons.php:147
+msgid "Amazon/Kindle Affiliate Code"
+msgstr ""
+
+#: includes/buybuttons.php:157
+msgid ""
+"<a href=\"%s\" target=\"_blank\">Insert your API Key</a> to activate your "
+"advanced features!"
+msgstr ""
+
+#: includes/buybuttons.php:159
+msgid ""
+"<a href=\"http://www.authormedia.com/mybooktable/add-ons\" target=\"_blank"
+"\">Upgrade your MyBookTable</a> to get Amazon affiliate integration!"
+msgstr ""
+
+#: includes/buybuttons.php:194
+msgid "Invalid Barnes &amp; Noble product link."
+msgstr ""
+
+#: includes/buybuttons.php:194
+msgid "Valid Barnes &amp; Noble product link."
+msgstr ""
+
+#: includes/buybuttons.php:236
+msgid ""
+"LinkShare Web Services Token<br>(Used for Barnes &amp; Noble Affiliates)"
+msgstr ""
+
+#: includes/buybuttons.php:246
+msgid ""
+"<a href=\"$s\" target=\"_blank\">Insert your API Key</a> to activate your "
+"advanced features!"
+msgstr ""
+
+#: includes/buybuttons.php:248
+msgid ""
+"<a href=\"http://www.authormedia.com/mybooktable/add-ons\" target=\"_blank"
+"\">Upgrade your MyBookTable</a> to get Linkshare affiliate integration!"
+msgstr ""
+
+#: includes/extras/booksorting.php:11 includes/extras/booksorting.php:36
+msgid "Sort Books"
+msgstr ""
+
+#: includes/extras/booksorting.php:50
+msgid "No books to sort!"
+msgstr ""
+
+#: includes/extras/breadcrumbs.php:32
+msgid "Home"
+msgstr ""
+
+#: includes/extras/getnoticed.php:31
+msgid "GetNoticed Book Import"
+msgstr ""
+
+#: includes/extras/getnoticed.php:32
+msgid "The following books were successfully imported:"
+msgstr ""
+
+#: includes/extras/getnoticed.php:40
+msgid "Continue"
+msgstr ""
+
+#: includes/extras/getnoticed.php:50
+msgid "GetNoticed Books Import"
+msgstr ""
+
+#: includes/extras/getnoticed.php:52
+msgid "Import"
+msgstr ""
+
+#: includes/extras/getnoticed.php:53
+msgid ""
+"Use this to import your existing books from GetNoticed into MyBookTable."
+msgstr ""
+
+#: includes/extras/goodreads.php:21
+msgid "GoodReads Developer Key"
+msgstr ""
+
+#: includes/extras/goodreads.php:24
+msgid ""
+"Insert your GoodReads Developer Key to enable GoodReads reviews on your book "
+"pages. <a href=\"http://www.authormedia.com/how-to-add-goodreads-book-"
+"reviews-to-mybooktable/\" target=\"_blank\">Learn how to get a GoodReads "
+"Developer Key"
+msgstr ""
+
+#: includes/extras/seo.php:425
+msgid "SEO Title:"
+msgstr ""
+
+#: includes/extras/seo.php:429
+msgid ""
+"Title display in search engines is limited to 70 chars, <span id="
+"\"mbt_seo_title-length\">70</span> chars left."
+msgstr ""
+
+#: includes/extras/seo.php:433
+msgid "Meta Description:"
+msgstr ""
+
+#: includes/extras/seo.php:436
+msgid ""
+"The <code>meta</code> description will be limited to 156 chars, <span id="
+"\"mbt_seo_metadesc-length\">156</span> chars left."
+msgstr ""
+
+#: includes/extras/seo.php:457
+msgid "SEO Information"
+msgstr ""
+
+#: includes/extras/shortcodes.php:37
+msgid "All Books"
+msgstr ""
+
+#: includes/extras/shortcodes.php:38
+msgid "List all your books in an embedded book listing."
+msgstr ""
+
+#: includes/extras/shortcodes.php:41
+msgid "All Books in Series"
+msgstr ""
+
+#: includes/extras/shortcodes.php:42
+msgid "List all the books in a given series in an embedded book listing."
+msgstr ""
+
+#: includes/extras/shortcodes.php:53
+msgid "All Books in Genre"
+msgstr ""
+
+#: includes/extras/shortcodes.php:54
+msgid "List all the books in a given genre in an embedded book listing."
+msgstr ""
+
+#: includes/extras/shortcodes.php:57 includes/taxonomies.php:40
+#: includes/templates.php:345 includes/templates.php:689
+msgid "Genre"
+msgstr ""
+
+#: includes/extras/shortcodes.php:65
+msgid "All Books with Tag"
+msgstr ""
+
+#: includes/extras/shortcodes.php:66
+msgid "List all the books with a given tag in an embedded book listing."
+msgstr ""
+
+#: includes/extras/shortcodes.php:69 includes/taxonomies.php:80
+#: includes/templates.php:349 includes/templates.php:696
+msgid "Tag"
+msgstr ""
+
+#: includes/extras/shortcodes.php:77
+msgid "All Books by Author"
+msgstr ""
+
+#: includes/extras/shortcodes.php:78 includes/extras/shortcodes.php:90
+msgid ""
+"List all the books written by a given author in an embedded book listing."
+msgstr ""
+
+#: includes/extras/shortcodes.php:81 includes/taxonomies.php:20
+#: includes/templates.php:343 includes/templates.php:682
+msgid "Author"
+msgstr ""
+
+#: includes/extras/shortcodes.php:89
+msgid "Single Book"
+msgstr ""
+
+#: includes/extras/shortcodes.php:93 includes/post_types.php:19
+msgid "Book"
+msgstr ""
+
+#: includes/extras/shortcodes.php:99 includes/extras/shortcodes.php:117
+msgid "Display Style"
+msgstr ""
+
+#: includes/extras/shortcodes.php:102
+msgid "Summary"
+msgstr ""
+
+#: includes/extras/shortcodes.php:107
+msgid "All Terms in Taxonomy"
+msgstr ""
+
+#: includes/extras/shortcodes.php:108
+msgid ""
+"This allows you to display all of the different items in a MyBookTable "
+"taxonomy."
+msgstr ""
+
+#: includes/extras/shortcodes.php:111
+msgid "Taxonomy"
+msgstr ""
+
+#: includes/extras/shortcodes.php:120
+msgid "Listing"
+msgstr ""
+
+#: includes/extras/shortcodes.php:120
+msgid "Menu Bar"
+msgstr ""
+
+#: includes/extras/shortcodes.php:120
+msgid "Simple"
+msgstr ""
+
+#: includes/extras/shortcodes.php:130 includes/extras/shortcodes.php:324
+msgid "Insert Shortcode"
+msgstr ""
+
+#: includes/extras/shortcodes.php:141
+msgid "Please select a shortcode."
+msgstr ""
+
+#: includes/extras/shortcodes.php:197
+msgid "Close"
+msgstr ""
+
+#: includes/extras/shortcodes.php:212
+msgid "Insert a Shortcode"
+msgstr ""
+
+#: includes/extras/shortcodes.php:217
+msgid "To get started, select a shortcode from the list on the left."
+msgstr ""
+
+#: includes/extras/shortcodes.php:321
+msgid "Cancel"
+msgstr ""
+
+#: includes/extras/shortcodes.php:457
+msgid ""
+"\r\n"
+"\t<br><br><h2>MyBookTable Shortcodes</h2>\r\n"
+"\t<p>MyBookTable has a single [mybooktable] shortcode that can be used for a "
+"variety of purposes:</p>\r\n"
+"\r\n"
+"\t<h3>List all your books</h3>\r\n"
+"\t<pre>[mybooktable]</pre>\r\n"
+"\r\n"
+"\t<h3>List the books in a series</h3>\r\n"
+"\t<pre>[mybooktable series=\"lordoftherings\"]</pre>\r\n"
+"\t<p>Note that you must use the <strong>slug</strong> of the series, not the "
+"name.<p/>\r\n"
+"\r\n"
+"\t<h3>List the books in a genre</h3>\r\n"
+"\t<pre>[mybooktable genre=\"fantasy\"]</pre>\r\n"
+"\t<p>Note that you must use the <strong>slug</strong> of the genre, not the "
+"name.<p/>\r\n"
+"\r\n"
+"\t<h3>List the books with a given tag</h3>\r\n"
+"\t<pre>[mybooktable tag=\"reccomended\"]</pre>\r\n"
+"\t<p>Note that you must use the <strong>slug</strong> of the tag, not the "
+"name.<p/>\r\n"
+"\r\n"
+"\t<h3>List the books written by an author</h3>\r\n"
+"\t<pre>[mybooktable author=\"jrrtolkien\"]</pre>\r\n"
+"\t<p>Note that you must use the <strong>slug</strong> of the author, not the "
+"name.<p/>\r\n"
+"\r\n"
+"\t<h3>Display a single book</h3>\r\n"
+"\t<pre>[mybooktable book=\"the-fellowship-of-the-ring\"]</pre>\r\n"
+"\t<p>Note that you must use the <strong>slug</strong> of the book, not the "
+"name.<p/>\r\n"
+"\r\n"
+"\t<h3>Display a single book summary</h3>\r\n"
+"\t<pre>[mybooktable book=\"the-fellowship-of-the-ring\" display=\"summary\"]"
+"</pre>\r\n"
+"\r\n"
+"\t<h3>Display a list of taxonomy terms</h3>\r\n"
+"\t<pre>[mybooktable list=\"taxonomy\" display=\"listing\"]</pre>\r\n"
+"\t<p>\r\n"
+"\t\tThis allows you to display all of the different items in a MyBookTable "
+"taxonomy, such as all the authors or all the genres.\r\n"
+"\t\tThe valid options for the \"list\" field are \"authors\", \"series\", "
+"\"genres\", and \"tags\". The valid options for the \"display\" field are "
+"\"listing\", \"bar\", and \"simple\".\r\n"
+"\t<p/>\r\n"
+msgstr ""
+
+#: includes/extras/widgets.php:15
+msgid "Displays featured or random books."
+msgstr ""
+
+#: includes/extras/widgets.php:16
+msgid "MyBookTable Featured Books"
+msgstr ""
+
+#: includes/extras/widgets.php:18
+msgid "Featured Books"
+msgstr ""
+
+#: includes/extras/widgets.php:102 includes/extras/widgets.php:218
+msgid "Title"
+msgstr ""
+
+#: includes/extras/widgets.php:105
+msgid "Book image size:"
+msgstr ""
+
+#: includes/extras/widgets.php:114
+msgid "Show book blurb"
+msgstr ""
+
+#: includes/extras/widgets.php:117
+msgid "Choose how to select the featured books:"
+msgstr ""
+
+#: includes/extras/widgets.php:119
+msgid "Most Recent Books"
+msgstr ""
+
+#: includes/extras/widgets.php:120
+msgid "Choose Manually"
+msgstr ""
+
+#: includes/extras/widgets.php:121
+msgid "Random Books"
+msgstr ""
+
+#: includes/extras/widgets.php:125
+msgid "Select Books:"
+msgstr ""
+
+#: includes/extras/widgets.php:137 includes/metaboxes.php:210
+msgid "Add"
+msgstr ""
+
+#: includes/extras/widgets.php:153
+msgid "Number of Books:"
+msgstr ""
+
+#: includes/extras/widgets.php:170
+msgid "A list of Authors, Genres, Series, or Tags."
+msgstr ""
+
+#: includes/extras/widgets.php:171
+msgid "MyBookTable Taxonomy Widget"
+msgstr ""
+
+#: includes/extras/widgets.php:222
+msgid "-- Choose One --"
+msgstr ""
+
+#: includes/extras/widgets.php:231
+msgid "Show post counts"
+msgstr ""
+
+#: includes/functions.php:43 includes/functions.php:110 includes/setup.php:72
+msgctxt "URL slug"
+msgid "books"
+msgstr ""
+
+#: includes/functions.php:199
+msgid "Unable to connect to server!"
+msgstr ""
+
+#: includes/functions.php:207 includes/functions.php:247
+msgid "Invalid response received from server"
+msgstr ""
+
+#: includes/functions.php:216
+msgid "Valid for MyBookTable Professional."
+msgstr ""
+
+#: includes/functions.php:222
+msgid "Valid for MyBookTable Developer."
+msgstr ""
+
+#: includes/functions.php:227
+msgid "Key not found"
+msgstr ""
+
+#: includes/functions.php:232
+msgid "Key has been deactivated"
+msgstr ""
+
+#: includes/functions.php:237
+msgid ""
+"Key has expired. Please <a href=\"http://www.authormedia.com/mybooktable"
+"\">renew your license</a>."
+msgstr ""
+
+#: includes/functions.php:242
+msgid "Permissions error!"
+msgstr ""
+
+#: includes/metaboxes.php:30
+msgid "This store will be displayed as a button only on the book page."
+msgstr ""
+
+#: includes/metaboxes.php:31
+msgid ""
+"This store will be displayed as text underneath the other buttons only on "
+"the book page."
+msgstr ""
+
+#: includes/metaboxes.php:32
+msgid ""
+"This store will be displayed as a button on the book listings and the book "
+"page."
+msgstr ""
+
+#: includes/metaboxes.php:45
+msgid "Excerpt"
+msgstr ""
+
+#: includes/metaboxes.php:46
+msgid ""
+"Book Blurbs are hand-crafted summaries of your book. The goal of a book "
+"blurb is to convince strangers that they need buy your book in 100 words or "
+"less. Answer the question \"why would I want to read this book?\" <a href="
+"\"%s\" target=\"_blank\">Learn more about writing your book blurb.</a></p>"
+msgstr ""
+
+#: includes/metaboxes.php:59
+msgid ""
+"<p>Book Overview is a longer description of your book. This typically "
+"includes all the text from the back cover of the book plus, endorsements and "
+"any other promotional materials from interior flaps or initial pages. This "
+"is also a good place to embed a book trailer if you have one."
+msgstr ""
+
+#: includes/metaboxes.php:86
+msgid "Set cover image"
+msgstr ""
+
+#: includes/metaboxes.php:91 includes/metaboxes.php:106
+#: includes/metaboxes.php:113 includes/metaboxes.php:120
+#: includes/metaboxes.php:127 includes/metaboxes.php:134
+msgid "(optional)"
+msgstr ""
+
+#: includes/metaboxes.php:95
+msgid "Sample Chapter"
+msgstr ""
+
+#: includes/metaboxes.php:98 includes/taxonomies.php:141
+#: includes/taxonomies.php:152
+msgid "Upload"
+msgstr ""
+
+#: includes/metaboxes.php:99
+msgid ""
+"Upload a sample chapter from your book to give viewers a preview. (optional)"
+msgstr ""
+
+#: includes/metaboxes.php:103
+msgid "Book Price"
+msgstr ""
+
+#: includes/metaboxes.php:110
+msgid "Book Sale Price"
+msgstr ""
+
+#: includes/metaboxes.php:117
+msgid "Publisher Name"
+msgstr ""
+
+#: includes/metaboxes.php:124
+msgid "Publisher URL"
+msgstr ""
+
+#: includes/metaboxes.php:131 includes/templates.php:616
+msgid "Publication Year"
+msgstr ""
+
+#: includes/metaboxes.php:167
+msgid "Remove"
+msgstr ""
+
+#: includes/metaboxes.php:191
+msgid "Activate Amazon and Barnes &amp; Noble Buttons"
+msgstr ""
+
+#: includes/metaboxes.php:194
+msgid ""
+"Want more options? <a href=\"http://www.authormedia.com/mybooktable/add-ons/"
+"\" target=\"_blank\">Buy an add-on</a> and get the Universal Buy Button."
+msgstr ""
+
+#: includes/metaboxes.php:196
+msgid ""
+"Thank you for purchasing the MyBookTable Developer add-on! <a href=\"https://"
+"www.authormedia.com/my-account/\" target=\"_blank\">Get premium support</a>."
+msgstr ""
+
+#: includes/metaboxes.php:198
+msgid ""
+"Thank you for purchasing the MyBookTable Professional add-on! <a href="
+"\"https://www.authormedia.com/my-account/\" target=\"_blank\">Get premium "
+"support</a>."
+msgstr ""
+
+#: includes/metaboxes.php:251
+msgid "Book Number"
+msgstr ""
+
+#: includes/metaboxes.php:252
+msgid "Use this to order books within a series."
+msgstr ""
+
+#: includes/metaboxes.php:278
+msgid "Book Order"
+msgstr ""
+
+#: includes/metaboxes.php:279
+msgid ""
+"Use this to change the order that books show up on your book table. Books "
+"with larger numbers are displayed first."
+msgstr ""
+
+#: includes/post_types.php:23
+msgid "New Book"
+msgstr ""
+
+#: includes/post_types.php:24
+msgid "Edit Book"
+msgstr ""
+
+#: includes/post_types.php:25
+msgid "View Book"
+msgstr ""
+
+#: includes/post_types.php:26
+msgid "Update Book"
+msgstr ""
+
+#: includes/post_types.php:27
+msgid "Search Books"
+msgstr ""
+
+#: includes/post_types.php:28
+msgid "Parent Book"
+msgstr ""
+
+#: includes/post_types.php:29
+msgid "Parent Book:"
+msgstr ""
+
+#: includes/setup.php:69
+msgid "Recommended Books"
+msgstr ""
+
+#: includes/setup.php:95
+msgid "Book Table"
+msgstr ""
+
+#: includes/setup.php:205
+msgid ""
+"<strong>Welcome to MyBookTable</strong> &#8211; You're almost ready to start "
+"promoting your books :)"
+msgstr ""
+
+#: includes/setup.php:206
+msgid "Install MyBookTable Pages"
+msgstr ""
+
+#: includes/setup.php:207
+msgid "Skip setup"
+msgstr ""
+
+#: includes/setup.php:215
+msgid ""
+"<strong>MyBookTable has been installed</strong> &#8211; You're ready to "
+"start promoting your books :)"
+msgstr ""
+
+#: includes/setup.php:216
+msgid "Show Me How"
+msgstr ""
+
+#: includes/setup.php:217
+msgid "Thanks, I Got This"
+msgstr ""
+
+#: includes/setup.php:225
+msgid ""
+"<strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key "
+"to enable enhanced features"
+msgstr ""
+
+#: includes/setup.php:226 includes/setup.php:235 includes/setup.php:254
+msgid "Go To Settings"
+msgstr ""
+
+#: includes/setup.php:234
+msgid ""
+"<strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; "
+"MyBookTable your input to enable these features"
+msgstr ""
+
+#: includes/setup.php:241
+msgid "Developer"
+msgstr ""
+
+#: includes/setup.php:241
+msgid "Professional"
+msgstr ""
+
+#: includes/setup.php:244
+msgid ""
+"<strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php "
+"echo($name); ?> Add-on to activate your advanced features!"
+msgstr ""
+
+#: includes/setup.php:245
+msgid "Download"
+msgstr ""
+
+#: includes/setup.php:253
+msgid ""
+"<strong>Uh Oh!</strong> &#8211; Looks like your MyBookTable API Key has "
+"expired."
+msgstr ""
+
+#: includes/setup.php:255
+msgid "Renew your License"
+msgstr ""
+
+#: includes/setup.php:265
+msgid ""
+"<strong>Want Book Marketing Tips?</strong> &#8211; Subscribe to the Author "
+"Media newsletter!"
+msgstr ""
+
+#: includes/setup.php:269
+msgid "Subscribe"
+msgstr ""
+
+#: includes/setup.php:270
+msgid "No Thanks"
+msgstr ""
+
+#: includes/setup.php:279
+msgid ""
+"Thank you for subscribing!</strong> &#8211; Please check your inbox for a "
+"confirmation letter."
+msgstr ""
+
+#: includes/taxonomies.php:21
+msgid "All Authors"
+msgstr ""
+
+#: includes/taxonomies.php:22 includes/taxonomies.php:42
+#: includes/taxonomies.php:62 includes/taxonomies.php:82
+msgid "Add New"
+msgstr ""
+
+#: includes/taxonomies.php:23
+msgid "Add New Author"
+msgstr ""
+
+#: includes/taxonomies.php:24
+msgid "New Author"
+msgstr ""
+
+#: includes/taxonomies.php:25
+msgid "Edit Author"
+msgstr ""
+
+#: includes/taxonomies.php:26
+msgid "View Authors"
+msgstr ""
+
+#: includes/taxonomies.php:27
+msgid "Update Author"
+msgstr ""
+
+#: includes/taxonomies.php:28
+msgid "Search Authors"
+msgstr ""
+
+#: includes/taxonomies.php:29
+msgid "Parent Author"
+msgstr ""
+
+#: includes/taxonomies.php:30
+msgid "Parent Authors:"
+msgstr ""
+
+#: includes/taxonomies.php:33
+msgctxt "URL slug"
+msgid "authors"
+msgstr ""
+
+#: includes/taxonomies.php:41
+msgid "All Genres"
+msgstr ""
+
+#: includes/taxonomies.php:43
+msgid "Add New Genre"
+msgstr ""
+
+#: includes/taxonomies.php:44
+msgid "New Genre"
+msgstr ""
+
+#: includes/taxonomies.php:45
+msgid "Edit Genre"
+msgstr ""
+
+#: includes/taxonomies.php:46
+msgid "View Genres"
+msgstr ""
+
+#: includes/taxonomies.php:47
+msgid "Update Genre"
+msgstr ""
+
+#: includes/taxonomies.php:48
+msgid "Search Genres"
+msgstr ""
+
+#: includes/taxonomies.php:49
+msgid "Parent Genre"
+msgstr ""
+
+#: includes/taxonomies.php:50
+msgid "Parent Genres:"
+msgstr ""
+
+#: includes/taxonomies.php:53
+msgctxt "URL slug"
+msgid "genre"
+msgstr ""
+
+#: includes/taxonomies.php:61
+msgid "All Series"
+msgstr ""
+
+#: includes/taxonomies.php:63
+msgid "Add New Series"
+msgstr ""
+
+#: includes/taxonomies.php:64
+msgid "New Series"
+msgstr ""
+
+#: includes/taxonomies.php:65
+msgid "Edit Series"
+msgstr ""
+
+#: includes/taxonomies.php:66
+msgid "View Series"
+msgstr ""
+
+#: includes/taxonomies.php:67
+msgid "Update Series"
+msgstr ""
+
+#: includes/taxonomies.php:68
+msgid "Search Series"
+msgstr ""
+
+#: includes/taxonomies.php:69
+msgid "Parent Series"
+msgstr ""
+
+#: includes/taxonomies.php:70
+msgid "Parent Series:"
+msgstr ""
+
+#: includes/taxonomies.php:73
+msgctxt "URL slug"
+msgid "series"
+msgstr ""
+
+#: includes/taxonomies.php:81
+msgid "All Tags"
+msgstr ""
+
+#: includes/taxonomies.php:83
+msgid "Add New Tag"
+msgstr ""
+
+#: includes/taxonomies.php:84
+msgid "New Tag"
+msgstr ""
+
+#: includes/taxonomies.php:85
+msgid "Edit Tag"
+msgstr ""
+
+#: includes/taxonomies.php:86
+msgid "View Tags"
+msgstr ""
+
+#: includes/taxonomies.php:87
+msgid "Update Tag"
+msgstr ""
+
+#: includes/taxonomies.php:88
+msgid "Search Tags"
+msgstr ""
+
+#: includes/taxonomies.php:89
+msgid "Parent Tag"
+msgstr ""
+
+#: includes/taxonomies.php:90
+msgid "Parent Tags:"
+msgstr ""
+
+#: includes/taxonomies.php:93
+msgctxt "URL slug"
+msgid "tag"
+msgstr ""
+
+#: includes/taxonomies.php:138 includes/taxonomies.php:150
+msgid "Image"
+msgstr ""
+
+#: includes/templates.php:414
+msgid "Back"
+msgstr ""
+
+#: includes/templates.php:415
+msgid "More Books"
+msgstr ""
+
+#: includes/templates.php:501
+msgid "Download Sample Chapter"
+msgstr ""
+
+#: includes/templates.php:574
+msgid "Other book sellers"
+msgstr ""
+
+#: includes/templates.php:585
+msgid "More info"
+msgstr ""
+
+#: includes/templates.php:604
+msgid "Publisher"
+msgstr ""
+
+#: includes/templates.php:713
+msgid "Other books in"
+msgstr ""
+
+#: includes/templates.php:748
+msgid "Find A Local Bookstore"
+msgstr ""
+
+#: includes/templates.php:750
+msgid "City"
+msgstr ""
+
+#: includes/templates.php:751
+msgid "State"
+msgstr ""
+
+#: includes/templates.php:752
+msgid "Zip"
+msgstr ""
+
+#: includes/templates.php:753
+msgid "Find Store"
+msgstr ""
+
+#: mybooktable.php:93
+msgid "Review this plugin"
+msgstr ""
+
+#: templates/single-book/content.php:14
+msgid ""
+"Disclosure of Material Connection: Some of the links in the page above are "
+"\"affiliate links.\" This means if you click on the link and purchase the "
+"item, I will receive an affiliate commission. I am disclosing this in "
+"accordance with the Federal Trade Commission's <a href=\"http://www.access."
+"gpo.gov/nara/cfr/waisidx_03/16cfr255_03.html\" target=\"_blank\">16 CFR, "
+"Part 255</a>: \"Guides Concerning the Use of Endorsements and Testimonials "
+"in Advertising.\""
+msgstr ""
+
+#: templates/single-book/overview.php:2
+msgid "Overview"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "MyBookTable - WordPress Affiliate Bookstore"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.authormedia.com/mybooktable/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A WordPress Bookstore Plugin to help authors sell more books."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Author Media"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.authormedia.com"
+msgstr ""

@@ -41,6 +41,7 @@ function mbt_add_basic_stores($stores) {
 	$stores['powells'] = array('name' => 'Powells', 'search' => 'http://www.powells.com');
 	$stores['scribd'] = array('name' => 'Scribd', 'search' => 'http://www.scribd.com');
 	$stores['sony'] = array('name' => 'Sony Reader', 'search' => 'https://ebookstore.sony.com');
+	$stores['googleplay'] = array('name' => 'Google Play', 'search' => 'https://play.google.com');
 	return $stores;
 }
 

@@ -87,7 +87,7 @@ function mbt_get_shortcodes() {
 		),
 		'mybooktable-book' => array(
 			'title'			=> __('Single Book', 'mybooktable'),
-			'description'	=> __('List all the books written by a given author in an embedded book listing.', 'mybooktable'),
+			'description'	=> __('Show a given book in an embedded book listing.', 'mybooktable'),
 			'settings'		=> array(
 				'book'	=> array(
 					'title'			=> __('Book', 'mybooktable'),

@@ -460,6 +460,7 @@ function mbt_render_help_page() {
 
 function mbt_render_dashboard() {
 	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_founders_page') { return mbt_render_founders_page(); }
+	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_download_addons_page') { return mbt_render_download_addons_page(); }
 ?>
 
 	<div class="wrap mbt-dashboard">
@@ -556,6 +557,16 @@ function mbt_render_dashboard() {
 
 	</div>
 
+<?php
+}
+
+function mbt_render_download_addons_page() {
+?>
+	<div class="wrap mbt_settings">
+		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('Download Addons', 'mybooktable'); ?></h2>
+
+		<a href="<?php echo(admin_url('admin.php?page=mbt_dashboard')); ?>"><?php _e('Back to Dashboard', 'mybooktable'); ?></a>
+	</div>
 <?php
 }
 

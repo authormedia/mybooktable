@@ -9,7 +9,9 @@ if($template == 'twentyeleven') {
 	echo('<div id="primary" class="site-content"><div id="content" role="main">');
 } else if($template == 'twentythirteen') {
 	echo('<div id="primary" class="site-content"><div id="content" role="main" class="entry-content twentythirteen">');
-} else if(function_exists('woo_content_before')) {
+} else if($template == 'twentyfourteen') {
+	echo('<div id="primary" class="content-area"><div id="content" role="main" class="entry-content site-content"><div class="entry-content">');
+}  else if(function_exists('woo_content_before')) {
 	woo_content_before();
 	echo('<div id="content" class="col-full">');
 	echo('<div id="main-sidebar-container">');

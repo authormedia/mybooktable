@@ -168,6 +168,12 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 
 == Changelog ==
 
+= 1.3.5 =
+* Added Google Play Buy Button
+
+= 1.3.4 =
+* Minor bug fix
+
 = 1.3.3 =
 * Added better localization support
 * Added new flat button styles

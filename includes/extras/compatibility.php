@@ -58,6 +58,7 @@ function mbt_compat_custom_page_content($content) {
 function mbt_compat_load_book_templates($template) {
 	if(is_singular('mbt_book') or mbt_is_taxonomy_query()) {
 		$template = locate_template('page.php');
+		if(empty($template)) { $template = locate_template('index.php'); }
 	}
 	return $template;
 }

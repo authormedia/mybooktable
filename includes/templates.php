@@ -18,7 +18,7 @@ function mbt_templates_init() {
 		add_filter('template_include', 'mbt_load_book_templates');
 
 		//add body tag
-		add_filter('body_class','mbt_body_class');
+		add_filter('body_class', 'mbt_body_class');
 
 		//general hooks
 		add_action('mbt_content_wrapper_start', 'mbt_do_wrapper_start');
