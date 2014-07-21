@@ -116,13 +116,13 @@
 	color: #484949;
 }
 
-#mbt-container .mbt-book .mbt-book-price .old-price  {
+#mbt-container .mbt-book .mbt-book-price .mbt-old-price  {
 	text-decoration: line-through;
 	color: #AEAEAE;
 	margin-right: 10px;
 }
 
-#mbt-container .mbt-book .mbt-book-price .new-price  {
+#mbt-container .mbt-book .mbt-book-price .mbt-new-price  {
 	color: #484949;
 }
 
@@ -137,7 +137,7 @@
 	margin-left: 33px;
 }
 
-#mbt-container .mbt-book .mbt-book-meta .meta-title {
+#mbt-container .mbt-book .mbt-book-meta .mbt-meta-title {
 	font-weight: bold;
 }
 
@@ -624,7 +624,7 @@
 	border: none;
 }
 
-.mbt-featured-book-widget .mbt-book-blurb .read-more {
+.mbt-featured-book-widget .mbt-book-blurb .mbt-read-more {
 	display: block;
 	padding-top: 10px;
 	text-align: right;

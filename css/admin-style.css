@@ -107,17 +107,31 @@
 	font-style: italic;
 }
 
-span.mce_mbt_shortcodes_button {
-	background-image: url('../images/icon.png') !important;
-	background-repeat: no-repeat !important;
-	background-position: center !important;
-}
-
 /*---------------------------------------------------------*/
 /* Shortcode Inserter                                      */
 /*---------------------------------------------------------*/
 
-.mybooktable_shortcode_icon {
+.authormedia-shortcode-section-nav {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	height:50px;
+	z-index:150;
+	background:white;
+}
+
+.authormedia-shortcode-section-nav .nav-tab-active,
+.authormedia-shortcode-section-nav  .nav-tab-active:hover {
+	border-bottom: 1px solid #ccc;
+}
+
+.authormedia-shortcode-section {
+	top: 50px;
+	display: none;
+}
+
+.authormedia_shortcode_icon {
 	background:url('../images/am-logo.png') no-repeat top left;
 	display: inline-block;
 	height: 16px;
@@ -126,14 +140,18 @@ span.mce_mbt_shortcodes_button {
 	width: 17px;
 }
 
-#mybooktable_shortcode_form_intro {
+.authormedia-shortcode-section .media-frame-title {
+	padding-top: 15px;
+}
+
+#authormedia_shortcode_form_intro {
 	color: #aaa;
 	font-size: 3em;
 	line-height: 1.2em;
 	padding: 1em;
 }
 
-.mybooktable_shortcode_description {
+.authormedia_shortcode_description {
 	border-bottom: 1px solid #dfdfdf;
 	padding-bottom: 1em;
 	margin: 1em;

@@ -66,7 +66,7 @@ function mbt_upgrade_1_2_7() {
 
 function mbt_upgrade_1_3_1() {
 	mbt_update_setting('help_page_email_subscribe_popup', 'show');
-	$func = create_function("", "wp_insert_term('".__("Recommended Books")."', 'mbt_tag', array('slug' => 'reccomended'));");
+	$func = create_function("", "wp_insert_term('".__("Recommended Books")."', 'mbt_tag', array('slug' => 'recommended'));");
 	add_action('init', $func, 20);
 	mbt_update_setting('product_name', __("Books"));
 	mbt_update_setting('product_slug', _x('books', 'URL slug', 'mybooktable'));

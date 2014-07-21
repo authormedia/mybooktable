@@ -473,10 +473,10 @@ function mbt_get_book_price($post_id) {
 
 	$output = '';
 	if(!empty($sale_price) and !empty($price)) {
-		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price old-price">'.$price.'</span><link itemprop="availability" href="http://schema.org/Discontinued"/></span>';
-		$output .= '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price new-price">'.$sale_price.'</span><link itemprop="availability" href="http://schema.org/InStock"/></span>';
+		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="mbt-old-price">'.$price.'</span><link itemprop="availability" href="http://schema.org/Discontinued"/></span>';
+		$output .= '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="mbt-new-price">'.$sale_price.'</span><link itemprop="availability" href="http://schema.org/InStock"/></span>';
 	} else if(!empty($price)) {
-		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" class="price">'.$price.'</span><link itemprop="availability" href="http://schema.org/InStock"/></span>';
+		$output  = '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price">'.$price.'</span><link itemprop="availability" href="http://schema.org/InStock"/></span>';
 	}
 
 	return apply_filters('mbt_get_book_price', $output, $post_id);
@@ -511,8 +511,8 @@ function mbt_get_book_socialmedia_badges($post_id) {
 	$url = urlencode(get_permalink($post_id));
 	$output = '';
 
-	$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=tall&count=true&annotation=bubble" class="gplusone" style="width: 55px; height: 61px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
-	$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=box_count" class="fblike" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
+	$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=tall&count=true&annotation=bubble" class="mbt-gplusone" style="width: 55px; height: 61px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
+	$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=box_count" class="mbt-fblike" style="width: 50px; height: 61px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
 
 	return apply_filters('mbt_get_book_socialmedia_badges', $output);
 }
@@ -528,9 +528,9 @@ function mbt_get_book_socialmedia_bar($post_id) {
 	if(function_exists('st_makeEntries')) {
 		$output .= st_makeEntries();
 	} else {
-		$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=medium&count=true&annotation=bubble" class="gplusone" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
-		$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=button_count" class="fblike" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
-		$output .= '<iframe src="http://platform.twitter.com/widgets/tweet_button.html?url='.$url.'&count=horizontal&size=m" class="twittershare" style="height: 20px; width: 100px; margin: 0px; border: none; overflow: hidden;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
+		$output .= '<iframe src="https://plusone.google.com/_/+1/fastbutton?url='.$url.'&size=medium&count=true&annotation=bubble" class="mbt-gplusone" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true"></iframe>';
+		$output .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&layout=button_count" class="mbt-fblike" style="width: 75px; height: 20px; margin: 0px; border: none; overflow: hidden;" scrolling="no" frameborder="0" allowtransparency="true"></iframe>';
+		$output .= '<iframe src="http://platform.twitter.com/widgets/tweet_button.html?url='.$url.'&count=horizontal&size=m" class="mbt-twittershare" style="height: 20px; width: 100px; margin: 0px; border: none; overflow: hidden;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
 	}
 
 	return apply_filters('mbt_get_book_socialmedia_bar', $output);
@@ -582,7 +582,7 @@ function mbt_the_buybuttons_textonly() {
 function mbt_get_book_blurb($post_id, $read_more = false) {
 	$post = get_post($post_id);
 	$output = $post->post_excerpt;
-	if($read_more) { $output .= apply_filters('mbt_read_more', ' <a href="'.get_permalink($post_id).'" class="read-more">'.apply_filters('mbt_read_more_text',__('More info', 'mybooktable').' →' ).'</a>'); }
+	if($read_more) { $output .= apply_filters('mbt_read_more', ' <a href="'.get_permalink($post_id).'" class="mbt-read-more">'.apply_filters('mbt_read_more_text',__('More info', 'mybooktable').' →' ).'</a>'); }
 	return apply_filters('mbt_get_book_blurb', $output);
 }
 function mbt_the_book_blurb($read_more = false) {
@@ -601,7 +601,7 @@ function mbt_get_book_publisher($post_id) {
 	} else {
 		$publisher_string = '<a href="'.$publisher_url.'" target="_blank" rel="nofollow" class="mbt-publisher">'.$publisher_name.'</a><br>';
 	}
-	$output = '<span class="meta-title">'.__('Publisher', 'mybooktable').':</span> '.$publisher_string;
+	$output = '<span class="mbt-meta-title">'.__('Publisher', 'mybooktable').':</span> '.$publisher_string;
 	return apply_filters('mbt_get_book_publisher', $output);
 }
 function mbt_the_book_publisher() {
@@ -613,7 +613,7 @@ function mbt_the_book_publisher() {
 
 function mbt_get_book_publication_year($post_id) {
 	$publication_year = get_post_meta($post_id, 'mbt_publication_year', true);
-	$output = empty($publication_year) ? '' : '<span class="meta-title">'.__('Publication Year', 'mybooktable').':</span> '.$publication_year.'<br>';
+	$output = empty($publication_year) ? '' : '<span class="mbt-meta-title">'.__('Publication Year', 'mybooktable').':</span> '.$publication_year.'<br>';
 	return apply_filters('mbt_get_book_publication_year', $output);
 }
 function mbt_the_book_publication_year() {
@@ -625,7 +625,7 @@ function mbt_the_book_publication_year() {
 
 function mbt_get_book_unique_id($post_id) {
 	$unique_id = get_post_meta($post_id, 'mbt_unique_id', true);
-	return empty($unique_id) ? '' : '<span class="meta-title">ISBN:</span> <span itemprop="isbn">'.$unique_id.'</span><br>';
+	return empty($unique_id) ? '' : '<span class="mbt-meta-title">ISBN:</span> <span itemprop="isbn">'.$unique_id.'</span><br>';
 }
 function mbt_the_book_unique_id() {
 	global $post;
@@ -658,7 +658,7 @@ function mbt_get_book_series_list($post_id) {
 	if(!empty($output)) {
 		$post = get_post($post_id);
 		$series_order = get_post_meta($post->ID, 'mbt_series_order', true);
-		$output = '<span class="meta-title">'.__('Series', 'mybooktable').':</span> '.$output.(empty($series_order) ? '' : ', Book '.$series_order).'<br>';
+		$output = '<span class="mbt-meta-title">'.__('Series', 'mybooktable').':</span> '.$output.(empty($series_order) ? '' : ', Book '.$series_order).'<br>';
 	}
 
 	return apply_filters('mbt_get_book_series_list', $output);
@@ -672,7 +672,7 @@ function mbt_get_the_term_list($post_id, $tax, $name, $name_plural, $type) {
 		$term_links[] = '<a itemprop="'.$type.'" href="'.esc_url($link).'">'.$term->name.'</a>';
 	}
 
-	return '<span class="meta-title">'.(count($terms) > 1 ? $name_plural : $name).':</span> '.join(', ', $term_links).'<br>';
+	return '<span class="mbt-meta-title">'.(count($terms) > 1 ? $name_plural : $name).':</span> '.join(', ', $term_links).'<br>';
 }
 function mbt_the_book_series_list() {
 	global $post;
@@ -747,9 +747,9 @@ function mbt_get_find_bookstore_box($post_id) {
 	$output .= '<div class="mbt-find-bookstore">';
 	$output .= '<div class="mbt-find-bookstore-title">'.__('Find A Local Bookstore', 'mybooktable').'</div>';
 	$output .= '<form class="mbt-find-bookstore-form" action="http://maps.google.com/maps">';
-	$output .= '	<input type="text" class="city" placeholder="'.__('City', 'mybooktable').'" name="city" size="20">,';
-	$output .= '	<input type="text" class="state" placeholder="'.__('State', 'mybooktable').'" name="state" size="4" maxlength="4">';
-	$output .= '	<input type="text" class="zip" placeholder="'.__('Zip', 'mybooktable').'" name="zip" size="5" maxlength="5">';
+	$output .= '	<input type="text" class="mbt-city" placeholder="'.__('City', 'mybooktable').'" name="city" size="20">,';
+	$output .= '	<input type="text" class="mbt-state" placeholder="'.__('State', 'mybooktable').'" name="state" size="4" maxlength="4">';
+	$output .= '	<input type="text" class="mbt-zip" placeholder="'.__('Zip', 'mybooktable').'" name="zip" size="5" maxlength="5">';
 	$output .= '	<input type="submit" name="submit" value="'.__('Find Store', 'mybooktable').'">';
 	$output .= '</form>';
 	$output .= '<div style="clear:both"></div>';

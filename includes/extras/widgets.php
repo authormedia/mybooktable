@@ -217,7 +217,7 @@ class MBT_Taxonomies extends WP_Widget {
 		?>
 			<label><?php _e('Title', 'mybooktable'); ?>: <input type="text" name="<?php echo($this->get_field_name('title')); ?>" value="<?php echo($instance['title']); ?>"></label>
 			<br /><br />
-			<label for="<?php echo $this->get_field_id('tax'); ?>">Displayed taxonomy', 'mybooktable'); ?>:</label>
+			<label for="<?php echo $this->get_field_id('tax'); ?>"><?php _e('Displayed taxonomy', 'mybooktable'); ?>:</label>
 			<select name="<?php echo $this->get_field_name('tax'); ?>" id="<?php echo $this->get_field_id('tax'); ?>" class="widefat">
 				<option value=""><?php _e('-- Choose One --', 'mybooktable'); ?></option>
 				<option value="mbt_author"<?php selected($tax, 'mbt_author'); ?>><?php _e('Authors', 'mybooktable'); ?></option>

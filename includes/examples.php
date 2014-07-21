@@ -185,4 +185,4 @@ if(!is_wp_error($jvaughan)) { wp_set_post_terms($post_id, $jvaughan_id, "mbt_aut
 update_post_meta($post_id, "mbt_buybuttons", unserialize('a:2:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:3:"bnn";s:3:"url";s:89:"http://www.barnesandnoble.com/w/flying-solo-jeanette-vaughan/1115228279?ean=9780615618883";}i:1;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:162:"http://www.amazon.com/Flying-Solo-Unconventional-Navigates-Turbulence/dp/061561888X/ref=sr_1_1?ie=UTF8&qid=1366856431&sr=8-1&keywords=jeanette+vaughan+flying+solo";}}'));
 
 //Add Sample Tag
-wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'reccomended'));
+wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'recommended'));

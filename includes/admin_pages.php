@@ -22,7 +22,7 @@ function mbt_enqueue_admin_js() {
 	wp_enqueue_script('jquery-ui-tabs');
 	wp_enqueue_script('jquery-ui-sortable');
 	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
-	wp_enqueue_style('jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
+	wp_enqueue_style('mbt-jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
 	wp_enqueue_script("mbt-media-upload", plugins_url('js/media-upload.js', dirname(__FILE__)));
 	wp_enqueue_script("mbt-settings-page", plugins_url('js/settings-page.js', dirname(__FILE__)));
 	if(function_exists('wp_enqueue_media')) { wp_enqueue_media(); }
@@ -35,7 +35,7 @@ function mbt_enqueue_admin_js() {
 }
 
 function mbt_add_admin_pages() {
-	add_menu_page(__("MyBookTable"), __("MyBookTable"), 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', plugins_url('images/icon.png', dirname(__FILE__)), '10.7');
+	add_menu_page(__("MyBookTable"), __("MyBookTable"), 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', 'dashicons-book', '10.7');
 	add_submenu_page("mbt_dashboard", __("Books"), __("Books"), 'edit_posts', "edit.php?post_type=mbt_book");
 	add_submenu_page("mbt_dashboard", __("Add Book"), __("Add Book"), 'edit_posts', "post-new.php?post_type=mbt_book");
 	add_submenu_page("mbt_dashboard", __("Authors"), __("Authors"), 'edit_posts', "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");

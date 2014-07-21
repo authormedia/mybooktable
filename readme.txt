@@ -170,6 +170,8 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 
 = 1.3.5 =
 * Added Google Play Buy Button
+* Improved shortcode inserter
+* Fixed potential style compatability issues with some themes
 
 = 1.3.4 =
 * Minor bug fix
