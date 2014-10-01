@@ -16,12 +16,12 @@ add_action('mbt_init', 'mbt_metaboxes_init');
 
 function mbt_add_metaboxes()
 {
-	add_meta_box('mbt_blurb', 'Book Blurb', 'mbt_book_blurb_metabox', 'mbt_book', 'normal', 'high');
-	add_meta_box('mbt_metadata', 'Book Details', 'mbt_metadata_metabox', 'mbt_book', 'normal', 'high');
-	add_meta_box('mbt_buybuttons', 'Buy Buttons', 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
-	add_meta_box('mbt_overview', 'Book Overview', 'mbt_overview_metabox', 'mbt_book', 'normal', 'high');
-	add_meta_box('mbt_series_order', 'Series Order', 'mbt_series_order_metabox', 'mbt_book', 'side', 'default');
-	add_meta_box('mbt_book_order', 'Book Order', 'mbt_book_order_metabox', 'mbt_book', 'side', 'low');
+	add_meta_box('mbt_blurb', __('Book Blurb', 'mybooktable'), 'mbt_book_blurb_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_metadata', __('Book Details', 'mybooktable'), 'mbt_metadata_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_buybuttons', __('Buy Buttons', 'mybooktable'), 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_overview', __('Book Overview', 'mybooktable'), 'mbt_overview_metabox', 'mbt_book', 'normal', 'high');
+	add_meta_box('mbt_series_order', __('Series Order', 'mybooktable'), 'mbt_series_order_metabox', 'mbt_book', 'side', 'default');
+	add_meta_box('mbt_book_order', __('Book Order', 'mybooktable'), 'mbt_book_order_metabox', 'mbt_book', 'side', 'low');
 }
 
 function mbt_enqueue_metabox_js() {
@@ -56,7 +56,7 @@ function mbt_book_blurb_metabox($post)
 function mbt_overview_metabox($post)
 {
 	wp_editor($post->post_content, 'content', array('dfw' => true, 'tabfocus_elements' => 'sample-permalink,post-preview', 'editor_height' => 360) );
-	_e('<p>Book Overview is a longer description of your book. This typically includes all the text from the back cover of the book plus, endorsements and any other promotional materials from interior flaps or initial pages. This is also a good place to embed a book trailer if you have one.');
+	_e('<p>Book Overview is a longer description of your book. This typically includes all the text from the back cover of the book plus, endorsements and any other promotional materials from interior flaps or initial pages. This is also a good place to embed a book trailer if you have one.', 'mybooktable');
 }
 
 
@@ -191,18 +191,18 @@ function mbt_buybuttons_metabox($post)
 		echo('<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">'.__('Activate Amazon and Barnes &amp; Noble Buttons').'</a>');
 	}
 	if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
-		echo('<div class="mbt-buybuttons-note">'.__('Want more options? <a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Buy an add-on</a> and get the Universal Buy Button.').'</div>');
+		echo('<div class="mbt-buybuttons-note">'.__('Want more options? <a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Buy an add-on</a> and get the Universal Buy Button.', 'mybooktable').'</div>');
 	} else if(mbt_get_setting('dev_active')) {
-		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Developer add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.').'</div>');
+		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Developer add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.', 'mybooktable').'</div>');
 	} else if(mbt_get_setting('pro_active')) {
-		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Professional add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.').'</div>');
+		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Professional add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.', 'mybooktable').'</div>');
 	}
 
 	$stores = mbt_get_stores();
 	uasort($stores, create_function('$a,$b', 'return strcasecmp($a["name"],$b["name"]);'));
 	echo('Choose One:');
 	echo('<select id="mbt_store_selector">');
-	echo('<option value="">'.__(' -- Choose One -- ').'</option>');
+	echo('<option value="">'.__('-- Choose One --').'</option>');
 	foreach($stores as $slug => $store) {
 		echo('<option value="'.$slug.'">'.$store['name'].'</option>');
 	}

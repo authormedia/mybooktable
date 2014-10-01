@@ -105,6 +105,11 @@ function mbt_get_booktable_url() {
 	return $url;
 }
 
+function mbt_get_product_name() {
+	$name = mbt_get_setting('product_name');
+	return apply_filters('mbt_product_name', empty($name) ? __('Books', 'mybooktable') : $name);
+}
+
 function mbt_get_product_slug() {
 	$slug = mbt_get_setting('product_slug');
 	return apply_filters('mbt_product_slug', empty($slug) ? _x('books', 'URL slug', 'mybooktable') : $slug);

@@ -307,7 +307,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 	}
 
 	function authormedia_shortcode_inserter_button($buttons) {
-		echo '<a href="#TB_inline?width=480&inlineId=select_authormedia_shortcode" class="thickbox button authormedia_shortcode_button"><span class="authormedia_shortcode_icon"></span>'.__('Insert Shortcode').'</a>';
+		echo '<a href="#TB_inline?width=480&inlineId=select_authormedia_shortcode" class="thickbox button authormedia_shortcode_button"><span class="authormedia_shortcode_icon"></span>'.__('Insert Shortcode', 'mybooktable').'</a>';
 	}
 
 	function authormedia_shortcode_inserter_form() {
@@ -317,7 +317,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 			function authormedia_insert_shortcode() {
 				var shortcode = jQuery('.authormedia-shortcode-section .shortcode-menu-item.active').data('shortcode');
 				if(shortcode == '') {
-					alert('<?php _e("Please select a shortcode.") ?>');
+					alert('<?php _e("Please select a shortcode.") ?>', 'mybooktable');
 					return;
 				}
 
@@ -380,7 +380,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 		</script>
 
 		<div id="select_authormedia_shortcode" style="display:none;">
-			<a class="media-modal-close shortcode-modal-close" href="#" title="<?php esc_attr_e('Close'); ?>">
+			<a class="media-modal-close shortcode-modal-close" href="#" title="<?php esc_attr_e('Close', 'mybooktable'); ?>">
 				<span class="media-modal-icon"></span>
 			</a>
 			<div class="authormedia-shortcode-section-nav">
@@ -407,12 +407,12 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 							</div>
 						</div>
 						<div class="media-frame-title">
-							<h1><?php _e('Insert a Shortcode'); ?></h1>
+							<h1><?php _e('Insert a Shortcode', 'mybooktable'); ?></h1>
 						</div>
 						<div class="media-frame-router"></div>
 						<div class="media-frame-content">
 							<div id="authormedia_shortcode_form_intro" class="authormedia_shortcode_form_atts">
-								<?php _e('To get started, select a shortcode from the list on the left.'); ?>
+								<?php _e('To get started, select a shortcode from the list on the left.', 'mybooktable'); ?>
 							</div>
 							<?php foreach ( $shortcodes as $shortcode => $atts ): ?>
 							<div id="authormedia_shortcode_form_<?php echo $shortcode; ?>" class="authormedia_shortcode_form_atts" style="display:none">
@@ -516,10 +516,10 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 						</div>
 						<div class="media-frame-toolbar"><div class="media-toolbar">
 							<div class="media-toolbar-secondary">
-								<a class="button media-button button-large button-cancel" style="color:#bbb;" href="#" onclick="tb_remove(); return false;"><?php _e("Cancel"); ?></a>
+								<a class="button media-button button-large button-cancel" style="color:#bbb;" href="#" onclick="tb_remove(); return false;"><?php _e("Cancel", 'mybooktable'); ?></a>
 							</div>
 							<div class="media-toolbar-primary">
-								<input type="button" class="button media-button button-primary button-large button-insert" value="<?php _e('Insert Shortcode'); ?>" onclick="authormedia_insert_shortcode();"/>
+								<input type="button" class="button media-button button-primary button-large button-insert" value="<?php _e('Insert Shortcode', 'mybooktable'); ?>" onclick="authormedia_insert_shortcode();"/>
 							</div>
 						</div></div>
 					</div>

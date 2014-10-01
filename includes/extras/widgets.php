@@ -124,7 +124,7 @@ class MBT_Featured_Book extends WP_Widget {
 			<div class="mbt-featured-book-manual-selector" <?php echo($selectmode === 'manual_select' ? '' : 'style="display:none"'); ?>>
 				<label for="mbt-book-selector"><?php _e('Select Books:', 'mybooktable'); ?></label></br>
 				<select class="mbt-featured-book-selector">
-					<option value=""><?php _e(' -- Choose One -- ', 'mybooktable'); ?></option>
+					<option value=""><?php _e('-- Choose One --', 'mybooktable'); ?></option>
 					<?php
 						$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'orderby' => 'title', 'order' => 'ASC', 'posts_per_page' => -1));
 						if(!empty($wp_query->posts)) {

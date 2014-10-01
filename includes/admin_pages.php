@@ -35,15 +35,15 @@ function mbt_enqueue_admin_js() {
 }
 
 function mbt_add_admin_pages() {
-	add_menu_page(__("MyBookTable"), __("MyBookTable"), 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', 'dashicons-book', '10.7');
-	add_submenu_page("mbt_dashboard", __("Books"), __("Books"), 'edit_posts', "edit.php?post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Add Book"), __("Add Book"), 'edit_posts', "post-new.php?post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Authors"), __("Authors"), 'edit_posts', "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Genres"), __("Genres"), 'edit_posts', "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Series"), __("Series"), 'edit_posts', "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Tags"), __("Tags"), 'edit_posts', "edit-tags.php?taxonomy=mbt_tag&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("MyBookTable Settings"), __("Settings"), 'manage_options', "mbt_settings", 'mbt_render_settings_page');
-	add_submenu_page("mbt_dashboard", __("MyBookTable Help"), __("Help"), 'edit_posts', "mbt_help", 'mbt_render_help_page');
+	add_menu_page(__("MyBookTable"), __("MyBookTable", 'mybooktable'), 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', 'dashicons-book', '10.7');
+	add_submenu_page("mbt_dashboard", __("Books", 'mybooktable'), __("Books", 'mybooktable'), 'edit_posts', "edit.php?post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", __("Add Book", 'mybooktable'), __("Add Book", 'mybooktable'), 'edit_posts', "post-new.php?post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", __("Authors", 'mybooktable'), __("Authors", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", __("Genres", 'mybooktable'), __("Genres", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", __("Series", 'mybooktable'), __("Series", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", __("Tags", 'mybooktable'), __("Tags", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_tag&amp;post_type=mbt_book");
+	add_submenu_page("mbt_dashboard", __("MyBookTable Settings", 'mybooktable'), __("Settings", 'mybooktable'), 'manage_options', "mbt_settings", 'mbt_render_settings_page');
+	add_submenu_page("mbt_dashboard", __("MyBookTable Help", 'mybooktable'), __("Help", 'mybooktable'), 'edit_posts', "mbt_help", 'mbt_render_help_page');
 
 	remove_menu_page("edit.php?post_type=mbt_book");
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit.php?post_type=mbt_book");
@@ -170,7 +170,7 @@ function mbt_render_settings_page() {
 								<th scope="row"><?php _e('Book Table Page', 'mybooktable'); ?></th>
 								<td>
 									<select name="mbt_booktable_page" id="mbt_booktable_page">
-										<option value="0" <?php echo(mbt_get_setting('booktable_page') <= 0 ? ' selected="selected"' : '') ?> ><?php _e(' -- Choose One -- ', 'mybooktable');?></option>
+										<option value="0" <?php echo(mbt_get_setting('booktable_page') <= 0 ? ' selected="selected"' : '') ?> ><?php _e('-- Choose One --', 'mybooktable');?></option>
 										<?php foreach(get_pages() as $page) { ?>
 											<option value="<?php echo($page->ID); ?>" <?php echo(mbt_get_setting('booktable_page') == $page->ID ? ' selected="selected"' : ''); ?> ><?php echo($page->post_title); ?></option>
 										<?php } ?>
@@ -414,7 +414,7 @@ function mbt_render_help_page() {
 
 		<h2><?php _e('General WordPress Guides &amp; Tutorials', 'mybooktable'); ?></h2>
 		<ul>
-			<li><a href="http://www.authormedia.com/10-elements-proven-to-draw-readers-to-your-novels-website/" rel="bookmark"><?php _e('10 Ways Proven to Draw Readers to Your Novel’s Website', 'mybooktable'); ?></a></li>
+			<li><a href="http://www.authormedia.com/10-elements-proven-to-draw-readers-to-your-novels-website/" rel="bookmark"><?php _e('10 Ways Proven to Draw Readers to Your Novel\'s Website', 'mybooktable'); ?></a></li>
 			<li><a href="http://www.authormedia.com/how-to-upload-a-file-to-your-wordpress-site/" rel="bookmark"><?php _e('How to Upload a File to Your WordPress Site', 'mybooktable'); ?></a></li>
 			<li><a href="http://www.authormedia.com/how-to-create-a-pdf/" rel="bookmark"><?php _e('How to Create a PDF', 'mybooktable'); ?></a></li>
 			<li><a href="http://www.authormedia.com/how-to-add-a-hyperlink-to-wordpress/" rel="bookmark"><?php _e('How to Add a Hyperlink to WordPress', 'mybooktable'); ?></a></li>
@@ -452,7 +452,7 @@ function mbt_render_help_page() {
 		<br>
 		<h2>Additional Support</h2>
 		<p>If you have <a href="http://www.authormedia.com/product-category/wordpress-plugins/">purchased an add-on</a> in the last year you can get support by <a href="http://www.authormedia.com/my-account/">logging into your account</a>.</p>
-		<p>You can also check out WordPress’ <a href="http://wordpress.org/support/plugin/mybooktable">MyBookTable Support Forum</a>.</p>
+		<p>You can also check out WordPress' <a href="http://wordpress.org/support/plugin/mybooktable">MyBookTable Support Forum</a>.</p>
 	</div>
 
 <?php
@@ -479,7 +479,7 @@ function mbt_render_dashboard() {
 		<div id="welcome-panel" class="welcome-panel">
 			<div class="welcome-panel-content">
 				<h3><?php _e('Welcome to MyBookTable!', 'mybooktable'); ?></h3>
-				<p class="about-description"><?php _e('We’ve assembled some links to get you started:', 'mybooktable'); ?></p>
+				<p class="about-description"><?php _e('We\'ve assembled some links to get you started:', 'mybooktable'); ?></p>
 				<div class="welcome-panel-column-container">
 					<div class="welcome-panel-column">
 						<h4><?php _e('Next Steps', 'mybooktable'); ?></h4>
@@ -596,7 +596,7 @@ function mbt_render_founders_page() {
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('MyBookTable Founders', 'mybooktable'); ?></h2>
 
-		<p><?php _e('This plugin was made possible by some adventurous kickstarters  We are so grateful for the members of the writing community who backed our Kickstarter project and helped us launch this plugin! Below are the ones who sponsored at the $75 level or higher. Thank you for your support!', 'mybooktable'); ?></p>
+		<p><?php _e('This plugin was made possible by some adventurous kickstarters. We are so grateful for the members of the writing community who backed our Kickstarter project and helped us launch this plugin! Below are the ones who sponsored at the $75 level or higher. Thank you for your support!', 'mybooktable'); ?></p>
 		<h3 dir="ltr">$75+ Backer Level</h3>
 		<ul>
 			<li><a href="http://www.stevelaube.com">Steve Laube</a>, founder of <a href="http://www.stevelaube.com">Steve Laube Agency</a></li>
