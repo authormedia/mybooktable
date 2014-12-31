@@ -3,7 +3,7 @@ Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
 Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords
 Requires at least: 3.5.0
-Tested up to: 4.0.0
+Tested up to: 4.1.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -167,6 +167,11 @@ This version adds several cool new features including "Publisher" and "Publicati
 This version adds **many** new buy button options including Apple iBooks & Sony Reader
 
 == Changelog ==
+
+= 1.3.7 =
+* Added official WordPress 4.1 compatability
+* Several minor bug fixes
+* Added WP101 integration
 
 = 1.3.6 =
 * Added official WordPress 4.0 compatability

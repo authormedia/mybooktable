@@ -151,9 +151,9 @@ function mbt_amazon_affiliate_settings_render() {
 					<p class="description">
 						<?php
 						if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
-							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>');
+							echo('<a href="https://gumroad.com/library/" target="_blank">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
-							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
+							echo('<a href="https://gumroad.com/library/" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
 							printf(__('<a href="%s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings&setup_api_key=1'));
 						} else {
@@ -240,9 +240,9 @@ function mbt_linkshare_affiliate_settings_render() {
 					<p class="description">
 						<?php
 						if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
-							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>');
+							echo('<a href="https://gumroad.com/library/" target="_blank">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
-							echo('<a href="https://www.authormedia.com/my-account/" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
+							echo('<a href="https://gumroad.com/library/" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
 							printf(__('<a href="$s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings&setup_api_key=1'));
 						} else {

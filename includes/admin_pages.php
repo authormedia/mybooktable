@@ -115,9 +115,9 @@ function mbt_api_key_feedback() {
 		if(mbt_get_setting('api_key_status') > 0) {
 			$output .= '<span class="key_valid">'.__('Valid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
 			if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
-				$output .= '<br><a href="https://www.authormedia.com/my-account/">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>';
+				$output .= '<br><a href="https://gumroad.com/library/">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>';
 			} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
-				$output .= '<br><a href="https://www.authormedia.com/my-account/">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>';
+				$output .= '<br><a href="https://gumroad.com/library/">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>';
 			}
 		} else {
 			$output .= '<span class="key_invalid">'.__('Invalid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
@@ -163,7 +163,7 @@ function mbt_render_settings_page() {
 									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_hide_api_key(mbt_get_setting('api_key'))); ?>" size="60" class="regular-text" />
 									<div id="mbt_api_key_refresh"></div>
-									<p class="description"><?php _e('If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://www.authormedia.com/my-account/" target="_blank">member area here</a>. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
+									<p class="description"><?php _e('If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -397,6 +397,8 @@ function mbt_render_help_page() {
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2 style="font-weight:bold"><?php _e('MyBookTable Help', 'mybooktable'); ?></h2>
 
+		<br><a href="https://gumroad.com/library/" target="_blank">Need to find or manage your API key? Access through Gumroad</a>
+
 		<?php if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) { ?>
 			<br><a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank"><?php _e('Need Premium Support? Purchase an add-on here.', 'mybooktable'); ?></a><br><br>
 		<?php } else { ?>
@@ -407,7 +409,7 @@ function mbt_render_help_page() {
 			<a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank"><?php _e('Submit a Bug', 'mybooktable'); ?></a><br><br>
 		<?php } ?>
 
-	    <h2><?php _e('MyBookTable Tutorials', 'mybooktable'); ?></h2>
+		<h2><?php _e('MyBookTable Tutorials', 'mybooktable'); ?></h2>
 		<ul>
 			<li><a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/"><?php _e('How to Add GoodReads Book Reviews to MyBookTable', 'mybooktable'); ?></a></li>
 		</ul>
@@ -451,11 +453,19 @@ function mbt_render_help_page() {
 
 		<br>
 		<h2>Additional Support</h2>
-		<p>If you have <a href="http://www.authormedia.com/product-category/wordpress-plugins/">purchased an add-on</a> in the last year you can get support by <a href="http://www.authormedia.com/my-account/">logging into your account</a>.</p>
 		<p>You can also check out WordPress' <a href="http://wordpress.org/support/plugin/mybooktable">MyBookTable Support Forum</a>.</p>
 	</div>
 
 <?php
+}
+
+add_filter('wp101_get_custom_help_topics', 'mbt_add_wp101_help');
+function mbt_add_wp101_help($videos) {
+	$videos["mbt-overview"] = array("title" => "MyBookTable Overview", "content" => '<iframe width="640" height="360" src="http://player.vimeo.com/video/66113243" frameborder="0" allowfullscreen></iframe>');
+	$videos["mbt-buybuttons"] = array("title" => "MyBookTable Buy Buttons", "content" => '<iframe width="640" height="360" src="http://player.vimeo.com/video/68790296" frameborder="0" allowfullscreen></iframe>');
+	$videos["mbt-amazonaffiliates"] = array("title" => "MyBookTable Amazon Affiliate Accounts", "content" => '<iframe width="640" height="360" src="http://player.vimeo.com/video/69188658" frameborder="0" allowfullscreen></iframe>');
+	$videos["mbt-bookblurbs"] = array("title" => "MyBookTable Book Blurbs", "content" => '<iframe width="640" height="360" src="http://www.youtube.com/embed/LABESfhThhY" frameborder="0" allowfullscreen></iframe>');
+	return $videos;
 }
 
 function mbt_render_dashboard() {

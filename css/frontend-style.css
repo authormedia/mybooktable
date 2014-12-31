@@ -390,6 +390,7 @@
 
 #mbt-container .mbt-book .mbt-find-bookstore input {
 	padding: 4px 6px;
+	margin: 3px;
 	vertical-align: baseline;
 	width: auto;
 }

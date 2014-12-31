@@ -193,9 +193,9 @@ function mbt_buybuttons_metabox($post)
 	if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
 		echo('<div class="mbt-buybuttons-note">'.__('Want more options? <a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank">Buy an add-on</a> and get the Universal Buy Button.', 'mybooktable').'</div>');
 	} else if(mbt_get_setting('dev_active')) {
-		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Developer add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.', 'mybooktable').'</div>');
+		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Developer add-on! <a href="http://authormedia.freshdesk.com/support/home" target="_blank">Get premium support</a>.', 'mybooktable').'</div>');
 	} else if(mbt_get_setting('pro_active')) {
-		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Professional add-on! <a href="https://www.authormedia.com/my-account/" target="_blank">Get premium support</a>.', 'mybooktable').'</div>');
+		echo('<div class="mbt-buybuttons-note">'.__('Thank you for purchasing the MyBookTable Professional add-on! <a href="http://authormedia.freshdesk.com/support/home" target="_blank">Get premium support</a>.', 'mybooktable').'</div>');
 	}
 
 	$stores = mbt_get_stores();

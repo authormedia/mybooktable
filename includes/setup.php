@@ -231,7 +231,7 @@ function mbt_admin_setup_api_key_notice() {
 function mbt_admin_setup_default_affiliates_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><?php _e('<strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; MyBookTable your input to enable these features', 'mybooktable'); ?></h4>
+		<h4><?php _e('<strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; MyBookTable needs your input to enable these features', 'mybooktable'); ?></h4>
 		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
 	</div>
 	<?php
@@ -242,7 +242,7 @@ function mbt_admin_download_addon_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
 		<h4><?php _e('<strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!', 'mybooktable'); ?></h4>
-		<a class="notice-button primary" href="https://www.authormedia.com/my-account/" target="_blank"><?php _e('Download', 'mybooktable'); ?></a>
+		<a class="notice-button primary" href="https://gumroad.com/library/" target="_blank"><?php _e('Download', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }

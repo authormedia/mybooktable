@@ -183,7 +183,7 @@ msgstr ""
 msgid ""
 "If you have purchased an Add-On API Key for MyBookTable, enter it here to "
 "activate your enhanced features. You can find it in your <a href=\"https://"
-"www.authormedia.com/my-account/\" target=\"_blank\">member area here</a>. If "
+"https://gumroad.com/library/\" target=\"_blank\">Gumroad Library here</a>. If "
 "you would like to purchase an Add-On API key visit <a href=\"http://www."
 "authormedia.com/mybooktable/\">AuthorMedia.com/MyBookTable</a>."
 msgstr ""
@@ -945,14 +945,14 @@ msgstr ""
 
 #: includes/metaboxes.php:196
 msgid ""
-"Thank you for purchasing the MyBookTable Developer add-on! <a href=\"https://"
-"www.authormedia.com/my-account/\" target=\"_blank\">Get premium support</a>."
+"Thank you for purchasing the MyBookTable Developer add-on! <a href=\"http://"
+"authormedia.freshdesk.com/support/home\" target=\"_blank\">Get premium support</a>."
 msgstr ""
 
 #: includes/metaboxes.php:198
 msgid ""
 "Thank you for purchasing the MyBookTable Professional add-on! <a href="
-"\"https://www.authormedia.com/my-account/\" target=\"_blank\">Get premium "
+"\"http://authormedia.freshdesk.com/support/home\" target=\"_blank\">Get premium "
 "support</a>."
 msgstr ""
 
@@ -1059,7 +1059,7 @@ msgstr ""
 #: includes/setup.php:234
 msgid ""
 "<strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; "
-"MyBookTable your input to enable these features"
+"MyBookTable needs your input to enable these features"
 msgstr ""
 
 #: includes/setup.php:241
