@@ -768,7 +768,7 @@ msgstr ""
 
 #: includes/buybuttons.php:237
 msgid ""
-"LinkShare Web Services Token<br>(Used for Barnes &amp; Noble Affiliates)"
+"LinkShare Affiliate Code<br>(Used for Barnes &amp; Noble Affiliates)"
 msgstr ""
 
 #: includes/buybuttons.php:247

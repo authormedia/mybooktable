@@ -446,7 +446,7 @@ function mbt_get_placeholder_image_src() {
 }
 function mbt_get_book_image_src($post_id) {
 	$image = wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image');
-	return apply_filters('mbt_get_book_image_src', $image && $image[0] && $image[1] && $image[2] ? $image : mbt_get_placeholder_image_src());
+	return apply_filters('mbt_get_book_image_src', $image ? $image : mbt_get_placeholder_image_src());
 }
 function mbt_get_book_image($post_id, $attrs = '') {
 	list($src, $width, $height) = mbt_get_book_image_src($post_id);
@@ -715,6 +715,9 @@ function mbt_get_book_series_box($post_id) {
 			foreach($relatedbooks->posts as $relatedbook) {
 				$size = 100;
 				list($src, $width, $height) = mbt_get_book_image_src($relatedbook->ID);
+				if(empty($width) or empty($height)) {
+					list($src, $width, $height) = mbt_get_placeholder_image_src();
+				};
 				$scale = $size/max($width, $height);
 				$width = floor($width*$scale);
 				$width += $width%2;

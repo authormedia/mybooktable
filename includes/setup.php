@@ -14,6 +14,7 @@ function mbt_upgrade_check()
 	if(version_compare($version, "1.2.7") < 0) { mbt_upgrade_1_2_7(); }
 	if(version_compare($version, "1.3.1") < 0) { mbt_upgrade_1_3_1(); }
 	if(version_compare($version, "1.3.2") < 0) { mbt_upgrade_1_3_2(); }
+	if(version_compare($version, "1.3.8") < 0) { mbt_upgrade_1_3_8(); }
 
 	if($version !== MBT_VERSION) { mbt_update_setting("version", MBT_VERSION); }
 }
@@ -75,6 +76,10 @@ function mbt_upgrade_1_3_1() {
 function mbt_upgrade_1_3_2() {
 	$func = create_function("", "flush_rewrite_rules();");
 	add_action('init', $func, 999);
+}
+
+function mbt_upgrade_1_3_8() {
+	mbt_update_setting('domc_notice_text', __('Disclosure of Material Connection: Some of the links in the page above are "affiliate links." This means if you click on the link and purchase the item, I will receive an affiliate commission. I am disclosing this in accordance with the Federal Trade Commission\'s <a href="http://www.access.gpo.gov/nara/cfr/waisidx_03/16cfr255_03.html" target="_blank">16 CFR, Part 255</a>: "Guides Concerning the Use of Endorsements and Testimonials in Advertising."', 'mybooktable'));
 }
 
 

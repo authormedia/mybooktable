@@ -85,7 +85,8 @@ function mbt_save_settings_page() {
 		mbt_update_setting('show_series', isset($_REQUEST['mbt_show_series']));
 		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts']));
 		mbt_update_setting('show_find_bookstore', isset($_REQUEST['mbt_show_find_bookstore']));
-		mbt_update_setting('hide_domc_notice', !isset($_REQUEST['mbt_hide_domc_notice']));
+		mbt_update_setting('hide_domc_notice', isset($_REQUEST['mbt_hide_domc_notice']));
+		mbt_update_setting('domc_notice_text', $_REQUEST['mbt_domc_notice_text']);
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 		mbt_update_setting('book_button_size', $_REQUEST['mbt_book_button_size']);
 		mbt_update_setting('listing_button_size', $_REQUEST['mbt_listing_button_size']);
@@ -332,10 +333,13 @@ function mbt_render_settings_page() {
 								</td>
 							</tr>
 							<tr valign="top">
-								<th scope="row"><label for="mbt_hide_domc_notice"><?php _e('Show Disclosure of Material Connection Disclaimer', 'mybooktable'); ?></label></th>
+								<th scope="row"><label for="mbt_hide_domc_notice"><?php _e('Disclosure of Material Connection Disclaimer', 'mybooktable'); ?></label></th>
 								<td>
-									<input type="checkbox" name="mbt_hide_domc_notice" id="mbt_hide_domc_notice" <?php echo(!mbt_get_setting('hide_domc_notice') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Displays a Disclosure of Material Connection Disclaimer below the single book page content.', 'mybooktable'); ?></p>
+									<textarea rows="5" cols="60" name="mbt_domc_notice_text" id="mbt_domc_notice_text"><?php echo(mbt_get_setting('domc_notice_text')); ?></textarea>
+									<p class="description">
+										<input type="checkbox" name="mbt_hide_domc_notice" id="mbt_hide_domc_notice" <?php echo(mbt_get_setting('hide_domc_notice') ? ' checked="checked"' : ''); ?> >
+										<?php _e('Hide Disclosure of Material Connection Disclaimer?', 'mybooktable'); ?>
+									</p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -564,6 +568,8 @@ function mbt_render_dashboard() {
 				</div>
 			</div>
 		</div>
+
+		<div style="clear:both"></div>
 
 	</div>
 

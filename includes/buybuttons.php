@@ -234,9 +234,9 @@ function mbt_linkshare_affiliate_settings_render() {
 	<table class="form-table">
 		<tbody>
 			<tr valign="top">
-				<th scope="row"><label for="mbt_linkshare_web_services_token" style="color: #666"><?php _e('LinkShare Web Services Token<br>(Used for Barnes &amp; Noble Affiliates)', 'mybooktable'); ?></label></th>
+				<th scope="row"><label for="mbt_linkshare_affiliate_code" style="color: #666"><?php _e('LinkShare Affiliate Code<br>(Used for Barnes &amp; Noble Affiliates)', 'mybooktable'); ?></label></th>
 				<td>
-					<input type="text" id="mbt_linkshare_web_services_token" disabled="true" value="" class="regular-text">
+					<input type="text" id="mbt_linkshare_affiliate_code" disabled="true" value="" class="regular-text">
 					<p class="description">
 						<?php
 						if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {

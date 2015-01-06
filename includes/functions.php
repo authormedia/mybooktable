@@ -35,12 +35,13 @@ function mbt_reset_settings() {
 		'book_button_size' => 'medium',
 		'listing_button_size' => 'medium',
 		'widget_button_size' => 'medium',
-		'hide_domc_notice' => false,
 		'series_in_excerpts' => false,
 		'posts_per_page' => false,
 		'enable_default_affiliates' => false,
 		'product_name' => __('Books', 'mybooktable'),
-		'product_slug' => _x('books', 'URL slug', 'mybooktable')
+		'product_slug' => _x('books', 'URL slug', 'mybooktable'),
+		'hide_domc_notice' => false,
+		'domc_notice_text' => __('Disclosure of Material Connection: Some of the links in the page above are "affiliate links." This means if you click on the link and purchase the item, I will receive an affiliate commission. I am disclosing this in accordance with the Federal Trade Commission\'s <a href="http://www.access.gpo.gov/nara/cfr/waisidx_03/16cfr255_03.html" target="_blank">16 CFR, Part 255</a>: "Guides Concerning the Use of Endorsements and Testimonials in Advertising."', 'mybooktable'),
 	);
 	$mbt_settings = apply_filters("mbt_default_settings", $mbt_settings);
 	update_option("mbt_settings", apply_filters("mbt_update_settings", $mbt_settings));
@@ -239,7 +240,7 @@ function mbt_verify_api_key() {
 		mbt_update_setting('dev_active', false);
 	} else if($status == -12) {
 		mbt_update_setting('api_key_status', $status);
-		mbt_update_setting('api_key_message', __('Key has expired. Please <a href="http://www.authormedia.com/mybooktable">renew your license</a>.', 'mybooktable'));
+		mbt_update_setting('api_key_message', __('Key has expired. Please renew your license.', 'mybooktable'));
 		mbt_update_setting('pro_active', false);
 		mbt_update_setting('dev_active', false);
 	} else if($status == -20) {

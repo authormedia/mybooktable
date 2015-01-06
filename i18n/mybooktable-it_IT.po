@@ -786,9 +786,9 @@ msgstr "Link al prodotto Barnes &amp; Noble valido."
 
 #: includes/buybuttons.php:237
 msgid ""
-"LinkShare Web Services Token<br>(Used for Barnes &amp; Noble Affiliates)"
+"LinkShare Affiliate Code<br>(Used for Barnes &amp; Noble Affiliates)"
 msgstr ""
-"LinkShare Web Services Token<br>(Usato dagli Affiliati Barnes &amp; Noble)"
+"LinkShare Affiliate Code<br>(Usato dagli Affiliati Barnes &amp; Noble)"
 
 #: includes/buybuttons.php:247
 msgid ""
