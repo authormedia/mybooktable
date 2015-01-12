@@ -202,6 +202,19 @@ function mbt_add_admin_notices() {
 	if(isset($_GET['mbt_install_pages'])) {
 		mbt_install_pages();
 	}
+
+	//3 month reminder message
+	if(!mbt_get_setting('delayed_donate_review_popup')) {
+		mbt_update_setting('delayed_donate_review_popup', strval(time()));
+	} else if (mbt_get_setting('delayed_donate_review_popup') != 'done') {
+		if(time() - intval(mbt_get_setting('delayed_donate_review_popup')) > 100) {
+			if(isset($_POST['delayed_donate_review_close'])) {
+				mbt_update_setting('delayed_donate_review_popup', 'done');
+			} else {
+				add_action('admin_notices', 'mbt_admin_delayed_donate_review_notice');
+			}
+		}
+	}
 }
 
 function mbt_admin_install_notice() {
@@ -282,6 +295,22 @@ function mbt_admin_email_subscribe_thankyou_notice() {
 	?>
 	<div class="mbt-admin-notice mbt-email-subscribe-message">
 		<h4><strong><?php _e('Thank you for subscribing!</strong> &#8211; Please check your inbox for a confirmation letter.', 'mybooktable'); ?></h4>
+	</div>
+	<?php
+}
+
+function mbt_admin_delayed_donate_review_notice() {
+	?>
+	<div id="message" class="mbt-admin-notice">
+		<h4><?php _e('Enjoying MyBookTable?', 'mybooktable'); ?></h4>
+		<div style="float:right">
+			<a class="notice-button primary" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=K6UGSUCSKP4NS"><?php _e('Make a Donation', 'mybooktable'); ?></a>
+			<a class="notice-button primary" target="_blank" href="https://wordpress.org/support/view/plugin-reviews/mybooktable#postform"><?php _e('Leave a Review', 'mybooktable'); ?></a>
+			<form action="" method="POST" style="display:inline">
+				<input type="hidden" name="delayed_donate_review_close" value="1">
+				<input type="Submit" class="notice-button secondary" value="<?php _e('Close', 'mybooktable'); ?>">
+			</form>
+		</div>
 	</div>
 	<?php
 }

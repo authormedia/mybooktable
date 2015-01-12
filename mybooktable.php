@@ -28,6 +28,7 @@ require_once("includes/extras/breadcrumbs.php");
 require_once("includes/extras/goodreads.php");
 require_once("includes/extras/booksorting.php");
 require_once("includes/extras/getnoticed.php");
+require_once("includes/extras/totallybooked.php");
 
 
 

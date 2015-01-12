@@ -29,6 +29,7 @@ function mbt_reset_settings() {
 		'enable_socialmedia_badges_book_excerpt' => true,
 		'enable_socialmedia_bar_single_book' => true,
 		'enable_seo' => true,
+		'enable_buybutton_shadowbox' => false,
 		'enable_breadcrumbs' => true,
 		'show_series' => true,
 		'show_find_bookstore' => true,
@@ -82,6 +83,19 @@ function mbt_get_taxonomy_image($taxonomy, $term) {
 	return isset($taxonomy_images[$term]) ? $taxonomy_images[$term] : '';
 }
 
+function mbt_save_author_priority($author_id, $priority) {
+	$author_priorities = mbt_get_setting("author_priorities");
+	if(empty($author_priorities)) { $author_priorities = array(); }
+	$author_priorities[$author_id] = $priority;
+	mbt_update_setting("author_priorities", $author_priorities);
+}
+
+function mbt_get_author_priority($author_id) {
+	$author_priorities = mbt_get_setting("author_priorities");
+	if(empty($author_priorities)) { $author_priorities = array(); }
+	return isset($author_priorities[$author_id]) ? $author_priorities[$author_id] : 50;
+}
+
 function mbt_get_posts_per_page() {
 	$posts_per_page = mbt_get_setting('posts_per_page');
 	return empty($posts_per_page) ? get_option('posts_per_page') : $posts_per_page;
@@ -114,6 +128,29 @@ function mbt_get_product_name() {
 function mbt_get_product_slug() {
 	$slug = mbt_get_setting('product_slug');
 	return apply_filters('mbt_product_slug', empty($slug) ? _x('books', 'URL slug', 'mybooktable') : $slug);
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Pages                                                   */
+/*---------------------------------------------------------*/
+
+function mbt_add_custom_page($name, $function, $permissions="edit_posts") {
+	$add_sort_books_page = function() use ($name, $permissions, $function) {
+		add_submenu_page("mbt_dashboard", "", "", $permissions, $name, $function);
+	};
+
+	$remove_sort_books_page = function() use ($name) {
+		remove_submenu_page("mbt_dashboard", $name);
+	};
+
+	add_action('admin_menu', $add_sort_books_page, 9);
+	add_action('admin_head', $remove_sort_books_page);
+}
+
+function mbt_get_custom_page_url($name) {
+	return admin_url('admin.php?page='.$name);
 }
 
 

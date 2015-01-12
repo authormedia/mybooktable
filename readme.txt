@@ -1,7 +1,7 @@
 === MyBookTable ===
 Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
-Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords, goodreads
+Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords, goodreads, gumroad, linkshare, commissionjunction 
 Requires at least: 3.5.0
 Tested up to: 4.1.0
 Stable tag: trunk
@@ -167,6 +167,12 @@ This version adds several cool new features including "Publisher" and "Publicati
 This version adds **many** new buy button options including Apple iBooks & Sony Reader
 
 == Changelog ==
+
+= 2.0.0 =
+* New feature allows you to assign priorities to your Authors to customize the order they display in
+* New shadow box feature lets you have you buy buttons show up in a separate shadow box instead of on your pages
+* New button on book sorting page to allow you to alphabetize your books
+* New import functionality from Totally Booked
 
 = 1.3.7 =
 * Added official WordPress 4.1 compatability

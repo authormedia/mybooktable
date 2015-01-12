@@ -11,6 +11,7 @@ function mbt_getnoticed_compat() {
 		add_filter('pre_get_posts', 'mbt_getnoticed_post_types_unindex', 20);
 		add_action('mbt_general_settings_render', 'mbt_getnoticed_settings_render');
 		add_action('wp_head', 'mbt_add_getnoticed_css');
+		mbt_add_custom_page('mbt_getnoticed_import', 'mbt_render_getnoticed_books_import_page');
 	}
 }
 
@@ -49,7 +50,7 @@ function mbt_getnoticed_settings_render() {
 			<tr valign="top">
 				<th scope="row"><label><?php _e('GetNoticed Books Import', 'mybooktable'); ?></label></th>
 				<td>
-					<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_getnoticed_books_import=1')); ?>" id="submit" class="button button-primary"><?php _e('Import', 'mybooktable'); ?></a>
+					<a href="<?php echo(mbt_get_custom_page_url('mbt_getnoticed_import')); ?>" id="submit" class="button button-primary"><?php _e('Import', 'mybooktable'); ?></a>
 					<p class="description"><?php _e('Use this to import your existing books from GetNoticed into MyBookTable.', 'mybooktable'); ?></p>
 				</td>
 			</tr>
@@ -68,6 +69,7 @@ function mbt_getnoticed_books_import() {
 		$link = $book_meta['link'];
 		$publisher = $book_meta['publisher'];
 		$year = $book_meta['year'];
+		$image_id = get_post_meta($book->ID, '_thumbnail_id', true);
 		$mbt_imported_book_id = get_post_meta($book->ID, 'mbt_imported_book_id', true);
 
 		$returns[] = $book->post_title;
@@ -79,7 +81,6 @@ function mbt_getnoticed_books_import() {
 			));
 			$old_buybuttons = get_post_meta($post_id, "mbt_buybuttons", true);
 			if(!empty($link) and empty($old_buybuttons)) { update_post_meta($post_id, "mbt_buybuttons", unserialize('a:1:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:'.strlen($link).':"'.$link.'";}}')); }
-			$image_id = get_post_meta($book->ID, '_thumbnail_id', true);
 			if(!empty($image_id)) { update_post_meta($post_id, 'mbt_book_image_id', $image_id); }
 			update_post_meta($post_id, "mbt_unique_id", $asin);
 			update_post_meta($post_id, "mbt_publisher_name", $publisher);
@@ -93,7 +94,6 @@ function mbt_getnoticed_books_import() {
 				'post_type' => 'mbt_book'
 			));
 			if(!empty($link)) { update_post_meta($post_id, "mbt_buybuttons", unserialize('a:1:{i:0;a:3:{s:7:"display";s:8:"featured";s:5:"store";s:6:"amazon";s:3:"url";s:'.strlen($link).':"'.$link.'";}}')); }
-			$image_id = get_post_meta($book->ID, '_thumbnail_id', true);
 			if(!empty($image_id)) { update_post_meta($post_id, 'mbt_book_image_id', $image_id); }
 			update_post_meta($post_id, "mbt_unique_id", $asin);
 			update_post_meta($post_id, "mbt_publisher_name", $publisher);

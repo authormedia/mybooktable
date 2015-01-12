@@ -119,6 +119,7 @@ function mbt_enqueue_styles() {
 function mbt_enqueue_js() {
 	wp_enqueue_script('mbt-frontend-js', plugins_url('js/frontend.js', dirname(__FILE__)), array('jquery'));
 	wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp');
+	wp_enqueue_script('mbt-thickbox', plugins_url('js/thickbox.js', dirname(__FILE__)), array('jquery'));
 }
 
 function mbt_get_template_folders() {
@@ -155,17 +156,17 @@ function mbt_add_custom_css() {
 	$widget_button_size = mbt_get_setting('widget_button_size');
 	echo('<style type="text/css">');
 	//Image Size
-	if($image_size == 'small') { echo('#mbt-container .mbt-book .mbt-book-images { width: 15%; } #mbt-container .mbt-book .mbt-book-right { width: 85%; } '); }
-	else if($image_size == 'large') { echo('#mbt-container .mbt-book .mbt-book-images { width: 35%; } #mbt-container .mbt-book .mbt-book-right { width: 65%; } '); }
-	else { echo('#mbt-container .mbt-book .mbt-book-images { width: 25%; } #mbt-container .mbt-book .mbt-book-right { width: 75%; } '); }
+	if($image_size == 'small') { echo('.mbt-book .mbt-book-images { width: 15%; } .mbt-book .mbt-book-right { width: 85%; } '); }
+	else if($image_size == 'large') { echo('.mbt-book .mbt-book-images { width: 35%; } .mbt-book .mbt-book-right { width: 65%; } '); }
+	else { echo('.mbt-book .mbt-book-images { width: 25%; } .mbt-book .mbt-book-right { width: 75%; } '); }
 	//Book Button Size
-	if($book_button_size == 'small') { echo('#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } #mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
-	else if($book_button_size == 'medium') { echo('#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } #mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
-	else { echo('#mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } #mbt-container .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
+	if($book_button_size == 'small') { echo('.mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
+	else if($book_button_size == 'medium') { echo('.mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
+	else { echo('.mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
 	//Listing Button Size
-	if($listing_button_size == 'small') { echo('#mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } #mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
-	else if($listing_button_size == 'medium') { echo('#mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } #mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
-	else { echo('#mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } #mbt-container .mbt-book-archive .mbt-book .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
+	if($listing_button_size == 'small') { echo('.mbt-book-archive .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } .mbt-book-archive .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
+	else if($listing_button_size == 'medium') { echo('.mbt-book-archive .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } .mbt-book-archive .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
+	else { echo('.mbt-book-archive .mbt-book-buybuttons .mbt-book-buybutton img { width: 201px; height: 35px; } .mbt-book-archive .mbt-book-buybuttons .mbt-book-buybutton { padding: 5px 10px 0px 0px; }'); }
 	//Widget Button Size
 	if($widget_button_size == 'small') { echo('.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton img { width: 144px; height: 25px; } .mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton { padding: 3px 6px 0px 0px; }'); }
 	else if($widget_button_size == 'medium') { echo('.mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton img { width: 172px; height: 30px; } .mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton { padding: 4px 8px 0px 0px; }'); }
@@ -543,7 +544,7 @@ function mbt_the_book_socialmedia_bar() {
 
 
 
-function mbt_format_buybuttons($buybuttons) {
+function mbt_format_buybuttons($buybuttons, $post_id) {
 	$output = '';
 
 	$stores = mbt_get_stores();
@@ -554,17 +555,28 @@ function mbt_format_buybuttons($buybuttons) {
 		}
 	}
 
+	if(mbt_get_setting('enable_buybutton_shadowbox')) {
+
+		$book_button_size = mbt_get_setting('book_button_size');
+		if($book_button_size == 'small') { $width = 150; $height = 10 + 28*count($buybuttons); }
+		else if($book_button_size == 'medium') { $width = 180; $height = 10 + 34*count($buybuttons); }
+		else { $width = 211; $height = 10 + 40*count($buybuttons); }
+
+		$output = '<div class="mbt-book-shadowbox" id="mbt_buybutton_shadowbox_'.$post_id.'"><div class="mbt-book-buybuttons">'.$output.'</div></div>';
+		$output .= '<div class="mbt-book-buybutton mbt-book-shadowbox-button"><a href="http://#mbt_tb_inline?height='.$height.'&width='.$width.'&inlineId=mbt_buybutton_shadowbox_'.$post_id.'" class="thickbox"><img src="'.mbt_image_url('shadowbox_button.png').'" border="0" alt="'.__('Buy now!', 'mybooktable').'"/></a></div>';
+	}
+
 	return apply_filters('mbt_format_buybuttons', $output);
 }
 function mbt_the_buybuttons() {
 	global $post;
 	$buybuttons = mbt_get_buybuttons($post->ID, array('display' => array('featured', 'book_only')));
-	echo(mbt_format_buybuttons($buybuttons));
+	echo(mbt_format_buybuttons($buybuttons, $post->ID));
 }
 function mbt_the_buybuttons_featured() {
 	global $post;
 	$buybuttons = mbt_get_buybuttons($post->ID, array('display' => 'featured'));
-	echo(mbt_format_buybuttons($buybuttons));
+	echo(mbt_format_buybuttons($buybuttons, $post->ID));
 }
 function mbt_the_buybuttons_textonly() {
 	global $post;
@@ -573,7 +585,7 @@ function mbt_the_buybuttons_textonly() {
 	if(!empty($buybuttons)) {
 		echo('<div class="mbt-book-buybuttons-textonly">');
 		echo('<h3>'.__('Other book sellers', 'mybooktable').':</h3>');
-		echo('<ul>'.mbt_format_buybuttons($buybuttons).'</ul>');
+		echo('<ul>'.mbt_format_buybuttons($buybuttons, $post->ID).'</ul>');
 		echo('</div>');
 	}
 }
@@ -667,6 +679,15 @@ function mbt_get_book_series_list($post_id) {
 function mbt_get_the_term_list($post_id, $tax, $name, $name_plural, $type) {
 	$terms = get_the_terms($post_id, $tax);
 	if(is_wp_error($terms) or empty($terms)){ return ''; }
+
+	if($type == 'author') {
+		$sortfunc = function($a, $b) {
+			$a = mbt_get_author_priority($a->term_id);
+			$b = mbt_get_author_priority($b->term_id);
+			return ($a > $b) ? -1 : (($a < $b) ? 1 : 0);
+		};
+		usort($terms, $sortfunc);
+	}
 
 	foreach($terms as $term) {
 		$link = get_term_link($term, $tax);

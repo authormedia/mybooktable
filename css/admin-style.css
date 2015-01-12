@@ -326,6 +326,24 @@
 	width: 80px;
 }
 
+#mbt_author_priority_display {
+	font-weight: bold;
+	font-size: 20px;
+	float: left;
+	width: 100px;
+	margin: 5px 10px;
+}
+
+#mbt_author_priority {
+	display:none;
+}
+
+#mbt_author_priority_slider {
+	width: 200px;
+	float: left;
+	margin: 8px 5px 5px;
+}
+
 /*---------------------------------------------------------*/
 /* Install Messages                                        */
 /*---------------------------------------------------------*/

@@ -2,22 +2,13 @@
 
 function mbt_booksorting_init() {
 	add_filter('views_edit-mbt_book',  'mbt_add_sort_books_link');
-	add_action('admin_menu', 'mbt_add_sort_books_page', 9);
-	add_action('admin_head', 'mbt_remove_sort_books_page');
+	mbt_add_custom_page('mbt_sort_books', 'mbt_render_sort_books_page');
 }
 add_action('mbt_init', 'mbt_booksorting_init');
 
 function mbt_add_sort_books_link($views) {
-	$views['sorting'] = '<a href="'.admin_url('admin.php?page=mbt_sort_books').'">'.__('Sort Books', 'mybooktable').'</a>';
+	$views['sorting'] = '<a href="'.mbt_get_custom_page_url('mbt_sort_books').'">'.__('Sort Books', 'mybooktable').'</a>';
 	return $views;
-}
-
-function mbt_add_sort_books_page() {
-	add_submenu_page("mbt_dashboard", "", "", 'edit_posts', "mbt_sort_books", 'mbt_render_sort_books_page');
-}
-
-function mbt_remove_sort_books_page() {
-	remove_submenu_page("mbt_dashboard", "mbt_sort_books");
 }
 
 function mbt_render_sort_books_page() {
@@ -31,11 +22,16 @@ function mbt_render_sort_books_page() {
 			}
 		}
 	}
-?>
+
+	?>
 	<div class="wrap mbt_sort_books">
 		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('Sort Books', 'mybooktable'); ?></h2>
 		<form id="mbt_sort_books_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_sort_books')); ?>">
-			<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="return mbt_submit_book_order();"></p>
+			<p class="submit">
+				<input type="submit" name="save_settings" id="submit" class="button" value="<?php _e('Arrange Alphabetically', 'mybooktable'); ?>" onclick="return mbt_alphabetize_book_order();">
+				&nbsp;&mdash;&nbsp;
+				<input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="return mbt_submit_book_order();">
+			</p>
 			<input id="mbt_book_order" name="mbt_book_order" type="hidden" value="">
 			<?php
 				$query = new WP_Query(array('post_type' => 'mbt_book', 'orderby' => 'menu_order', 'posts_per_page' => 499));
@@ -55,6 +51,13 @@ function mbt_render_sort_books_page() {
 	<script type="text/javascript">
 		jQuery.fn.reverse = [].reverse;
 
+		function mbt_alphabetize_book_order() {
+			jQuery("#mbt_book_sorter").append(jQuery("#mbt_book_sorter .mbt_book").detach().sort(function(a, b) {
+				return jQuery(a).html().localeCompare(jQuery(b).html());
+			}));
+			return false;
+		}
+
 		function mbt_submit_book_order() {
 			data = {};
 			jQuery("#mbt_book_sorter .mbt_book").reverse().each(function(i, e) {
@@ -68,5 +71,5 @@ function mbt_render_sort_books_page() {
 			jQuery("#mbt_book_sorter").sortable();
 		});
 	</script>
-<?php
+	<?php
 }

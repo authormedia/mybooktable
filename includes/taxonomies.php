@@ -7,7 +7,8 @@
 function mbt_taxonomies_init() {
 	add_action('init', 'mbt_register_taxonomies');
 	add_filter('parent_file', 'mbt_override_taxonomy_parent_files');
-	add_action('admin_init', 'mbt_taxonomy_editors_init');
+	add_action('admin_init', 'mbt_taxonomy_images_init');
+	add_action('admin_init', 'mbt_author_priorities_init');
 }
 add_action('mbt_init', 'mbt_taxonomies_init');
 
@@ -92,6 +93,11 @@ function mbt_register_taxonomies()
 		'show_ui' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable')))
 	));
+
+	//Recommended Books Tag
+	if(!term_exists('Recommended Books', 'mbt_tag')) {
+		wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'recommended'));
+	}
 }
 
 function mbt_override_taxonomy_parent_files() {
@@ -110,7 +116,7 @@ function mbt_override_taxonomy_parent_files() {
 /* Custom Images for Taxonomies                            */
 /*---------------------------------------------------------*/
 
-function mbt_taxonomy_editors_init() {
+function mbt_taxonomy_images_init() {
 	add_filter('mbt_author_edit_form_fields', 'mbt_add_taxonomy_image_edit_form');
 	add_filter('mbt_author_add_form_fields', 'mbt_add_taxonomy_image_add_form');
 	add_action('edited_mbt_author', 'mbt_save_taxonomy_image_edit_form');
@@ -163,5 +169,60 @@ function mbt_save_taxonomy_image_edit_form() {
 function mbt_save_taxonomy_image_add_form($term_id) {
 	if(!empty($_REQUEST['taxonomy']) and !empty($_REQUEST['mbt_tax_image_url'])) {
 		mbt_save_taxonomy_image($_REQUEST['taxonomy'], $term_id, $_REQUEST['mbt_tax_image_url']);
+	}
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Author Priority Sorting                                 */
+/*---------------------------------------------------------*/
+
+function mbt_author_priorities_init() {
+	add_filter('mbt_author_edit_form_fields', 'mbt_add_author_priority_edit_form');
+	add_filter('mbt_author_add_form_fields', 'mbt_add_author_priority_add_form');
+	add_action('edited_mbt_author', 'mbt_save_author_priority_edit_form');
+	add_action('created_mbt_author', 'mbt_save_author_priority_add_form');
+}
+
+function mbt_add_author_priority_edit_form() {
+?>
+	<tr class="form-field">
+		<th scope="row" valign="top"><label for="mbt_author_priority"><?php _e('Priority', 'mybooktable') ?></label></th>
+		<td>
+			<input type="text" id="mbt_author_priority" name="mbt_author_priority" value="<?php echo(mbt_get_author_priority($_REQUEST['tag_ID'])); ?>" />
+			<div id="mbt_author_priority_slider"></div>
+			<div id="mbt_author_priority_display"></div>
+			<div style="clear:both"></div>
+			<p class="description">Authors with higher priority will be shown first in the list of authors when a book has multiple authors.</p>
+			<script type="text/javascript" src="<?php echo(plugins_url('js/author-priorities.js', dirname(__FILE__))); ?>"></script>
+		</td>
+	</tr>
+<?php
+}
+
+function mbt_add_author_priority_add_form() {
+?>
+	<div class="form-field">
+		<label for="mbt_author_priority"><?php _e('Priority', 'mybooktable') ?></label>
+		<input type="text" id="mbt_author_priority" name="mbt_author_priority" value="<?php echo(mbt_get_author_priority($_REQUEST['tag_ID'])); ?>" />
+		<div id="mbt_author_priority_slider"></div>
+		<div id="mbt_author_priority_display"></div>
+		<div style="clear:both"></div>
+		<p class="description">Authors with higher priority will be shown first in the list of authors when a book has multiple authors.</p>
+		<script type="text/javascript" src="<?php echo(plugins_url('js/author-priorities.js', dirname(__FILE__))); ?>"></script>
+	</div>
+<?php
+}
+
+function mbt_save_author_priority_edit_form() {
+	if(isset($_REQUEST['taxonomy']) and isset($_REQUEST['tag_ID']) and isset($_REQUEST['mbt_author_priority'])) {
+		mbt_save_author_priority($_REQUEST['tag_ID'], $_REQUEST['mbt_author_priority']);
+	}
+}
+
+function mbt_save_author_priority_add_form($term_id) {
+	if(isset($_REQUEST['taxonomy']) and isset($_REQUEST['mbt_author_priority'])) {
+		mbt_save_author_priority($term_id, $_REQUEST['mbt_author_priority']);
 	}
 }
