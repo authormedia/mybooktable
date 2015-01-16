@@ -210,7 +210,7 @@ function mbt_buybuttons_metabox($post)
 	echo('<button id="mbt_buybutton_adder" class="button">'.__('Add').'</button>');
 
 	echo('<div id="mbt_buybutton_editors">');
-	$buybuttons = mbt_get_buybuttons($post->ID);
+	$buybuttons = mbt_query_buybuttons($post->ID);
 	if(!empty($buybuttons)) {
 		for($i = 0; $i < count($buybuttons); $i++)
 		{

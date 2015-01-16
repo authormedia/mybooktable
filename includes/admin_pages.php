@@ -116,16 +116,59 @@ function mbt_api_key_feedback() {
 	$output = '';
 	if(mbt_get_setting('api_key') and mbt_get_setting('api_key_status') != 0) {
 		if(mbt_get_setting('api_key_status') > 0) {
-			$output .= '<span class="key_valid">'.__('Valid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
+			$output .= '<span class="mbt_admin_message_success">'.__('Valid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
 			if(mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) {
-				$output .= '<br><a href="https://gumroad.com/library/">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>';
+				$output .= '<br><a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page').'">'.__('Download the MyBookTable Developer Add-on to activate your advanced features!', 'mybooktable').'</a>';
 			} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
-				$output .= '<br><a href="https://gumroad.com/library/">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>';
+				$output .= '<br><a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page').'">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>';
 			}
 		} else {
-			$output .= '<span class="key_invalid">'.__('Invalid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
+			$output .= '<span class="mbt_admin_message_failure">'.__('Invalid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
 		}
 	}
+	return $output;
+}
+
+function mbt_do_style_pack_upload() {
+	if(empty($_REQUEST['mbt_style_pack_id'])) { return ""; }
+	$file_post = get_post($_REQUEST['mbt_style_pack_id']);
+	if(empty($file_post)) { return ""; }
+	$style_name = $file_post->post_title;
+	$file_path = get_post_meta($_REQUEST['mbt_style_pack_id'], '_wp_attached_file', true);
+
+	$nonce_url = wp_nonce_url('admin.php?page=mbt_settings', 'mbt-style-pack-upload');
+
+	ob_start();
+	$creds = request_filesystem_credentials($nonce_url, '', false, false, null);
+	$output = ob_get_contents();
+	ob_end_clean();
+	if($creds === false) { return '<br'.$output; }
+
+	if(!WP_Filesystem($creds)) {
+		ob_start();
+		request_filesystem_credentials($nonce_url, '', true, false, null);
+		$output = ob_get_contents();
+		ob_end_clean();
+		return '<br'.$output;
+	}
+
+	global $wp_filesystem;
+
+	$upload_dir = wp_upload_dir();
+	if(substr($upload_dir['basedir'], 0, strlen(ABSPATH)) !== ABSPATH) {
+		return '<br><span class="mbt_admin_message_failure">'.__('Path error while adding style pack!', 'mybooktable').'</span>';
+	}
+	$content_prefix = substr($upload_dir['basedir'], strlen(ABSPATH));
+	$from = $upload_dir['basedir'].DIRECTORY_SEPARATOR.$file_path;
+	$to = $wp_filesystem->abspath().$content_prefix.DIRECTORY_SEPARATOR.'mbt_styles'.DIRECTORY_SEPARATOR.$style_name;
+	$result = unzip_file($from, $to);
+
+	if($result === true) {
+		return '<br><span class="mbt_admin_message_success">'.__('Successfully added button pack!', 'mybooktable').'</span>';
+	} else {
+		return '<br><span class="mbt_admin_message_failure">'.__('Error unzipping style pack!', 'mybooktable').'</span>';
+	}
+
 	return $output;
 }
 
@@ -164,8 +207,8 @@ function mbt_render_settings_page() {
 								<td>
 									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_hide_api_key(mbt_get_setting('api_key'))); ?>" size="60" class="regular-text" />
-									<div id="mbt_api_key_refresh"></div>
-									<p class="description"><?php _e('If you have purchased an Add-On API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an Add-On API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
+									<div class="mbt_api_key_refresh" data-refresh-action="mbt_api_key_refresh" data-key-element="mbt_api_key"></div>
+									<p class="description"><?php _e('If you have purchased an Add-on API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an Add-on API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -178,9 +221,9 @@ function mbt_render_settings_page() {
 										<?php } ?>
 									</select>
 									<?php if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" id="submit" class="button button-primary"><?php _e('Click here to create a Book Table page', 'mybooktable'); ?></a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" class="button button-primary"><?php _e('Click here to create a Book Table page', 'mybooktable'); ?></a>
 									<?php } else { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_remove_booktable_page=1')); ?>" id="submit" class="button button-primary"><?php _e('Remove Book Table page', 'mybooktable'); ?></a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_remove_booktable_page=1')); ?>" class="button button-primary"><?php _e('Remove Book Table page', 'mybooktable'); ?></a>
 									<?php } ?>
 									<p class="description"><?php _e('The Book Table page is the main landing page for your books.', 'mybooktable'); ?></p>
 								</td>
@@ -196,7 +239,7 @@ function mbt_render_settings_page() {
 								<tr valign="top">
 									<th scope="row"><?php _e('Example Books', 'mybooktable'); ?></th>
 									<td>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_examples=1')); ?>" id="submit" class="button button-primary"><?php _e('Click here to create example books', 'mybooktable'); ?></a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_examples=1')); ?>" class="button button-primary"><?php _e('Click here to create example books', 'mybooktable'); ?></a>
 										<p class="description"><?php _e('These examples will help you learn how to set up Genres, Series, Authors, and Books of your own.', 'mybooktable'); ?></p>
 									</td>
 								</tr>
@@ -211,7 +254,7 @@ function mbt_render_settings_page() {
 						</tbody>
 					</table>
 					<?php do_action("mbt_general_settings_render"); ?>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
+					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
 				</div>
 				<div id="tabs-2">
 					<?php do_action("mbt_affiliate_settings_render"); ?>
@@ -226,7 +269,7 @@ function mbt_render_settings_page() {
 							echo('&nbsp;&nbsp;<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1" style="font-size:10px">'.__('What does this mean?', 'mybooktable').'</a>');
 						}
 					?>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
+					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
 				</div>
 				<div id="tabs-3">
 					<table class="form-table">
@@ -254,7 +297,7 @@ function mbt_render_settings_page() {
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
+					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
 				</div>
 				<div id="tabs-4">
 					<table class="form-table">
@@ -268,7 +311,7 @@ function mbt_render_settings_page() {
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
+					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
 				</div>
 				<div id="tabs-5">
 					<table class="form-table">
@@ -276,6 +319,7 @@ function mbt_render_settings_page() {
 							<tr valign="top">
 								<th scope="row"><label for="mbt_style_pack"><?php _e('Style Pack', 'mybooktable'); ?></label></th>
 								<td>
+									<?php $pack_upload_output = mbt_do_style_pack_upload(); ?>
 									<select name="mbt_style_pack" id="mbt_style_pack" style="width:100px">
 										<?php $current_style = mbt_get_setting('style_pack'); ?>
 										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> ><?php _e('Default', 'mybooktable'); ?></option>
@@ -283,6 +327,9 @@ function mbt_render_settings_page() {
 											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
 										<?php } ?>
 									</select>
+									<input type="hidden" id="mbt_style_pack_id" name="mbt_style_pack_id" onchange="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=4').submit();">
+									<input id="mbt_upload_style_pack_button" type="button" class="button" value="<?php _e('Add New', 'mybooktable'); ?>">
+									<?php echo($pack_upload_output); ?>
 									<p class="description"><?php _e('Choose the style pack you would like for your buy buttons.', 'mybooktable'); ?></p>
 								</td>
 							</tr>
@@ -386,10 +433,10 @@ function mbt_render_settings_page() {
 						</tbody>
 					</table>
 					<?php do_action("mbt_display_settings_render"); ?>
-					<p class="submit"><input type="submit" name="save_settings" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=4');"></p>
+					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=4');"></p>
 				</div>
 				<div id="tabs-6">
-					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" id="submit" class="button button-primary"><?php _e('Uninstall MyBookTable', 'mybooktable'); ?></a></p>
+					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" class="button button-primary"><?php _e('Uninstall MyBookTable', 'mybooktable'); ?></a></p>
 					<p class="description"><?php _e('Use this to completely uninstall all MyBookTable settings, books, series, genres, tags, and authors. WARNING: THIS IS PERMANENT.', 'mybooktable'); ?></p>
 				</div>
 			</div>
@@ -483,7 +530,7 @@ function mbt_add_wp101_help($videos) {
 
 function mbt_render_dashboard() {
 	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_founders_page') { return mbt_render_founders_page(); }
-	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_download_addons_page') { return mbt_render_download_addons_page(); }
+	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_download_addon_page') { return mbt_render_download_addon_page(); }
 ?>
 
 	<div class="wrap mbt-dashboard">
@@ -601,12 +648,97 @@ function mbt_render_dashboard() {
 <?php
 }
 
-function mbt_render_download_addons_page() {
+function mbt_render_download_addon_page() {
 ?>
 	<div class="wrap mbt_settings">
-		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('Download Addons', 'mybooktable'); ?></h2>
+		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('Download Add-ons', 'mybooktable'); ?></h2>
+		<?php
+			function mbt_download_addon_check_is_plugin_inactivate($slug) {
+				$plugin = $slug.DIRECTORY_SEPARATOR.$slug.'.php';
+				if(!is_wp_error(activate_plugin($plugin))) {
+					echo('<p>'.__('Plugin successfully activated.', 'mybooktable').'</p>');
+					return true;
+				}
 
-		<a href="<?php echo(admin_url('admin.php?page=mbt_dashboard')); ?>"><?php _e('Back to Dashboard', 'mybooktable'); ?></a>
+				return false;
+			}
+
+			function mbt_download_addon_get_plugin_url($slug) {
+				global $wp_version;
+
+				$api_key = mbt_get_setting('api_key');
+				if(!empty($api_key)) {
+					$to_send = array(
+						'action'  => 'basic_check',
+						'version' => 'none',
+						'api-key' => $api_key,
+						'site'    => get_bloginfo('url')
+					);
+
+					$options = array(
+						'timeout' => 3,
+						'body' => $to_send,
+						'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
+					);
+
+					$raw_response = wp_remote_post('http://www.authormedia.com/plugins/'.$slug.'/update-check', $options);
+					if(!is_wp_error($raw_response) and wp_remote_retrieve_response_code($raw_response) == 200) {
+						$response = maybe_unserialize(wp_remote_retrieve_body($raw_response));
+						if(is_array($response) and !empty($response['package'])) {
+							return $response['package'];
+						}
+					}
+				}
+
+				return '';
+			}
+
+			function mbt_download_addon_do_plugin_install($name, $slug, $url) {
+				if(empty($url)) { echo('<p>'.__('An error occurred while trying to retrieve the plugin from the server. Please check your API Key.', 'mybooktable').'</p>'); return; }
+				if(!current_user_can('install_plugins')) { echo('<p>'.__('Sorry, but you do not have the correct permissions to install plugins. Contact the administrator of this site for help on getting the plugin installed.', 'mybooktable').'</p>'); return; }
+
+				$nonce_url = wp_nonce_url('admin.php?page=mbt_dashboard', 'mbt-install-addon');
+				if(false === ($creds = request_filesystem_credentials($nonce_url, '', false, false, null))) { return; }
+				if(!WP_Filesystem($creds)) { request_filesystem_credentials($nonce_url, '', true, false, null); return; }
+
+				$plugin = array();
+				$plugin['name']   = $name;
+				$plugin['slug']   = $slug;
+				$plugin['source'] = $url;
+
+				require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+				$args = array(
+					'type'   => 'web',
+					'title'  => sprintf(__('Installing Plugin: %s', 'mybooktable'), $plugin['name']),
+					'nonce'  => 'install-plugin_' . $plugin['slug'],
+					'plugin' => $plugin,
+				);
+
+				add_filter('install_plugin_complete_actions', '__return_false', 100);
+				$upgrader = new Plugin_Upgrader(new Plugin_Installer_Skin($args));
+				$upgrader->install($plugin['source']);
+				wp_cache_flush();
+				remove_filter('install_plugin_complete_actions', '__return_false', 100);
+
+				$plugin_info = $upgrader->plugin_info();
+				$activate    = activate_plugin($plugin_info);
+				if(is_wp_error($activate)) { echo('<div id="message" class="error"><p>'.$activate->get_error_message().'</p></div>'); }
+			}
+
+			$slug = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? 'mybooktable-dev' : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? 'mybooktable-pro' : '');
+			if(empty($slug)) { 
+				echo('<p>'.__('You have no Add-ons available to download at this time.', 'mybooktable').'</p>');
+			} else {
+				if(!mbt_download_addon_check_is_plugin_inactivate($slug)) {
+					$name = ($slug == 'mybooktable-pro') ? 'MyBookTable Pro' : 'MyBookTable Dev';
+					$url  = mbt_download_addon_get_plugin_url($slug);
+					mbt_download_addon_do_plugin_install($name, $slug, $url);
+				}
+			}
+		?>
+		<a class="button button-primary" href="<?php echo(admin_url('admin.php?page=mbt_dashboard')); ?>"><?php _e('Back to Dashboard', 'mybooktable'); ?></a>
 	</div>
 <?php
 }
@@ -621,9 +753,9 @@ function mbt_render_setup_default_affiliates_page() {
 		</p>
 
 		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
-			<input type="submit" name="save_default_affiliate_settings" id="submit" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_enable_default_affiliates=1');" value="<?php _e('Enable Amazon and Barnes &amp; Noble Affiliate Buttons', 'mybooktable'); ?>">
-			<input type="submit" name="save_default_affiliate_settings" id="submit" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_disable_default_affiliates=1');" value="<?php _e('Disable Amazon and Barnes &amp; Noble Affiliate Buttons', 'mybooktable'); ?>">
-			<a href="http://www.authormedia.com/mybooktable/add-ons" id="submit" class="button button-primary" target="_blank"><?php _e('Buy a Premium Add-On with Affiliate support', 'mybooktable'); ?></a>
+			<input type="submit" name="save_default_affiliate_settings" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_enable_default_affiliates=1');" value="<?php _e('Enable Amazon and Barnes &amp; Noble Affiliate Buttons', 'mybooktable'); ?>">
+			<input type="submit" name="save_default_affiliate_settings" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_disable_default_affiliates=1');" value="<?php _e('Disable Amazon and Barnes &amp; Noble Affiliate Buttons', 'mybooktable'); ?>">
+			<a href="http://www.authormedia.com/mybooktable/add-ons" class="button button-primary" target="_blank"><?php _e('Buy a Premium Add-on with Affiliate support', 'mybooktable'); ?></a>
 		</form>
 		<br>
 		<a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1"><?php _e('Go to Affiliate Settings', 'mybooktable'); ?></a>

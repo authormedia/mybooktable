@@ -1,7 +1,7 @@
-function make_uploader(button, urlbox, title, desired_data) {
+function make_uploader(button, data_element, title, desired_data) {
 	var file_frame;
 
-	jQuery(button).live('click', function(event) {
+	jQuery(button).on('click', function(event) {
 
 		event.preventDefault();
 
@@ -24,7 +24,8 @@ function make_uploader(button, urlbox, title, desired_data) {
 			attachment = file_frame.state().get('selection').first().toJSON();
 
 			// Save the returned url
-			jQuery(urlbox).val(attachment[typeof desired_data !== 'undefined' ? desired_data : 'url']).trigger('change');
+			jQuery(data_element).val(attachment[typeof desired_data !== 'undefined' ? desired_data : 'url']).trigger('change');
+			console.log(attachment);
 		});
 
 		// Finally, open the modal
@@ -36,4 +37,5 @@ jQuery(document).ready(function() {
 	make_uploader('#mbt_upload_sample_button', '#mbt_sample_url', mbt_media_upload_i18n.mbt_upload_sample_button);
 	make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', mbt_media_upload_i18n.mbt_upload_tax_image_button);
 	make_uploader('#mbt_set_book_image_button', '#mbt_book_image_id', mbt_media_upload_i18n.mbt_set_book_image_button, 'id');
+	make_uploader('#mbt_upload_style_pack_button', '#mbt_style_pack_id', mbt_media_upload_i18n.select, 'id');
 });

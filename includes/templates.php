@@ -544,10 +544,16 @@ function mbt_the_book_socialmedia_bar() {
 
 
 
-function mbt_format_buybuttons($buybuttons, $post_id) {
+function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=false) {
 	$output = '';
-
 	$stores = mbt_get_stores();
+
+	if($excerpt) {
+		$buybuttons = mbt_query_buybuttons($post_id, array('display' => 'featured'));
+	} else {
+		$buybuttons = mbt_query_buybuttons($post_id, array('display' => array('featured', 'book_only')));
+	}
+
 	if(!empty($buybuttons)) {
 		foreach($buybuttons as $buybutton) {
 			if(empty($stores[$buybutton['store']])) { continue; }
@@ -555,39 +561,42 @@ function mbt_format_buybuttons($buybuttons, $post_id) {
 		}
 	}
 
-	if(mbt_get_setting('enable_buybutton_shadowbox')) {
+	$textbuybuttons = array();
+	if(!$excerpt) {
+		$textbuybuttons = mbt_query_buybuttons($post_id, array('display' => 'text_only'));
+		if(!empty($textbuybuttons)) {
+			$output .= '<div class="mbt-book-buybuttons-textonly">';
+			$output .= '<h3>'.__('Other book sellers', 'mybooktable').':</h3>';
+			$output .= '<ul>';
+			foreach($textbuybuttons as $buybutton) {
+				if(empty($stores[$buybutton['store']])) { continue; }
+				$output .= mbt_format_buybutton($buybutton, $stores[$buybutton['store']]);
+			}
+			$output .= '</ul>';
+			$output .= '</div>';
+		}
+	}
 
+	if((mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true) {
 		$book_button_size = mbt_get_setting('book_button_size');
-		if($book_button_size == 'small') { $width = 150; $height = 10 + 28*count($buybuttons); }
-		else if($book_button_size == 'medium') { $width = 180; $height = 10 + 34*count($buybuttons); }
-		else { $width = 211; $height = 10 + 40*count($buybuttons); }
 
-		$output = '<div class="mbt-book-shadowbox" id="mbt_buybutton_shadowbox_'.$post_id.'"><div class="mbt-book-buybuttons">'.$output.'</div></div>';
-		$output .= '<div class="mbt-book-buybutton mbt-book-shadowbox-button"><a href="http://#mbt_tb_inline?height='.$height.'&width='.$width.'&inlineId=mbt_buybutton_shadowbox_'.$post_id.'" class="thickbox"><img src="'.mbt_image_url('shadowbox_button.png').'" border="0" alt="'.__('Buy now!', 'mybooktable').'"/></a></div>';
+		if($book_button_size == 'small') { $buybuttons_width = 2+150*2; }
+		else if($book_button_size == 'medium') { $buybuttons_width = 2+180*2; }
+		else { $buybuttons_width = 2+211*2; }
+
+		$title = '<div class="mbt-book-buybuttons-title">'.__('Buy This Book Online', 'mybooktable').'</div>';
+		$book_image = mbt_get_book_image($post_id);
+		$find_bookstore .= mbt_get_find_bookstore_box($post_id);
+
+		$output = '<div class="mbt-book-shadowbox" id="mbt_buybutton_shadowbox_'.$post_id.'"><div>'.$title.'<div class="mbt-book-buybuttons" style="width:'.$buybuttons_width.'px">'.$output.'</div>'.$book_image.''.$find_bookstore.'</div></div>';
+		$output .= '<div class="mbt-book-buybutton mbt-book-shadowbox-button"><a href="#mbt_tb_inline" data-thickbox="height=0&width='.($buybuttons_width+210).'&inlineId=mbt_buybutton_shadowbox_'.$post_id.'" class="thickbox"><img src="'.mbt_image_url('shadowbox_button.png').'" border="0" alt="'.__('Buy now!', 'mybooktable').'"/></a></div>';
 	}
 
-	return apply_filters('mbt_format_buybuttons', $output);
+	return apply_filters('mbt_get_buybuttons', $output);
 }
-function mbt_the_buybuttons() {
+function mbt_the_buybuttons($excerpt=false) {
 	global $post;
-	$buybuttons = mbt_get_buybuttons($post->ID, array('display' => array('featured', 'book_only')));
-	echo(mbt_format_buybuttons($buybuttons, $post->ID));
-}
-function mbt_the_buybuttons_featured() {
-	global $post;
-	$buybuttons = mbt_get_buybuttons($post->ID, array('display' => 'featured'));
-	echo(mbt_format_buybuttons($buybuttons, $post->ID));
-}
-function mbt_the_buybuttons_textonly() {
-	global $post;
-	$buybuttons = mbt_get_buybuttons($post->ID, array('display' => 'text_only'));
-
-	if(!empty($buybuttons)) {
-		echo('<div class="mbt-book-buybuttons-textonly">');
-		echo('<h3>'.__('Other book sellers', 'mybooktable').':</h3>');
-		echo('<ul>'.mbt_format_buybuttons($buybuttons, $post->ID).'</ul>');
-		echo('</div>');
-	}
+	echo(mbt_get_buybuttons($post->ID, $excerpt));
 }
 
 

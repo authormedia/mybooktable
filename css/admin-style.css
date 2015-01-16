@@ -272,27 +272,27 @@
 	padding-bottom: 8px;
 }
 
-.mbt_settings .mbt_api_key_feedback .key_valid {
-	display: inline-block;
-	background: url('../images/tick.png') 0px 2px no-repeat;
-	padding-left: 20px;
-	color: #5FA556;
-}
-
-.mbt_settings .mbt_api_key_feedback .key_invalid {
-	display: inline-block;
-	background: url('../images/exclamation.png') 0px 2px no-repeat;
-	padding-left: 20px;
-	color: #E66455;
-}
-
-.mbt_settings #mbt_api_key_refresh {
+.mbt_settings .mbt_api_key_refresh {
 	display: inline-block;
 	vertical-align: bottom;
 	background: url('../images/refresh.png') 0px 0px no-repeat;
 	width: 24px;
 	height: 24px;
 	cursor: pointer;
+}
+
+.mbt_admin_message_success {
+	display: inline-block;
+	background: url('../images/tick.png') 0px 2px no-repeat;
+	padding-left: 20px;
+	color: #5FA556;
+}
+
+.mbt_admin_message_failure {
+	display: inline-block;
+	background: url('../images/exclamation.png') 0px 2px no-repeat;
+	padding-left: 20px;
+	color: #E66455;
 }
 
 /*---------------------------------------------------------*/

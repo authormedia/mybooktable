@@ -15,16 +15,18 @@ jQuery(document).ready(function(){
 //add thickbox to href & area elements that have a class of .thickbox
 function mbt_tb_init(domChunk){
 	jQuery(domChunk).click(function(){
-	var t = this.title || this.name || null;
-	var a = this.href || this.alt;
-	var g = this.rel || false;
-	mbt_tb_show(t,a,g);
-	this.blur();
-	return false;
+		mbt_tb_remove();
+		var t = this.title || this.name || null;
+		var a = this.href || this.alt;
+		var g = this.rel || false;
+		var x = jQuery(this).attr('data-thickbox');
+		mbt_tb_show(t,a,g,x);
+		this.blur();
+		return false;
 	});
 }
 
-function mbt_tb_show(caption, url, imageGroup) {//function called when the user clicks on a thickbox link
+function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called when the user clicks on a thickbox link
 	try {
 		if (typeof document.body.style.maxHeight === "undefined") {//if IE 6
 			jQuery("body","html").css({height: "100%", width: "100%"});
@@ -173,36 +175,34 @@ function mbt_tb_show(caption, url, imageGroup) {//function called when the user 
 			imgPreloader.src = url;
 		}else{//code to show html
 			
-			console.log(url);
-			var queryString = url.replace(/^[^\?]+\??/,'');
-			console.log(queryString);
+			var queryString = QueryString; //url.replace(/^[^\?]+\??/,'');
 			var params = mbt_tb_parseQuery( queryString );
 
-			mbt_tb_WIDTH = (params['width']*1) + 30 || 630; //defaults to 630 if no paramaters were added to URL
-			mbt_tb_HEIGHT = (params['height']*1) + 40 || 440; //defaults to 440 if no paramaters were added to URL
-			ajaxContentW = mbt_tb_WIDTH - 30;
-			ajaxContentH = mbt_tb_HEIGHT - 45;
+			mbt_tb_WIDTH = (params['width']*1) || 630; //defaults to 630 if no paramaters were added to URL
+			mbt_tb_HEIGHT = (params['height']*1) || 440; //defaults to 440 if no paramaters were added to URL
+			ajaxContentW = mbt_tb_WIDTH;
+			ajaxContentH = mbt_tb_HEIGHT;
 			
-			if(url.indexOf('mbt_tb_iframe') != -1){// either iframe or ajax window		
+			if(queryString.indexOf('mbt_tb_iframe') != -1){// either iframe or ajax window		
 					urlNoQuery = url.split('mbt_tb_');
 					jQuery("#mbt_tb_iframeContent").remove();
 					if(params['modal'] != "true"){//iframe no modal
-						jQuery("#mbt_tb_window").append("<div id='mbt_tb_title'><div id='mbt_tb_ajaxWindowTitle'>"+caption+"</div><div id='mbt_tb_closeAjaxWindow'><a href='#' id='mbt_tb_closeWindowButton' title='Close'></a></div></div><iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='mbt_tb_iframeContent' name='mbt_tb_iframeContent"+Math.round(Math.random()*1000)+"' onload='mbt_tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;' > </iframe>");
+						jQuery("#mbt_tb_window").append("<div id='mbt_tb_title'><div id='mbt_tb_ajaxWindowTitle'>"+caption+"</div><div id='mbt_tb_closeAjaxWindow'><a href='#' id='mbt_tb_closeWindowButton' title='Close'></a></div></div><iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='mbt_tb_iframeContent' name='mbt_tb_iframeContent"+Math.round(Math.random()*1000)+"' onload='mbt_tb_showIframe()' style='width:"+(ajaxContentW)+"px;height:"+(ajaxContentH)+"px;' > </iframe>");
 					}else{//iframe modal
 					jQuery("#mbt_tb_overlay").unbind();
-						jQuery("#mbt_tb_window").append("<iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='mbt_tb_iframeContent' name='mbt_tb_iframeContent"+Math.round(Math.random()*1000)+"' onload='mbt_tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;'> </iframe>");
+						jQuery("#mbt_tb_window").append("<iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='mbt_tb_iframeContent' name='mbt_tb_iframeContent"+Math.round(Math.random()*1000)+"' onload='mbt_tb_showIframe()' style='width:"+(ajaxContentW)+"px;height:"+(ajaxContentH)+"px;'> </iframe>");
 					}
 			}else{// not an iframe, ajax
 					if(jQuery("#mbt_tb_window").css("display") != "block"){
 						if(params['modal'] != "true"){//ajax no modal
-						jQuery("#mbt_tb_window").append("<div id='mbt_tb_title'><div id='mbt_tb_ajaxWindowTitle'>"+caption+"</div><div id='mbt_tb_closeAjaxWindow'><a href='#' id='mbt_tb_closeWindowButton'></a></div></div><div id='mbt_tb_ajaxContent' style='width:"+ajaxContentW+"px;height:"+ajaxContentH+"px'></div>");
+						jQuery("#mbt_tb_window").append("<div id='mbt_tb_title'><div id='mbt_tb_ajaxWindowTitle'>"+caption+"</div><div id='mbt_tb_closeAjaxWindow'><a href='#' id='mbt_tb_closeWindowButton'></a></div></div><div id='mbt_tb_ajaxContent'></div>");
 						}else{//ajax modal
 						jQuery("#mbt_tb_overlay").unbind();
-						jQuery("#mbt_tb_window").append("<div id='mbt_tb_ajaxContent' class='mbt_tb_modal' style='width:"+ajaxContentW+"px;height:"+ajaxContentH+"px;'></div>");	
+						jQuery("#mbt_tb_window").append("<div id='mbt_tb_ajaxContent' class='mbt_tb_modal'></div>");	
 						}
 					}else{//this means the window is already up, we are just loading new content via ajax
-						jQuery("#mbt_tb_ajaxContent")[0].style.width = ajaxContentW +"px";
-						jQuery("#mbt_tb_ajaxContent")[0].style.height = ajaxContentH +"px";
+						//jQuery("#mbt_tb_ajaxContent")[0].style.width = ajaxContentW +"px";
+						//jQuery("#mbt_tb_ajaxContent")[0].style.height = ajaxContentH +"px";
 						jQuery("#mbt_tb_ajaxContent")[0].scrollTop = 0;
 						jQuery("#mbt_tb_ajaxWindowTitle").html(caption);
 					}
@@ -217,7 +217,7 @@ function mbt_tb_show(caption, url, imageGroup) {//function called when the user 
 					});
 					mbt_tb_position();
 					jQuery("#mbt_tb_window").css({display:"block"}); 
-				}else if(url.indexOf('mbt_tb_iframe') != -1){
+				}else if(queryString.indexOf('mbt_tb_iframe') != -1){
 					mbt_tb_position();
 					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
 						jQuery("#mbt_tb_window").css({display:"block"});
@@ -258,7 +258,8 @@ function mbt_tb_showIframe(){
 function mbt_tb_remove() {
  	jQuery("#mbt_tb_imageOff").unbind("click");
 	jQuery("#mbt_tb_closeWindowButton").unbind("click");
-	jQuery("#mbt_tb_window").fadeOut("fast",function(){jQuery('#mbt_tb_window,#mbt_tb_overlay,#mbt_tb_HideSelect').trigger("unload").unbind().remove();});
+	jQuery('#mbt_tb_window,#mbt_tb_overlay,#mbt_tb_HideSelect').trigger("unload").unbind().remove();
+	//jQuery("#mbt_tb_window").fadeOut("fast",function(){});
 	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
 		jQuery("body","html").css({height: "auto", width: "auto"});
 		jQuery("html").css("overflow","");
@@ -269,10 +270,9 @@ function mbt_tb_remove() {
 }
 
 function mbt_tb_position() {
-jQuery("#mbt_tb_window").css({marginLeft: '-' + parseInt((mbt_tb_WIDTH / 2),10) + 'px', width: mbt_tb_WIDTH + 'px'});
-	if ( !(jQuery.browser.msie && jQuery.browser.version < 7)) { // take away IE6
-		jQuery("#mbt_tb_window").css({marginTop: '-' + parseInt((mbt_tb_HEIGHT / 2),10) + 'px'});
-	}
+	jQuery("#mbt_tb_window").css({marginLeft: '-' + parseInt((mbt_tb_WIDTH / 2),10) + 'px', width: mbt_tb_WIDTH + 'px'});
+	jQuery("#mbt_tb_window").css({'top': '132px'});
+	//jQuery("#mbt_tb_window").css({marginTop: '-' + parseInt((mbt_tb_HEIGHT / 2),10) + 'px'});
 }
 
 function mbt_tb_parseQuery ( query ) {

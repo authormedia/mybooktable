@@ -238,7 +238,7 @@
 	opacity: 1;
 }
 
-.mbt-book-buybuttons-textonly  {
+.mbt-book-buybuttons-textonly {
 	display: block;
 	float: left;
 	clear: both;
@@ -248,6 +248,20 @@
 .mbt-book-buybuttons-textonly h3  {
 	margin: 0px;
 	padding: 0px;
+}
+
+.mbt-book-buybuttons-textonly ul {
+	margin: 5px 0 5px 0;
+	padding: 0 0 0 30px
+}
+
+.mbt-book-buybuttons-textonly ul li {
+	list-style-type: disc;
+}
+
+.mbt-book-buybuttons-textonly ul li a {
+	font-size: 15px;
+	line-height: 15px;
 }
 
 
@@ -595,13 +609,17 @@
 	border: none;
 }
 
+.mbt-featured-book-widget .mbt-book-images {
+	padding-bottom: 10px;
+}
+
 .mbt-featured-book-widget .mbt-book-images a {
 	border: none;
 }
 
 .mbt-featured-book-widget .mbt-book-images .mbt-book-image {
 	width: 60%;
-	margin: 0 0 15px 0;
+	margin: 0;
 	border-radius: 0px;
 	box-shadow: none;
 	border: none;
@@ -620,8 +638,8 @@
 .mbt-featured-book-widget .mbt-book-blurb {
 	font-size: 14px;
 	text-align: left;
-	margin: 0 0 10px 0;
-	padding: 0;
+	margin: 0;
+	padding: 0 0 10px 0;
 	background: none;
 	border: none;
 }
@@ -634,13 +652,16 @@
 
 .mbt-featured-book-widget .mbt-book-buybuttons {
 	display: inline-block;
-	text-align: left;
+	text-align: center;
+	padding: 0;
+	margin: 0;
 }
 
 .mbt-featured-book-widget .mbt-book-buybuttons .mbt-book-buybutton  {
 	width: auto;
-	float: left;
-	clear: none;
+	float: none;
+	clear: both;
+	display: inline-block;
 	padding: 5px 10px 0px 0px;
 }
 
@@ -771,13 +792,53 @@ body.mybooktable .entry-meta {
 /* Thickbox Styles                                         */
 /*---------------------------------------------------------*/
 
-.mbt-book .mbt-book-shadowbox {
+.mbt-book-shadowbox {
 	margin: 0;
 	display: none;
 }
 
+#mbt_tb_ajaxContent .mbt-book-buybuttons-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #484949;
+	text-align: center;
+
+	background: #C0C0C0;
+	padding: 12px 0px;
+}
+
 #mbt_tb_ajaxContent .mbt-book-buybuttons {
 	margin: 0;
+	float: left;
+	padding: 5px 20px 15px 20px;
+}
+
+#mbt_tb_ajaxContent .mbt-book-image {
+	width: 150px;
+	padding: 10px;
+	float: right;
+}
+
+#mbt_tb_ajaxContent .mbt-find-bookstore {
+	font-size: 13px;
+	background: #C0C0C0;
+	margin: 0;
+	padding: 15px 20px;
+	text-align: center;
+}
+
+#mbt_tb_ajaxContent .mbt-find-bookstore .mbt-find-bookstore-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #484949;
+	padding-bottom: 10px;
+}
+
+#mbt_tb_ajaxContent .mbt-find-bookstore input {
+	padding: 4px 6px;
+	margin: 3px;
+	vertical-align: baseline;
+	width: auto;
 }
 
 /* global setting needed for thickbox */
@@ -871,12 +932,12 @@ body.mybooktable .entry-meta {
 
 #mbt_tb_ajaxWindowTitle{
 	float:left;
-	padding:7px 0 5px 10px;
-	margin-bottom:1px;
+	padding:0;
+	margin-bottom:0;
 }
 
 #mbt_tb_title{
-	height:27px;
+	height:0;
 }
 
 #mbt_tb_closeWindowButton{
@@ -884,11 +945,15 @@ body.mybooktable .entry-meta {
 	background: url('../images/close.png') no-repeat;
 	width:27px;
 	height:27px;
+	vertical-align: bottom;
+	position: absolute;
+	right: -13px;
+	top: -13px;
 }
 
 #mbt_tb_ajaxContent{
 	clear:both;
-	padding:2px 15px 15px 15px;
+	padding:0;
 	overflow:auto;
 	text-align:left;
 	line-height:1.4em;

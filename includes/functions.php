@@ -213,6 +213,13 @@ function mbt_add_default_style_folder($folders) {
 }
 add_filter('mbt_style_folders', 'mbt_add_default_style_folder', 100);
 
+function mbt_add_uploaded_style_folder($folders) {
+	$upload_dir = wp_upload_dir();
+	$folders[] = array('dir' => $upload_dir['basedir'].DIRECTORY_SEPARATOR.'mbt_styles', 'url' => $upload_dir['baseurl'].'/'.'mbt_styles');
+	return $folders;
+}
+add_filter('mbt_style_folders', 'mbt_add_uploaded_style_folder', 100);
+
 
 
 /*---------------------------------------------------------*/

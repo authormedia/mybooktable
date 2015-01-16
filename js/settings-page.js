@@ -1,15 +1,18 @@
 jQuery(document).ready(function() {
-	jQuery('#mbt_api_key_refresh').click(function(e) {
-		if(!jQuery('#mbt_api_key_refresh').attr('disabled')) {
-			jQuery('#mbt_api_key_refresh').attr('disabled', 'disabled');
+	jQuery('.mbt_api_key_refresh').click(function(e) {
+		var element = jQuery(this);
+
+		if(!element.attr('disabled')) {
+			element.attr('disabled', 'disabled');
+
 			jQuery.post(ajaxurl,
 				{
-					action: 'mbt_api_key_refresh',
-					api_key: jQuery('#mbt_api_key').val(),
+					action: element.attr('data-refresh-action'),
+					api_key: jQuery('#'+element.attr('data-key-element')).val(),
 				},
 				function(response) {
-					jQuery('#mbt_api_key_refresh').removeAttr('disabled');
-					jQuery(".mbt_api_key_feedback").html(response);
+					element.removeAttr('disabled');
+					element.parent().find(".mbt_api_key_feedback").html(response);
 				}
 			);
 		}

@@ -256,11 +256,12 @@ function mbt_admin_setup_default_affiliates_notice() {
 }
 
 function mbt_admin_download_addon_notice() {
+	if($_GET['subpage'] == 'mbt_download_addon_page') { return; }
 	$name = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? __("Developer", 'mybooktable') : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? __("Professional", 'mybooktable') : "");
 	?>
 	<div id="message" class="mbt-admin-notice">
 		<h4><?php _e('<strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!', 'mybooktable'); ?></h4>
-		<a class="notice-button primary" href="https://gumroad.com/library/" target="_blank"><?php _e('Download', 'mybooktable'); ?></a>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page')); ?>"><?php _e('Download', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }

@@ -1,7 +1,7 @@
 === MyBookTable ===
 Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
-Tags: books, bookstore, authors, ecommerce, amazon, affiliate, store, booktable, book, author plugin, books post type, books widget, books plugin, ibooks, iTunes, kobo, noble, smashwords, goodreads, gumroad, linkshare, commissionjunction 
+Tags: book, books, ecommerce, affiliate, store, author plugin, amazon, ibooks, iTunes, smashwords, goodreads, gumroad
 Requires at least: 3.5.0
 Tested up to: 4.1.0
 Stable tag: trunk
@@ -60,7 +60,7 @@ MyBookTable comes with Buy Buttons for the following stores:
 * Sony Reader
 
 = Premium Buy Buttons =
-The following buy buttons are available with the Pro & Dev Add-On for MyBookTable.
+The following buy buttons are available with the Pro & Dev Add-on for MyBookTable.
 
 * PayPal
 * 1ShoppingCart
@@ -173,6 +173,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 * New shadow box feature lets you have you buy buttons show up in a separate shadow box instead of on your pages
 * New button on book sorting page to allow you to alphabetize your books
 * New import functionality from Totally Booked
+* New Gumroad buy button
 
 = 1.3.7 =
 * Added official WordPress 4.1 compatability

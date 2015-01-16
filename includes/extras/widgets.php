@@ -15,7 +15,7 @@ class MBT_Featured_Book extends WP_Widget {
 		$widget_ops = array('classname' => 'mbt_featured_book', 'description' => __("Displays featured or random books.", 'mybooktable'));
 		parent::WP_Widget('mbt_featured_book', __('MyBookTable Featured Books', 'mybooktable'), $widget_ops);
 		add_action('admin_enqueue_scripts', array('MBT_Featured_Book', 'enqueue_widget_js'));
-		$this->defaultargs = array('title' => __('Featured Books', 'mybooktable'), 'selectmode' => 'by_date', 'featured_books' => array(), 'image_size' => 'medium', 'num_books' => 1, 'show_blurb' => true);
+		$this->defaultargs = array('title' => __('Featured Books', 'mybooktable'), 'selectmode' => 'by_date', 'featured_books' => array(), 'image_size' => 'medium', 'num_books' => 1, 'show_blurb' => true, 'use_shadowbox' => true);
 	}
 
 	public static function enqueue_widget_js() {
@@ -65,8 +65,7 @@ class MBT_Featured_Book extends WP_Widget {
 						<?php if($show_blurb) { ?><div class="mbt-book-blurb"><?php echo(mbt_get_book_blurb($book->ID, true)); ?></div><?php } ?>
 						<div class="mbt-book-buybuttons">
 							<?php
-								$buybuttons = mbt_get_buybuttons($book->ID, array('display' => 'featured'));
-								echo(mbt_format_buybuttons($buybuttons));
+								echo(mbt_get_buybuttons($book->ID, true, !empty($use_shadowbox)));
 							?>
 							<div style="clear:both;"></div>
 						</div>
@@ -87,6 +86,7 @@ class MBT_Featured_Book extends WP_Widget {
 		$instance['image_size'] = $new_instance['image_size'];
 		$instance['num_books'] = intval($new_instance['num_books']);
 		$instance['show_blurb'] = (bool)$new_instance['show_blurb'];
+		$instance['use_shadowbox'] = (bool)$new_instance['use_shadowbox'];
 		$instance['featured_books'] = (array)json_decode($new_instance['featured_books']);
 		unset($instance['featured_book']);
 		return $instance;
@@ -112,6 +112,10 @@ class MBT_Featured_Book extends WP_Widget {
 			<p>
 				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('show_blurb'); ?>" name="<?php echo $this->get_field_name('show_blurb'); ?>"<?php checked($show_blurb); ?> />
 				<label for="<?php echo $this->get_field_id('show_blurb'); ?>"><?php _e('Show book blurb', 'mybooktable'); ?></label>
+			</p>
+			<p>
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('use_shadowbox'); ?>" name="<?php echo $this->get_field_name('use_shadowbox'); ?>"<?php checked($use_shadowbox); ?> />
+				<label for="<?php echo $this->get_field_id('use_shadowbox'); ?>"><?php _e('Use shadow box for Buy Buttons', 'mybooktable'); ?></label>
 			</p>
 			<p>
 				<label for="<?php echo($this->get_field_id('selectmode')); ?>"><?php _e('Choose how to select the featured books:', 'mybooktable'); ?></label>
