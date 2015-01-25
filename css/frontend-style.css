@@ -214,18 +214,18 @@
 /* Buy Buttons                                             */
 /*---------------------------------------------------------*/
 
-.mbt-book-buybuttons {
+.mbt-book .mbt-book-buybuttons {
 	margin: 15px 0px 0px 20px;
 }
 
-.mbt-book-buybuttons .mbt-book-buybutton  {
+.mbt-book .mbt-book-buybuttons .mbt-book-buybutton  {
 	width: auto;
 	float: left;
 	clear: none;
 	padding: 5px 10px 0px 0px;
 }
 
-.mbt-book-buybuttons .mbt-book-buybutton img {
+.mbt-book .mbt-book-buybuttons .mbt-book-buybutton img {
 	background: transparent;
 	border: none;
 	height: auto;
@@ -238,28 +238,31 @@
 	opacity: 1;
 }
 
-.mbt-book-buybuttons-textonly {
+.mbt-book .mbt-book-buybuttons-textonly {
 	display: block;
 	float: left;
 	clear: both;
 	margin: 15px 0px 0px 0px;
 }
 
-.mbt-book-buybuttons-textonly h3  {
+.mbt-book .mbt-book-buybuttons-textonly h3  {
 	margin: 0px;
 	padding: 0px;
 }
 
-.mbt-book-buybuttons-textonly ul {
+.mbt-book .mbt-book-buybuttons-textonly ul {
 	margin: 5px 0 5px 0;
 	padding: 0 0 0 30px
 }
 
-.mbt-book-buybuttons-textonly ul li {
+.mbt-book .mbt-book-buybuttons-textonly ul li {
 	list-style-type: disc;
+	background: none;
+	padding: 0;
+	margin: 0;
 }
 
-.mbt-book-buybuttons-textonly ul li a {
+.mbt-book .mbt-book-buybuttons-textonly ul li a {
 	font-size: 15px;
 	line-height: 15px;
 }
@@ -807,6 +810,11 @@ body.mybooktable .entry-meta {
 	padding: 12px 0px;
 }
 
+#mbt_tb_ajaxContent .mbt-book {
+	clear: none;
+	padding: 0;
+}
+
 #mbt_tb_ajaxContent .mbt-book-buybuttons {
 	margin: 0;
 	float: left;
@@ -862,11 +870,13 @@ body.mybooktable .entry-meta {
 
 #mbt_tb_overlay {
 	position: fixed;
-	z-index:100;
 	top: 0px;
 	left: 0px;
 	height:100%;
 	width:100%;
+
+	/*this may SEEM excessive, but it's required to support certain themes that use z-index a little too liberally... */
+	z-index: 10000;
 }
 
 .mbt_tb_overlayMacFFBGHack {
@@ -888,13 +898,15 @@ body.mybooktable .entry-meta {
 #mbt_tb_window {
 	position: fixed;
 	background: #ffffff;
-	z-index: 102;
 	color:#000000;
 	display:none;
 	border: 4px solid #525252;
 	text-align:left;
 	top:50%;
 	left:50%;
+
+	/*this may SEEM excessive, but it's required to support certain themes that use z-index a little too liberally... */
+	z-index: 10002;
 }
 
 * html #mbt_tb_window { /* ie6 hack */

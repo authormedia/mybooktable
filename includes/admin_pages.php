@@ -5,14 +5,13 @@ function mbt_admin_pages_init() {
 		add_action('admin_menu', 'mbt_add_admin_pages', 9);
 		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
 		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
-		add_action('admin_init', 'mbt_save_settings_page');
-		add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
 	}
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
 
 function mbt_enqueue_admin_styles() {
 	wp_enqueue_style('mbt-admin-css', plugins_url('css/admin-style.css', dirname(__FILE__)));
+	wp_enqueue_style('mbt-jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
 }
 
 function mbt_enqueue_admin_js() {
@@ -22,29 +21,36 @@ function mbt_enqueue_admin_js() {
 	wp_enqueue_script('jquery-ui-tabs');
 	wp_enqueue_script('jquery-ui-sortable');
 	wp_enqueue_script('jquery-ui-slider');
-	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
-	wp_enqueue_style('mbt-jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
-	wp_enqueue_script("mbt-media-upload", plugins_url('js/media-upload.js', dirname(__FILE__)));
-	wp_enqueue_script("mbt-settings-page", plugins_url('js/settings-page.js', dirname(__FILE__)));
-	if(function_exists('wp_enqueue_media')) { wp_enqueue_media(); }
-	wp_localize_script('mbt-media-upload', 'mbt_media_upload_i18n', array(
+	wp_enqueue_script('jquery-ui-accordion');
+	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/lib/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
+
+	wp_enqueue_script('mbt-admin-pages', plugins_url('js/admin.js', dirname(__FILE__)), array('jquery'));
+	wp_localize_script('mbt-admin-pages', 'mbt_media_upload_i18n', array(
 		'mbt_upload_sample_button' => __('Sample Chapter Image', 'mybooktable'),
 		'mbt_upload_tax_image_button' => __('Taxonomy Image', 'mybooktable'),
 		'mbt_set_book_image_button' => __('Book Cover Image', 'mybooktable'),
 		'select' => __('Select', 'mybooktable')
 	));
+
+	if(function_exists('wp_enqueue_media')) { wp_enqueue_media(); }
 }
 
 function mbt_add_admin_pages() {
-	add_menu_page(__("MyBookTable", 'mybooktable'), __("MyBookTable", 'mybooktable'), 'edit_posts', "mbt_dashboard", 'mbt_render_dashboard', 'dashicons-book', '10.7');
-	add_submenu_page("mbt_dashboard", __("Books", 'mybooktable'), __("Books", 'mybooktable'), 'edit_posts', "edit.php?post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Add Book", 'mybooktable'), __("Add Book", 'mybooktable'), 'edit_posts', "post-new.php?post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Authors", 'mybooktable'), __("Authors", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Genres", 'mybooktable'), __("Genres", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Series", 'mybooktable'), __("Series", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("Tags", 'mybooktable'), __("Tags", 'mybooktable'), 'edit_posts', "edit-tags.php?taxonomy=mbt_tag&amp;post_type=mbt_book");
-	add_submenu_page("mbt_dashboard", __("MyBookTable Settings", 'mybooktable'), __("Settings", 'mybooktable'), 'manage_options', "mbt_settings", 'mbt_render_settings_page');
-	add_submenu_page("mbt_dashboard", __("MyBookTable Help", 'mybooktable'), __("Help", 'mybooktable'), 'edit_posts', "mbt_help", 'mbt_render_help_page');
+	add_menu_page(__('MyBookTable', 'mybooktable'), __('MyBookTable', 'mybooktable'), 'edit_posts', 'mbt_dashboard', 'mbt_render_dashboard', 'dashicons-book', '10.7');
+	add_submenu_page('mbt_dashboard', __('Books', 'mybooktable'), __('Books', 'mybooktable'), 'edit_posts', 'edit.php?post_type=mbt_book');
+	add_submenu_page('mbt_dashboard', __('Add Book', 'mybooktable'), __('Add Book', 'mybooktable'), 'edit_posts', 'post-new.php?post_type=mbt_book');
+	add_submenu_page('mbt_dashboard', __('Authors', 'mybooktable'), __('Authors', 'mybooktable'), 'manage_categories', 'edit-tags.php?taxonomy=mbt_author&amp;post_type=mbt_book');
+	add_submenu_page('mbt_dashboard', __('Genres', 'mybooktable'), __('Genres', 'mybooktable'), 'manage_categories', 'edit-tags.php?taxonomy=mbt_genre&amp;post_type=mbt_book');
+	add_submenu_page('mbt_dashboard', __('Series', 'mybooktable'), __('Series', 'mybooktable'), 'manage_categories', 'edit-tags.php?taxonomy=mbt_series&amp;post_type=mbt_book');
+	add_submenu_page('mbt_dashboard', __('Tags', 'mybooktable'), __('Tags', 'mybooktable'), 'manage_categories', 'edit-tags.php?taxonomy=mbt_tag&amp;post_type=mbt_book');
+	add_submenu_page('mbt_dashboard', __('Import Books', 'mybooktable'), __('Import Books', 'mybooktable'), 'edit_posts', 'mbt_import', 'mbt_render_import_page');
+	add_submenu_page('mbt_dashboard', __('MyBookTable Settings', 'mybooktable'), __('Settings', 'mybooktable'), 'manage_options', 'mbt_settings', 'mbt_render_settings_page');
+	add_submenu_page('mbt_dashboard', __('MyBookTable Help', 'mybooktable'), __('Help', 'mybooktable'), 'edit_posts', 'mbt_help', 'mbt_render_help_page');
+
+	if(!defined('MBTDEV_VERSION') and !defined('MBTPRO_VERSION')) {
+		$page_hook = add_submenu_page('mbt_dashboard', __('Upgrade', 'mybooktable'), __('Upgrade MyBookTable', 'mybooktable'), 'edit_posts', 'mbt_upgrade_link', ' ');
+		add_action('load-'.$page_hook, 'mbt_upgrade_link_redirect');
+	}
 
 	remove_menu_page("edit.php?post_type=mbt_book");
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit.php?post_type=mbt_book");
@@ -55,16 +61,31 @@ function mbt_add_admin_pages() {
 	remove_submenu_page("edit.php?post_type=mbt_book", "edit-tags.php?taxonomy=mbt_tag&amp;post_type=mbt_book");
 }
 
-function mbt_hide_api_key($key) {
-	return substr($key, 0, 4) . str_repeat("*", max(0, strlen($key)-4));
+function mbt_upgrade_link_redirect() {
+	wp_redirect('https://www.authormedia.com/mybooktable', 301);
+	exit();
 }
 
-//needs to happen before setup.php admin_init in order to properly update admin notices
+
+/*---------------------------------------------------------*/
+/* Settings Page                                           */
+/*---------------------------------------------------------*/
+
+function mbt_settings_page_init() {
+	add_action('wp_ajax_mbt_api_key_refresh', 'mbt_api_key_refresh_ajax');
+	add_action('wp_ajax_mbt_style_pack_preview', 'mbt_style_pack_preview_ajax');
+	add_action('wp_ajax_mbt_button_size_preview', 'mbt_button_size_preview_ajax');
+
+	//needs to happen before setup.php admin_init in order to properly update admin notices
+	add_action('admin_init', 'mbt_save_settings_page');
+}
+add_action('mbt_init', 'mbt_settings_page_init');
+
 function mbt_save_settings_page() {
 	if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_settings'])) {
 		do_action('mbt_settings_save');
 
-		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key') and $_REQUEST['mbt_api_key'] != mbt_hide_api_key(mbt_get_setting('api_key'))) {
+		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
 			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
 			mbt_verify_api_key();
 		}
@@ -82,13 +103,13 @@ function mbt_save_settings_page() {
 
 		mbt_update_setting('style_pack', $_REQUEST['mbt_style_pack']);
 		mbt_update_setting('image_size', $_REQUEST['mbt_image_size']);
+		mbt_update_setting('reviews_box', $_REQUEST['mbt_reviews_box']);
 		mbt_update_setting('enable_buybutton_shadowbox', isset($_REQUEST['mbt_enable_buybutton_shadowbox']));
 		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
 		mbt_update_setting('show_series', isset($_REQUEST['mbt_show_series']));
-		mbt_update_setting('series_in_excerpts', isset($_REQUEST['mbt_series_in_excerpts']));
 		mbt_update_setting('show_find_bookstore', isset($_REQUEST['mbt_show_find_bookstore']));
 		mbt_update_setting('hide_domc_notice', isset($_REQUEST['mbt_hide_domc_notice']));
-		mbt_update_setting('domc_notice_text', $_REQUEST['mbt_domc_notice_text']);
+		mbt_update_setting('domc_notice_text', wp_unslash($_REQUEST['mbt_domc_notice_text']));
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
 		mbt_update_setting('book_button_size', $_REQUEST['mbt_book_button_size']);
 		mbt_update_setting('listing_button_size', $_REQUEST['mbt_listing_button_size']);
@@ -96,18 +117,17 @@ function mbt_save_settings_page() {
 
 		$settings_updated = true;
 	} else if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_default_affiliate_settings'])) {
-		if(isset($_REQUEST['mbt_enable_default_affiliates'])) { mbt_update_setting('enable_default_affiliates', true); }
-		if(isset($_REQUEST['mbt_disable_default_affiliates'])) { mbt_update_setting('enable_default_affiliates', false); }
+		if(isset($_REQUEST['mbt_enable_default_affiliates']) and !empty($_REQUEST['mbt_enable_default_affiliates'])) {
+			mbt_update_setting('enable_default_affiliates', $_REQUEST['mbt_enable_default_affiliates'] === 'true');
+		}
 	}
 
 	if(isset($_REQUEST['mbt_remove_booktable_page'])) { mbt_update_setting('booktable_page', 0); }
 }
 
 function mbt_api_key_refresh_ajax() {
-	if($_REQUEST['api_key'] != mbt_hide_api_key(mbt_get_setting('api_key'))) {
-		mbt_update_setting('api_key', $_REQUEST['api_key']);
-		mbt_verify_api_key();
-	}
+	mbt_update_setting('api_key', $_REQUEST['data']);
+	mbt_verify_api_key();
 	echo(mbt_api_key_feedback());
 	die();
 }
@@ -129,6 +149,353 @@ function mbt_api_key_feedback() {
 	return $output;
 }
 
+function mbt_style_pack_preview_ajax() {
+	echo('<img src="'.mbt_style_url('amazon_button.png',  $_REQUEST['data']).'">');
+	die();
+}
+
+function mbt_button_size_preview_ajax() {
+	mbt_button_size_feedback($_REQUEST['data']);
+	die();
+}
+
+function mbt_button_size_feedback($size) {
+	$id = 'mbt_book_'.time().'_'.rand();
+	echo('<img id="'.$id.'" src="'.mbt_style_url('amazon_button.png', 'Default').'">');
+	echo('<style type="text/css">');
+	if($size == 'small') { echo('#'.$id.' { width: 144px; height: 25px; }'); }
+	else if($size == 'medium') { echo('#'.$id.' { width: 172px; height: 30px; }'); }
+	else { echo('#'.$id.' { width: 201px; height: 35px; }'); }
+	echo('</style>');
+}
+
+function mbt_render_settings_page() {
+	if(!empty($_GET['mbt_setup_default_affiliates'])) { return mbt_render_setup_default_affiliates_page(); }
+?>
+	<div class="wrap mbt_settings">
+		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('MyBookTable Settings', 'mybooktable'); ?></h2>
+		<?php if(!empty($settings_updated)) { ?>
+			<div id="setting-error-settings_updated" class="updated settings-error"><p><strong><?php _e('Settings saved', 'mybooktable'); ?>.</strong></p></div>
+		<?php } ?>
+
+		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
+			<input type="hidden" name="mbt_current_tab" id="mbt_current_tab" value="<?php echo(isset($_REQUEST['mbt_current_tab'])?$_REQUEST['mbt_current_tab']:1); ?>">
+
+			<div id="mbt-tabs">
+				<ul>
+					<li><a href="#mbt-tab-1"><?php _e('Setup', 'mybooktable'); ?></a></li>
+					<li><a href="#mbt-tab-2"><?php _e('Style', 'mybooktable'); ?></a></li>
+					<li><a href="#mbt-tab-3"><?php _e('Promote', 'mybooktable'); ?></a></li>
+					<li><a href="#mbt-tab-4"><?php _e('Earn', 'mybooktable'); ?></a></li>
+					<li><a href="#mbt-tab-5"><?php _e('Integrate', 'mybooktable'); ?></a></li>
+					<li><a href="#mbt-tab-6"><?php _e('Uninstall', 'mybooktable'); ?></a></li>
+				</ul>
+				<div class="mbt-tab" id="mbt-tab-1">
+					<table class="form-table">
+						<tbody>
+							<tr>
+								<th><?php _e('MyBookTable API Key', 'mybooktable'); ?></th>
+								<td>
+									<div class="mbt_api_key_feedback mbt_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
+									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" class="regular-text" />
+									<div class="mbt_feedback_refresh" data-refresh-action="mbt_api_key_refresh" data-element="mbt_api_key"></div>
+									<p class="description"><?php _e('If you have purchased an Add-on API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an Add-on API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<tr>
+								<th><?php _e('Book Table Page', 'mybooktable'); ?></th>
+								<td>
+									<select name="mbt_booktable_page" id="mbt_booktable_page">
+										<option value="0" <?php selected(mbt_get_setting('booktable_page'), 0); ?> ><?php _e('-- Choose One --', 'mybooktable');?></option>
+										<?php foreach(get_pages() as $page) { ?>
+											<option value="<?php echo($page->ID); ?>" <?php selected(mbt_get_setting('booktable_page'), $page->ID); ?> ><?php echo($page->post_title); ?></option>
+										<?php } ?>
+									</select>
+									<?php if(mbt_get_setting('booktable_page') == 0 or !get_page(mbt_get_setting('booktable_page'))) { ?>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" class="button button-primary"><?php _e('Click here to create a Book Table page', 'mybooktable'); ?></a>
+									<?php } else { ?>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_remove_booktable_page=1')); ?>" class="button button-primary"><?php _e('Remove Book Table page', 'mybooktable'); ?></a>
+									<?php } ?>
+									<p class="description"><?php _e('The Book Table page is the main landing page for your books.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<tr>
+								<th><label for="mbt_compatibility_mode"><?php _e('Compatability Mode', 'mybooktable'); ?></label></th>
+								<td>
+									<input type="checkbox" name="mbt_compatibility_mode" id="mbt_compatibility_mode" <?php checked(mbt_get_setting('compatibility_mode'), true); ?> >
+									<p class="description"><?php _e('Checked = More Compatible Out of the Box. Unchecked = More Developer Control.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<?php if(!mbt_get_setting('installed_examples')) { ?>
+								<tr>
+									<th><?php _e('Example Books', 'mybooktable'); ?></th>
+									<td>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_examples=1')); ?>" class="button button-primary"><?php _e('Click here to create example books', 'mybooktable'); ?></a>
+										<p class="description"><?php _e('These examples will help you learn how to set up Genres, Series, Authors, and Books of your own.', 'mybooktable'); ?></p>
+									</td>
+								</tr>
+							<?php } ?>
+							<tr>
+								<th><?php _e('MyBookTable Product Name', 'mybooktable'); ?></th>
+								<td>
+									<input type="text" name="mbt_product_name" id="mbt_product_name" value="<?php echo(mbt_get_setting('product_name')); ?>" size="60" class="regular-text" />
+									<p class="description"><?php _e('You can use this to change the "books" slug used in the book page urls if you are selling something other than books, such as "DVDs", "Movies", or simply "Products".', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<?php do_action("mbt_setup_settings_render"); ?>
+					<input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>">
+				</div>
+				<div class="mbt-tab" id="mbt-tab-2">
+					<div class="mbt-accordion">
+						<h3>Buy Button Styles</h3>
+						<div>
+							<table class="form-table">
+								<tbody>
+									<tr>
+										<th><label for="mbt_style_pack"><?php _e('Style Pack', 'mybooktable'); ?></label></th>
+										<td colspan="3">
+											<?php $pack_upload_output = mbt_do_style_pack_upload(); ?>
+											<?php $current_style = mbt_get_setting('style_pack'); ?>
+											<div id="mbt_style_pack_preview" class="mbt_feedback"><img src="<?php echo(mbt_style_url('amazon_button.png', $current_style)); ?>"></div>
+											<select name="mbt_style_pack" id="mbt_style_pack" class="mbt_feedback_refresh" data-refresh-action="mbt_style_pack_preview" data-element="mbt_style_pack">
+												<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> ><?php _e('Default', 'mybooktable'); ?></option>
+												<?php foreach(mbt_get_style_packs() as $style) { ?>
+													<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
+												<?php } ?>
+											</select>
+											<input type="hidden" id="mbt_style_pack_id" name="mbt_style_pack_id" onchange="jQuery('#mbt_current_tab').val(2); jQuery('#mbt_settings_form').submit();">
+											<input id="mbt_upload_style_pack_button" type="button" class="button" value="<?php _e('Upload New Style Pack', 'mybooktable'); ?>">
+											<?php echo($pack_upload_output); ?>
+											<p class="description"><?php _e('Choose the style pack you would like for your buy buttons.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+									<tr>
+										<th><?php _e('Buy Button Sizes', 'mybooktable'); ?></th>
+										<?php $button_sizes = array('small' =>__('Small', 'mybooktable'), 'medium' => __('Medium', 'mybooktable'), 'large' => __('Large', 'mybooktable')); ?>
+										<td>
+											<h4><label for="mbt_book_button_size"><?php _e('Book Pages', 'mybooktable'); ?></label></h4>
+											<?php $book_button_size = mbt_get_setting('book_button_size'); ?>
+											<?php if(empty($book_button_size)) { $book_button_size = 'medium'; } ?>
+											<div id="mbt_book_button_size_preview" class="mbt_feedback"><?php mbt_button_size_feedback($book_button_size); ?></div>
+											<?php foreach($button_sizes as $size => $size_name) { ?>
+												<input type="radio" name="mbt_book_button_size" id="mbt_book_button_size_<?php echo($size); ?>" value="<?php echo($size); ?>" <?php checked($book_button_size, $size); ?>
+												class="mbt_feedback_refresh" data-refresh-action="mbt_button_size_preview" data-element="mbt_book_button_size_<?php echo($size); ?>"><?php echo($size_name); ?><br>
+											<?php } ?>
+											<p class="description"><?php _e('Select the size of the buy buttons on book pages.', 'mybooktable'); ?></p>
+										</td>
+										<td>
+											<h4><label for="mbt_book_button_size"><?php _e('Book Listings', 'mybooktable'); ?></label></h4>
+											<?php $listing_button_size = mbt_get_setting('listing_button_size'); ?>
+											<?php if(empty($listing_button_size)) { $listing_button_size = 'medium'; } ?>
+											<div id="mbt_listing_button_size_preview" class="mbt_feedback"><?php mbt_button_size_feedback($listing_button_size); ?></div>
+											<?php foreach($button_sizes as $size => $size_name) { ?>
+												<input type="radio" name="mbt_listing_button_size" id="mbt_listing_button_size_<?php echo($size); ?>" value="<?php echo($size); ?>" <?php checked($listing_button_size, $size); ?>
+												class="mbt_feedback_refresh" data-refresh-action="mbt_button_size_preview" data-element="mbt_listing_button_size_<?php echo($size); ?>"><?php echo($size_name); ?><br>
+											<?php } ?>
+											<p class="description"><?php _e('Select the size of the buy buttons on book listings.', 'mybooktable'); ?></p>
+										</td>
+										<td>
+											<h4><label for="mbt_book_button_size"><?php _e('Widgets', 'mybooktable'); ?></label></h4>
+											<?php $widget_button_size = mbt_get_setting('widget_button_size'); ?>
+											<?php if(empty($widget_button_size)) { $widget_button_size = 'medium'; } ?>
+											<div id="mbt_widget_button_size_preview" class="mbt_feedback"><?php mbt_button_size_feedback($widget_button_size); ?></div>
+											<?php foreach($button_sizes as $size => $size_name) { ?>
+												<input type="radio" name="mbt_widget_button_size" id="mbt_widget_button_size_<?php echo($size); ?>" value="<?php echo($size); ?>" <?php checked($widget_button_size, $size); ?>
+												class="mbt_feedback_refresh" data-refresh-action="mbt_button_size_preview" data-element="mbt_widget_button_size_<?php echo($size); ?>"><?php echo($size_name); ?><br>
+											<?php } ?>
+											<p class="description"><?php _e('Select the size of the buy buttons on widgets.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="mbt_enable_buybutton_shadowbox"><?php _e('Use Buy Button Shadow Box', 'mybooktable'); ?></label></th>
+										<td colspan="3">
+											<input type="checkbox" name="mbt_enable_buybutton_shadowbox" id="mbt_enable_buybutton_shadowbox" <?php checked(mbt_get_setting('enable_buybutton_shadowbox'), true); ?> >
+											<p class="description"><?php _e('Check to have buy buttons show up in a separate shadow box instead of being displayed directly on the page.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<?php do_action("mbt_buybutton_style_settings_render"); ?>
+						</div>
+						<h3>General Styles</h3>
+						<div>
+							<table class="form-table">
+								<tbody>
+									<tr>
+										<th><label for="mbt_image_size"><?php _e('Book Image Size', 'mybooktable'); ?></label></th>
+										<td>
+											<?php $image_sizes = array('small' =>__('Small', 'mybooktable'), 'medium' => __('Medium', 'mybooktable'), 'large' => __('Large', 'mybooktable')); ?>
+											<?php $image_size = mbt_get_setting('image_size'); ?>
+											<?php if(empty($image_size)) { $image_size = 'medium'; } ?>
+											<?php foreach($image_sizes as $size => $size_name) { ?>
+												<input type="radio" name="mbt_image_size" value="<?php echo($size); ?>" <?php checked($image_size, $size); ?> ><?php echo($size_name); ?><br>
+											<?php } ?>
+											<p class="description"><?php _e('Select the size of the book images.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="mbt_image_size"><?php _e('Book Reviews Box', 'mybooktable'); ?></label></th>
+										<td>
+											<?php
+												$reviews_boxes = mbt_get_reviews_boxes();
+												$current_reviews = mbt_get_setting('reviews_box');
+												if(empty($current_reviews)) { $current_reviews = 'none'; }
+												echo('<input type="radio" name="mbt_reviews_box" id="mbt_reviews_box_none" value="none" '.checked($current_reviews, 'none', false).'><label for="mbt_reviews_box_none">None</label><br>');
+												foreach($reviews_boxes as $slug => $reviews_data) {
+													if(!empty($reviews_data['disabled'])) {
+														echo('<input type="radio" name="mbt_reviews_box" id="mbt_reviews_box_'.$slug.'" value="'.$slug.'" '.checked($current_reviews, $slug, false).' disabled="disabled">');
+														echo('<label for="mbt_reviews_box_'.$slug.'" class="mbt_reviews_box_disabled">'.$reviews_data['name'].' ('.$reviews_data['disabled'].')</label><br>');
+													} else {
+														echo('<input type="radio" name="mbt_reviews_box" id="mbt_reviews_box_'.$slug.'" value="'.$slug.'" '.checked($current_reviews, $slug, false).'>');
+														echo('<label for="mbt_reviews_box_'.$slug.'">'.$reviews_data['name'].'</label><br>');
+													}
+												}
+											?>
+											<p class="description"><?php _e('Select the reviews box that will be displayed under each book with a valid ISBN.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="mbt_enable_breadcrumbs"><?php _e('Enable Breadcrumbs', 'mybooktable'); ?></label></th>
+										<td>
+											<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php checked(mbt_get_setting('enable_breadcrumbs'), true); ?> >
+											<p class="description"><?php _e('Check to enable MyBookTable\'s built-in breadcrumbs.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="mbt_show_series"><?php _e('Show other books in the same series', 'mybooktable'); ?></label></th>
+										<td>
+											<input type="checkbox" name="mbt_show_series" id="mbt_show_series" <?php checked(mbt_get_setting('show_series'), true); ?> >
+											<p class="description"><?php _e('If checked, the other books in the same series will display under the book.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="mbt_show_find_bookstore"><?php _e('Show the "Find A Local Bookstore" box', 'mybooktable'); ?></label></th>
+										<td>
+											<input type="checkbox" name="mbt_show_find_bookstore" id="mbt_show_find_bookstore" <?php checked(mbt_get_setting('show_find_bookstore'), true); ?> >
+											<p class="description"><?php _e('If checked, a box that helps your readers find places to buy your book will display under the book.', 'mybooktable'); ?></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<?php do_action("mbt_general_style_settings_render"); ?>
+						</div>
+						<h3>Book Listing Styles</h3>
+						<div>
+							<table class="form-table">
+								<tbody>
+									<tr>
+										<th><label for="mbt_posts_per_page"><?php _e('Number of Books per Page', 'mybooktable'); ?></label></th>
+										<td>
+											<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo(mbt_get_setting('posts_per_page') ? mbt_get_setting('posts_per_page') : get_option('posts_per_page')); ?>" class="regular-text">
+											<p class="description"><?php _e('Choose the number of books to show per page on the book listings', 'mybooktable'); ?>.</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<?php do_action("mbt_listings_style_settings_render"); ?>
+						</div>
+					</div>
+					<input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>">
+				</div>
+				<div class="mbt-tab" id="mbt-tab-3">
+					<table class="form-table">
+						<tbody>
+							<tr>
+								<th><label for="mbt_enable_seo"><?php _e('Enable SEO', 'mybooktable'); ?></label></th>
+								<td>
+									<input type="checkbox" name="mbt_enable_seo" id="mbt_enable_seo" <?php echo(mbt_get_setting('enable_seo') ? ' checked="checked"' : ''); ?> >
+									<p class="description"><?php _e('Check to enable MyBookTable\'s built-in SEO features.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<tr>
+								<th><label for="mbt_enable_socialmedia_badges_single_book"><?php _e('Enable Social Media Badges', 'mybooktable'); ?></label></th>
+								<td>
+									<input type="checkbox" name="mbt_enable_socialmedia_badges_single_book" id="mbt_enable_socialmedia_badges_single_book" <?php checked(mbt_get_setting('enable_socialmedia_badges_single_book'), true); ?> > <label for="mbt_enable_socialmedia_badges_single_book"><?php _e('On Book Pages', 'mybooktable'); ?></label><br>
+									<input type="checkbox" name="mbt_enable_socialmedia_badges_book_excerpt" id="mbt_enable_socialmedia_badges_book_excerpt" <?php checked(mbt_get_setting('enable_socialmedia_badges_book_excerpt'), true); ?> > <label for="mbt_enable_socialmedia_badges_book_excerpt"><?php _e('On Book Listings', 'mybooktable'); ?></label>
+									<p class="description"><?php _e('Check to enable MyBookTable\'s social media badges.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<tr>
+								<th><label for="mbt_enable_socialmedia_bar_single_book"><?php _e('Enable Social Media Bar', 'mybooktable'); ?></label></th>
+								<td>
+									<input type="checkbox" name="mbt_enable_socialmedia_bar_single_book" id="mbt_enable_socialmedia_bar_single_book" <?php checked(mbt_get_setting('enable_socialmedia_bar_single_book'), true); ?> >
+									<p class="description"><?php _e('Check to enable the social media bar on book pages.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<?php do_action("mbt_promote_settings_render"); ?>
+					<input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>">
+				</div>
+				<div class="mbt-tab" id="mbt-tab-4">
+					<?php do_action("mbt_affiliate_settings_render"); ?>
+					<table class="form-table">
+						<tbody>
+							<tr>
+								<th><label for="mbt_hide_domc_notice"><?php _e('Disclosure of Material Connection Disclaimer', 'mybooktable'); ?></label></th>
+								<td>
+									<textarea rows="5" cols="60" name="mbt_domc_notice_text" id="mbt_domc_notice_text"><?php echo(mbt_get_setting('domc_notice_text')); ?></textarea>
+									<p class="description">
+										<input type="checkbox" name="mbt_hide_domc_notice" id="mbt_hide_domc_notice" <?php checked(mbt_get_setting('hide_domc_notice'), true); ?> >
+										<?php _e('Hide Disclosure of Material Connection Disclaimer?', 'mybooktable'); ?>
+									</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<?php
+						if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
+							echo('<div class="mbt-default-affiliates">');
+							if(mbt_get_setting('enable_default_affiliates')) {
+								printf(__('Amazon and Barnes &amp; Noble Buy Buttons enabled! <a href="%s" target="_blank">Disable</a>', 'mybooktable'), admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1'));
+							} else {
+								printf(__('Amazon and Barnes &amp; Noble Buy Buttons disabled! <a href="%s" target="_blank">Enable</a>', 'mybooktable'), admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1'));
+							}
+							echo('<a href="'.admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1').'" class="mbt-default-affiliates-small" target="_blank">'.__('What does this mean?', 'mybooktable').'</a>');
+							echo('</div>');
+						}
+					?>
+					<input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>">
+				</div>
+				<div class="mbt-tab" id="mbt-tab-5">
+					<?php do_action("mbt_integrate_settings_render"); ?>
+					<input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>">
+				</div>
+				<div class="mbt-tab" id="mbt-tab-6">
+					<a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" class="button button-primary"><?php _e('Uninstall MyBookTable', 'mybooktable'); ?></a>
+					<p class="description"><?php _e('Use this to completely uninstall all MyBookTable settings, books, series, genres, tags, and authors. WARNING: THIS IS PERMANENT.', 'mybooktable'); ?></p>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+<?php
+}
+
+function mbt_render_setup_default_affiliates_page() {
+?>
+	<div class="wrap mbt_settings">
+		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('MyBookTable Settings', 'mybooktable'); ?></h2>
+
+		<p style="font-size:16px;">
+			<?php _e('MyBookTable comes with over a dozen buy buttons from stores around the web. Several of these buttons, including the ones for Amazon and Barnes &amp; Noble, use affiliate links. The revenue from these links is used to help support and improve the MyBookTable plugin. If you would like to use your own affiliate links, we have premium add-ons that come not only with affiliate integration but with premium support as well. You may also disable these buttons if you prefer.', 'mybooktable'); ?>
+		</p>
+
+		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
+			<input type="hidden" name="mbt_enable_default_affiliates" id="mbt_enable_default_affiliates" value="">
+			<input type="submit" name="save_default_affiliate_settings" class="button button-primary" onclick="jQuery('#mbt_enable_default_affiliates').val('true');" value="<?php _e('Enable Affiliate Buttons', 'mybooktable'); ?>">
+			<input type="submit" name="save_default_affiliate_settings" class="button button-primary" onclick="jQuery('#mbt_enable_default_affiliates').val('false');" value="<?php _e('Disable Affiliate Buttons', 'mybooktable'); ?>">
+			<a href="http://www.authormedia.com/mybooktable/add-ons" class="button button-primary" target="_blank"><?php _e('Buy a Premium Add-on with Affiliate support', 'mybooktable'); ?></a>
+		</form>
+		<br>
+		<a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;mbt_current_tab=4"><?php _e('Go to Affiliate Settings', 'mybooktable'); ?></a>
+	</div>
+<?php
+}
+
 function mbt_do_style_pack_upload() {
 	if(empty($_REQUEST['mbt_style_pack_id'])) { return ""; }
 	$file_post = get_post($_REQUEST['mbt_style_pack_id']);
@@ -137,20 +504,8 @@ function mbt_do_style_pack_upload() {
 	$file_path = get_post_meta($_REQUEST['mbt_style_pack_id'], '_wp_attached_file', true);
 
 	$nonce_url = wp_nonce_url('admin.php?page=mbt_settings', 'mbt-style-pack-upload');
-
-	ob_start();
-	$creds = request_filesystem_credentials($nonce_url, '', false, false, null);
-	$output = ob_get_contents();
-	ob_end_clean();
-	if($creds === false) { return '<br'.$output; }
-
-	if(!WP_Filesystem($creds)) {
-		ob_start();
-		request_filesystem_credentials($nonce_url, '', true, false, null);
-		$output = ob_get_contents();
-		ob_end_clean();
-		return '<br'.$output;
-	}
+	$output = mbt_get_wp_filesystem($nonce_url);
+	if(!empty($output)) { return '<br'.$output;	}
 
 	global $wp_filesystem;
 
@@ -168,284 +523,6 @@ function mbt_do_style_pack_upload() {
 	} else {
 		return '<br><span class="mbt_admin_message_failure">'.__('Error unzipping style pack!', 'mybooktable').'</span>';
 	}
-
-	return $output;
-}
-
-function mbt_render_settings_page() {
-	if(!empty($_GET['mbt_setup_default_affiliates'])) { return mbt_render_setup_default_affiliates_page(); }
-?>
-
-	<script>
-		jQuery(document).ready(function() {
-			jQuery("#mbt-tabs").tabs({active: <?php echo(isset($_REQUEST['tab'])?$_REQUEST['tab']:0); ?>});
-		});
-	</script>
-
-	<div class="wrap mbt_settings">
-		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('MyBookTable Settings', 'mybooktable'); ?></h2>
-		<?php if(!empty($settings_updated)) { ?>
-			<div id="setting-error-settings_updated" class="updated settings-error"><p><strong><?php _e('Settings saved', 'mybooktable'); ?>.</strong></p></div>
-		<?php } ?>
-
-		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
-
-			<div id="mbt-tabs">
-				<ul>
-					<li><a href="#tabs-1"><?php _e('General Settings', 'mybooktable'); ?></a></li>
-					<li><a href="#tabs-2"><?php _e('Affiliate Settings', 'mybooktable'); ?></a></li>
-					<li><a href="#tabs-3"><?php _e('Social Media Settings', 'mybooktable'); ?></a></li>
-					<li><a href="#tabs-4"><?php _e('SEO Settings', 'mybooktable'); ?></a></li>
-					<li><a href="#tabs-5"><?php _e('Display Settings', 'mybooktable'); ?></a></li>
-					<li><a href="#tabs-6"><?php _e('Uninstall', 'mybooktable'); ?></a></li>
-				</ul>
-				<div id="tabs-1">
-					<table class="form-table">
-						<tbody>
-							<tr valign="top">
-								<th scope="row"><?php _e('MyBookTable API Key', 'mybooktable'); ?></th>
-								<td>
-									<div class="mbt_api_key_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
-									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_hide_api_key(mbt_get_setting('api_key'))); ?>" size="60" class="regular-text" />
-									<div class="mbt_api_key_refresh" data-refresh-action="mbt_api_key_refresh" data-key-element="mbt_api_key"></div>
-									<p class="description"><?php _e('If you have purchased an Add-on API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an Add-on API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><?php _e('Book Table Page', 'mybooktable'); ?></th>
-								<td>
-									<select name="mbt_booktable_page" id="mbt_booktable_page">
-										<option value="0" <?php echo(mbt_get_setting('booktable_page') <= 0 ? ' selected="selected"' : '') ?> ><?php _e('-- Choose One --', 'mybooktable');?></option>
-										<?php foreach(get_pages() as $page) { ?>
-											<option value="<?php echo($page->ID); ?>" <?php echo(mbt_get_setting('booktable_page') == $page->ID ? ' selected="selected"' : ''); ?> ><?php echo($page->post_title); ?></option>
-										<?php } ?>
-									</select>
-									<?php if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" class="button button-primary"><?php _e('Click here to create a Book Table page', 'mybooktable'); ?></a>
-									<?php } else { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_remove_booktable_page=1')); ?>" class="button button-primary"><?php _e('Remove Book Table page', 'mybooktable'); ?></a>
-									<?php } ?>
-									<p class="description"><?php _e('The Book Table page is the main landing page for your books.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_compatibility_mode"><?php _e('Compatability Mode', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_compatibility_mode" id="mbt_compatibility_mode" <?php echo(mbt_get_setting('compatibility_mode') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Checked = More Compatible Out of the Box. Unchecked = More Developer Control.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<?php if(!mbt_get_setting('installed_examples')) { ?>
-								<tr valign="top">
-									<th scope="row"><?php _e('Example Books', 'mybooktable'); ?></th>
-									<td>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_examples=1')); ?>" class="button button-primary"><?php _e('Click here to create example books', 'mybooktable'); ?></a>
-										<p class="description"><?php _e('These examples will help you learn how to set up Genres, Series, Authors, and Books of your own.', 'mybooktable'); ?></p>
-									</td>
-								</tr>
-							<?php } ?>
-							<tr valign="top">
-								<th scope="row"><?php _e('MyBookTable Product Name', 'mybooktable'); ?></th>
-								<td>
-									<input type="text" name="mbt_product_name" id="mbt_product_name" value="<?php echo(mbt_get_setting('product_name')); ?>" size="60" class="regular-text" />
-									<p class="description"><?php _e('You can use this to change the "books" slug used in the book page urls if you are selling something other than books, such as "DVDs", "Movies", or simply "Products".', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<?php do_action("mbt_general_settings_render"); ?>
-					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=0');"></p>
-				</div>
-				<div id="tabs-2">
-					<?php do_action("mbt_affiliate_settings_render"); ?>
-					<?php
-						if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) {
-							echo('<hr>');
-							if(mbt_get_setting('enable_default_affiliates')) {
-								_e('Amazon and Barnes &amp; Noble Buy Buttons enabled! <a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">Disable</a>', 'mybooktable');
-							} else {
-								_e('Amazon and Barnes &amp; Noble Buy Buttons disabled! <a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">Enable</a>', 'mybooktable');
-							}
-							echo('&nbsp;&nbsp;<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1" style="font-size:10px">'.__('What does this mean?', 'mybooktable').'</a>');
-						}
-					?>
-					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1');"></p>
-				</div>
-				<div id="tabs-3">
-					<table class="form-table">
-						<tbody>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_socialmedia_badges_single_book"><?php _e('Enable Social Media Badges on Book Pages', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_socialmedia_badges_single_book" id="mbt_enable_socialmedia_badges_single_book" <?php echo(mbt_get_setting('enable_socialmedia_badges_single_book') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Check to enable MyBookTable\'s social media badges on book pages.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_socialmedia_badges_book_excerpt"><?php _e('Enable Social Media Badges on Book Listings', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_socialmedia_badges_book_excerpt" id="mbt_enable_socialmedia_badges_book_excerpt" <?php echo(mbt_get_setting('enable_socialmedia_badges_book_excerpt') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Check to enable MyBookTable\'s social media badges on book listings.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_socialmedia_bar_single_book"><?php _e('Enable Social Media Bar on Book Pages', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_socialmedia_bar_single_book" id="mbt_enable_socialmedia_bar_single_book" <?php echo(mbt_get_setting('enable_socialmedia_bar_single_book') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Check to enable the social media bar on book pages.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=2');"></p>
-				</div>
-				<div id="tabs-4">
-					<table class="form-table">
-						<tbody>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_seo"><?php _e('Enable SEO', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_seo" id="mbt_enable_seo" <?php echo(mbt_get_setting('enable_seo') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Check to enable MyBookTable\'s built-in SEO features.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=3');"></p>
-				</div>
-				<div id="tabs-5">
-					<table class="form-table">
-						<tbody>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_style_pack"><?php _e('Style Pack', 'mybooktable'); ?></label></th>
-								<td>
-									<?php $pack_upload_output = mbt_do_style_pack_upload(); ?>
-									<select name="mbt_style_pack" id="mbt_style_pack" style="width:100px">
-										<?php $current_style = mbt_get_setting('style_pack'); ?>
-										<option value="Default" <?php echo((empty($current_style) or $current_style == 'Default') ? ' selected="selected"' : '') ?> ><?php _e('Default', 'mybooktable'); ?></option>
-										<?php foreach(mbt_get_style_packs() as $style) { ?>
-											<option value="<?php echo($style); ?>" <?php echo($current_style == $style ? ' selected="selected"' : ''); ?> ><?php echo($style); ?></option>
-										<?php } ?>
-									</select>
-									<input type="hidden" id="mbt_style_pack_id" name="mbt_style_pack_id" onchange="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=4').submit();">
-									<input id="mbt_upload_style_pack_button" type="button" class="button" value="<?php _e('Add New', 'mybooktable'); ?>">
-									<?php echo($pack_upload_output); ?>
-									<p class="description"><?php _e('Choose the style pack you would like for your buy buttons.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_image_size"><?php _e('Book Image Size', 'mybooktable'); ?></label></th>
-								<td>
-									<?php $sizes = array('small' =>__('Small', 'mybooktable'), 'medium' => __('Medium', 'mybooktable'), 'large' => __('Large', 'mybooktable')); ?>
-									<?php $image_size = mbt_get_setting('image_size'); ?>
-									<?php if(empty($image_size)) { $image_size = 'medium'; } ?>
-									<?php foreach($sizes as $size => $size_name) { ?>
-										<input type="radio" name="mbt_image_size" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> ><?php echo($size_name); ?><br>
-									<?php } ?>
-									<p class="description"><?php _e('Select the size of the book images.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_buybutton_shadowbox"><?php _e('Use Buy Button Shadow Box', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_buybutton_shadowbox" id="mbt_enable_buybutton_shadowbox" <?php echo(mbt_get_setting('enable_buybutton_shadowbox') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Check to have buy buttons show up in a separate shadow box instead of being displayed directly on the page.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_enable_breadcrumbs"><?php _e('Enable Breadcrumbs', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php echo(mbt_get_setting('enable_breadcrumbs') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('Check to enable MyBookTable\'s built-in breadcrumbs.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_show_series"><?php _e('Show other books in the same series', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_show_series" id="mbt_show_series" <?php echo(mbt_get_setting('show_series') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('If checked, the other books in the same series will display under the book.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_series_in_excerpts"><?php _e('Show other books in the same series on book listings', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_series_in_excerpts" id="mbt_series_in_excerpts" <?php echo(mbt_get_setting('series_in_excerpts') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('If checked, the other books in the same series will display under the books on book listings.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_show_find_bookstore"><?php _e('Show the "Find A Local Bookstore" box', 'mybooktable'); ?></label></th>
-								<td>
-									<input type="checkbox" name="mbt_show_find_bookstore" id="mbt_show_find_bookstore" <?php echo(mbt_get_setting('show_find_bookstore') ? ' checked="checked"' : ''); ?> >
-									<p class="description"><?php _e('If checked, a box that helps your readers find places to buy your book will display under the book.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_posts_per_page"><?php _e('Number of Books per Page on Book Listings', 'mybooktable'); ?></label></th>
-								<td>
-									<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo(mbt_get_setting('posts_per_page') ? mbt_get_setting('posts_per_page') : get_option('posts_per_page')); ?>" class="regular-text">
-									<p class="description"><?php _e('Choose the number of books to show per page on the book listings', 'mybooktable'); ?>.</p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_hide_domc_notice"><?php _e('Disclosure of Material Connection Disclaimer', 'mybooktable'); ?></label></th>
-								<td>
-									<textarea rows="5" cols="60" name="mbt_domc_notice_text" id="mbt_domc_notice_text"><?php echo(mbt_get_setting('domc_notice_text')); ?></textarea>
-									<p class="description">
-										<input type="checkbox" name="mbt_hide_domc_notice" id="mbt_hide_domc_notice" <?php echo(mbt_get_setting('hide_domc_notice') ? ' checked="checked"' : ''); ?> >
-										<?php _e('Hide Disclosure of Material Connection Disclaimer?', 'mybooktable'); ?>
-									</p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_image_size"><?php _e('Buy Button Size on Book Pages', 'mybooktable'); ?></label></th>
-								<td>
-									<?php $book_button_size = mbt_get_setting('book_button_size'); ?>
-									<?php if(empty($book_button_size)) { $book_button_size = 'medium'; } ?>
-									<?php foreach($sizes as $size => $size_name) { ?>
-										<input type="radio" name="mbt_book_button_size" value="<?php echo($size); ?>" <?php echo($book_button_size == $size ? ' checked' : ''); ?> ><?php echo($size_name); ?><br>
-									<?php } ?>
-									<p class="description"><?php _e('Select the size of the buy buttons on book pages.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_image_size"><?php _e('Buy Button Size on Book Listings', 'mybooktable'); ?></label></th>
-								<td>
-									<?php $listing_button_size = mbt_get_setting('listing_button_size'); ?>
-									<?php if(empty($listing_button_size)) { $listing_button_size = 'medium'; } ?>
-									<?php foreach($sizes as $size => $size_name) { ?>
-										<input type="radio" name="mbt_listing_button_size" value="<?php echo($size); ?>" <?php echo($listing_button_size == $size ? ' checked' : ''); ?> ><?php echo($size_name); ?><br>
-									<?php } ?>
-									<p class="description"><?php _e('Select the size of the buy buttons on book listings.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="mbt_image_size"><?php _e('Buy Button Size on Widgets', 'mybooktable'); ?></label></th>
-								<td>
-									<?php $widget_button_size = mbt_get_setting('widget_button_size'); ?>
-									<?php if(empty($widget_button_size)) { $widget_button_size = 'medium'; } ?>
-									<?php foreach($sizes as $size => $size_name) { ?>
-										<input type="radio" name="mbt_widget_button_size" value="<?php echo($size); ?>" <?php echo($widget_button_size == $size ? ' checked' : ''); ?> ><?php echo($size_name); ?><br>
-									<?php } ?>
-									<p class="description"><?php _e('Select the size of the buy buttons on widgets.', 'mybooktable'); ?></p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<?php do_action("mbt_display_settings_render"); ?>
-					<p class="submit"><input type="submit" name="save_settings" class="button button-primary" value="<?php _e('Save Changes', 'mybooktable'); ?>" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=4');"></p>
-				</div>
-				<div id="tabs-6">
-					<p class="submit"><a href="<?php echo(admin_url('plugins.php?mbt_uninstall=1')); ?>" type="submit" name="save_settings" class="button button-primary"><?php _e('Uninstall MyBookTable', 'mybooktable'); ?></a></p>
-					<p class="description"><?php _e('Use this to completely uninstall all MyBookTable settings, books, series, genres, tags, and authors. WARNING: THIS IS PERMANENT.', 'mybooktable'); ?></p>
-				</div>
-			</div>
-
-		</form>
-
-	</div>
-
-<?php
 }
 
 function mbt_render_help_page() {
@@ -454,66 +531,173 @@ function mbt_render_help_page() {
 		mbt_admin_email_subscribe_notice();
 	}
 ?>
-	<div class="wrap">
-		<div id="icon-options-general" class="icon32"><br></div><h2 style="font-weight:bold"><?php _e('MyBookTable Help', 'mybooktable'); ?></h2>
+	<div class="wrap mbt_help">
+		<div id="icon-options-general" class="icon32"><br></div><h2 class="mbt_help_title"><?php _e('MyBookTable Help', 'mybooktable'); ?></h2>
 
-		<br><a href="https://gumroad.com/library/" target="_blank">Need to find or manage your API key? Access through Gumroad</a>
+		<div class="mbt_help_top_links">
+			<a class="mbt_help_link mbt_apikey" href="https://gumroad.com/library/" target="_blank">
+				<div class="mbt_icon"></div>Need to find or manage your <strong>API Key</strong>?<br>Access through Gumroad
+			</a>
+			<a class="mbt_help_link mbt_forum" href="http://wordpress.org/support/plugin/mybooktable" target="_blank">
+				<div class="mbt_icon"></div>Have <strong>questions or comments</strong>?<br>Check out the Support Forum
+			</a>
+			<a class="mbt_help_link mbt_develop" href="https://github.com/authormedia/mybooktable/wiki" target="_blank">
+				<div class="mbt_icon"></div>Looking for <strong>developer documentation</strong>?<br>Find it on Github
+			</a>
+			<div style="clear:both"></div>
+		</div>
 
 		<?php if(!mbt_get_setting('pro_active') and !mbt_get_setting('dev_active')) { ?>
-			<br><a href="http://www.authormedia.com/mybooktable/add-ons/" target="_blank"><?php _e('Need Premium Support? Purchase an add-on here.', 'mybooktable'); ?></a><br><br>
+			<div class="mbt_get_premium_support"><a href="http://www.authormedia.com/mybooktable/add-ons/" class="button button-primary"><?php _e('Need Premium Support? Purchase an add-on here', 'mybooktable'); ?></a></div>
 		<?php } else { ?>
-			<h3><?php _e('Premium Support Options', 'mybooktable'); ?></h3>
-			<a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank"><?php _e('Submit a Ticket', 'mybooktable'); ?></a><br>
-			<a href="http://authormedia.freshdesk.com/support/discussions" target="_blank"><?php _e('Visit the Support Forum', 'mybooktable'); ?></a><br>
-			<a href="http://authormedia.freshdesk.com/support/discussions/topics/new" target="_blank"><?php _e('Suggest a Feature', 'mybooktable'); ?></a><br>
-			<a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank"><?php _e('Submit a Bug', 'mybooktable'); ?></a><br><br>
+			<div class="mbt_help_box">
+				<div class="mbt_help_box_title"><?php _e('Premium Support Options', 'mybooktable'); ?></div>
+				<div class="mbt_help_box_content">
+					<ul class="mbt_premium_support">
+						<li><a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank"><div class="mbt_icon mbt_ticket"></div><?php _e('Submit a Ticket', 'mybooktable'); ?></a></li>
+						<li><a href="http://authormedia.freshdesk.com/support/discussions" target="_blank"><div class="mbt_icon mbt_support"></div><?php _e('Visit the Support Forum', 'mybooktable'); ?></a></li>
+						<li><a href="http://authormedia.freshdesk.com/support/discussions/topics/new" target="_blank"><div class="mbt_icon mbt_feature"></div><?php _e('Suggest a Feature', 'mybooktable'); ?></a></li>
+						<li><a href="http://authormedia.freshdesk.com/support/tickets/new" target="_blank"><div class="mbt_icon mbt_bug"></div><?php _e('Submit a Bug', 'mybooktable'); ?></a><br></li>
+						<div style="clear:both"></div>
+					</ul>
+				</div>
+			</div>
 		<?php } ?>
 
-		<h2><?php _e('MyBookTable Tutorials', 'mybooktable'); ?></h2>
-		<ul>
-			<li><a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/"><?php _e('How to Add GoodReads Book Reviews to MyBookTable', 'mybooktable'); ?></a></li>
-		</ul>
+		<?php
+			$mybooktable_articles = array(
+				array(
+					'link' => 'http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/',
+					'img' => plugins_url('images/help/goodreads-reviews.jpg', dirname(__FILE__)),
+					'title' => __('How to Add GoodReads Book Reviews to MyBookTable', 'mybooktable')
+				),
+			);
 
-		<h2><?php _e('General WordPress Guides &amp; Tutorials', 'mybooktable'); ?></h2>
-		<ul>
-			<li><a href="http://www.authormedia.com/10-elements-proven-to-draw-readers-to-your-novels-website/" rel="bookmark"><?php _e('10 Ways Proven to Draw Readers to Your Novel\'s Website', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/how-to-upload-a-file-to-your-wordpress-site/" rel="bookmark"><?php _e('How to Upload a File to Your WordPress Site', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/how-to-create-a-pdf/" rel="bookmark"><?php _e('How to Create a PDF', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/how-to-add-a-hyperlink-to-wordpress/" rel="bookmark"><?php _e('How to Add a Hyperlink to WordPress', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/the-wordpress-hotkey-cheat-sheet-every-author-needs/" rel="bookmark"><?php _e('The WordPress Hotkey Cheat Sheet Every Author Needs', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/how-to-create-or-edit-posts-in-wordpress/" rel="bookmark"><?php _e('How to Create or Edit Posts in WordPress', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/how-to-keep-your-wordpress-site-secure-from-hackers/" rel="bookmark"><?php _e('How to Keep Your WordPress Site Secure From Hackers', 'mybooktable'); ?></a></li>
-			<li><a href="http://www.authormedia.com/how-to-find-zen-mode-in-wordpress/" rel="bookmark"><?php _e('How To Find Zen Mode in WordPress', 'mybooktable'); ?></a></li>
-		</ul>
+			$wordpress_articles = array(
+				array(
+					'link' => 'http://www.authormedia.com/10-elements-proven-to-draw-readers-to-your-novels-website/',
+					'img' => plugins_url('images/help/draw-readers.jpg', dirname(__FILE__)),
+					'title' => __('10 Ways Proven to Draw Readers to Your Novel\'s Website', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/how-to-upload-a-file-to-your-wordpress-site/',
+					'img' => plugins_url('images/help/upload-file.jpg', dirname(__FILE__)),
+					'title' => __('How to Upload a File to Your WordPress Site', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/how-to-create-a-pdf/',
+					'img' => plugins_url('images/help/create-pdf.jpg', dirname(__FILE__)),
+					'title' => __('How to Create a PDF', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/how-to-add-a-hyperlink-to-wordpress/',
+					'img' => plugins_url('images/help/add-link.jpg', dirname(__FILE__)),
+					'title' => __('How to Add a Hyperlink to WordPress', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/the-wordpress-hotkey-cheat-sheet-every-author-needs/',
+					'img' => plugins_url('images/help/hotkeys.jpg', dirname(__FILE__)),
+					'title' => __('The WordPress Hotkey Cheat Sheet Every Author Needs', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/how-to-create-or-edit-posts-in-wordpress/',
+					'img' => plugins_url('images/help/write-posts.jpg', dirname(__FILE__)),
+					'title' => __('How to Create or Edit Posts in WordPress', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/how-to-keep-your-wordpress-site-secure-from-hackers/',
+					'img' => plugins_url('images/help/hackers.jpg', dirname(__FILE__)),
+					'title' => __('How to Keep Your WordPress Site Secure From Hackers', 'mybooktable')
+				),
+				array(
+					'link' => 'http://www.authormedia.com/how-to-find-zen-mode-in-wordpress/',
+					'img' => plugins_url('images/help/zen.jpg', dirname(__FILE__)),
+					'title' => __('How To Find Zen Mode in WordPress', 'mybooktable')
+				),
+			);
+		?>
 
-		<h2><?php _e('MyBookTable Tutorial Videos', 'mybooktable'); ?></h2>
-		<h3><?php _e('MyBookTable Overview', 'mybooktable'); ?></h3>
-		<iframe width="640" height="360" src="http://player.vimeo.com/video/66113243" frameborder="0" allowfullscreen></iframe>
-		<p><?php _e('This video is a general introduction to MyBookTable.', 'mybooktable'); ?></p>
+		<div class="mbt_help_box">
+			<div class="mbt_help_box_title"><?php _e('Tutorial Articles', 'mybooktable'); ?></div>
+			<div class="mbt_help_box_content">
+				<h3><?php _e('MyBookTable Tutorials', 'mybooktable'); ?></h3>
+				<ul class="mbt_articles">
+					<?php foreach ($mybooktable_articles as $article) { ?>
+						<li>
+							<a href="<?php echo($article['link']); ?>" target="_blank">
+								<img src="<?php echo($article['img']); ?>">
+								<span><?php echo($article['title']); ?></span>
+							</a>
+						</li>
+					<?php } ?>
+					<div style="clear:both"></div>
+				</ul>
 
-		<h3><?php _e('How to Add Buy Buttons', 'mybooktable'); ?></h3>
-		<iframe width="640" height="360" src="http://player.vimeo.com/video/68790296" frameborder="0" allowfullscreen></iframe>
-		<p><?php _e('This video shows you how to add buy buttons to your books.', 'mybooktable'); ?></p>
+				<h3><?php _e('General WordPress Guides &amp; Tutorials', 'mybooktable'); ?></h3>
+				<ul class="mbt_articles">
+					<?php foreach ($wordpress_articles as $article) { ?>
+						<li>
+							<a href="<?php echo($article['link']); ?>" target="_blank">
+								<img src="<?php echo($article['img']); ?>">
+								<span><?php echo($article['title']); ?></span>
+							</a>
+						</li>
+					<?php } ?>
+					<div style="clear:both"></div>
+				</ul>
+			</div>
+		</div>
 
-		<h3><?php _e('How to Put Books in a Series', 'mybooktable'); ?></h3>
-		<iframe width="640" height="360" src="http://player.vimeo.com/video/66110874" frameborder="0" allowfullscreen></iframe>
-		<p><?php _e('This video shows you how to add books into a series.', 'mybooktable'); ?></p>
+		<?php
+			$video_tutorial = array(
+				array(
+					'video' => 'http://player.vimeo.com/video/66113243',
+					'title' => __('MyBookTable Overview', 'mybooktable'),
+					'desc' => __('This video is a general introduction to MyBookTable.', 'mybooktable')
+				),
+				array(
+					'video' => 'http://player.vimeo.com/video/68790296',
+					'title' => __('How to Add Buy Buttons', 'mybooktable'),
+					'desc' => __('This video shows you how to add buy buttons to your books.', 'mybooktable')
+				),
+				array(
+					'video' => 'http://player.vimeo.com/video/66110874',
+					'title' => __('How to Put Books in a Series', 'mybooktable'),
+					'desc' => __('This video shows you how to add books into a series.', 'mybooktable')
+				),
+				array(
+					'video' => 'http://player.vimeo.com/video/69188658',
+					'title' => __('How to Setup an Amazon Affiliate Account With MyBookTable', 'mybooktable'),
+					'desc' => __('This video walks you through setting up an Amazon Affiliate account and how to take your affiliate code and insert it into your MyBookTable plugin.', 'mybooktable')
+				),
+				array(
+					'video' => 'http://www.youtube.com/embed/LABESfhThhY',
+					'title' => __('Effective Book Blurb Strategies', 'mybooktable'),
+					'desc' => __('This video shows you how to write book blurbs for your books.', 'mybooktable')
+				),
+			);
+		?>
 
-		<h3><?php _e('How to Setup an Amazon Affiliate Account With MyBookTable', 'mybooktable'); ?></h3>
-		<iframe width="640" height="360" src="http://player.vimeo.com/video/69188658" frameborder="0" allowfullscreen></iframe>
-		<p><?php _e('This video walks you through setting up an Amazon Affiliate account and how to take your affiliate code and insert it into your MyBookTable plugin.', 'mybooktable'); ?></p>
-
-		<h3><?php _e('Effective Book Blurb Strategies', 'mybooktable'); ?></h3>
-		<iframe width="640" height="360" src="http://www.youtube.com/embed/LABESfhThhY" frameborder="0" allowfullscreen></iframe>
-		<p><?php _e('This video shows you how to write book blurbs for your books.', 'mybooktable'); ?></p>
-
-		<h2><?php _e('More tutorial videos coming soon!', 'mybooktable'); ?></h2>
+		<div class="mbt_help_box">
+			<div class="mbt_help_box_title"><?php _e('Tutorial Videos', 'mybooktable'); ?></div>
+			<div class="mbt_video_selector">
+				<?php foreach ($video_tutorial as $id => $tutorial) { ?>
+					<a target="_blank" href="<?php echo($tutorial['video']); ?>" data-video-id="mbt_video_<?php echo($id); ?>"><?php echo($tutorial['title']); ?></a>
+				<?php } ?>
+			</div>
+			<div class="mbt_video_display">
+				<?php foreach ($video_tutorial as $id => $tutorial) { ?>
+					<div class="mbt_video" id="mbt_video_<?php echo($id); ?>">
+						<iframe src="<?php echo($tutorial['video']); ?>" frameborder="0" allowfullscreen></iframe>
+					</div>
+				<?php } ?>
+			</div>
+			<div style="clear:both"></div>
+		</div>
 
 		<?php do_action("mbt_render_help_page", 'mybooktable'); ?>
 
 		<br>
-		<h2>Additional Support</h2>
-		<p>You can also check out WordPress' <a href="http://wordpress.org/support/plugin/mybooktable">MyBookTable Support Forum</a>.</p>
 	</div>
 
 <?php
@@ -558,6 +742,7 @@ function mbt_render_dashboard() {
 								<li><a href="<?php echo(admin_url('edit.php?post_type=mbt_book&mbt_install_examples=1')); ?>" class="welcome-icon"><?php _e('Look at some example Books', 'mybooktable'); ?></a></li>
 							<?php } ?>
 							<li><a href="<?php echo(admin_url('post-new.php?post_type=mbt_book')); ?>" class="welcome-icon welcome-add-page"><?php _e('Create your first book', 'mybooktable'); ?></a></li>
+							<li><a href="<?php echo(admin_url('admin.php?page=mbt_import')); ?>" class="welcome-icon welcome-widgets-menus"><?php _e('Import Books', 'mybooktable'); ?></a></li>
 							<li><a href="<?php echo(mbt_get_booktable_url()); ?>" class="welcome-icon welcome-view-site"><?php _e('View your Book Table', 'mybooktable'); ?></a></li>
 						</ul>
 					</div>
@@ -579,6 +764,24 @@ function mbt_render_dashboard() {
 							<li><a href="<?php echo(admin_url('admin.php?page=mbt_dashboard&subpage=mbt_founders_page')); ?>" class="welcome-icon welcome-write-blog"><?php _e('View Founders List', 'mybooktable'); ?></a></li>
 							<li><a href="http://authormedia.us1.list-manage.com/subscribe?u=b7358f48fe541fe61acdf747b&amp;id=6b5a675fcf" class="welcome-icon welcome-write-blog" target="_blank"><?php _e('Get Book Marketing Tips from Author Media', 'mybooktable'); ?></a></li>
 						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div style="clear:both"></div>
+		<div id="welcome-panel" class="welcome-panel">
+			<div class="welcome-panel-content">
+				<h3><?php _e('Promotions', 'mybooktable'); ?></h3>
+				<div class="welcome-panel-column-container">
+					<div class="welcome-panel-column">
+						<a href="http://authormedia.us1.list-manage.com/subscribe?u=b7358f48fe541fe61acdf747b&amp;id=6b5a675fcf" target="_blank"><img align="none" src="<?php echo(plugins_url('images/promotions/amazing_websites.jpg', dirname(__FILE__))); ?>" style="width: 300px; height: 300px;"></a>
+					</div>
+					<div class="welcome-panel-column">
+						<a href="http://www.authormedia.com/store/write-novel-month-mp3-ebook/" target="_blank"><img align="none" src="<?php echo(plugins_url('images/promotions/novel_month.jpg', dirname(__FILE__))); ?>" style="width: 300px; height: 300px;"></a>
+					</div>
+					<div class="welcome-panel-column">
+						<a href="http://www.authormedia.com/store/7-tax-saving-tips-irs-doesnt-want-authors-know/" target="_blank"><img align="none" src="<?php echo(plugins_url('images/promotions/tax_strategies_authors.jpg', dirname(__FILE__))); ?>" style="width: 300px; height: 300px;"></a>
 					</div>
 				</div>
 			</div>
@@ -621,24 +824,6 @@ function mbt_render_dashboard() {
 							<li><a href="http://mybooktable.com" target="_blank"><?php _e('And much much more', 'mybooktable'); ?></a></li>
 						</ul>
 					<?php } ?>
-				</div>
-			</div>
-		</div>
-
-		<div style="clear:both"></div>
-		<div id="welcome-panel" class="welcome-panel">
-			<div class="welcome-panel-content">
-				<h3><?php _e('Promotions', 'mybooktable'); ?></h3>
-				<div class="welcome-panel-column-container">
-					<div class="welcome-panel-column">
-						<a href="http://authormedia.us1.list-manage.com/subscribe?u=b7358f48fe541fe61acdf747b&amp;id=6b5a675fcf"><img align="none" src="<?php echo(plugins_url('images/amazing_websites.jpg', dirname(__FILE__))); ?>" style="width: 300px; height: 300px;"></a>
-					</div>
-					<div class="welcome-panel-column">
-						<a href="http://www.authormedia.com/store/write-novel-month-mp3-ebook/"><img align="none" src="<?php echo(plugins_url('images/novel_month.jpg', dirname(__FILE__))); ?>" style="width: 300px; height: 300px;"></a>
-					</div>
-					<div class="welcome-panel-column">
-						<a href="http://www.authormedia.com/store/7-tax-saving-tips-irs-doesnt-want-authors-know/"><img align="none" src="<?php echo(plugins_url('images/tax_strategies_authors.jpg', dirname(__FILE__))); ?>" style="width: 300px; height: 300px;"></a>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -698,8 +883,8 @@ function mbt_render_download_addon_page() {
 				if(!current_user_can('install_plugins')) { echo('<p>'.__('Sorry, but you do not have the correct permissions to install plugins. Contact the administrator of this site for help on getting the plugin installed.', 'mybooktable').'</p>'); return; }
 
 				$nonce_url = wp_nonce_url('admin.php?page=mbt_dashboard', 'mbt-install-addon');
-				if(false === ($creds = request_filesystem_credentials($nonce_url, '', false, false, null))) { return; }
-				if(!WP_Filesystem($creds)) { request_filesystem_credentials($nonce_url, '', true, false, null); return; }
+				$output = mbt_get_wp_filesystem($nonce_url);
+				if(!empty($output)) { echo($output); return; }
 
 				$plugin = array();
 				$plugin['name']   = $name;
@@ -728,7 +913,7 @@ function mbt_render_download_addon_page() {
 			}
 
 			$slug = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? 'mybooktable-dev' : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? 'mybooktable-pro' : '');
-			if(empty($slug)) { 
+			if(empty($slug)) {
 				echo('<p>'.__('You have no Add-ons available to download at this time.', 'mybooktable').'</p>');
 			} else {
 				if(!mbt_download_addon_check_is_plugin_inactivate($slug)) {
@@ -743,32 +928,10 @@ function mbt_render_download_addon_page() {
 <?php
 }
 
-function mbt_render_setup_default_affiliates_page() {
-?>
-	<div class="wrap mbt_settings">
-		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('MyBookTable Settings', 'mybooktable'); ?></h2>
-
-		<p style="font-size:16px;">
-			<?php _e('MyBookTable comes with over a dozen buy buttons from stores around the web. Two of these buttons-- namely, the ones for Amazon and Barnes &amp; Noble-- use affiliate links. The revenue from these links is used to help support and improve the MyBookTable plugin. If you would like to use your own affiliate links, we have premium add-ons that come not only with affiliate integration but with premium support as well. You may also disable these buttons if you prefer.', 'mybooktable'); ?>
-		</p>
-
-		<form id="mbt_settings_form" method="post" action="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>">
-			<input type="submit" name="save_default_affiliate_settings" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_enable_default_affiliates=1');" value="<?php _e('Enable Amazon and Barnes &amp; Noble Affiliate Buttons', 'mybooktable'); ?>">
-			<input type="submit" name="save_default_affiliate_settings" class="button button-primary" onclick="jQuery('#mbt_settings_form').attr('action', '<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1&amp;mbt_disable_default_affiliates=1');" value="<?php _e('Disable Amazon and Barnes &amp; Noble Affiliate Buttons', 'mybooktable'); ?>">
-			<a href="http://www.authormedia.com/mybooktable/add-ons" class="button button-primary" target="_blank"><?php _e('Buy a Premium Add-on with Affiliate support', 'mybooktable'); ?></a>
-		</form>
-		<br>
-		<a href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>&amp;tab=1"><?php _e('Go to Affiliate Settings', 'mybooktable'); ?></a>
-	</div>
-<?php
-}
-
 function mbt_render_founders_page() {
 ?>
-
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('MyBookTable Founders', 'mybooktable'); ?></h2>
-
 		<p><?php _e('This plugin was made possible by some adventurous kickstarters. We are so grateful for the members of the writing community who backed our Kickstarter project and helped us launch this plugin! Below are the ones who sponsored at the $75 level or higher. Thank you for your support!', 'mybooktable'); ?></p>
 		<h3 dir="ltr">$75+ Backer Level</h3>
 		<ul>
@@ -843,8 +1006,42 @@ function mbt_render_founders_page() {
 			<li><a href="http://www.advancedfictionwriting.com">Randy Ingermanson</a>, author of <a href="http://www.amazon.com/Writing-Fiction-Dummies-Randy-Ingermanson/dp/0470530707/">Writing Fiction for Dummies</a></li>
 			<li><a href="http://www.qualityusproducts.com">Ellen Pope</a></li>
 		</ul>
-
 	</div>
+<?php
+}
 
+function mbt_render_import_page() {
+	$importers = mbt_get_importers();
+
+	if(!empty($_GET['mbt_import_type'])) {
+		$import_type = $_GET['mbt_import_type'];
+		if(!empty($importers[$import_type])) {
+			return call_user_func_array($importers[$import_type]['callback'], array());
+		}
+		return mbt_render_founders_page();
+	}
+?>
+	<div class="wrap mbt_import_page">
+		<h2>Import Books</h2>
+		<p>If you have books in another system, MyBookTable can import those into this site. To get started, choose a system to import from below:</p>
+		<table class="widefat importers">
+			<tbody>
+				<?php
+					$alternate = true;
+					foreach($importers as $slug => $importer) {
+						echo('<tr'.($alternate ? ' class="alternate"' : '').'>');
+						if(empty($importer['disabled'])) {
+							echo('<td class="import-system row-title"><a href="'.admin_url('admin.php?page=mbt_import&mbt_import_type='.$slug).'">'.$importer['name'].'</a></td>');
+						} else {
+							echo('<td class="import-system row-title disabled">'.$importer['name'].'</td>');
+						}
+						echo('<td class="desc">'.$importer['desc'].((!empty($importer['disabled']) and is_string($importer['disabled'])) ? ' ('.$importer['disabled'].')' : '').'</td>');
+						echo('</tr>');
+						$alternate = !$alternate;
+					}
+				?>
+			</tbody>
+		</table>
+	</div>
 <?php
 }

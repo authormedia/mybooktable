@@ -11,5 +11,4 @@ do_action('mbt_single_book_buybuttons');
 ?></div><?php
 do_action('mbt_single_book_overview');
 do_action('mbt_single_book_socialmedia');
-if(!mbt_get_setting('hide_domc_notice')){ ?><div class="mbt-affiliate-disclaimer"><?php echo(mbt_get_setting('domc_notice_text')); ?></div><?php }
 do_action('mbt_after_single_book');

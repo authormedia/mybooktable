@@ -1,5 +1,10 @@
 jQuery(document).ready(function() {
-	function reset_numbers() {
+
+	/*---------------------------------------------------------*/
+	/* Buy Buttons Metabox                                     */
+	/*---------------------------------------------------------*/
+
+	function mbt_reset_buybutton_numbers() {
 		jQuery('#mbt_buybutton_editors .mbt_buybutton_editor').each(function(i) {
 			jQuery(this).find("div, input, textarea, select").each(function() {
 				ele = jQuery(this);
@@ -25,7 +30,7 @@ jQuery(document).ready(function() {
 				element = jQuery(response);
 				jQuery("#mbt_buybutton_editors").prepend(element);
 				element.find(".mbt_buybutton_display_selector").each(apply_display_title);
-				reset_numbers();
+				mbt_reset_buybutton_numbers();
 			}
 		);
 		return false;
@@ -33,7 +38,7 @@ jQuery(document).ready(function() {
 
 	jQuery("#mbt_buybutton_editors").on("click", ".mbt_buybutton_remover", function() {
 		jQuery(this).parents('.mbt_buybutton_editor').remove();
-		reset_numbers();
+		mbt_reset_buybutton_numbers();
 	});
 
 	function display_description(display) {
@@ -58,7 +63,11 @@ jQuery(document).ready(function() {
 	});
 	jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
 
-	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_content,.mbt_buybutton_display_selector", stop: function(){reset_numbers();}});
+	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_content,.mbt_buybutton_display_selector", stop: function(){mbt_reset_buybutton_numbers();}});
+
+	/*---------------------------------------------------------*/
+	/* Book Image                                              */
+	/*---------------------------------------------------------*/
 
 	jQuery("#mbt_book_image_id").change(function(){
 		jQuery.post(ajaxurl,
@@ -74,4 +83,11 @@ jQuery(document).ready(function() {
 			}
 		);
 	});
+
+	/*---------------------------------------------------------*/
+	/* Taxonomy Help                                           */
+	/*---------------------------------------------------------*/
+
+	jQuery('#mbt_authordiv .inside').append(jQuery(mbt_metabox_i18n.author_helptext));
+
 });

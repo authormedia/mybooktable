@@ -147,8 +147,17 @@ function mbt_amazon_affiliate_settings_render() {
 ?>
 	<table class="form-table">
 		<tbody>
-			<tr valign="top">
-				<th scope="row"><label style="color: #666"><?php _e('Amazon/Kindle Affiliate Code', 'mybooktable'); ?></label></th>
+			<tr>
+				<th>
+					<label style="color: #666"><?php _e('Amazon Affiliate Code', 'mybooktable'); ?></label>
+					<div class="mbt-affiliate-usedby">
+						Used by:
+						<ul>
+							<li>Amazon Buy Button</li>
+							<li>Kindle Buy Button</li>
+						</ul>
+					</div>
+				</th>
 				<td>
 					<input type="text" disabled="true" value="" class="regular-text">
 					<p class="description">
@@ -158,7 +167,7 @@ function mbt_amazon_affiliate_settings_render() {
 						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
 							echo('<a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page').'" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
-							printf(__('<a href="%s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings&setup_api_key=1'));
+							printf(__('<a href="%s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings'));
 						} else {
 							_e('<a href="http://www.authormedia.com/mybooktable/add-ons" target="_blank">Upgrade your MyBookTable</a> to get Amazon affiliate integration!', 'mybooktable');
 						}
@@ -183,9 +192,6 @@ function mbt_bnn_buybuttons_init() {
 	add_action('mbt_filter_buybutton_data', 'mbt_filter_bnn_buybutton_data', 10, 2);
 	add_action('mbt_affiliate_settings_render', 'mbt_linkshare_affiliate_settings_render');
 }
-
-//deprecated function
-function mbt_get_bnn_identifier($url) { return substr($url, 32); }
 
 function mbt_is_bbn_url_valid($url) {
 	return preg_match("/barnesandnoble.com\/((s\/([0-9]{13}))|(w\/.*[eE][aA][nN]=([0-9]{13})))/", $url);
@@ -231,8 +237,17 @@ function mbt_linkshare_affiliate_settings_render() {
 ?>
 	<table class="form-table">
 		<tbody>
-			<tr valign="top">
-				<th scope="row"><label style="color: #666"><?php _e('LinkShare Affiliate Code<br>(Used for Barnes &amp; Noble Affiliates)', 'mybooktable'); ?></label></th>
+			<tr>
+				<th>
+					<label style="color: #666"><?php _e('LinkShare Affiliate Code', 'mybooktable'); ?></label>
+					<div class="mbt-affiliate-usedby">
+						Used by:
+						<ul>
+							<li>Barnes &amp; Noble Buy Button</li>
+							<li>Kobo Buy Button</li>
+						</ul>
+					</div>
+				</th>
 				<td>
 					<input type="text" disabled="true" value="" class="regular-text">
 					<p class="description">
@@ -242,7 +257,7 @@ function mbt_linkshare_affiliate_settings_render() {
 						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
 							echo('<a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page').'" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
-							printf(__('<a href="$s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings&setup_api_key=1'));
+							printf(__('<a href="%s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings'));
 						} else {
 							_e('<a href="http://www.authormedia.com/mybooktable/add-ons" target="_blank">Upgrade your MyBookTable</a> to get Linkshare affiliate integration!', 'mybooktable');
 						}
@@ -318,7 +333,7 @@ function mbt_cj_affiliates_init() {
 	add_action('mbt_affiliate_settings_render', 'mbt_cj_affiliate_settings_render');
 }
 
-function mbt_get_cj_afilliate_link($url, $website_id) {
+function mbt_get_cj_affiliate_link($url, $website_id) {
 	$server = 'www.qksrv.net';
 
 	$scheme = 'http';
@@ -334,13 +349,13 @@ function mbt_get_cj_afilliate_link($url, $website_id) {
 
 	$extraParams = "";
 	if(!empty($frag)) { $extraParams = "/fragment/".urlencode($frag); }
-	
+
 	return $scheme."://".$server."/links/".$website_id."/type/am".$extraParams."/".$url;
 }
 
 function mbt_filter_audible_buybutton_data($data, $store) {
 	if($data['store'] == 'audible' and !empty($data['url'])) {
-		$data['url'] = mbt_get_cj_afilliate_link($data['url'], 7737731);
+		$data['url'] = mbt_get_cj_affiliate_link($data['url'], 7737731);
 	}
 	return $data;
 }
@@ -349,8 +364,16 @@ function mbt_cj_affiliate_settings_render() {
 ?>
 	<table class="form-table">
 		<tbody>
-			<tr valign="top">
-				<th scope="row"><label style="color: #666"><?php _e('Commission Junction Affiliate Information<br>(Used for Audible.com Affiliates)', 'mybooktable'); ?></label></th>
+			<tr>
+				<th>
+					<label style="color: #666"><?php _e('Commission Junction Affiliate Information', 'mybooktable'); ?></label>
+					<div class="mbt-affiliate-usedby">
+						Used by:
+						<ul>
+							<li>Audible.com Buy Button</li>
+						</ul>
+					</div>
+				</th>
 				<td>
 					<input type="text" disabled="true" value="" class="regular-text">
 					<p class="description">
@@ -360,7 +383,7 @@ function mbt_cj_affiliate_settings_render() {
 						} else if(mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !defined('MBTPRO_VERSION')) {
 							echo('<a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page').'" target="_blank">'.__('Download the MyBookTable Professional Add-on to activate your advanced features!', 'mybooktable').'</a>');
 						} else if(!mbt_get_setting('pro_active') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
-							printf(__('<a href="$s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings&setup_api_key=1'));
+							printf(__('<a href="$s" target="_blank">Insert your API Key</a> to activate your advanced features!', 'mybooktable'), admin_url('admin.php?page=mbt_settings'));
 						} else {
 							_e('<a href="http://www.authormedia.com/mybooktable/add-ons" target="_blank">Upgrade your MyBookTable</a> to get Linkshare affiliate integration!', 'mybooktable');
 						}

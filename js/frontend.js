@@ -1,8 +1,8 @@
 jQuery(document).ready(function() {
 
-	//---------------------------
-	// Find Bookstore Form
-	//---------------------------
+	/*---------------------------------------------------------*/
+	/* Find Bookstore Form                                     */
+	/*---------------------------------------------------------*/
 
 	var geocoder = new google.maps.Geocoder();
 	var formtimer = null;

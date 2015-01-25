@@ -268,11 +268,17 @@
 	font-weight: bold;
 }
 
+.mbt_settings .mbt-accordion {
+	padding-bottom: 15px;
+}
+
+/* feedback boxes */
+
 .mbt_settings .mbt_api_key_feedback {
 	padding-bottom: 8px;
 }
 
-.mbt_settings .mbt_api_key_refresh {
+.mbt_settings div.mbt_feedback_refresh {
 	display: inline-block;
 	vertical-align: bottom;
 	background: url('../images/refresh.png') 0px 0px no-repeat;
@@ -295,6 +301,313 @@
 	color: #E66455;
 }
 
+/* affiliate settings */
+
+.mbt_settings .mbt-affiliate-usedby {
+	padding: 6px;
+
+	font-weight: normal;
+	font-size: 12px;
+}
+
+.mbt_settings .mbt-affiliate-usedby ul {
+	padding: 0;
+	margin: 0;
+}
+
+.mbt_settings .mbt-affiliate-usedby ul li {
+	list-style-type: disc;
+	list-style-position: inside;
+
+	padding: 0;
+	margin: 6px 0 0 0;
+}
+
+.mbt_settings .mbt-default-affiliates {
+	border-top: 1px solid #ddd;
+	padding: 4px 0 15px 0;
+}
+
+.mbt_settings .mbt-default-affiliates .mbt-default-affiliates-small {
+	padding-left: 5px;
+	font-size: 10px;
+}
+
+/* display settings */
+
+.mbt_settings #mbt_style_pack {
+	width: 200px;
+	vertical-align: top;
+}
+
+.mbt_settings #mbt_style_pack_preview {
+	display: inline-block;
+}
+
+.mbt_settings #mbt_style_pack_preview img {
+	width: 172px;
+	height: 30px;
+}
+
+.mbt_settings .mbt_reviews_box_disabled,
+.mbt_settings .mbt_reviews_box_disabled a {
+	color: #888;
+}
+
+/*---------------------------------------------------------*/
+/* Help Page                                               */
+/*---------------------------------------------------------*/
+
+.mbt_help .mbt_help_title {
+	font-weight: bold;
+	font-size: 25px;
+}
+
+.mbt_help .mbt_help_box {
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	background: #fff;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.mbt_help .mbt_help_box_title {
+	padding: 8px 14px;
+	border-bottom: 1px solid #eee;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.mbt_help .mbt_help_box_content {
+	padding: 10px 15px;
+}
+
+.mbt_help .mbt_help_box_content h3 {
+	margin: 0.5em 0 1em;
+}
+
+/* top help links */
+
+.mbt_help .mbt_help_top_links {
+	padding: 10px 0px 20px 0px;
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link {
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 1.3em;
+	text-align: center;
+	color: #0074a2;
+	position: relative;
+
+	display: block;
+	width: 360px;
+	height: 50px;
+	float: left;
+
+	border: 1px solid #D1E4FF;
+	background: #EAF3FF;
+	padding: 20px 0 20px 65px;
+	margin: 0 5px 5px 0;
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link:hover {
+	color: #0074a2;
+	border: 1px solid #AECEF9;
+	background: #C9DEFC;
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link .mbt_icon {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	top: 5px;
+	left: 5px;
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link.mbt_apikey .mbt_icon {
+	background: url('../images/help/key.png');
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link.mbt_forum {
+	padding-left: 80px;
+	width: 345px;
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link.mbt_forum .mbt_icon {
+	left: 10px;
+	background: url('../images/help/forum.png');
+}
+
+.mbt_help .mbt_help_top_links .mbt_help_link.mbt_develop .mbt_icon {
+	background: url('../images/help/develop.png');
+}
+
+/* premium support */
+
+.mbt_help .mbt_get_premium_support {
+	padding-bottom: 20px;
+}
+
+.mbt_help .mbt_get_premium_support a {
+	font-size: 18px;
+	font-weight: bold;
+	padding: 5px 14px;
+	height: auto;
+}
+
+.mbt_help .mbt_premium_support {
+	padding: 0;
+	margin: 0;
+}
+
+.mbt_help .mbt_premium_support li {
+	padding: 20px 30px 20px 70px;
+	margin: 0 5px 5px 0;
+	height: 20px;
+	display: block;
+	position: relative;
+}
+
+@media screen and (min-width: 800px) {
+	.mbt_help .mbt_premium_support li {
+		display: inline-block;
+		float: left;
+	}
+}
+
+.mbt_help .mbt_premium_support li .mbt_icon {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	top: 0px;
+	left: 0px;
+}
+
+.mbt_help .mbt_premium_support li .mbt_icon.mbt_ticket {
+	background: url('../images/help/ticket.png');
+}
+
+.mbt_help .mbt_premium_support li .mbt_icon.mbt_support {
+	background: url('../images/help/support.png');
+}
+
+.mbt_help .mbt_premium_support li .mbt_icon.mbt_feature {
+	background: url('../images/help/feature.png');
+}
+
+.mbt_help .mbt_premium_support li .mbt_icon.mbt_bug {
+	background: url('../images/help/bug.png');
+}
+
+.mbt_help .mbt_premium_support li a {
+	text-decoration: none;
+	font-size: 18px;
+}
+
+/* articles */
+
+.mbt_help .mbt_articles {
+	padding: 0;
+	margin: 0;
+}
+
+.mbt_help .mbt_articles li {
+	list-style-type: none;
+	display: block;
+	width: 180px;
+	height: 180px;
+	float: left;
+	position: relative;
+
+	border: 1px solid #A8CBFD;
+	margin: 0 5px 5px 0;
+}
+
+.mbt_help .mbt_articles li img {
+	width: 100%;
+	height: 100%;
+}
+
+.mbt_help .mbt_articles li a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 14px;
+
+	display: block;
+	width: 180px;
+	height: 180px;
+}
+
+.mbt_help .mbt_articles li a span {
+	background: url('../images/help/bg.png');
+	border-top: 1px solid #A8CBFD;
+
+	width: 180px;
+	height: 65px;
+	display: block;
+	box-sizing: border-box;
+	padding: 4px 7px;
+	position: absolute;
+	bottom: 0;
+}
+
+/* video tutorials */
+
+.mbt_help .mbt_video_selector {
+	box-sizing: border-box;
+}
+
+.mbt_help .mbt_video_selector a {
+	display: block;
+	padding: 8px 14px 8px 10px;
+	border-bottom: 1px solid #eee;
+	font-size: 14px;
+	box-shadow: none;
+	color: #0074a2;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.mbt_help .mbt_video_selector a:hover {
+	color: #2ea2cc;
+}
+
+.mbt_help .mbt_video_selector a:nth-child(2n+1) {
+	background-color: #f9f9f9;
+}
+
+.mbt_help .mbt_video_display {
+	box-sizing: border-box;
+	padding: 10px 15px;
+}
+
+.mbt_help .mbt_video_display .mbt_video {
+	display: none;
+}
+
+.mbt_help .mbt_video_display .mbt_video iframe {
+	width: 640px;
+	height: 360px;
+}
+
+@media screen and (min-width: 1100px) {
+	.mbt_help .mbt_video_selector {
+		float: left;
+		clear: none;
+		width: 25%;
+	}
+
+	.mbt_help .mbt_video_display {
+		float: right;
+		clear: none;
+		width: 75%;
+
+		border-left: 1px solid #eee;
+	}
+}
+
 /*---------------------------------------------------------*/
 /* Book Sorting Page                                       */
 /*---------------------------------------------------------*/
@@ -312,6 +625,14 @@
 	background: -moz-linear-gradient(bottom,#ececec,#f9f9f9);
 	background: -o-linear-gradient(bottom,#ececec,#f9f9f9);
 	background: linear-gradient(to top,#ececec,#f9f9f9);
+}
+
+/*---------------------------------------------------------*/
+/* Import Page                                             */
+/*---------------------------------------------------------*/
+
+.mbt_import_page .importers .import-system.disabled {
+	color: #666
 }
 
 /*---------------------------------------------------------*/
@@ -352,11 +673,7 @@
 	position: relative;
 	z-index: 100;
 	border: 1px solid #21759b;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 0 0 15px rgba(0,0,0,0.04);
-	-moz-box-shadow: inset 0 0 15px rgba(0,0,0,0.04);
+	border-radius: 8px;
 	box-shadow: inset 0 0 15px rgba(0,0,0,0.04);
 	background: #2a95c5;
 	display: inline-block;
@@ -380,8 +697,6 @@
 	margin: 6px 5px 6px 10px;
 	float: left;
 
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 
@@ -406,7 +721,7 @@
 	background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
 	background-image: -o-linear-gradient(top,#2a95c5,#21759b);
 	background-image: linear-gradient(to bottom,#2a95c5,#21759b);
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+
 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
 
 	display: inline-block;
@@ -431,7 +746,6 @@
 	background-image: -o-linear-gradient(top,#2e9fd2,#21759b);
 	background-image: linear-gradient(to bottom,#2e9fd2,#21759b);
 	border-color: #1B607F;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 
@@ -494,4 +808,16 @@
 	text-align: center;
 	width: 20px;
 	-webkit-font-smoothing: antialiased!important;
+}
+
+/*---------------------------------------------------------*/
+/* Wordpress Sidebar                                       */
+/*---------------------------------------------------------*/
+
+a[href="admin.php?page=mbt_upgrade_link"] {
+	color: #6bbc5b !important;
+	white-space: nowrap;
+}
+a[href="admin.php?page=mbt_upgrade_link"]:hover {
+	color: #7ad368 !important;
 }

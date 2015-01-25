@@ -25,6 +25,7 @@ function mbt_reset_settings() {
 		'compatibility_mode' => true,
 		'style_pack' => 'Default',
 		'image_size' => 'medium',
+		'reviews_box' => 'none',
 		'enable_socialmedia_badges_single_book' => true,
 		'enable_socialmedia_badges_book_excerpt' => true,
 		'enable_socialmedia_bar_single_book' => true,
@@ -36,7 +37,6 @@ function mbt_reset_settings() {
 		'book_button_size' => 'medium',
 		'listing_button_size' => 'medium',
 		'widget_button_size' => 'medium',
-		'series_in_excerpts' => false,
 		'posts_per_page' => false,
 		'enable_default_affiliates' => false,
 		'product_name' => __('Books', 'mybooktable'),
@@ -130,6 +130,177 @@ function mbt_get_product_slug() {
 	return apply_filters('mbt_product_slug', empty($slug) ? _x('books', 'URL slug', 'mybooktable') : $slug);
 }
 
+function mbt_get_reviews_boxes() {
+	return apply_filters('mbt_reviews_boxes', array());
+}
+
+function mbt_get_wp_filesystem($nonce_url) {
+	ob_start();
+	$creds = request_filesystem_credentials($nonce_url, '', false, false, null);
+	$output = ob_get_contents();
+	ob_end_clean();
+	if($creds === false) { return $output; }
+
+	if(!WP_Filesystem($creds)) {
+		ob_start();
+		request_filesystem_credentials($nonce_url, '', true, false, null);
+		$output = ob_get_contents();
+		ob_end_clean();
+		return $output;
+	}
+
+	return '';
+}
+
+function mbt_download_and_insert_attachment($url) {
+	$raw_response = wp_remote_get($url, array('timeout' => 3));
+	if(is_wp_error($raw_response) or wp_remote_retrieve_response_code($raw_response) != 200) { return 0; }
+	$file_data = wp_remote_retrieve_body($raw_response);
+
+	$nonce_url = wp_nonce_url('admin.php', 'mbt_download_and_insert_attachment');
+	$output = mbt_get_wp_filesystem($nonce_url);
+	if(!empty($output)) { return 0;	}
+	global $wp_filesystem;
+
+	$url_parts = parse_url($url);
+	$filename = basename($url_parts['path']);
+	$filename = preg_replace('/[^A-Za-z0-9_.]/', '', $filename);
+	$upload_dir = wp_upload_dir();
+	$filepath = $upload_dir['path'].'/'.$filename;
+
+	if(!$wp_filesystem->put_contents($filepath, $file_data, FS_CHMOD_FILE)) { return 0; }
+
+	$filetype = wp_check_filetype(basename($filepath), null);
+	$attachment = array(
+		'guid'           => $upload_dir['url'].'/'.$filename,
+		'post_mime_type' => $filetype['type'],
+		'post_title'     => preg_replace('/\.[^.]+$/', '', $filename),
+		'post_content'   => '',
+		'post_status'    => 'inherit'
+	);
+
+	$attach_id = wp_insert_attachment($attachment, $filepath);
+
+	require_once(ABSPATH.'wp-admin/includes/image.php');
+	$attach_data = wp_generate_attachment_metadata($attach_id, $filepath);
+	wp_update_attachment_metadata($attach_id, $attach_data);
+
+	return $attach_id;
+}
+
+function mbt_copy_and_insert_attachment($path) {
+	$nonce_url = wp_nonce_url('admin.php', 'mbt_copy_and_insert_attachment');
+	$output = mbt_get_wp_filesystem($nonce_url);
+	if(!empty($output)) { return 0;	}
+	global $wp_filesystem;
+
+	$filename = basename($path);
+	$filename = preg_replace('/[^A-Za-z0-9_.]/', '', $filename);
+	$upload_dir = wp_upload_dir();
+	$filepath = $upload_dir['path'].'/'.$filename;
+
+	if(!$wp_filesystem->copy($path, $filepath, false, FS_CHMOD_FILE)) { return 0; }
+
+	$filetype = wp_check_filetype(basename($filepath), null);
+	$attachment = array(
+		'guid'           => $upload_dir['url'].'/'.$filename,
+		'post_mime_type' => $filetype['type'],
+		'post_title'     => preg_replace('/\.[^.]+$/', '', $filename),
+		'post_content'   => '',
+		'post_status'    => 'inherit'
+	);
+
+	$attach_id = wp_insert_attachment($attachment, $filepath);
+
+	require_once(ABSPATH.'wp-admin/includes/image.php');
+	$attach_data = wp_generate_attachment_metadata($attach_id, $filepath);
+	wp_update_attachment_metadata($attach_id, $attach_data);
+
+	return $attach_id;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Importers                                               */
+/*---------------------------------------------------------*/
+
+function mbt_get_importers() {
+	return apply_filters('mbt_importers', array());
+}
+
+function mbt_import_book($book) {
+	$defaults = array(
+		'source_id' => null,
+		'title' => '',
+		'content' => '',
+		'excerpt' => '',
+		'authors' => array(),
+		'series' => array(),
+		'genres' => array(),
+		'tags' => array(),
+		'price' => '',
+		'unique_id' => '',
+		'buybuttons' => '',
+		'publisher_name'  => '',
+		'publication_year' => '',
+		'image_id' => '',
+		'imported_book_id' => '',
+	);
+	$book = array_merge($defaults, $book);
+
+	if(!empty($book['imported_book_id']) and ($imported_book = get_post($book['imported_book_id']))) {
+		$post_id = wp_update_post(array(
+			'ID' => $imported_book->ID,
+			'post_title' => $book['title'],
+		));
+		$old_buybuttons = get_post_meta($post_id, 'mbt_buybuttons', true);
+		if(empty($old_buybuttons)) { update_post_meta($post_id, 'mbt_buybuttons', $book['buybuttons']); }
+		if(!empty($book['image_id'])) { update_post_meta($post_id, 'mbt_book_image_id', $book['image_id']); }
+		if(!empty($book['price'])) { update_post_meta($post_id, 'mbt_price', $book['price']); }
+		if(!empty($book['unique_id'])) { update_post_meta($post_id, 'mbt_unique_id', $book['unique_id']); }
+		if(!empty($book['publisher_name'])) { update_post_meta($post_id, 'mbt_publisher_name', $book['publisher_name']); }
+		if(!empty($book['publication_year'])) { update_post_meta($post_id, 'mbt_publication_year', $book['publication_year']); }
+		if(!empty($book['authors'])) { wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['authors'], 'mbt_author'), 'mbt_author'); }
+		if(!empty($book['series'])) { wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['series'], 'mbt_series'), 'mbt_series'); }
+		if(!empty($book['genres'])) { wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['genres'], 'mbt_genre'), 'mbt_genre'); }
+		if(!empty($book['tags'])) { wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['tags'], 'mbt_tag'), 'mbt_tag'); }
+	} else {
+		$post_id = wp_insert_post(array(
+			'post_title' => $book['title'],
+			'post_content' => $book['content'],
+			'post_excerpt' => $book['excerpt'],
+			'post_status' => 'publish',
+			'post_type' => 'mbt_book'
+		));
+		update_post_meta($post_id, 'mbt_buybuttons', $book['buybuttons']);
+		update_post_meta($post_id, 'mbt_book_image_id', $book['image_id']);
+		update_post_meta($post_id, 'mbt_price', $book['price']);
+		update_post_meta($post_id, 'mbt_unique_id', $book['unique_id']);
+		update_post_meta($post_id, 'mbt_publisher_name', $book['publisher_name']);
+		update_post_meta($post_id, 'mbt_publication_year', $book['publication_year']);
+		wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['authors'], 'mbt_author'), 'mbt_author');
+		wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['series'], 'mbt_series'), 'mbt_series');
+		wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['genres'], 'mbt_genre'), 'mbt_genre');
+		wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['tags'], 'mbt_tag'), 'mbt_tag');
+
+		if(!empty($book['source_id'])) { update_post_meta($book['source_id'], 'mbt_imported_book_id', $post_id); }
+	}
+}
+
+function mbt_import_taxonomy_terms($term_names, $taxonomy) {
+	$returns = array();
+	foreach($term_names as $name) {
+		if(term_exists($name, $taxonomy)) {
+			$new_term = (array)get_term_by('name', $name, $taxonomy);
+		} else {
+			$new_term = (array)wp_insert_term($name, $taxonomy);
+		}
+		$returns[] = $new_term['term_id'];
+	}
+	return $returns;
+}
+
 
 
 /*---------------------------------------------------------*/
@@ -161,7 +332,7 @@ function mbt_get_custom_page_url($name) {
 
 function mbt_image_url($image) {
 	$url = mbt_current_style_url($image);
-	return apply_filters('mbt_image_url', empty($url) ? plugins_url('styles/Default/'.$image, dirname(__FILE__)) : $url);
+	return apply_filters('mbt_image_url', empty($url) ? plugins_url('styles/Default/'.$image, dirname(__FILE__)) : $url, $image);
 }
 
 function mbt_current_style_url($file) {

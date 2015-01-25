@@ -25,11 +25,12 @@ function mbt_add_metaboxes()
 }
 
 function mbt_enqueue_metabox_js() {
-	wp_enqueue_script("mbt-metaboxes", plugins_url('js/metaboxes.js', dirname(__FILE__)));
+	wp_enqueue_script('mbt-metaboxes', plugins_url('js/metaboxes.js', dirname(__FILE__)), array('jquery'));
 	wp_localize_script('mbt-metaboxes', 'mbt_metabox_i18n', array(
-		'book_only' => __("This store will be displayed as a button only on the book page."),
-		'text_only' => __("This store will be displayed as text underneath the other buttons only on the book page."),
-		'featured' => __("This store will be displayed as a button on the book listings and the book page.")
+		'book_only' => __('This store will be displayed as a button only on the book page.'),
+		'text_only' => __('This store will be displayed as text underneath the other buttons only on the book page.'),
+		'featured' => __('This store will be displayed as a button on the book listings and the book page.'),
+		'author_helptext' => '<p class="description"><a href="'.admin_url('edit-tags.php?taxonomy=mbt_author&post_type=mbt_book').'" target="_blank">'.__('Set the priority (order) of the authors.', 'mybooktable').'</a></p>'
 	));
 }
 
@@ -234,6 +235,7 @@ function mbt_save_buybuttons_metabox($post_id)
 		{
 			$buybutton = $_REQUEST['mbt_buybutton'.$i];
 			if(empty($stores[$buybutton['store']])) { continue; }
+			$buybutton['url'] = preg_replace('/[\r\n]/', '', $buybutton['url']);
 			$buybuttons[] = apply_filters('mbt_buybutton_save', $buybutton, $stores[$buybutton['store']]);
 		}
 		update_post_meta($post_id, "mbt_buybuttons", $buybuttons);
@@ -259,11 +261,7 @@ function mbt_save_series_order_metabox($post_id)
 
 	if(get_post_type($post_id) == "mbt_book")
 	{
-		if(!empty($_REQUEST["mbt_series_order"])) {
-			update_post_meta($post_id, "mbt_series_order", $_REQUEST["mbt_series_order"]);
-		} else {
-			update_post_meta($post_id, "mbt_series_order", 0);
-		}
+		update_post_meta($post_id, "mbt_series_order", $_REQUEST["mbt_series_order"]);
 	}
 }
 

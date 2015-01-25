@@ -2,7 +2,6 @@
 
 function mbt_shorcodes_init() {
 	add_shortcode('mybooktable', 'mbt_mybooktable_shortcode');
-	add_action('mbt_render_help_page', 'mbt_render_shordcode_help');
 	add_filter('authormedia_get_shortcodes', 'mbt_add_authormedia_shortcodes');
 }
 add_action('mbt_init', 'mbt_shorcodes_init');
@@ -238,52 +237,6 @@ function mbt_mybooktable_shortcode($attrs) {
 	}
 
 	return $output;
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Help Page                                               */
-/*---------------------------------------------------------*/
-
-function mbt_render_shordcode_help() {
-_e('
-	<br><br><h2>MyBookTable Shortcodes</h2>
-	<p>MyBookTable has a single [mybooktable] shortcode that can be used for a variety of purposes:</p>
-
-	<h3>List all your books</h3>
-	<pre>[mybooktable]</pre>
-
-	<h3>List the books in a series</h3>
-	<pre>[mybooktable series="lordoftherings"]</pre>
-	<p>Note that you must use the <strong>slug</strong> of the series, not the name.<p/>
-
-	<h3>List the books in a genre</h3>
-	<pre>[mybooktable genre="fantasy"]</pre>
-	<p>Note that you must use the <strong>slug</strong> of the genre, not the name.<p/>
-
-	<h3>List the books with a given tag</h3>
-	<pre>[mybooktable tag="recommended"]</pre>
-	<p>Note that you must use the <strong>slug</strong> of the tag, not the name.<p/>
-
-	<h3>List the books written by an author</h3>
-	<pre>[mybooktable author="jrrtolkien"]</pre>
-	<p>Note that you must use the <strong>slug</strong> of the author, not the name.<p/>
-
-	<h3>Display a single book</h3>
-	<pre>[mybooktable book="the-fellowship-of-the-ring"]</pre>
-	<p>Note that you must use the <strong>slug</strong> of the book, not the name.<p/>
-
-	<h3>Display a single book summary</h3>
-	<pre>[mybooktable book="the-fellowship-of-the-ring" display="summary"]</pre>
-
-	<h3>Display a list of taxonomy terms</h3>
-	<pre>[mybooktable list="taxonomy" display="listing"]</pre>
-	<p>
-		This allows you to display all of the different items in a MyBookTable taxonomy, such as all the authors or all the genres.
-		The valid options for the "list" field are "authors", "series", "genres", and "tags". The valid options for the "display" field are "listing", "bar", and "simple".
-	<p/>
-', 'mybooktable');
 }
 
 

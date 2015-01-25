@@ -169,11 +169,12 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 == Changelog ==
 
 = 2.0.0 =
-* New feature allows you to assign priorities to your Authors to customize the order they display in
-* New shadow box feature lets you have you buy buttons show up in a separate shadow box instead of on your pages
+* New Author Priorities system allows you to assign priorities to your Authors to customize the order they display in
+* New Shadow Box feature lets you have you Buy Buttons show up in a separate shadow box instead of on your pages
 * New button on book sorting page to allow you to alphabetize your books
 * New import functionality from Totally Booked
 * New Gumroad buy button
+* Redesigned and streamlined help and settings pages
 
 = 1.3.7 =
 * Added official WordPress 4.1 compatability

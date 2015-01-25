@@ -84,33 +84,53 @@ function mbt_upgrade_1_3_8() {
 
 
 
-
 /*---------------------------------------------------------*/
-/* Installation Functions                                  */
+/* Rewrites Check                                          */
 /*---------------------------------------------------------*/
 
-function mbt_install() {
-	mbt_install_pages();
-	mbt_install_examples();
+function mbt_rewrites_check_init() {
+	add_action('init', 'mbt_rewrites_check', 999);
+}
+add_action('mbt_init', 'mbt_rewrites_check_init');
+
+function mbt_rewrites_check() {
+	if(!mbt_check_rewrites()) { flush_rewrite_rules(); }
+	if(!mbt_check_rewrites()) { add_action('admin_notices', 'mbt_rewrites_check_admin_notice'); }
 }
 
-function mbt_install_pages() {
-	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
-		$post_id = wp_insert_post(array(
-			'post_title' => __('Book Table', 'mybooktable'),
-			'post_content' => '',
-			'post_status' => 'publish',
-			'post_type' => 'page'
-		));
-		mbt_update_setting("booktable_page", $post_id);
-	}
+function mbt_check_rewrites() {
+	global $wp_rewrite;
+	$rules = $wp_rewrite->wp_rewrite_rules();
+	if(empty($rules) or !is_array($rules)) { return true; }
+
+	$archive_correct = mbt_get_rewrite($rules, 'books') === 'index.php?post_type=mbt_book';
+	$book_page_correct = mbt_get_rewrite($rules, 'books/book') === 'index.php?mbt_book=$matches[1]&page=$matches[2]';
+	$genres_correct = mbt_get_rewrite($rules, 'genre/genre') === 'index.php?mbt_genre=$matches[1]';
+	$authors_correct = mbt_get_rewrite($rules, 'authors/author') === 'index.php?mbt_author=$matches[1]';
+	$series_correct = mbt_get_rewrite($rules, 'series/series') === 'index.php?mbt_series=$matches[1]';
+	$tags_correct = mbt_get_rewrite($rules, 'bookstag/tag') === 'index.php?mbt_tag=$matches[1]';
+
+	return $archive_correct and $book_page_correct and $genres_correct and $authors_correct and $series_correct and $tags_correct;
 }
 
-function mbt_install_examples() {
-	if(!mbt_get_setting('installed_examples')) {
-		include("examples.php");
-		mbt_update_setting('installed_examples', true);
+function mbt_get_rewrite($rules, $url) {
+	foreach($rules as $match => $query) {
+		if(preg_match("#^$match#", $url)) {
+			return $query;
+		}
 	}
+	return '';
+}
+
+function mbt_rewrites_check_admin_notice() {
+	?>
+	<div id="message" class="error">
+		<p>
+			<strong><?php _e('MyBookTable Rewrites Error', 'mybooktable'); ?></strong> &#8211;
+			<?php printf(__('You have a plugin or theme that has post types or taxonomies that are conflicting with MyBookTable. MyBookTable pages will not display correctly.', 'mybooktable'), mbt_get_product_slug()); ?>
+		</p>
+	</div>
+	<?php
 }
 
 
@@ -202,19 +222,6 @@ function mbt_add_admin_notices() {
 	if(isset($_GET['mbt_install_pages'])) {
 		mbt_install_pages();
 	}
-
-	//3 month reminder message
-	if(!mbt_get_setting('delayed_donate_review_popup')) {
-		mbt_update_setting('delayed_donate_review_popup', strval(time()));
-	} else if (mbt_get_setting('delayed_donate_review_popup') != 'done') {
-		if(time() - intval(mbt_get_setting('delayed_donate_review_popup')) > 100) {
-			if(isset($_POST['delayed_donate_review_close'])) {
-				mbt_update_setting('delayed_donate_review_popup', 'done');
-			} else {
-				add_action('admin_notices', 'mbt_admin_delayed_donate_review_notice');
-			}
-		}
-	}
 }
 
 function mbt_admin_install_notice() {
@@ -241,7 +248,7 @@ function mbt_admin_setup_api_key_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
 		<h4><?php _e('<strong>Setup your API Key</strong> &#8211; MyBookTable needs your API key to enable enhanced features', 'mybooktable'); ?></h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&setup_api_key=1')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }
@@ -300,20 +307,34 @@ function mbt_admin_email_subscribe_thankyou_notice() {
 	<?php
 }
 
-function mbt_admin_delayed_donate_review_notice() {
-	?>
-	<div id="message" class="mbt-admin-notice">
-		<h4><?php _e('Enjoying MyBookTable?', 'mybooktable'); ?></h4>
-		<div style="float:right">
-			<a class="notice-button primary" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=K6UGSUCSKP4NS"><?php _e('Make a Donation', 'mybooktable'); ?></a>
-			<a class="notice-button primary" target="_blank" href="https://wordpress.org/support/view/plugin-reviews/mybooktable#postform"><?php _e('Leave a Review', 'mybooktable'); ?></a>
-			<form action="" method="POST" style="display:inline">
-				<input type="hidden" name="delayed_donate_review_close" value="1">
-				<input type="Submit" class="notice-button secondary" value="<?php _e('Close', 'mybooktable'); ?>">
-			</form>
-		</div>
-	</div>
-	<?php
+
+
+/*---------------------------------------------------------*/
+/* Installation Functions                                  */
+/*---------------------------------------------------------*/
+
+function mbt_install() {
+	mbt_install_pages();
+	mbt_install_examples();
+}
+
+function mbt_install_pages() {
+	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
+		$post_id = wp_insert_post(array(
+			'post_title' => __('Book Table', 'mybooktable'),
+			'post_content' => '',
+			'post_status' => 'publish',
+			'post_type' => 'page'
+		));
+		mbt_update_setting("booktable_page", $post_id);
+	}
+}
+
+function mbt_install_examples() {
+	if(!mbt_get_setting('installed_examples')) {
+		include("examples.php");
+		mbt_update_setting('installed_examples', true);
+	}
 }
 
 

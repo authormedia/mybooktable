@@ -1,15 +1,15 @@
 <?php
 /*
-Plugin Name: MyBookTable - WordPress Affiliate Bookstore
+Plugin Name: MyBookTable - WordPress Bookstore
 Plugin URI: http://www.authormedia.com/mybooktable/
 Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
 Text Domain: mybooktable
-Version: 1.3.8
+Version: 2.0.0
 */
 
-define("MBT_VERSION", "1.3.8");
+define("MBT_VERSION", "2.0.0");
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
@@ -67,17 +67,10 @@ function mbt_init() {
 	mbt_upgrade_check();
 	mbt_customize_plugins_page();
 	add_filter('pre_set_site_transient_update_plugins', 'mbt_update_check');
-	add_action('init', 'mbt_rewrites_check', 999);
 
 	do_action('mbt_init');
 }
 add_action('plugins_loaded', 'mbt_init');
-
-function mbt_rewrites_check() {
-	global $wp_rewrite;
-	$rules = $wp_rewrite->wp_rewrite_rules();
-	if(!isset($rules[mbt_get_product_slug()."/?$"]) or $rules[mbt_get_product_slug()."/?$"] !== "index.php?post_type=mbt_book") { flush_rewrite_rules(); }
-}
 
 function mbt_customize_plugins_page() {
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
