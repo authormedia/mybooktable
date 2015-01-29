@@ -458,7 +458,7 @@ function mbt_get_book_image_src($post_id) {
 }
 function mbt_get_book_image($post_id, $attrs = '') {
 	list($src, $width, $height) = mbt_get_book_image_src($post_id);
-	$attrs = wp_parse_args($attrs, array('alt' => get_the_title($post_id), 'class' => ''));
+	$attrs = wp_parse_args($attrs, array('alt' => wp_strip_all_tags(get_the_title($post_id)), 'class' => ''));
 	$attrs['class'] .= ' mbt-book-image';
 	$attributes = array();
 	foreach($attrs as $attr => $value) {
@@ -584,7 +584,7 @@ function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=null) {
 		}
 	}
 
-	if((mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true) {
+	if(!empty($output) and ((mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true)) {
 		$book_button_size = mbt_get_setting('book_button_size');
 
 		if($book_button_size == 'small') { $buybuttons_width = 2+150*2; }

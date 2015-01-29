@@ -197,6 +197,7 @@ function mbt_render_settings_page() {
 								<th><?php _e('MyBookTable API Key', 'mybooktable'); ?></th>
 								<td>
 									<div class="mbt_api_key_feedback mbt_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
+									<div style="clear:both"></div>
 									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" class="regular-text" />
 									<div class="mbt_feedback_refresh" data-refresh-action="mbt_api_key_refresh" data-element="mbt_api_key"></div>
 									<p class="description"><?php _e('If you have purchased an Add-on API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an Add-on API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
@@ -341,7 +342,7 @@ function mbt_render_settings_page() {
 											<?php
 												$reviews_boxes = mbt_get_reviews_boxes();
 												$current_reviews = mbt_get_setting('reviews_box');
-												if(empty($current_reviews)) { $current_reviews = 'none'; }
+												if(empty($current_reviews) or empty($reviews_boxes[$current_reviews])) { $current_reviews = 'none'; }
 												echo('<input type="radio" name="mbt_reviews_box" id="mbt_reviews_box_none" value="none" '.checked($current_reviews, 'none', false).'><label for="mbt_reviews_box_none">None</label><br>');
 												foreach($reviews_boxes as $slug => $reviews_data) {
 													if(!empty($reviews_data['disabled'])) {

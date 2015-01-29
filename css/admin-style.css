@@ -161,10 +161,6 @@
 /* Dashboard Page                                          */
 /*---------------------------------------------------------*/
 
-#icon-mbt_dashboard {
-	background-image: url('../images/edit.png');
-}
-
 .mbt-dashboard .welcome-video-container {
 	text-align: center;
 }
@@ -278,6 +274,40 @@
 	padding-bottom: 8px;
 }
 
+.mbt_settings .mbt_feedback .mbt_feedback_loading {
+	position: relative;
+	vertical-align: top;
+	display: inline-block;
+}
+
+.mbt_settings .mbt_feedback .mbt_feedback_spinner {
+	vertical-align: top;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -9px 0 0 -9px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+
+	background: url('../images/spinner.png') 0px 0px no-repeat;
+	background-size: 100% 100%;
+
+	-webkit-animation-name: spinnerRotate;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes spinnerRotate {
+	from {
+		-webkit-transform:rotate(0deg);
+	}
+	to {
+		-webkit-transform:rotate(360deg);
+	}
+}
+
 .mbt_settings div.mbt_feedback_refresh {
 	display: inline-block;
 	vertical-align: bottom;
@@ -347,6 +377,7 @@
 .mbt_settings #mbt_style_pack_preview img {
 	width: 172px;
 	height: 30px;
+	vertical-align: top;
 }
 
 .mbt_settings .mbt_reviews_box_disabled,
