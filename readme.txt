@@ -49,6 +49,7 @@ MyBookTable comes with Buy Buttons for the following stores:
 * Christian Book Distributor (CBD)
 * CreateSpace
 * GoodReads
+* Gumroad (new in 2.0)
 * Indiebound
 * Kobo
 * Lifeway
@@ -59,7 +60,7 @@ MyBookTable comes with Buy Buttons for the following stores:
 * Smashwords
 * Sony Reader
 
-= Premium Buy Buttons =
+= Premium Buy Buttons (Premium Upgrade ) =
 The following buy buttons are available with the Pro & Dev Add-on for MyBookTable.
 
 * PayPal
@@ -69,6 +70,9 @@ The following buy buttons are available with the Pro & Dev Add-on for MyBookTabl
 
 = Buy Button Style Packs =
 Customize your store by showing some of the buy buttons as a bulleted list. Also choose from multiple buy button color schemes.
+
+= Buy Button Shadow Box (New in 2.0) =
+Have a a lot of buy buttons cluttering up your book pages? No wories. MyBookTable 2.0 allows you to show a single "buy now" button that opens a shadow box with all your buy buttons. 
 
 = Featured Book Widget =
 Feature a book on your sidebar in just a few of clicks. You can even add multiple books by adding multiple widgets.
@@ -111,8 +115,25 @@ MyBookTable can import books from Michael Hyatt's GetNoticed! theme. MyBookTable
 = Book Widgets Galore =
 MyBookTable gives you several cool book widgets. Including a featured book widget, genre widget, series widget and more!
 
-= Affiliate Compatible (PRO & Developer only) =
+= Affiliate Compatible (Premum Upgrade Required) =
 Amazon, BN.com, and CBD.com all offer affiliate programs that help you supplement your income as an author. You won’t have to sell your book out of your garage to make more money. It also integrates seamlessly with leading SEO Plugins like Yoast and Scribe.
+
+Affiliate platforms supported:
+* Amazon (Amazon & Kindle)
+* Commission Junction (Audible)
+* Linkshare (Barnes & Noble, Kobo)
+
+= Grid View (Premum Upgrade Required) =
+Show your books in a responsive a grid view.  This is a great option for sites with a lot of books to show.  
+
+= Show Amazon Reviews (Premum Upgrade Required) =
+Show off your amazon reviews right there on your book pages. 
+
+= Amazon ISBN Book Import (Premum Upgrade Required) =
+Want to add 100 books? No problem. Just paste the ISBN numbers into MyBookTable and let the plugin create the book pages for you. This is a huge timesaver.
+
+= Notify Me Button (Premum Upgrade Required) =
+
 
 == Installation ==
 
