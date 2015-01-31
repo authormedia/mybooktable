@@ -133,7 +133,7 @@ Allow visitors to sign up for book updates by subscribing to your MailChimp list
 = Show Amazon Reviews (Professional Upgrade Required) =
 Show off your amazon reviews right there on your book pages. 
 
-= Amazon ISBN Book Import (Developer Upgrade Required) =
+= Amazon Bulk Book Importer (Developer Upgrade Required) =
 Want to add 100 books? No problem. Just paste the ISBN numbers into MyBookTable and let the plugin create the book pages for you. This is a huge timesaver.
 
 = UIEE Book Import (Developer Upgrade Required) =
