@@ -58,7 +58,8 @@ function mbt_init() {
 	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['action']) and $_GET['action'] == 'deactivate' and isset($_GET['plugin']) and $_GET['plugin'] == plugin_basename(dirname(__FILE__)).'/mybooktable.php') { return; }
 	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['mbt_uninstall'])) { return mbt_uninstall(); }
 
-	if(function_exists('mbtdev_init') and (!defined('MBTPRO_VERSION') or (defined('MBTPRO_VERSION') and version_compare(MBTDEV_VERSION, MBTPRO_VERSION) >= 0))) { add_action('mbt_init', 'mbtdev_init'); } else if(function_exists('mbtpro_init')) { add_action('mbt_init', 'mbtpro_init'); }
+	//deprecated legacy functionality
+	if(function_exists('mbtdev_init') and mbt_get_setting('dev_active')) { add_action('mbt_init', 'mbtdev_init'); } else if(function_exists('mbtpro_init') and mbt_get_setting('pro_active')) { add_action('mbt_init', 'mbtpro_init'); }
 
 	do_action('mbt_before_init');
 
@@ -66,7 +67,7 @@ function mbt_init() {
 	mbt_load_settings();
 	mbt_upgrade_check();
 	mbt_customize_plugins_page();
-	add_filter('pre_set_site_transient_update_plugins', 'mbt_update_check');
+	add_filter('pre_set_site_transient_update_plugins', 'mbt_periodic_api_key_check');
 
 	do_action('mbt_init');
 }

@@ -11,10 +11,9 @@ jQuery(document).ready(function() {
 	/*---------------------------------------------------------*/
 
 	jQuery('#mbt-tabs').tabs({active: jQuery('#mbt_current_tab').val()-1});
+	jQuery('#mbt-troubleshoot-link').off();
 
  	jQuery('#mbt_settings_form input[type="submit"]').click(function() { jQuery('#mbt_current_tab').val(jQuery(this).parents('.mbt-tab').attr('id').substring(8)); });
-
-	jQuery('.mbt-accordion').accordion({heightStyle: "content"});
 
 	function mbt_do_feedback_refresh(element) {
 		if(!element.attr('disabled')) {

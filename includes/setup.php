@@ -156,14 +156,14 @@ function mbt_add_admin_notices() {
 		}
 	}
 	if(mbt_get_setting('installed') == 'check_api_key') {
-		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
+		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION') or defined('MBTDEV2_VERSION') or defined('MBTPRO2_VERSION'))) {
 			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
 		} else {
 			mbt_update_setting('installed', 'setup_default_affiliates');
 		}
 	}
 	if(mbt_get_setting('installed') == 'setup_default_affiliates') {
-		if(!mbt_get_setting('enable_default_affiliates') and !mbt_get_setting('pro_active') and !mbt_get_setting('dev_active') and !isset($_GET['mbt_setup_default_affiliates'])) {
+		if(!mbt_get_setting('enable_default_affiliates') and mbt_get_upgrade() === false and !isset($_GET['mbt_setup_default_affiliates'])) {
 			add_action('admin_notices', 'mbt_admin_setup_default_affiliates_notice');
 		} else {
 			mbt_update_setting('installed', 'post_install');
@@ -178,13 +178,13 @@ function mbt_add_admin_notices() {
 		}
 	}
 	if(mbt_get_setting('installed') == 'done') {
-		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION'))) {
+		if(!mbt_get_setting('api_key') and (defined('MBTPRO_VERSION') or defined('MBTDEV_VERSION') or defined('MBTDEV2_VERSION') or defined('MBTPRO2_VERSION'))) {
 			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
 		}
 	}
 	if(mbt_get_setting('installed') == 'done') {
-		if((mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) or ((!mbt_get_setting('dev_active') and mbt_get_setting('pro_active')) and !defined('MBTPRO_VERSION'))) {
-			add_action('admin_notices', 'mbt_admin_download_addon_notice');
+		if(mbt_get_upgrade() and !mbt_get_upgrade_plugin_exists()) {
+			add_action('admin_notices', 'mbt_admin_enable_upgrade_notice');
 		}
 	}
 	if(mbt_get_setting('installed') == 'done') {
@@ -262,13 +262,12 @@ function mbt_admin_setup_default_affiliates_notice() {
 	<?php
 }
 
-function mbt_admin_download_addon_notice() {
-	if($_GET['subpage'] == 'mbt_download_addon_page') { return; }
-	$name = (mbt_get_setting('dev_active') and !defined('MBTDEV_VERSION')) ? __("Developer", 'mybooktable') : ((mbt_get_setting('pro_active') and !defined('MBTPRO_VERSION')) ? __("Professional", 'mybooktable') : "");
+function mbt_admin_enable_upgrade_notice() {
+	if($_GET['subpage'] == 'mbt_get_upgrade_page') { return; }
 	?>
 	<div id="message" class="mbt-admin-notice">
-		<h4><?php _e('<strong>Download your Add-on</strong> &#8211; Download the MyBookTable <?php echo($name); ?> Add-on to activate your advanced features!', 'mybooktable'); ?></h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_dashboard&subpage=mbt_download_addon_page')); ?>"><?php _e('Download', 'mybooktable'); ?></a>
+		<h4><?php _e('<strong>Enable your Upgrade</strong> &#8211; Download or Activate your MyBookTable Upgrade plugin to enable your advanced features!', 'mybooktable'); ?></h4>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_dashboard&subpage=mbt_get_upgrade_page')); ?>"><?php _e('Enable', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }

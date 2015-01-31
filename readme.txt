@@ -60,7 +60,7 @@ MyBookTable comes with Buy Buttons for the following stores:
 * Sony Reader
 
 = Premium Buy Buttons =
-The following buy buttons are available with the Pro & Dev Add-on for MyBookTable.
+The following buy buttons are available with the Pro & Dev Upgrade for MyBookTable.
 
 * PayPal
 * 1ShoppingCart
@@ -238,7 +238,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 = 1.2.5 =
 * Added Publisher and Publication Year Fields
 * Added the ability to remove legal disclosures
-* Added the ability to disable affiliate system to the Professional & Developer Add-ons
+* Added the ability to disable affiliate system to the Professional & Developer Upgrade
 * Added "nofollow" tags to the Buy Buttons to improve SEO
 * Fixed the GoodReads Reviews to be Better Looking and Mobile Responsive
 * Added "Home" to the breadcrumb trail

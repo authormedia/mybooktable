@@ -1,7 +1,7 @@
 <?php
 
 function mbt_goodreads_init() {
-	add_action('mbt_integrate_settings_render', 'mbt_goodreads_settings_render');
+	add_action('mbt_integrate_settings_render', 'mbt_goodreads_settings_render', 9);
 	add_action('mbt_settings_save', 'mbt_goodreads_settings_save');
 	add_action('wp_ajax_mbt_goodreads_developer_key_refresh', 'mbt_goodreads_developer_key_refresh_ajax');
 	add_filter('mbt_reviews_boxes', 'mbt_add_goodreads_reviews_box');
@@ -55,9 +55,10 @@ function mbt_goodreads_settings_render() {
 	<table class="form-table">
 		<tbody>
 			<tr>
-				<th><label for="mbt_goodreads_developer_key"><?php _e('GoodReads Developer Key', 'mybooktable'); ?></label></th>
+				<th><label for="mbt_goodreads_developer_key"><?php _e('GoodReads', 'mybooktable'); ?></label></th>
 				<td>
 					<div class="mbt_api_key_feedback mbt_feedback"></div>
+					<label for="mbt_goodreads_developer_key" class="mbt-integrate-label">Developer Key:</label>
 					<input type="text" id="mbt_goodreads_developer_key" name="mbt_goodreads_developer_key" value="<?php echo(mbt_get_setting('goodreads_developer_key')); ?>" class="regular-text">
 					<div class="mbt_feedback_refresh mbt_feedback_refresh_initial" data-refresh-action="mbt_goodreads_developer_key_refresh" data-element="mbt_goodreads_developer_key"></div>
 					<p class="description"><?php _e('Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages.', 'mybooktable') ?> <a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/" target="_blank"> <?php _e('Learn how to get a GoodReads Developer Key', 'mybooktable'); ?></a></p>

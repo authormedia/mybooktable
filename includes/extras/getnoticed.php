@@ -66,9 +66,21 @@ function mbt_render_getnoticed_books_import_page() {
 
 	$books = mbt_getnoticed_get_books();
 	if($importing) {
-		foreach($books as $book) {
+		echo('<div id="mbt-book-import-progress">');
+		echo('<h3>'.__('Please wait, your books are importing...', 'mybooktable').'</h3>');
+		echo('<div id="mbt-book-import-progress-bar"><div id="mbt-book-import-progress-bar-inner"></div></div>');
+		wp_ob_end_flush_all(); flush();
+
+		$percent = 0; $percent_per_book = 100.0/count($books);
+		foreach($books as &$book) {
 			mbt_import_book($book);
+			$percent += $percent_per_book;
+			echo('<script type="text/javascript">jQuery("#mbt-book-import-progress-bar-inner").css("width", "'.$percent.'%")</script>');
+			wp_ob_end_flush_all(); flush();
 		}
+
+		echo('</div>');
+		echo('<script type="text/javascript">jQuery("#mbt-book-import-progress").hide()</script>');
 	}
 
 	?>
@@ -83,8 +95,8 @@ function mbt_render_getnoticed_books_import_page() {
 
 			<ul style="list-style:disc inside none;">
 			<?php
-				foreach($books as $book) {
-					echo("<li>".$book['title']."</li>");
+				foreach($books as &$book) {
+					echo('<li><a href="'.get_permalink($book['imported_book_id']).'" target="_blank">'.$book['title'].'</a></li>');
 				}
 			?>
 			</ul>

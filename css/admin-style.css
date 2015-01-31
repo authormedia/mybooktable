@@ -108,56 +108,6 @@
 }
 
 /*---------------------------------------------------------*/
-/* Shortcode Inserter                                      */
-/*---------------------------------------------------------*/
-
-.authormedia-shortcode-section-nav {
-	position:absolute;
-	top:0px;
-	left:0px;
-	right:0px;
-	height:50px;
-	z-index:150;
-	background:white;
-}
-
-.authormedia-shortcode-section-nav .nav-tab-active,
-.authormedia-shortcode-section-nav  .nav-tab-active:hover {
-	border-bottom: 1px solid #ccc;
-}
-
-.authormedia-shortcode-section {
-	top: 50px;
-	display: none;
-}
-
-.authormedia_shortcode_icon {
-	background:url('../images/am-logo.png') no-repeat top left;
-	display: inline-block;
-	height: 16px;
-	margin: 0 2px 0 0;
-	vertical-align: text-top;
-	width: 17px;
-}
-
-.authormedia-shortcode-section .media-frame-title {
-	padding-top: 15px;
-}
-
-#authormedia_shortcode_form_intro {
-	color: #aaa;
-	font-size: 3em;
-	line-height: 1.2em;
-	padding: 1em;
-}
-
-.authormedia_shortcode_description {
-	border-bottom: 1px solid #dfdfdf;
-	padding-bottom: 1em;
-	margin: 1em;
-}
-
-/*---------------------------------------------------------*/
 /* Dashboard Page                                          */
 /*---------------------------------------------------------*/
 
@@ -226,6 +176,10 @@
 	-webkit-transition-duration: .3s;
 }
 
+.mbt-dashboard .welcome-panel-promotions h3 {
+	margin-bottom: 10px;
+}
+
 .mbt-dashboard .metabox-holder .postbox {
 	width: 40%;
 	float: left;
@@ -259,13 +213,33 @@
 /* Settings Pages                                          */
 /*---------------------------------------------------------*/
 
+.mbt_settings .ui-tabs-nav li a {
+	box-shadow: none;
+}
+
 .mbt_settings th {
 	width:18%;
 	font-weight: bold;
 }
 
-.mbt_settings .mbt-accordion {
-	padding-bottom: 15px;
+.mbt_settings .mbt-section {
+	border: 1px solid #aaaaaa;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	background: #fff;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.mbt_settings .mbt-section-header {
+	padding: 8px 14px;
+	border-bottom: 1px solid #aaaaaa;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.mbt_settings .mbt-section-content {
+	padding: 10px 15px;
 }
 
 /* feedback boxes */
@@ -361,6 +335,11 @@
 .mbt_settings .mbt-default-affiliates .mbt-default-affiliates-small {
 	padding-left: 5px;
 	font-size: 10px;
+}
+
+.mbt_settings .mbt-integrate-label {
+	width: 120px;
+	display: inline-block;
 }
 
 /* display settings */
@@ -666,6 +645,26 @@
 	color: #666
 }
 
+#mbt-book-import-progress-bar {
+	width: 200px;
+	height: 30px;
+
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	background: #fff;
+	border-radius: 15px;
+}
+
+#mbt-book-import-progress-bar-inner {
+	width: 30px;
+	height: 30px;
+	transition: width 0.5s;
+
+	background: url('../images/progress-bar.png');
+	border-radius: 15px;
+}
+
 /*---------------------------------------------------------*/
 /* Taxonomy Pages                                          */
 /*---------------------------------------------------------*/
@@ -839,6 +838,56 @@
 	text-align: center;
 	width: 20px;
 	-webkit-font-smoothing: antialiased!important;
+}
+
+/*---------------------------------------------------------*/
+/* Shortcode Inserter                                      */
+/*---------------------------------------------------------*/
+
+.authormedia-shortcode-section-nav {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	height:50px;
+	z-index:150;
+	background:white;
+}
+
+.authormedia-shortcode-section-nav .nav-tab-active,
+.authormedia-shortcode-section-nav  .nav-tab-active:hover {
+	border-bottom: 1px solid #ccc;
+}
+
+.authormedia-shortcode-section {
+	top: 50px;
+	display: none;
+}
+
+.authormedia_shortcode_icon {
+	background:url('../images/am-logo.png') no-repeat top left;
+	display: inline-block;
+	height: 16px;
+	margin: 0 2px 0 0;
+	vertical-align: text-top;
+	width: 17px;
+}
+
+.authormedia-shortcode-section .media-frame-title {
+	padding-top: 15px;
+}
+
+#authormedia_shortcode_form_intro {
+	color: #aaa;
+	font-size: 3em;
+	line-height: 1.2em;
+	padding: 1em;
+}
+
+.authormedia_shortcode_description {
+	border-bottom: 1px solid #dfdfdf;
+	padding-bottom: 1em;
+	margin: 1em;
 }
 
 /*---------------------------------------------------------*/

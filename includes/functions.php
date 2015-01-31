@@ -17,8 +17,7 @@ function mbt_reset_settings() {
 		'api_key' => '',
 		'api_key_status' => 0,
 		'api_key_message' => '',
-		'dev_active' => false,
-		'pro_active' => false,
+		'upgrade_active' => false,
 		'installed' => '',
 		'installed_examples' => false,
 		'booktable_page' => 0,
@@ -111,7 +110,6 @@ function mbt_is_booktable_page() {
 }
 
 function mbt_get_booktable_url() {
-
 	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
 		$url = get_post_type_archive_link('mbt_book');
 	} else {
@@ -133,6 +131,15 @@ function mbt_get_product_slug() {
 function mbt_get_reviews_boxes() {
 	return apply_filters('mbt_reviews_boxes', array());
 }
+
+function mbt_add_disabled_reviews_boxes($reviews) {
+	$reviews['amazon'] = array(
+		'name' => __('Amazon Reviews'),
+		'disabled' => mbt_get_upgrade_message(),
+	);
+	return $reviews;
+}
+add_filter('mbt_reviews_boxes', 'mbt_add_disabled_reviews_boxes', 9);
 
 function mbt_get_wp_filesystem($nonce_url) {
 	ob_start();
@@ -229,7 +236,22 @@ function mbt_get_importers() {
 	return apply_filters('mbt_importers', array());
 }
 
-function mbt_import_book($book) {
+function mbt_add_disabled_importers($importers) {
+	$importers['amazon'] = array(
+		'name' => __('Amazon Bulk Book Importer', 'mybooktable'),
+		'desc' => __('Import your books in bulk from Amazon with a list of ISBNs.', 'mybooktable'),
+		'disabled' => mbt_get_upgrade_message(),
+	);
+	$importers['uiee'] = array(
+		'name' => __('UIEE File', 'mybooktable'),
+		'desc' => __('Import your books from a UIEE (Universal Information Exchange Environment) File.', 'mybooktable'),
+		'disabled' => mbt_get_upgrade_message(),
+	);
+	return $importers;
+}
+add_filter('mbt_importers', 'mbt_add_disabled_importers', 9);
+
+function mbt_import_book(&$book) {
 	$defaults = array(
 		'source_id' => null,
 		'title' => '',
@@ -285,6 +307,7 @@ function mbt_import_book($book) {
 		wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['tags'], 'mbt_tag'), 'mbt_tag');
 
 		if(!empty($book['source_id'])) { update_post_meta($book['source_id'], 'mbt_imported_book_id', $post_id); }
+		$book['imported_book_id'] = $post_id;
 	}
 }
 
@@ -394,7 +417,7 @@ add_filter('mbt_style_folders', 'mbt_add_uploaded_style_folder', 100);
 
 
 /*---------------------------------------------------------*/
-/* API / Updates                                           */
+/* API / Upgrades                                          */
 /*---------------------------------------------------------*/
 
 function mbt_verify_api_key() {
@@ -431,50 +454,95 @@ function mbt_verify_api_key() {
 
 	$status = $response['status'];
 
-	if($status == 10) {
+	if($status > 10) {
 		mbt_update_setting('api_key_status', $status);
 		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
-		mbt_update_setting('api_key_message', __('Valid for MyBookTable Professional.', 'mybooktable').$expires);
-		mbt_update_setting('pro_active', true);
-		mbt_update_setting('dev_active', false);
-	} else if($status == 11) {
-		mbt_update_setting('api_key_status', $status);
-		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
-		mbt_update_setting('api_key_message', __('Valid for MyBookTable Developer.', 'mybooktable').$expires);
-		mbt_update_setting('pro_active', true);
-		mbt_update_setting('dev_active', true);
+
+		$permissions = array();
+		if(!empty($response['permissions']) and is_array($response['permissions'])) {
+			$permissions = $response['permissions'];
+		}
+
+		if(in_array('mybooktable-pro', $permissions)) {
+			mbt_update_setting('upgrade_active', 'mybooktable-pro');
+			mbt_update_setting('api_key_message', __('Valid for MyBookTable Professional 1.0', 'mybooktable').$expires);
+
+			//deprecated legacy functionality
+			mbt_update_setting('pro_active', true);
+			mbt_update_setting('dev_active', false);
+		}
+		if(in_array('mybooktable-dev', $permissions)) {
+			mbt_update_setting('upgrade_active', 'mybooktable-dev');
+			mbt_update_setting('api_key_message', __('Valid for MyBookTable Developer 1.0', 'mybooktable').$expires);
+
+			//deprecated legacy functionality
+			mbt_update_setting('pro_active', true);
+			mbt_update_setting('dev_active', true);
+		}
+		if(in_array('mybooktable-pro2', $permissions)) {
+			mbt_update_setting('upgrade_active', 'mybooktable-pro2');
+			mbt_update_setting('api_key_message', __('Valid for MyBookTable Professional 2.0', 'mybooktable').$expires);
+		}
+		if(in_array('mybooktable-dev2', $permissions)) {
+			mbt_update_setting('upgrade_active', 'mybooktable-dev2');
+			mbt_update_setting('api_key_message', __('Valid for MyBookTable Developer 2.0', 'mybooktable').$expires);
+		}
 	} else if($status == -10) {
 		mbt_update_setting('api_key_status', $status);
 		mbt_update_setting('api_key_message', __('Key not found', 'mybooktable'));
-		mbt_update_setting('pro_active', false);
-		mbt_update_setting('dev_active', false);
+		mbt_update_setting('upgrade_active', false);
 	} else if($status == -11) {
 		mbt_update_setting('api_key_status', $status);
 		mbt_update_setting('api_key_message', __('Key has been deactivated', 'mybooktable'));
-		mbt_update_setting('pro_active', false);
-		mbt_update_setting('dev_active', false);
+		mbt_update_setting('upgrade_active', false);
 	} else if($status == -12) {
 		mbt_update_setting('api_key_status', $status);
 		mbt_update_setting('api_key_message', __('Key has expired. Please renew your license.', 'mybooktable'));
-		mbt_update_setting('pro_active', false);
-		mbt_update_setting('dev_active', false);
-	} else if($status == -20) {
-		mbt_update_setting('api_key_status', $status);
-		mbt_update_setting('api_key_message', __('Permissions error!', 'mybooktable'));
-		mbt_update_setting('pro_active', false);
-		mbt_update_setting('dev_active', false);
+		mbt_update_setting('upgrade_active', false);
 	} else {
 		mbt_update_setting('api_key_status', -2);
 		mbt_update_setting('api_key_message', __('Invalid response received from server', 'mybooktable'));
-		mbt_update_setting('pro_active', false);
-		mbt_update_setting('dev_active', false);
+		return;
 	}
 }
 
-function mbt_update_check($updates) {
+function mbt_periodic_api_key_check($updates) {
 	if(empty($updates->checked)) { return $updates; }
-
 	mbt_verify_api_key();
+	return $updates;
+}
 
-	return apply_filters('mbt_update_check', $updates);
+function mbt_get_upgrade() {
+	$upgrade_active = mbt_get_setting('upgrade_active');
+	return empty($upgrade_active) ? false : $upgrade_active;
+}
+
+function mbt_get_upgrade_plugin_exists() {
+	$upgrade = mbt_get_upgrade();
+	if($upgrade == 'mybooktable-dev2') { return defined('MBTDEV2_VERSION'); }
+	if($upgrade == 'mybooktable-pro2') { return defined('MBTPRO2_VERSION'); }
+	if($upgrade == 'mybooktable-dev')  { return defined('MBTDEV_VERSION'); }
+	if($upgrade == 'mybooktable-pro')  { return defined('MBTPRO_VERSION'); }
+	return false;
+}
+
+function mbt_get_upgrade_message($upgrade_text=null, $thankyou_text=null) {
+	if(mbt_get_upgrade()) {
+		if(mbt_get_upgrade_plugin_exists()) {
+			return ($thankyou_text !== null ? $thankyou_text : (__('Thank you for purchasing a MyBookTable Upgrade!', 'mybooktable').' <a href="http://authormedia.freshdesk.com/support/home" target="_blank">'.__('Get premium support.', 'mybooktable').'</a>'));
+		} else {
+			return '<a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_get_upgrade_page').'">'.__('Download your MyBookTable Upgrade plugin to enable your advanced features!', 'mybooktable').'</a>';
+		}
+	} else {
+		if(defined('MBTDEV2_VERSION') or defined('MBTPRO2_VERSION') or defined('MBTDEV_VERSION') or defined('MBTPRO_VERSION')) {
+			$api_key = mbt_get_setting('api_key');
+			if(empty($api_key)) {
+				return '<a href="'.admin_url('admin.php?page=mbt_settings').'">'.__('Insert your API Key to enable your advanced features!', 'mybooktable').'</a>';
+			} else {
+				return '<a href="'.admin_url('admin.php?page=mbt_settings').'">'.__('Update your API Key to enable your advanced features!', 'mybooktable').'</a>';
+			}
+		} else {
+			return '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.($upgrade_text !== null ? $upgrade_text : __('Upgrade your MyBookTable to enable these advanced features!', 'mybooktable')).'</a>';
+		}
+	}
 }
