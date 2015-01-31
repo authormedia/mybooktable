@@ -1,4 +1,4 @@
-=== MyBookTable ===
+=== MyBookTable - WordPress Bookstore by Author Media ===
 Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
 Tags: book, books, ecommerce, affiliate, store, author plugin, amazon, ibooks, iTunes, smashwords, goodreads, gumroad
@@ -8,19 +8,17 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress Bookstore Plugin to help authors create great looking book pages that rank well on Google.
+A WordPress Bookstore Plugin to help authors boost book sales on sites like Amazon and Apple iBooks with great looking book pages.
 
 == Description ==
 
 [vimeo http://vimeo.com/65924127]
 
-Forget everything you think you know about selling your book online. We’re changing it. You won’t need SSL certificates, shopping carts, or piles of books in your basement. All you’ll need is an affiliate account and a website. Oh, and a book.
+Forget everything you think you know about selling your book online. We’re changing it. You won’t need SSL certificates, shopping carts, or piles of books in your basement. All you’ll need is a WordPress website. Oh, and a book.
 
 MyBookTable allows you to have your own bookstore that links to online bookstores where visitors can buy the book.
 
 You can find a **live demo** of MyBookTable in action [here](http://www.authormedia.com/books/ "MyBookTable Demo").
-
-
 
 = FEATURES =
 
@@ -35,8 +33,6 @@ MyBookTable allows you to easily make great looking book pages. Whether you want
 
 = Social Media Integration =
 MyBookTable makes it easy for visitors to like and share your books on social media sites like Facebook, Twitter and Google+. It also works with plugins like ShareThis
-
-
 
 = Beautiful Buy Buttons =
 MyBookTable comes with Buy Buttons for the following stores:
@@ -101,7 +97,7 @@ MyBookTable has deep integration with the world’s most popular social network 
 MyBookTable has built in tutorial videos showing you how to use the plugin for maximum effect.
 
 = Compatibility Mode =
-With thousands of Wordpress themes in existence, we can’t guarantee the MBT will work with every theme. So we have created a compatibility mode that allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks including Genesis, Woo Canvas, Elegant Themes and many Theme Forest Themes. Thesis is the only framework known not to work.
+With thousands of Wordpress themes in existence, we can’t guarantee the MBT will work with every theme. So we have created a compatibility mode that allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks including Genesis, Woo Canvas, most Elegant Themes and many Theme Forest Themes. Thesis is the only framework known not to work.
 
 = Easy Shortcode Interface =
 MBT adds an icon to the WordPress WYSIWYG Editor that allows you to add MyBookTable shortcodes to your site with just a couple of clicks.
@@ -112,36 +108,43 @@ We have added breadcrumbs which will not only make your book pages easier to use
 = GetNoticed! Theme Integration =
 MyBookTable can import books from Michael Hyatt's GetNoticed! theme. MyBookTable and GetNoticed! now work together seamlessly.
 
-= Book Widgets Galore =
+= Book Widgets =
 MyBookTable gives you several cool book widgets. Including a featured book widget, genre widget, series widget and more!
 
-= Premium Buy Buttons (Premium Upgrade Required) =
-The following buy buttons are available with the Professional & Developer Upgrades for MyBookTable.
+= Premium Features (Available with Upgrade) = 
 
-* PayPal
-* 1ShoppingCart
-* eJunkie
-* Universal Buy Button
+= Universal Buy Button (Professional Upgrade Required) =
+Create a button that points to any site on the web. You have full control over both the text and the link. 
 
-= Affiliate Compatible (Premium Upgrade Required) =
+= Affiliate Compatible (Professional Upgrade Required) =
 Amazon, BN.com, and CBD.com all offer affiliate programs that help you supplement your income as an author. You won’t have to sell your book out of your garage to make more money. It also integrates seamlessly with leading SEO Plugins like Yoast and Scribe.
 
 Affiliate platforms supported:
-* Amazon (Amazon & Kindle)
+* Amazon (Amazon, Kindle)
 * Commission Junction (Audible)
 * Linkshare (Barnes & Noble, Kobo)
 
-= Grid View (Premium Upgrade Required) =
+= Grid View (Professional Upgrade Required) =
 Show your books in a responsive a grid view.  This is a great option for sites with a lot of books to show.  
 
-= Show Amazon Reviews (Premium Upgrade Required) =
+= Notify Me Button (Professional Upgrade Required) =
+Allow visitors to sign up for book updates by subscribing to your MailChimp list. This button can act as a Pre-Pre-Order button for books that are still in a work in process. 
+
+= Show Amazon Reviews (Professional Upgrade Required) =
 Show off your amazon reviews right there on your book pages. 
 
-= Amazon ISBN Book Import (Premium Upgrade Required) =
+= Amazon ISBN Book Import (Developer Upgrade Required) =
 Want to add 100 books? No problem. Just paste the ISBN numbers into MyBookTable and let the plugin create the book pages for you. This is a huge timesaver.
 
-= Notify Me Button (Premium Upgrade Required) =
+= UIEE Book Import (Developer Upgrade Required) =
+MyBookTable can also import books from a Universal Information Exchange Environment (UIEE) file.
 
+= Premium Buy Buttons (Developer Upgrade Required) =
+The following buy buttons are available with the Professional & Developer Upgrades for MyBookTable.
+
+* PayPal  
+* 1ShoppingCart 
+* eJunkie  
 
 == Installation ==
 
