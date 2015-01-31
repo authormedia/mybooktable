@@ -136,7 +136,7 @@ Show off your amazon reviews right there on your book pages.
 = Amazon Bulk Book Importer (Developer Upgrade Required) =
 Want to add 100 books? No problem. Just paste the ISBN numbers into MyBookTable and let the plugin create the book pages for you. This is a huge timesaver.
 
-= UIEE Book Import (Developer Upgrade Required) =
+= UIEE Book Importer (Developer Upgrade Required) =
 MyBookTable can also import books from a Universal Information Exchange Environment (UIEE) file.
 
 = Premium Buy Buttons (Developer Upgrade Required) =
