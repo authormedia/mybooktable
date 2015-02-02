@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress Bookstore Plugin to help authors boost book sales on sites like Amazon and Apple iBooks with great looking book pages.
+A WordPress Bookstore Plugin to help authors boost book sales on sites like Amazon and Apple iBooks with great-looking book pages.
 
 == Description ==
 
@@ -23,16 +23,16 @@ You can find a **live demo** of MyBookTable in action [here](http://www.authorme
 = FEATURES =
 
 = Easy to Use (Improved in 2.0) =
-With a simple interface, help text and tutorial videos, MyBookTable is designed with the novice user in mind. In version 2.0 we made MyBookTable even easier to use with usability improvements thought the plugin.
+With a simple interface, help text and tutorial videos, MyBookTable is designed with the novice user in mind. In version 2.0 we made MyBookTable even easier to use with usability improvements throughout the plugin.
 
 = Drag and Drop Control  =
-Easily control which books appear at the top of your book table page with a simple drag and drop interface.
+Easily control which books appear at the top of your book table page with a simple drag-and-drop interface.
 
 = Make Your Individual Book Pages Look Amazing =
-MyBookTable allows you to easily make great looking book pages. Whether you want a list of books or a individual book page, MyBookTable gives you maximum control with minimum hassle.
+MyBookTable allows you to easily make great-looking book pages. Whether you want a list of books or a individual book page, MyBookTable gives you maximum control with minimum hassle.
 
 = Social Media Integration =
-MyBookTable makes it easy for visitors to like and share your books on social media sites like Facebook, Twitter and Google+. It also works with plugins like ShareThis
+MyBookTable makes it easy for visitors to like and share your books on social media sites like Facebook, Twitter and Google+. It also works with plugins like ShareThis.
 
 = Beautiful Buy Buttons =
 MyBookTable comes with Buy Buttons for the following stores:
@@ -55,14 +55,14 @@ MyBookTable comes with Buy Buttons for the following stores:
 * Kobo
 * Lifeway
 * Mardel
-* Powel’s
+* Powell’s
 * Scribd
 * Signed By The Author
 * Smashwords
 * Sony Reader
 
 = Premium Buy Buttons =
-The following buy buttons are available with the Pro & Dev Upgrade for MyBookTable.
+The following buy buttons are available with the Pro & Dev Upgrades for MyBookTable.
 
 * PayPal
 * 1ShoppingCart
@@ -70,54 +70,54 @@ The following buy buttons are available with the Pro & Dev Upgrade for MyBookTab
 * Universal Buy Button
 
 = Buy Button Style Packs =
-Customize your store by showing some of the buy buttons as a bulleted list. Also choose from multiple buy button color schemes.
+Customize your store by showing some of the buy buttons as a bulleted list. Also, choose from multiple buy button color schemes.
 
 = Buy Button Shadow Box (New in 2.0) =
 Have a a lot of buy buttons cluttering up your book pages? No worries. MyBookTable 2.0 allows you to show a single "buy now" button that opens a shadow box with all your buy buttons.
 
 = Featured Book Widget =
-Feature a book on your sidebar in just a few of clicks. You can even add multiple books by adding multiple widgets.
+Feature a book on your sidebar with just a few clicks. You can even add multiple books by adding multiple widgets.
 
 =  Mobile Responsive =
 If your WordPress theme is mobile responsive, MyBookTable will react similarly, delivering maximum compatibility for visitors on phones and tablets.
 
 = Recommend Books (New in 2.0)=
-Do you want to sell books by other authors? MyBookTable now has a "Recommended Books" tag out of the box so you can not only sell your books but other author's books as well.
+Do you want to sell books by other authors? MyBookTable now has a "Recommended Books" tag out of the box so you can sell not only your books but other authors' books as well.
 
 = Advanced Search Engine Optimization =
 
-* **A Search Optimized Page for Each Book**
-Having a search optimized book page may seems small, but this option makes a huge difference in how many people find your book. Most authors cram all their books on one page. With so many titles per page, no one book can rank or get coveted Google juice. MyBookTable allows you to create a page for each book as well as a page with all books listed, so you get the best of both worlds. Edit one and it updates the other. This gives you a much better chance of ranking higher when someone searches for one of your titles.
+* **A Search-Optimized Page for Each Book**
+Having a search-optimized book page may seem small, but this option makes a huge difference in how many people find your book. Most authors cram all their books onto one page. With so many titles per page, no one book can rank or get coveted Google juice. MyBookTable allows you to create a page for each book, as well as a page with all books listed, so you get the best of both worlds. Edit one and it updates the other. This gives you a much better chance of ranking higher when someone searches for one of your titles.
 
 * **Native SEO Controls**
-If you don’t currently use an SEO plugin, MyBookTable provides meta titles and descriptions as if you did, complete with optimized defaults in case you don’t  want to bother optimizing it yourself.
+If you don’t currently use an SEO plugin, MyBookTable provides meta titles and descriptions as if you did, complete with optimized defaults in case you don’t want to bother optimizing it yourself.
 
 * **Advanced SEO Integration**
 MyBookTable integrates with popular SEO plugins like WordPress SEO by Yoast and Scribe SEO. If you use one of these plugins, you get full access to their power.
 
 * **Semantic Markup and OpenGraph**
-MyBookTable has built in semantic markup giving you the edge on search engines like Google and social networks like Facebook. We do all the heavy lifting for you, so your pages are naturally searchable.  This should improve Search Engine Optimization and social optimization.
+MyBookTable has built-in semantic markup, giving you the edge on search engines like Google and social networks like Facebook. We do all the heavy lifting for you, so your pages are naturally searchable.  This should improve Search Engine Optimization and social optimization.
 
 = GoodReads Integration & Book Reviews =
 MyBookTable has deep integration with the world’s most popular social network for readers. MBT shows your GoodReads reviews, and it provides a button that allows users to add your book to their GoodReads BookShelf.
 
-= Built In Tutorial Videos =
-MyBookTable has built in tutorial videos showing you how to use the plugin for maximum effect.
+= Built-In Tutorial Videos =
+MyBookTable has built-in tutorial videos showing you how to use the plugin for maximum effect.
 
 = Compatibility Mode =
-With thousands of Wordpress themes in existence, we can’t guarantee the MBT will work with every theme. So we have created a compatibility mode that allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks including Genesis, Woo Canvas, most Elegant Themes and many Theme Forest Themes. Thesis is the only framework known not to work.
+With thousands of Wordpress themes in existence, we can’t guarantee that MBT will work with every theme. So we have created a compatibility mode that allows for maximum compatibility with your theme. MyBookTable integrates with all the major theme frameworks, including Genesis, Woo Canvas, most Elegant Themes, and many Theme Forest Themes. Thesis is the only framework known not to work.
 
 = Easy Shortcode Interface =
 MBT adds an icon to the WordPress WYSIWYG Editor that allows you to add MyBookTable shortcodes to your site with just a couple of clicks.
 
-= Built in Breadcrumbs =
-We have added breadcrumbs which will not only make your book pages easier to use for your visitors, but also improve search engine optimization. These breadcrumbs are fully compatible with the Genesis or Woo Canvas breadcrumb systems.
+= Built-in Breadcrumbs =
+We have added breadcrumbs, which will not only make your book pages easier to use for your visitors, but will also improve search engine optimization. These breadcrumbs are fully compatible with the Genesis or Woo Canvas breadcrumb systems.
 
 = GetNoticed! Theme Integration =
 MyBookTable can import books from Michael Hyatt's GetNoticed! theme. MyBookTable and GetNoticed! now work together seamlessly.
 
 = Book Widgets =
-MyBookTable gives you several cool book widgets. Including a featured book widget, genre widget, series widget and more!
+MyBookTable gives you several cool book widgets. Including a featured book widget, genre widget, series widget, and more!
 
 = Premium Features (Available with Upgrade) =
 
@@ -133,13 +133,13 @@ Affiliate platforms supported:
 * Linkshare (Barnes & Noble, Kobo)
 
 = Grid View (Professional Upgrade Required) =
-Show your books in a responsive a grid view.  This is a great option for sites with a lot of books to show.
+Show your books in a responsive grid view.  This is a great option for sites with a lot of books to show.
 
 = Notify Me Button (Professional Upgrade Required) =
-Allow visitors to sign up for book updates by subscribing to your MailChimp list. This button can act as a Pre-Pre-Order button for books that are still in a work in process.
+Allow visitors to sign up for book updates by subscribing to your MailChimp list. This button can act as a Pre-Pre-Order button for books that are still a work in process.
 
 = Show Amazon Reviews (Professional Upgrade Required) =
-Show off your amazon reviews right there on your book pages.
+Show off your Amazon reviews right there on your book pages.
 
 = Amazon Bulk Book Importer (Developer Upgrade Required) =
 Want to add 100 books? No problem. Just paste the ISBN numbers into MyBookTable and let the plugin create the book pages for you. This is a huge timesaver.
@@ -156,7 +156,7 @@ The following buy buttons are available with the Professional & Developer Upgrad
 
 == Installation ==
 
-= Old Fashioned FTP Method =
+= Old-Fashioned FTP Method =
 1. Download the mybooktable.zip from the WordPress plugin repository.
 2. Open the zip to a directory named mybooktbale. This should happen automatically by double clicking the zip file.
 3. Upload the mybooktable directory to the /wp-content/plugins/ directory of your site, using your favorite FTP client.
@@ -165,7 +165,7 @@ The following buy buttons are available with the Professional & Developer Upgrad
 = Zip Upload Method =
 1. Download the mybooktable.zip from the WordPress plugin repository.
 2. In your WordPress Dashboard go to Plugins -> Add New -> Upload
-3. Select choose file, select mybooktable.zip and click “install now”
+3. Select "choose file", select mybooktable.zip, and click “install now”
 4. Click “Activate” under the the plugin on the 'Plugins' menu in WordPress.
 
 = Repository Crossload Method (Recommended) =
@@ -191,32 +191,32 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 3. This image shows the Buy Button interface on the admin interface for an individual MyBookTable page. You can change the type of buy button by clicking on the Star/Book/T icon.
 
-4. The image shows the Book Table or “Books” page. This is list or index of all your books.
+4. The image shows the Book Table or “Books” page. This is the list or index of all your books.
 
-5. The image shows the admin interface for the Books page. This is list or index of all your books. You can arrange the order via drag and drop by clicking on “sort books”
+5. The image shows the admin interface for the Books page. This is list or index of all your books. You can arrange the order via drag and drop by clicking on “sort books”.
 
 == Upgrade Notice ==
 
 = 1.3.0 =
-This version fixes several bugs and Adds GetNoticed theme integration.
+This version fixes several bugs and adds GetNoticed theme integration.
 
 = 1.2.5 =
-This version adds several cool new features including "Publisher" and "Publication Year" fields
+This version adds several cool new features, including "Publisher" and "Publication Year" fields.
 
 = 1.2.3 =
-This version adds **many** new buy button options including Apple iBooks & Sony Reader
+This version adds **many** new buy button options, including Apple iBooks & Sony Reader.
 
 == Changelog ==
 
 = 2.0.0 =
-* New Author Priorities system allows you to assign priorities to your Authors to customize the order they display in
+* New Author Priorities system allows you to assign priorities to your Authors to customize the order in which they display
 * New Shadow Box feature lets you have you Buy Buttons show up in a separate shadow box instead of on your pages
 * New button on book sorting page to allow you to alphabetize your books
 * New import functionality from Totally Booked
 * New Gumroad buy button and integration
 * New "Recommended Books" Tag so you can feature books you recommend as well as books you have written.
 * Simplified and streamlined settings pages
-* Improved help page with all new tutorial videos
+* Improved help page with all-new tutorial videos
 * Improved button pack import tool
 * Bug Fixes
 
@@ -300,7 +300,7 @@ This version adds **many** new buy button options including Apple iBooks & Sony 
 * Added Kobo Button
 * Added Alibris Button
 * Added Scribd Button
-* Added Powels Button
+* Added Powell's Button
 * Added Book Depository Button
 * Added Apple iBooks Button
 * Upgraded the readme.txt to have screenshots and a better features list.
