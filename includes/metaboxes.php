@@ -21,7 +21,6 @@ function mbt_add_metaboxes()
 	add_meta_box('mbt_buybuttons', __('Buy Buttons', 'mybooktable'), 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_overview', __('Book Overview', 'mybooktable'), 'mbt_overview_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_series_order', __('Series Order', 'mybooktable'), 'mbt_series_order_metabox', 'mbt_book', 'side', 'default');
-	add_meta_box('mbt_book_order', __('Book Order', 'mybooktable'), 'mbt_book_order_metabox', 'mbt_book', 'side', 'low');
 }
 
 function mbt_enqueue_metabox_js() {
@@ -44,7 +43,7 @@ function mbt_book_blurb_metabox($post)
 {
 ?>
 	<label class="screen-reader-text" for="excerpt"><?php _e('Excerpt', 'mybooktable'); ?></label><textarea rows="1" cols="40" name="excerpt" id="excerpt"><?php echo($post->post_excerpt); ?></textarea>
-	<p><?php printf(__('Book Blurbs are hand-crafted summaries of your book. The goal of a book blurb is to convince strangers that they need buy your book in 100 words or less. Answer the question "why would I want to read this book?" <a href="%s" target="_blank">Learn more about writing your book blurb.</a></p>', 'mybooktable'), admin_url('admin.php?page=mbt_help')); ?>
+	<p><?php printf(__('Book Blurbs are hand-crafted summaries of your book. The goal of a book blurb is to convince strangers that they need buy your book in 100 words or less. Answer the question "why would I want to read this book?" <a href="%s" target="_blank">Learn more about writing your book blurb.</a></p>', 'mybooktable'), admin_url('admin.php?page=mbt_help&mbt_video_tutorial=book_blurbs')); ?>
 <?php
 }
 
@@ -89,7 +88,7 @@ function mbt_metadata_metabox($post)
 			<th><label for="mbt_unique_id">ISBN</label></th>
 			<td>
 				<input type="text" name="mbt_unique_id" id="mbt_unique_id" value="<?php echo(get_post_meta($post->ID, "mbt_unique_id", true)); ?>" />
-				<p class="description"><?php _e('(optional)', 'mybooktable'); ?></p>
+				<p class="description"><?php _e('The ISBN number is needed if you want to enable GoodReads or Amazon reviews. (optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -97,21 +96,21 @@ function mbt_metadata_metabox($post)
 			<td>
 				<input type="text" id="mbt_sample_url" name="mbt_sample_url" value="<?php echo(get_post_meta($post->ID, "mbt_sample_url", true)); ?>" />
 				<input id="mbt_upload_sample_button" type="button" class="button" value="<?php _e('Upload', 'mybooktable'); ?>" />
-				<p class="description"><?php _e('Upload a sample chapter from your book to give viewers a preview. (optional)', 'mybooktable'); ?></p>
+				<p class="description"><?php _e('Upload a sample chapter from your book to give viewers a preview. We recommend using a .pdf format for the sample chapter. (optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
 		<tr>
-			<th><label for="mbt_price"><?php _e('Book Price', 'mybooktable'); ?></label></th>
+			<th><label for="mbt_price"><?php _e('Price', 'mybooktable'); ?></label></th>
 			<td>
 				<input type="text" name="mbt_price" id="mbt_price" value="<?php echo(get_post_meta($post->ID, "mbt_price", true)); ?>" />
 				<p class="description"><?php _e('(optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
 		<tr>
-			<th><label for="mbt_sale_price"><?php _e('Book Sale Price', 'mybooktable'); ?></label></th>
+			<th><label for="mbt_sale_price"><?php _e('Sale Price', 'mybooktable'); ?></label></th>
 			<td>
 				<input type="text" name="mbt_sale_price" id="mbt_sale_price" value="<?php echo(get_post_meta($post->ID, "mbt_sale_price", true)); ?>" />
-				<p class="description"><?php _e('(optional)', 'mybooktable'); ?></p>
+				<p class="description"><?php _e('Setting a sale price will cross through the price field and show this price as well. (optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -125,7 +124,7 @@ function mbt_metadata_metabox($post)
 			<th><label for="mbt_publisher_url"><?php _e('Publisher URL', 'mybooktable'); ?></label></th>
 			<td>
 				<input type="text" name="mbt_publisher_url" id="mbt_publisher_url" value="<?php echo(get_post_meta($post->ID, "mbt_publisher_url", true)); ?>" />
-				<p class="description"><?php _e('(optional)', 'mybooktable'); ?></p>
+				<p class="description"><?php _e('Setting a publisher URL will turn the "Publisher Name" into a link to this address. (optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -258,17 +257,4 @@ function mbt_save_series_order_metabox($post_id)
 	{
 		update_post_meta($post_id, "mbt_series_order", $_REQUEST["mbt_series_order"]);
 	}
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Book Order Metabox                                      */
-/*---------------------------------------------------------*/
-
-function mbt_book_order_metabox($post) {
-?>
-	<label for="menu_order"><?php _e('Book Order', 'mybooktable'); ?>: </label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo(esc_attr($post->menu_order)); ?>" />
-	<p class="mbt-helper-description"><?php _e('Use this to change the order that books show up on your book table. Books with larger numbers are displayed first.', 'mybooktable'); ?></p>
-<?php
 }

@@ -27,6 +27,7 @@ function mbt_goodreads_settings_save() {
 
 if(!function_exists('mbt_goodreads_developer_key_refresh_ajax')) {
 	function mbt_goodreads_developer_key_refresh_ajax() {
+		if(!current_user_can('manage_options')) { die(); }
 		mbt_update_setting('goodreads_developer_key', $_REQUEST['data']);
 		echo(mbt_goodreads_developer_key_feedback());
 		die();

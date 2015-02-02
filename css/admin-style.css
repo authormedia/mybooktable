@@ -180,6 +180,35 @@
 	margin-bottom: 10px;
 }
 
+.mbt-dashboard .dashboard-contents-left {
+	padding-right: 20px;
+}
+
+.mbt-dashboard .welcome-panel-promotions-right h3 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.mbt-dashboard .welcome-panel-promotions-right {
+	vertical-align: top;
+	width: 200px;
+	padding: 23px 20px;
+}
+
+.mbt-dashboard .welcome-panel-promotions-right img {
+	width: 200px;
+	height: 200px;
+}
+
+.mbt-dashboard .welcome-panel-promotions-right .welcome-panel-content {
+	margin-left: 0px;
+}
+
+.mbt-dashboard .welcome-panel-promotions-right .welcome-panel-column {
+	width: auto;
+	display: inline-block;
+}
+
 .mbt-dashboard .metabox-holder .postbox {
 	width: 40%;
 	float: left;
@@ -197,8 +226,9 @@
 	font-weight: bold;
 }
 
-.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .currently-using {
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside h1 {
 	line-height: 1.2;
+	margin: 0px;
 }
 
 .mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .current-version {
@@ -665,6 +695,15 @@
 	border-radius: 15px;
 }
 
+.mbt_book_importer .mbt_imported_books {
+	list-style: disc inside none;
+}
+
+.mbt_book_importer .mbt_imported_books a:after {
+    content: url('../images/new-window.png');
+    margin-left: 5px;
+}
+
 /*---------------------------------------------------------*/
 /* Taxonomy Pages                                          */
 /*---------------------------------------------------------*/
@@ -783,16 +822,15 @@
 	-webkit-transition-duration: .3s;
 }
 
-.mbt-email-subscribe-message h4 {
-	padding-right: 20px;
+.mbt-email-pointer .wp-pointer-content h3:before {
+	top: 18px;
+	content: '\f331';
 }
 
-.mbt-email-subscribe-message form {
-	float: right;
-}
-
-.mbt-email-subscribe-message form input {
-	vertical-align: middle;
+.mbt-email-pointer #mbt-pointer-email.error {
+	border: 1px solid #FFB8B5;
+	background: #FFDAD8;
+	box-shadow: 0px 0px 6px #FFB8B5;
 }
 
 /*---------------------------------------------------------*/

@@ -260,7 +260,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 	}
 
 	function authormedia_shortcode_inserter_button($buttons) {
-		echo '<a href="#TB_inline?width=480&inlineId=select_authormedia_shortcode" class="thickbox button authormedia_shortcode_button"><span class="authormedia_shortcode_icon"></span>'.__('Insert Shortcode', 'mybooktable').'</a>';
+		echo '<a href="#TB_inline?width=480&inlineId=select_authormedia_shortcode" class="thickbox button authormedia_shortcode_button" data-mbt-track-event="authormedia_shortcode_inserter_click"><span class="authormedia_shortcode_icon"></span>'.__('Insert Shortcode', 'mybooktable').'</a>';
 	}
 
 	function authormedia_shortcode_inserter_form() {

@@ -51,7 +51,7 @@ function mbt_templates_init() {
 		add_action('mbt_after_single_book', 'mbt_the_domc_notice', 6);
 		if(!mbt_get_setting('hide_domc_notice')) { add_action('mbt_after_single_book', 'mbt_the_reviews_box', 15); }
 		if(mbt_get_setting('show_series')) { add_action('mbt_after_single_book', 'mbt_the_book_series_box'); }
-		if(mbt_get_setting('show_find_bookstore')) { add_action('mbt_after_single_book', 'mbt_the_find_bookstore_box'); }
+		add_action('mbt_after_single_book', 'mbt_the_find_bookstore_box');
 
 		//book excerpt hooks
 		add_action('mbt_before_book_excerpt', 'mbt_do_before_book_excerpt', 0);

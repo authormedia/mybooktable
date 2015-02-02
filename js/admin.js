@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
 	/*---------------------------------------------------------*/
 
 	jQuery('#mbt-tabs').tabs({active: jQuery('#mbt_current_tab').val()-1});
-	jQuery('#mbt-troubleshoot-link').off();
+	jQuery('#mbt-help-link').off();
 
  	jQuery('#mbt_settings_form input[type="submit"]').click(function() { jQuery('#mbt_current_tab').val(jQuery(this).parents('.mbt-tab').attr('id').substring(8)); });
 
@@ -61,7 +61,12 @@ jQuery(document).ready(function() {
 	/* Help Page                                               */
 	/*---------------------------------------------------------*/
 
-	jQuery('.mbt_help .mbt_video_display .mbt_video:first').show();
+	if(jQuery('.mbt_help #mbt_selected_tutorial_video').length > 0) {
+		jQuery('.mbt_help #mbt_video_'+jQuery('.mbt_help #mbt_selected_tutorial_video').val()).show();
+		jQuery('html, body').animate({scrollTop: jQuery('.mbt_help .mbt_video_tutorials').offset().top-42}, 2000);
+	} else {
+		jQuery('.mbt_help .mbt_video_display .mbt_video:first').show();
+	}
 
 	jQuery('.mbt_help .mbt_video_selector a').click(function() {
 		var video_id = jQuery(this).attr('data-video-id');
@@ -112,5 +117,26 @@ jQuery(document).ready(function() {
 	mbt_make_uploader('#mbt_upload_tax_image_button', '#mbt_tax_image_url', mbt_media_upload_i18n.mbt_upload_tax_image_button);
 	mbt_make_uploader('#mbt_set_book_image_button', '#mbt_book_image_id', mbt_media_upload_i18n.mbt_set_book_image_button, 'id');
 	mbt_make_uploader('#mbt_upload_style_pack_button', '#mbt_style_pack_id', mbt_media_upload_i18n.select, 'id');
+
+	/*---------------------------------------------------------*/
+	/* Ajax Event Tracking                                     */
+	/*---------------------------------------------------------*/
+
+	function mbt_track_event(event_name, after) {
+		var jqxhr = jQuery.post(ajaxurl, {action: 'mbt_track_event', event_name: event_name});
+		if(typeof after !== 'undefined') { jqxhr.always(after); }
+	}
+
+	jQuery('*[data-mbt-track-event]').click(function() {
+		mbt_track_event(jQuery(this).attr('data-mbt-track-event'));
+	});
+
+	jQuery('a[data-mbt-track-event-override]').click(function(e) {
+		var element = jQuery(this);
+		mbt_track_event(element.attr('data-mbt-track-event-override'), function() {
+			window.location = element.attr('href');
+		});
+		return false;
+	});
 
 });

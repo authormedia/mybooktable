@@ -8,7 +8,7 @@
 //Modified to not conflict with other tb installs
 
 //on page load call mbt_tb_init
-jQuery(document).ready(function(){   
+jQuery(document).ready(function(){
 	mbt_tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
 });
 
@@ -41,27 +41,23 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 				jQuery("#mbt_tb_overlay").click(mbt_tb_remove);
 			}
 		}
-		
-		if(mbt_tb_detectMacXFF()){
-			jQuery("#mbt_tb_overlay").addClass("mbt_tb_overlayMacFFBGHack");//use png overlay so hide flash
-		}else{
-			jQuery("#mbt_tb_overlay").addClass("mbt_tb_overlayBG");//use background and opacity
-		}
-		
+
+		jQuery("#mbt_tb_overlay").addClass("mbt_tb_overlayBG");//use background and opacity
+
 		if(caption===null){caption="";}
-		
+
 		var baseURL;
 	   if(url.indexOf("?")!==-1){ //ff there is a query string involved
 			baseURL = url.substr(0, url.indexOf("?"));
-	   }else{ 
+	   }else{
 	   		baseURL = url;
 	   }
-	   
+
 	   var urlString = /\.jpgjQuery|\.jpegjQuery|\.pngjQuery|\.gifjQuery|\.bmpjQuery/;
 	   var urlType = baseURL.toLowerCase().match(urlString);
 
 		if(urlType == '.jpg' || urlType == '.jpeg' || urlType == '.png' || urlType == '.gif' || urlType == '.bmp'){//code to show images
-				
+
 			mbt_tb_PrevCaption = "";
 			mbt_tb_PrevURL = "";
 			mbt_tb_PrevHTML = "";
@@ -74,7 +70,7 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 				mbt_tb_TempArray = jQuery("a[@rel="+imageGroup+"]").get();
 				for (mbt_tb_Counter = 0; ((mbt_tb_Counter < mbt_tb_TempArray.length) && (mbt_tb_NextHTML === "")); mbt_tb_Counter++) {
 					var urlTypeTemp = mbt_tb_TempArray[mbt_tb_Counter].href.toLowerCase().match(urlString);
-						if (!(mbt_tb_TempArray[mbt_tb_Counter].href == url)) {						
+						if (!(mbt_tb_TempArray[mbt_tb_Counter].href == url)) {
 							if (mbt_tb_FoundURL) {
 								mbt_tb_NextCaption = mbt_tb_TempArray[mbt_tb_Counter].title;
 								mbt_tb_NextURL = mbt_tb_TempArray[mbt_tb_Counter].href;
@@ -86,15 +82,15 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 							}
 						} else {
 							mbt_tb_FoundURL = true;
-							mbt_tb_imageCount = "Image " + (mbt_tb_Counter + 1) +" of "+ (mbt_tb_TempArray.length);											
+							mbt_tb_imageCount = "Image " + (mbt_tb_Counter + 1) +" of "+ (mbt_tb_TempArray.length);
 						}
 				}
 			}
 
 			imgPreloader = new Image();
-			imgPreloader.onload = function(){		
+			imgPreloader.onload = function(){
 			imgPreloader.onload = null;
-				
+
 			// Resizing large images - orginal by Christian Montoya edited by me.
 			var pagesize = mbt_tb_getPageSize();
 			var x = pagesize[0] - 150;
@@ -102,51 +98,51 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 			var imageWidth = imgPreloader.width;
 			var imageHeight = imgPreloader.height;
 			if (imageWidth > x) {
-				imageHeight = imageHeight * (x / imageWidth); 
-				imageWidth = x; 
-				if (imageHeight > y) { 
-					imageWidth = imageWidth * (y / imageHeight); 
-					imageHeight = y; 
+				imageHeight = imageHeight * (x / imageWidth);
+				imageWidth = x;
+				if (imageHeight > y) {
+					imageWidth = imageWidth * (y / imageHeight);
+					imageHeight = y;
 				}
-			} else if (imageHeight > y) { 
-				imageWidth = imageWidth * (y / imageHeight); 
-				imageHeight = y; 
-				if (imageWidth > x) { 
-					imageHeight = imageHeight * (x / imageWidth); 
+			} else if (imageHeight > y) {
+				imageWidth = imageWidth * (y / imageHeight);
+				imageHeight = y;
+				if (imageWidth > x) {
+					imageHeight = imageHeight * (x / imageWidth);
 					imageWidth = x;
 				}
 			}
 			// End Resizing
-			
+
 			mbt_tb_WIDTH = imageWidth + 30;
 			mbt_tb_HEIGHT = imageHeight + 60;
-			jQuery("#mbt_tb_window").append("<a href='' id='mbt_tb_ImageOff' title='Close'><img id='mbt_tb_Image' src='"+url+"' width='"+imageWidth+"' height='"+imageHeight+"' alt='"+caption+"'/></a>" + "<div id='mbt_tb_caption'>"+caption+"<div id='mbt_tb_secondLine'>" + mbt_tb_imageCount + mbt_tb_PrevHTML + mbt_tb_NextHTML + "</div></div><div id='mbt_tb_closeWindow'><a href='#' id='mbt_tb_closeWindowButton' title='Close'>close</a> or Esc Key</div>"); 		
-			
+			jQuery("#mbt_tb_window").append("<a href='' id='mbt_tb_ImageOff' title='Close'><img id='mbt_tb_Image' src='"+url+"' width='"+imageWidth+"' height='"+imageHeight+"' alt='"+caption+"'/></a>" + "<div id='mbt_tb_caption'>"+caption+"<div id='mbt_tb_secondLine'>" + mbt_tb_imageCount + mbt_tb_PrevHTML + mbt_tb_NextHTML + "</div></div><div id='mbt_tb_closeWindow'><a href='#' id='mbt_tb_closeWindowButton' title='Close'>close</a> or Esc Key</div>");
+
 			jQuery("#mbt_tb_closeWindowButton").click(mbt_tb_remove);
-			
+
 			if (!(mbt_tb_PrevHTML === "")) {
 				function goPrev(){
 					if(jQuery(document).unbind("click",goPrev)){jQuery(document).unbind("click",goPrev);}
 					jQuery("#mbt_tb_window").remove();
 					jQuery("body").append("<div id='mbt_tb_window'></div>");
 					mbt_tb_show(mbt_tb_PrevCaption, mbt_tb_PrevURL, imageGroup);
-					return false;	
+					return false;
 				}
 				jQuery("#mbt_tb_prev").click(goPrev);
 			}
-			
-			if (!(mbt_tb_NextHTML === "")) {		
+
+			if (!(mbt_tb_NextHTML === "")) {
 				function goNext(){
 					jQuery("#mbt_tb_window").remove();
 					jQuery("body").append("<div id='mbt_tb_window'></div>");
-					mbt_tb_show(mbt_tb_NextCaption, mbt_tb_NextURL, imageGroup);				
-					return false;	
+					mbt_tb_show(mbt_tb_NextCaption, mbt_tb_NextURL, imageGroup);
+					return false;
 				}
 				jQuery("#mbt_tb_next").click(goNext);
-				
+
 			}
 
-			document.onkeydown = function(e){ 	
+			document.onkeydown = function(e){
 				if (e == null) { // ie
 					keycode = event.keyCode;
 				} else { // mozilla
@@ -164,17 +160,17 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 						document.onkeydown = "";
 						goPrev();
 					}
-				}	
+				}
 			};
-			
+
 			mbt_tb_position();
 			jQuery("#mbt_tb_ImageOff").click(mbt_tb_remove);
 			jQuery("#mbt_tb_window").css({display:"block"}); //for safari using css instead of show
 			};
-			
+
 			imgPreloader.src = url;
 		}else{//code to show html
-			
+
 			var queryString = QueryString; //url.replace(/^[^\?]+\??/,'');
 			var params = mbt_tb_parseQuery( queryString );
 
@@ -182,8 +178,8 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 			mbt_tb_HEIGHT = (params['height']*1) || 440; //defaults to 440 if no paramaters were added to URL
 			ajaxContentW = mbt_tb_WIDTH;
 			ajaxContentH = mbt_tb_HEIGHT;
-			
-			if(queryString.indexOf('mbt_tb_iframe') != -1){// either iframe or ajax window		
+
+			if(queryString.indexOf('mbt_tb_iframe') != -1){// either iframe or ajax window
 					urlNoQuery = url.split('mbt_tb_');
 					jQuery("#mbt_tb_iframeContent").remove();
 					if(params['modal'] != "true"){//iframe no modal
@@ -198,7 +194,7 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 						jQuery("#mbt_tb_window").append("<div id='mbt_tb_title'><div id='mbt_tb_ajaxWindowTitle'>"+caption+"</div><div id='mbt_tb_closeAjaxWindow'><a href='#' id='mbt_tb_closeWindowButton'></a></div></div><div id='mbt_tb_ajaxContent'></div>");
 						}else{//ajax modal
 						jQuery("#mbt_tb_overlay").unbind();
-						jQuery("#mbt_tb_window").append("<div id='mbt_tb_ajaxContent' class='mbt_tb_modal'></div>");	
+						jQuery("#mbt_tb_window").append("<div id='mbt_tb_ajaxContent' class='mbt_tb_modal'></div>");
 						}
 					}else{//this means the window is already up, we are just loading new content via ajax
 						//jQuery("#mbt_tb_ajaxContent")[0].style.width = ajaxContentW +"px";
@@ -207,16 +203,16 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 						jQuery("#mbt_tb_ajaxWindowTitle").html(caption);
 					}
 			}
-					
+
 			jQuery("#mbt_tb_closeWindowButton").click(mbt_tb_remove);
-			
-				if(url.indexOf('mbt_tb_inline') != -1){	
+
+				if(url.indexOf('mbt_tb_inline') != -1){
 					jQuery("#mbt_tb_ajaxContent").append(jQuery('#' + params['inlineId']).children());
 					jQuery("#mbt_tb_window").unload(function () {
 						jQuery('#' + params['inlineId']).append( jQuery("#mbt_tb_ajaxContent").children() ); // move elements back when you're finished
 					});
 					mbt_tb_position();
-					jQuery("#mbt_tb_window").css({display:"block"}); 
+					jQuery("#mbt_tb_window").css({display:"block"});
 				}else if(queryString.indexOf('mbt_tb_iframe') != -1){
 					mbt_tb_position();
 					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
@@ -229,11 +225,11 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 						jQuery("#mbt_tb_window").css({display:"block"});
 					});
 				}
-			
+
 		}
 
 		if(!params['modal']){
-			document.onkeyup = function(e){ 	
+			document.onkeyup = function(e){
 				if (e == null) { // ie
 					keycode = event.keyCode;
 				} else { // mozilla
@@ -241,10 +237,10 @@ function mbt_tb_show(caption, url, imageGroup, QueryString) {//function called w
 				}
 				if(keycode == 27){ // close
 					mbt_tb_remove();
-				}	
+				}
 			};
 		}
-		
+
 	} catch(e) {
 		//nothing here
 	}

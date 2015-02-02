@@ -20,12 +20,13 @@ function mbt_get_stores() {
 
 function mbt_add_basic_stores($stores) {
 	if(mbt_get_setting('enable_default_affiliates') or mbt_get_upgrade()) {
-		$stores['amazon'] = array('name' => 'Amazon', 'search' => 'http://amazon.com/books', 'editor_desc' => 'Paste in the Amazon product URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a>');
-		$stores['kindle'] = array('name' => 'Amazon Kindle', 'search' => 'http://amazon.com/kindle-ebooks', 'editor_desc' => 'Paste in the Amazon Kindle product URL or Button code for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Amazon Affiliate links.</a>');
-		$stores['bnn'] = array('name' => 'Barnes and Noble', 'search' => 'http://www.barnesandnoble.com/s/?store=book', 'editor_desc' => 'Paste in the Barnes &amp; Noble product URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Barnes &amp; Noble Affiliate links.</a>');
+		$stores['amazon'] = array('name' => 'Amazon', 'search' => 'http://amazon.com/books');
+		$stores['kindle'] = array('name' => 'Amazon Kindle', 'search' => 'http://amazon.com/kindle-ebooks');
+		$stores['bnn'] = array('name' => 'Barnes and Noble', 'search' => 'http://www.barnesandnoble.com/s/?store=book');
+		$stores['nook'] = array('name' => 'Barnes and Noble Nook', 'search' => 'http://www.barnesandnoble.com/s/?store=ebook');
+		$stores['audible'] = array('name' => 'Audible.com', 'search' => 'http://www.audible.com/search');
+		$stores['kobo'] = array('name' => 'Kobo', 'search' => 'http://www.kobobooks.com');
 	}
-	$stores['audible'] = array('name' => 'Audible.com', 'search' => 'http://www.audible.com/search');
-	$stores['nook'] = array('name' => 'Barnes and Noble Nook', 'search' => 'http://www.barnesandnoble.com/s/?store=ebook', 'editor_desc' => 'Paste in the Barnes &amp; Noble product URL for this item. <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">Learn more about Barnes &amp; Noble Affiliate links.</a>');
 	$stores['goodreads'] = array('name' => 'GoodReads', 'search' => 'http://www.goodreads.com/search');
 	$stores['cbd'] = array('name' => 'Christian Book Distributor', 'search' => 'http://www.christianbook.com/Christian/Books/easy_find');
 	$stores['sba'] = array('name' => 'Signed by the Author', 'search' => 'http://www.signedbytheauthor.com');
@@ -39,7 +40,6 @@ function mbt_add_basic_stores($stores) {
 	$stores['alibris'] = array('name' => 'Alibris', 'search' => 'http://www.alibris.com');
 	$stores['bookdepository'] = array('name' => 'Book Depository', 'search' => 'http://www.bookdepository.com');
 	$stores['ibooks'] = array('name' => 'iBooks', 'search' => 'http://www.researchmaniacs.com/Search/iBookstore.html');
-	$stores['kobo'] = array('name' => 'Kobo', 'search' => 'http://www.kobobooks.com');
 	$stores['powells'] = array('name' => 'Powells', 'search' => 'http://www.powells.com');
 	$stores['scribd'] = array('name' => 'Scribd', 'search' => 'http://www.scribd.com');
 	$stores['sony'] = array('name' => 'Sony Reader', 'search' => 'https://ebookstore.sony.com');
@@ -51,7 +51,9 @@ function mbt_add_basic_stores($stores) {
 function mbt_buybutton_editor($data, $id, $store) {
 	$output  = '<input id="'.$id.'_name" name="'.$id.'[store]" type="hidden" value="'.$data['store'].'">';
 	$output .= '<textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
-	$output .= '<p>'.(empty($store['editor_desc']) ? __('Paste in the product URL for this item.', 'mybooktable').' <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">'.__('Learn more about adding Buy Button links.', 'mybooktable').'</a>' : $store['editor_desc']).(empty($store['search']) ? '' : ' <a href="'.$store['search'].'" target="_blank">'.sprintf(__('Search for books on %s.', 'mybooktable'), $store['name']).'</a>').'</p>';
+	$editor_desc = (empty($store['editor_desc']) ? __('Paste in the product URL for this item.', 'mybooktable').' <a href="'.admin_url('admin.php?page=mbt_help&mbt_video_tutorial=buy_buttons').'" target="_blank">'.__('Learn more about adding Buy Button links.', 'mybooktable').'</a>' : $store['editor_desc']);
+	$editor_search = (empty($store['search']) ? '' : ' <a href="'.$store['search'].'" target="_blank">'.sprintf(__('Search for books on %s.', 'mybooktable'), $store['name']).'</a>');
+	$output .= '<p>'.$editor_desc.$editor_search.'</p>';
 	return apply_filters('mbt_buybutton_editor', $output, $data, $id, $store);
 }
 
@@ -149,7 +151,7 @@ function mbt_amazon_affiliate_settings_render() {
 		<tbody>
 			<tr>
 				<th>
-					<label style="color: #666"><?php _e('Amazon Affiliate Code', 'mybooktable'); ?></label>
+					<label style="color: #666"><?php _e('Amazon Associates', 'mybooktable'); ?></label>
 					<div class="mbt-affiliate-usedby">
 						Used by:
 						<ul>
@@ -227,11 +229,12 @@ function mbt_linkshare_affiliate_settings_render() {
 		<tbody>
 			<tr>
 				<th>
-					<label style="color: #666"><?php _e('LinkShare Affiliate Code', 'mybooktable'); ?></label>
+					<label style="color: #666"><?php _e('LinkShare', 'mybooktable'); ?></label>
 					<div class="mbt-affiliate-usedby">
 						Used by:
 						<ul>
 							<li>Barnes &amp; Noble Buy Button</li>
+							<li>Nook Buy Button</li>
 							<li>Kobo Buy Button</li>
 						</ul>
 					</div>
@@ -276,10 +279,7 @@ function mbt_gumroad_buybutton_init() {
 
 function mbt_gumroad_buybutton_editor($output, $data, $id, $store) {
 	if($data['store'] == 'gumroad') {
-		$output  = '<input id="'.$id.'_name" name="'.$id.'[store]" type="hidden" value="'.$data['store'].'">';
-		$output .= '<p><input type="checkbox" id="'.$id.'_use_shadowbox" name="'.$id.'[use_shadowbox]" '.checked($data['use_shadowbox'], 'on', false).'> <label for="'.$id.'_use_shadowbox">Use shadow box for purchase?</label></p>';
-		$output .= '<textarea id="'.$id.'_url" name="'.$id.'[url]" cols="80">'.(empty($data['url']) ? '' : htmlspecialchars($data['url'])).'</textarea>';
-		$output .= '<p>'.__('Paste in the product URL for this item.', 'mybooktable').' <a href="'.admin_url('admin.php?page=mbt_help').'" target="_blank">'.__('Learn more about adding Buy Button links.', 'mybooktable').'</a> <a href="https://gumroad.com/" target="_blank">'.__('Find your books on Gumroad.', 'mybooktable').'</a></p>';
+		$output = '<input id="'.$id.'_name" name="'.$id.'[store]" type="hidden" value="'.$data['store'].'">'.$output;
 	}
 	return $output;
 }
@@ -342,7 +342,7 @@ function mbt_cj_affiliate_settings_render() {
 		<tbody>
 			<tr>
 				<th>
-					<label style="color: #666"><?php _e('Commission Junction Affiliate Information', 'mybooktable'); ?></label>
+					<label style="color: #666"><?php _e('Commission Junction', 'mybooktable'); ?></label>
 					<div class="mbt-affiliate-usedby">
 						Used by:
 						<ul>

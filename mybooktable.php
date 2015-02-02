@@ -55,9 +55,6 @@ register_deactivation_hook(__FILE__, 'mbt_deactivate');
 /*---------------------------------------------------------*/
 
 function mbt_init() {
-	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['action']) and $_GET['action'] == 'deactivate' and isset($_GET['plugin']) and $_GET['plugin'] == plugin_basename(dirname(__FILE__)).'/mybooktable.php') { return; }
-	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['mbt_uninstall'])) { return mbt_uninstall(); }
-
 	//deprecated legacy functionality
 	if(function_exists('mbtdev_init') and mbt_get_setting('dev_active')) { add_action('mbt_init', 'mbtdev_init'); } else if(function_exists('mbtpro_init') and mbt_get_setting('pro_active')) { add_action('mbt_init', 'mbtpro_init'); }
 
@@ -67,11 +64,24 @@ function mbt_init() {
 	mbt_load_settings();
 	mbt_upgrade_check();
 	mbt_customize_plugins_page();
-	add_filter('pre_set_site_transient_update_plugins', 'mbt_periodic_api_key_check');
+	if(mbt_detect_deactivation()) { return; }
 
 	do_action('mbt_init');
 }
 add_action('plugins_loaded', 'mbt_init');
+
+function mbt_detect_deactivation() {
+	if($GLOBALS['pagenow'] == "plugins.php" and current_user_can('install_plugins') and isset($_GET['action']) and $_GET['action'] == 'deactivate' and isset($_GET['plugin']) and $_GET['plugin'] == plugin_basename(dirname(__FILE__)).'/mybooktable.php') {
+		mbt_update_setting('detect_deactivated', 'detected');
+		mbt_track_event('plugin_deactivated', true);
+		mbt_send_tracking_data();
+		return true;
+	} else if(mbt_get_setting('detect_deactivated') === 'detected') {
+		mbt_update_setting('detect_deactivated', false);
+		mbt_track_event('plugin_activated', true);
+	}
+	return false;
+}
 
 function mbt_customize_plugins_page() {
 	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'mbt_plugin_action_links');
@@ -79,7 +89,10 @@ function mbt_customize_plugins_page() {
 }
 
 function mbt_plugin_action_links($actions) {
+	unset($actions['edit']);
 	$actions['settings'] = '<a href="'.admin_url('admin.php?page=mbt_settings').'">'.__('Settings', 'mybooktable').'</a>';
+	$actions['help'] = '<a href="'.admin_url('admin.php?page=mbt_help').'">'.__('Help', 'mybooktable').'</a>';
+	$actions['upgrade'] = '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.__('Purchase Upgrade', 'mybooktable').'</a>';
 	return $actions;
 }
 

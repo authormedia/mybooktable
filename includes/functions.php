@@ -25,9 +25,9 @@ function mbt_reset_settings() {
 		'style_pack' => 'Default',
 		'image_size' => 'medium',
 		'reviews_box' => 'none',
-		'enable_socialmedia_badges_single_book' => true,
-		'enable_socialmedia_badges_book_excerpt' => true,
-		'enable_socialmedia_bar_single_book' => true,
+		'enable_socialmedia_badges_single_book' => false,
+		'enable_socialmedia_badges_book_excerpt' => false,
+		'enable_socialmedia_bar_single_book' => false,
 		'enable_seo' => true,
 		'enable_buybutton_shadowbox' => false,
 		'enable_breadcrumbs' => true,
@@ -36,7 +36,7 @@ function mbt_reset_settings() {
 		'book_button_size' => 'medium',
 		'listing_button_size' => 'medium',
 		'widget_button_size' => 'medium',
-		'posts_per_page' => false,
+		'posts_per_page' => 12,
 		'enable_default_affiliates' => false,
 		'product_name' => __('Books', 'mybooktable'),
 		'product_slug' => _x('books', 'URL slug', 'mybooktable'),
@@ -240,18 +240,18 @@ function mbt_add_disabled_importers($importers) {
 	$importers['amazon'] = array(
 		'name' => __('Amazon Bulk Book Importer', 'mybooktable'),
 		'desc' => __('Import your books in bulk from Amazon with a list of ISBNs.', 'mybooktable'),
-		'disabled' => mbt_get_upgrade_message(),
+		'disabled' => mbt_get_upgrade_message(null, '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.__('Upgrade your MyBookTable to enable these advanced features!', 'mybooktable').'</a>'),
 	);
 	$importers['uiee'] = array(
 		'name' => __('UIEE File', 'mybooktable'),
 		'desc' => __('Import your books from a UIEE (Universal Information Exchange Environment) File.', 'mybooktable'),
-		'disabled' => mbt_get_upgrade_message(),
+		'disabled' => mbt_get_upgrade_message(null, '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.__('Upgrade your MyBookTable to enable these advanced features!', 'mybooktable').'</a>'),
 	);
 	return $importers;
 }
 add_filter('mbt_importers', 'mbt_add_disabled_importers', 9);
 
-function mbt_import_book(&$book) {
+function mbt_import_book($book) {
 	$defaults = array(
 		'source_id' => null,
 		'title' => '',
@@ -307,8 +307,9 @@ function mbt_import_book(&$book) {
 		wp_set_object_terms($post_id, mbt_import_taxonomy_terms($book['tags'], 'mbt_tag'), 'mbt_tag');
 
 		if(!empty($book['source_id'])) { update_post_meta($book['source_id'], 'mbt_imported_book_id', $post_id); }
-		$book['imported_book_id'] = $post_id;
 	}
+
+	return $post_id;
 }
 
 function mbt_import_taxonomy_terms($term_names, $taxonomy) {
@@ -417,6 +418,166 @@ add_filter('mbt_style_folders', 'mbt_add_uploaded_style_folder', 100);
 
 
 /*---------------------------------------------------------*/
+/* Tracking                                                */
+/*---------------------------------------------------------*/
+
+function mbt_init_tracking() {
+	if(mbt_get_setting('allow_tracking') !== 'yes') { return; }
+
+	if(!wp_next_scheduled('mbt_periodic_tracking')) { wp_schedule_event(time(), 'daily', 'mbt_periodic_tracking'); }
+	add_action('mbt_periodic_tracking', 'mbt_send_tracking_data');
+}
+add_action('mbt_init', 'mbt_init_tracking');
+
+function mbt_load_tracking_data() {
+	global $mbt_tracking_data;
+	if(empty($mbt_tracking_data)) {
+		mt_srand(time());
+		$mbt_tracking_data = get_option('mbt_tracking_data');
+		if(empty($mbt_tracking_data)) {
+			$id = hash('sha256', strval(get_bloginfo('url')).strval(time()).strval(rand()));
+
+			$mbt_tracking_data = array(
+				'id' => $id,
+				'events' => array(),
+				'ab_status' => array(),
+			);
+
+			update_option('mbt_tracking_data', $mbt_tracking_data);
+		}
+	}
+}
+
+function mbt_get_tracking_data($name) {
+	global $mbt_tracking_data;
+	mbt_load_tracking_data();
+	return isset($mbt_tracking_data[$name]) ? $mbt_tracking_data[$name] : NULL;
+}
+
+function mbt_update_tracking_data($name, $value) {
+	global $mbt_tracking_data;
+	mbt_load_tracking_data();
+	$mbt_tracking_data[$name] = $value;
+	update_option('mbt_tracking_data', $mbt_tracking_data);
+}
+
+function mbt_track_event($name, $instance=false) {
+	if(mbt_get_setting('allow_tracking') !== 'yes') { return; }
+
+	$events = mbt_get_tracking_data('events');
+	$events[$name]['count'] += 1;
+	$events[$name]['last_time'] = time();
+
+	if($instance !== false) {
+		if(!is_array($instance)) { $instance = array(); }
+		$instance['time'] = time();
+		$instance['version'] = MBT_VERSION;
+		$events[$name]['instances'][] = $instance;
+	}
+
+	mbt_update_tracking_data('events', $events);
+}
+
+function mbt_send_tracking_data() {
+	if(mbt_get_setting('allow_tracking') !== 'yes') { return; }
+
+	$books_query = new WP_Query(array('post_type' => 'mbt_book'));
+	$books = $books_query->posts;
+
+	$book_metas = array_map(create_function('$post', 'return get_post_custom($post->ID);'), $books);
+	$num_sample_chapters = 0;
+	$num_prices = 0;
+	$num_isbns = 0;
+	$num_publisher_names = 0;
+	foreach($book_metas as $meta) {
+		if(!empty($meta['mbt_sample_url'][0])) { $num_sample_chapters++; }
+		if(!empty($meta['mbt_price'][0])) { $num_prices++; }
+		if(!empty($meta['mbt_unique_id'][0])) { $num_isbns++; }
+		if(!empty($meta['mbt_publisher_name'][0])) { $num_publisher_names++; }
+	}
+
+	$stores = mbt_get_stores();
+	$buybuttons_stats = array();
+	foreach($book_metas as $meta) {
+		if(!empty($meta['mbt_buybuttons'][0])) {
+			$buybuttons = maybe_unserialize($meta['mbt_buybuttons'][0]);
+			if(is_array($buybuttons)) {
+				foreach($buybuttons as $buybuttons) {
+					$buybuttons_stats[$buybutton['store']]++;
+				}
+			}
+		}
+	}
+
+	$data = array(
+		'id' => mbt_get_tracking_data('id'),
+		'time' => time(),
+		'version' => MBT_VERSION,
+		'settings' => array(
+			'installed_examples' => mbt_get_setting('installed_examples'),
+			'compatibility_mode' => mbt_get_setting('compatibility_mode'),
+			'style_pack' => mbt_get_setting('style_pack'),
+			'image_size' => mbt_get_setting('image_size'),
+			'reviews_box' => mbt_get_setting('reviews_box'),
+			'enable_socialmedia_badges_single_book' => mbt_get_setting('enable_socialmedia_badges_single_book'),
+			'enable_socialmedia_badges_book_excerpt' => mbt_get_setting('enable_socialmedia_badges_book_excerpt'),
+			'enable_socialmedia_bar_single_book' => mbt_get_setting('enable_socialmedia_bar_single_book'),
+			'enable_seo' => mbt_get_setting('enable_seo'),
+			'enable_buybutton_shadowbox' => mbt_get_setting('enable_buybutton_shadowbox'),
+			'enable_breadcrumbs' => mbt_get_setting('enable_breadcrumbs'),
+			'show_series' => mbt_get_setting('show_series'),
+			'book_button_size' => mbt_get_setting('book_button_size'),
+			'listing_button_size' => mbt_get_setting('listing_button_size'),
+			'widget_button_size' => mbt_get_setting('widget_button_size'),
+			'posts_per_page' => mbt_get_setting('posts_per_page'),
+			'enable_default_affiliates' => (mbt_get_setting('enable_default_affiliates') or mbt_get_upgrade()),
+			'product_name' => mbt_get_setting('product_name'),
+			'hide_domc_notice' => mbt_get_setting('hide_domc_notice'),
+		),
+		'upgrade' => array(
+			'name' => mbt_get_upgrade(),
+			'version' => mbt_get_upgrade_version(),
+			'settings' => array(
+				'disable_amazon_affiliates' => mbt_get_setting('disable_amazon_affiliates'),
+				'disable_linkshare_affiliates' => mbt_get_setting('disable_linkshare_affiliates'),
+				'disable_cj_affiliates' => mbt_get_setting('disable_cj_affiliates'),
+				'enable_gridview' => mbt_get_setting('enable_gridview'),
+			)
+		),
+		'statistics' => array(
+			'num_books' => count($books),
+			'num_sample_chapters' => $num_sample_chapters,
+			'num_prices' => $num_prices,
+			'num_isbns' => $num_isbns,
+			'num_publisher_names' => $num_publisher_names,
+			'buybuttons' => $buybuttons_stats,
+		),
+		'events' => mbt_get_tracking_data('events'),
+		'ab_status' => mbt_get_tracking_data('ab_status'),
+	);
+
+	$options = array(
+		'timeout' => ((defined('DOING_CRON') && DOING_CRON) ? 30 : 3),
+		'body' => $data,
+		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
+	);
+
+	$response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/analytics/submit', $options);
+}
+
+function mbt_get_ab_testing_status($name=false, $options=array(true,false)) {
+	$ab_status = mbt_get_tracking_data('ab_status');
+	if(!isset($ab_status[$name])) {
+		$i = mt_rand(0, count($options)-1);
+		$ab_status[$name] = $options[$i];
+		mbt_update_tracking_data('ab_status', $ab_status);
+	}
+	return $ab_status[$name];
+}
+
+
+
+/*---------------------------------------------------------*/
 /* API / Upgrades                                          */
 /*---------------------------------------------------------*/
 
@@ -427,7 +588,7 @@ function mbt_verify_api_key() {
 		'action' => 'basic_check',
 		'version' => MBT_VERSION,
 		'api-key' => mbt_get_setting('api_key'),
-		'site' => md5(get_bloginfo('url'))
+		'site' => get_bloginfo('url')
 	);
 
 	$options = array(
@@ -436,7 +597,7 @@ function mbt_verify_api_key() {
 		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
 	);
 
-	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/key-check', $options);
+	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/apikey/check', $options);
 
 	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) {
 		mbt_update_setting('api_key_status', -1);
@@ -506,18 +667,28 @@ function mbt_verify_api_key() {
 	}
 }
 
-function mbt_periodic_api_key_check($updates) {
-	if(empty($updates->checked)) { return $updates; }
-	mbt_verify_api_key();
-	return $updates;
+function mbt_init_api_key_check() {
+	if(!wp_next_scheduled('mbt_periodic_api_key_check')) { wp_schedule_event(time(), 'daily', 'mbt_periodic_api_key_check'); }
+	add_action('mbt_periodic_api_key_check', 'mbt_verify_api_key');
 }
+add_action('mbt_init', 'mbt_init_api_key_check');
 
 function mbt_get_upgrade() {
 	$upgrade_active = mbt_get_setting('upgrade_active');
 	return empty($upgrade_active) ? false : $upgrade_active;
 }
 
-function mbt_get_upgrade_plugin_exists() {
+function mbt_get_upgrade_version() {
+	$upgrade = mbt_get_upgrade();
+	if($upgrade == 'mybooktable-dev2' and defined('MBTDEV2_VERSION')) { return MBTDEV2_VERSION; }
+	if($upgrade == 'mybooktable-pro2' and defined('MBTPRO2_VERSION')) { return MBTPRO2_VERSION; }
+	if($upgrade == 'mybooktable-dev' and defined('MBTDEV_VERSION')) { return MBTDEV_VERSION; }
+	if($upgrade == 'mybooktable-pro' and defined('MBTPRO_VERSION')) { return MBTPRO_VERSION; }
+	return false;
+}
+
+function mbt_get_upgrade_plugin_exists($active=true) {
+	if(!$active) { return defined('MBTDEV2_VERSION') or defined('MBTPRO2_VERSION') or defined('MBTDEV_VERSION') or defined('MBTPRO_VERSION'); }
 	$upgrade = mbt_get_upgrade();
 	if($upgrade == 'mybooktable-dev2') { return defined('MBTDEV2_VERSION'); }
 	if($upgrade == 'mybooktable-pro2') { return defined('MBTPRO2_VERSION'); }
@@ -534,7 +705,7 @@ function mbt_get_upgrade_message($upgrade_text=null, $thankyou_text=null) {
 			return '<a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_get_upgrade_page').'">'.__('Download your MyBookTable Upgrade plugin to enable your advanced features!', 'mybooktable').'</a>';
 		}
 	} else {
-		if(defined('MBTDEV2_VERSION') or defined('MBTPRO2_VERSION') or defined('MBTDEV_VERSION') or defined('MBTPRO_VERSION')) {
+		if(mbt_get_upgrade_plugin_exists(false)) {
 			$api_key = mbt_get_setting('api_key');
 			if(empty($api_key)) {
 				return '<a href="'.admin_url('admin.php?page=mbt_settings').'">'.__('Insert your API Key to enable your advanced features!', 'mybooktable').'</a>';

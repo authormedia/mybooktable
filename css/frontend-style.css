@@ -879,20 +879,11 @@ body.mybooktable .entry-meta {
 	z-index: 10000;
 }
 
-.mbt_tb_overlayMacFFBGHack {
-	background: url(macFFBgHack.png) repeat;
-}
-
 .mbt_tb_overlayBG {
 	background-color:#000;
 	filter:alpha(opacity=75);
 	-moz-opacity: 0.75;
 	opacity: 0.75;
-}
-
-* html #mbt_tb_overlay { /* ie6 hack */
-	 position: absolute;
-	 height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
 }
 
 #mbt_tb_window {
@@ -907,11 +898,6 @@ body.mybooktable .entry-meta {
 
 	/*this may SEEM excessive, but it's required to support certain themes that use z-index a little too liberally... */
 	z-index: 10002;
-}
-
-* html #mbt_tb_window { /* ie6 hack */
-	position: absolute;
-	margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
 }
 
 #mbt_tb_window img#mbt_tb_Image {
@@ -987,12 +973,7 @@ body.mybooktable .entry-meta {
 	z-index:103;
 	top: 50%;
 	left: 50%;
-	margin: -6px 0 0 -104px; /* -height/2 0 0 -width/2 */
-}
-
-* html #mbt_tb_load { /* ie6 hack */
-	position: absolute;
-	margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
+	margin: -6px 0 0 -104px;
 }
 
 #mbt_tb_HideSelect{
@@ -1009,15 +990,9 @@ body.mybooktable .entry-meta {
 	width:100%;
 }
 
-* html #mbt_tb_HideSelect { /* ie6 hack */
-	position: absolute;
-	height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
-}
-
 #mbt_tb_iframeContent{
 	clear:both;
 	border:none;
 	margin-bottom:-1px;
 	margin-top:1px;
-	_margin-bottom:1px;
 }
