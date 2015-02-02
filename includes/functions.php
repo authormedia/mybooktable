@@ -562,7 +562,7 @@ function mbt_send_tracking_data() {
 		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
 	);
 
-	$response = wp_remote_post('http://www.authormedia.com/plugins/mybooktable/analytics/submit', $options);
+	$response = wp_remote_post('http://api.authormedia.com/plugins/mybooktable/analytics/submit', $options);
 }
 
 function mbt_get_ab_testing_status($name=false, $options=array(true,false)) {
@@ -597,7 +597,7 @@ function mbt_verify_api_key() {
 		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
 	);
 
-	$raw_response = wp_remote_post('http://www.authormedia.com/plugins/apikey/check', $options);
+	$raw_response = wp_remote_post('http://api.authormedia.com/plugins/apikey/check', $options);
 
 	if(is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) {
 		mbt_update_setting('api_key_status', -1);

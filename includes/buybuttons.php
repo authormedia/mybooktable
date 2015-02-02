@@ -9,7 +9,6 @@ function mbt_buybuttons_init() {
 	mbt_amazon_buybuttons_init();
 	mbt_bnn_buybuttons_init();
 	mbt_kobo_buybuttons_init();
-	mbt_gumroad_buybutton_init();
 	mbt_cj_affiliates_init();
 }
 add_action('mbt_init', 'mbt_buybuttons_init');
@@ -264,38 +263,6 @@ function mbt_filter_kobo_buybutton_data($data, $store) {
 		$data['url'] = 'http://click.linksynergy.com/deeplink?id=W1PQs9y/1/c&mid=37217&murl='.urlencode($data['url']);
 	}
 	return $data;
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Gumroad Buy Button Functions                            */
-/*---------------------------------------------------------*/
-
-function mbt_gumroad_buybutton_init() {
-	add_filter('mbt_buybutton_editor', 'mbt_gumroad_buybutton_editor', 10, 4);
-	add_filter('mbt_format_buybutton', 'mbt_gumroad_buybutton_button', 10, 3);
-}
-
-function mbt_gumroad_buybutton_editor($output, $data, $id, $store) {
-	if($data['store'] == 'gumroad') {
-		$output = '<input id="'.$id.'_name" name="'.$id.'[store]" type="hidden" value="'.$data['store'].'">'.$output;
-	}
-	return $output;
-}
-
-function mbt_gumroad_buybutton_button($output, $data, $store) {
-	if($data['store'] == 'gumroad' and !empty($data['use_shadowbox'])) {
-		$data['url'] = $data['url'].((strpos($data['url'], '?') === false) ? '?as_embed=true&outbound_embed=true' : '&as_embed=true&outbound_embed=true');
-		$thickbox = 'keepThis=true&mbt_tb_iframe=true&height=513&width=670';
-
-		if(!empty($data['display']) and $data['display'] == 'text_only') {
-			$output = empty($data['url']) ? '' : '<li><a class="thickbox" data-thickbox="'.$thickbox.'" href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow">'.sprintf(__('Buy from %s.', 'mybooktable'), $store['name']).'</a></li>';
-		} else {
-			$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a class="thickbox" data-thickbox="'.$thickbox.'" href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow"><img src="'.mbt_image_url($data['store'].'_button.png').'" border="0" alt="'.sprintf(__('Buy from %s.', 'mybooktable'), $store['name']).'"/></a></div>';
-		}
-	}
-	return $output;
 }
 
 
