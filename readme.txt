@@ -197,6 +197,9 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Upgrade Notice ==
 
+= 2.0.1 =
+After this update, you will need to update any MyBookTable Add-ons that you have installed.
+
 = 1.3.0 =
 This version fixes several bugs and adds GetNoticed theme integration.
 

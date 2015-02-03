@@ -15,6 +15,7 @@ function mbt_upgrade_check()
 	if(version_compare($version, "1.3.1") < 0) { mbt_upgrade_1_3_1(); }
 	if(version_compare($version, "1.3.2") < 0) { mbt_upgrade_1_3_2(); }
 	if(version_compare($version, "1.3.8") < 0) { mbt_upgrade_1_3_8(); }
+	if(version_compare($version, "2.0.1") < 0) { mbt_upgrade_2_0_1(); }
 
 	if($version !== MBT_VERSION) {
 		mbt_track_event('plugin_updated', true);
@@ -85,6 +86,10 @@ function mbt_upgrade_1_3_8() {
 	mbt_update_setting('domc_notice_text', __('Disclosure of Material Connection: Some of the links in the page above are "affiliate links." This means if you click on the link and purchase the item, I will receive an affiliate commission. I am disclosing this in accordance with the Federal Trade Commission\'s <a href="http://www.access.gpo.gov/nara/cfr/waisidx_03/16cfr255_03.html" target="_blank">16 CFR, Part 255</a>: "Guides Concerning the Use of Endorsements and Testimonials in Advertising."', 'mybooktable'));
 }
 
+function mbt_upgrade_2_0_1() {
+	mbt_verify_api_key();
+}
+
 
 
 /*---------------------------------------------------------*/
@@ -106,12 +111,12 @@ function mbt_check_rewrites() {
 	$rules = $wp_rewrite->wp_rewrite_rules();
 	if(empty($rules) or !is_array($rules)) { return true; }
 
-	$archive_correct = mbt_get_rewrite($rules, 'books') === 'index.php?post_type=mbt_book';
-	$book_page_correct = mbt_get_rewrite($rules, 'books/book') === 'index.php?mbt_book=$matches[1]&page=$matches[2]';
-	$genres_correct = mbt_get_rewrite($rules, 'genre/genre') === 'index.php?mbt_genre=$matches[1]';
-	$authors_correct = mbt_get_rewrite($rules, 'authors/author') === 'index.php?mbt_author=$matches[1]';
-	$series_correct = mbt_get_rewrite($rules, 'series/series') === 'index.php?mbt_series=$matches[1]';
-	$tags_correct = mbt_get_rewrite($rules, 'bookstag/tag') === 'index.php?mbt_tag=$matches[1]';
+	$archive_correct = mbt_get_rewrite($rules, mbt_get_product_slug()) === 'index.php?post_type=mbt_book';
+	$book_page_correct = mbt_get_rewrite($rules, mbt_get_product_slug().'/book') === 'index.php?mbt_book=$matches[1]&page=$matches[2]';
+	$genres_correct = mbt_get_rewrite($rules, apply_filters('mbt_genre_rewrite_name', _x('genre', 'URL slug', 'mybooktable')).'/genre') === 'index.php?mbt_genre=$matches[1]';
+	$authors_correct = mbt_get_rewrite($rules, apply_filters('mbt_author_rewrite_name', _x('authors', 'URL slug', 'mybooktable')).'/author') === 'index.php?mbt_author=$matches[1]';
+	$series_correct = mbt_get_rewrite($rules, apply_filters('mbt_series_rewrite_name', _x('series', 'URL slug', 'mybooktable')).'/series') === 'index.php?mbt_series=$matches[1]';
+	$tags_correct = mbt_get_rewrite($rules, apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable')).'/tag') === 'index.php?mbt_tag=$matches[1]';
 
 	return $archive_correct and $book_page_correct and $genres_correct and $authors_correct and $series_correct and $tags_correct;
 }
@@ -427,10 +432,6 @@ function mbt_install_examples() {
 /*---------------------------------------------------------*/
 
 function mbt_uninstall() {
-	mbt_load_settings();
-	mbt_track_event('plugin_uninstall', true);
-	mbt_send_tracking_data();
-
 	//erase options
 	delete_option('mbt_settings');
 

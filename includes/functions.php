@@ -615,7 +615,7 @@ function mbt_verify_api_key() {
 
 	$status = $response['status'];
 
-	if($status > 10) {
+	if($status >= 10) {
 		mbt_update_setting('api_key_status', $status);
 		$expires = empty($response['expires']) ? '' : ' Expires '.date('F j, Y', $response['expires']).'.';
 

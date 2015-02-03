@@ -122,11 +122,6 @@ jQuery(document).ready(function() {
 	/* Ajax Event Tracking                                     */
 	/*---------------------------------------------------------*/
 
-	function mbt_track_event(event_name, after) {
-		var jqxhr = jQuery.post(ajaxurl, {action: 'mbt_track_event', event_name: event_name});
-		if(typeof after !== 'undefined') { jqxhr.always(after); }
-	}
-
 	jQuery('*[data-mbt-track-event]').click(function() {
 		mbt_track_event(jQuery(this).attr('data-mbt-track-event'));
 	});
@@ -140,3 +135,8 @@ jQuery(document).ready(function() {
 	});
 
 });
+
+function mbt_track_event(event_name, after) {
+	var jqxhr = jQuery.post(ajaxurl, {action: 'mbt_track_event', event_name: event_name});
+	if(typeof after !== 'undefined') { jqxhr.always(after); }
+}

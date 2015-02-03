@@ -6,10 +6,43 @@ Description: A WordPress Bookstore Plugin to help authors sell more books.
 Author: Author Media
 Author URI: http://www.authormedia.com
 Text Domain: mybooktable
-Version: 2.0.0
+Version: 2.0.1
 */
 
-define("MBT_VERSION", "2.0.0");
+define("MBT_VERSION", "2.0.1");
+
+
+
+/*---------------------------------------------------------*/
+/* PHP Version Check                                       */
+/*---------------------------------------------------------*/
+
+if (!defined('PHP_VERSION_ID')) {
+    $version = explode('.', PHP_VERSION);
+    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+}
+
+if(PHP_VERSION_ID < 50309) {
+	function mbt_php_version_admin_notice() {
+		load_plugin_textdomain('mybooktable', false, plugin_basename(dirname(__FILE__))."/i18n");
+		?>
+		<div id="message" class="error">
+			<p>
+				<strong><?php _e('PHP Out of Date', 'mybooktable'); ?></strong> &#8211;
+				<?php _e('MyBookTable requires at least PHP 5.3.9. Your are currently running PHP '.PHP_VERSION.'. Please contact your hosting provider to request that they update your PHP.', 'mybooktable'); ?>
+			</p>
+		</div>
+		<?php
+	}
+	add_action('admin_notices', 'mbt_php_version_admin_notice');
+	return;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Includes                                                */
+/*---------------------------------------------------------*/
 
 require_once("includes/functions.php");
 require_once("includes/setup.php");
