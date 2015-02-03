@@ -1,4 +1,4 @@
-=== MyBookTable - WordPress Bookstore by Author Media ===
+=== MyBookTable Bookstore by Author Media ===
 Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
 Tags: book, books, ecommerce, affiliate, store, author plugin, amazon, ibooks, iTunes, smashwords, goodreads, gumroad
