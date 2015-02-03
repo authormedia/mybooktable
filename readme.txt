@@ -81,7 +81,7 @@ Feature a book on your sidebar with just a few clicks. You can even add multiple
 =  Mobile Responsive =
 If your WordPress theme is mobile responsive, MyBookTable will react similarly, delivering maximum compatibility for visitors on phones and tablets.
 
-= Recommend Books (New in 2.0)=
+= Recommend Books (New in 2.0) =
 Do you want to sell books by other authors? MyBookTable now has a "Recommended Books" tag out of the box so you can sell not only your books but other authors' books as well.
 
 = Advanced Search Engine Optimization =
@@ -210,6 +210,10 @@ This version adds several cool new features, including "Publisher" and "Publicat
 This version adds **many** new buy button options, including Apple iBooks & Sony Reader.
 
 == Changelog ==
+
+= 2.0.1 =
+* PHP version detection
+* Lots of bug fixes
 
 = 2.0.0 =
 * New Author Priorities system allows you to assign priorities to your Authors to customize the order in which they display
