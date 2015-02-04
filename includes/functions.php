@@ -240,12 +240,12 @@ function mbt_add_disabled_importers($importers) {
 	$importers['amazon'] = array(
 		'name' => __('Amazon Bulk Book Importer', 'mybooktable'),
 		'desc' => __('Import your books in bulk from Amazon with a list of ISBNs.', 'mybooktable'),
-		'disabled' => mbt_get_upgrade_message(null, '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.__('Upgrade your MyBookTable to enable these advanced features!', 'mybooktable').'</a>'),
+		'disabled' => mbt_get_upgrade_message(),
 	);
 	$importers['uiee'] = array(
 		'name' => __('UIEE File', 'mybooktable'),
 		'desc' => __('Import your books from a UIEE (Universal Information Exchange Environment) File.', 'mybooktable'),
-		'disabled' => mbt_get_upgrade_message(null, '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.__('Upgrade your MyBookTable to enable these advanced features!', 'mybooktable').'</a>'),
+		'disabled' => mbt_get_upgrade_message(),
 	);
 	return $importers;
 }
@@ -697,10 +697,14 @@ function mbt_get_upgrade_plugin_exists($active=true) {
 	return false;
 }
 
-function mbt_get_upgrade_message($upgrade_text=null, $thankyou_text=null) {
+function mbt_get_upgrade_message($require_upgrade=true, $upgrade_text=null, $thankyou_text=null) {
 	if(mbt_get_upgrade()) {
 		if(mbt_get_upgrade_plugin_exists()) {
-			return ($thankyou_text !== null ? $thankyou_text : (__('Thank you for purchasing a MyBookTable Upgrade!', 'mybooktable').' <a href="http://authormedia.freshdesk.com/support/home" target="_blank">'.__('Get premium support.', 'mybooktable').'</a>'));
+			if($require_upgrade) {
+				return '<a href="http://www.authormedia.com/mybooktable/upgrades" target="_blank">'.($upgrade_text !== null ? $upgrade_text : __('Upgrade your MyBookTable to enable these advanced features!', 'mybooktable')).'</a>';
+			} else {
+				return ($thankyou_text !== null ? $thankyou_text : (__('Thank you for purchasing a MyBookTable Upgrade!', 'mybooktable').' <a href="http://authormedia.freshdesk.com/support/home" target="_blank">'.__('Get premium support.', 'mybooktable').'</a>'));
+			}
 		} else {
 			return '<a href="'.admin_url('admin.php?page=mbt_dashboard&subpage=mbt_get_upgrade_page').'">'.__('Download your MyBookTable Upgrade plugin to enable your advanced features!', 'mybooktable').'</a>';
 		}

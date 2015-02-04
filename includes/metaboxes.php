@@ -191,7 +191,7 @@ function mbt_buybuttons_metabox($post)
 		echo('<a href="admin.php?page=mbt_settings&mbt_setup_default_affiliates=1">'.__('Activate Amazon and Barnes &amp; Noble Buttons').'</a>');
 	}
 
-	echo('<div class="mbt-buybuttons-note">'.mbt_get_upgrade_message(__('Want more options? Upgrade your MyBookTable and get the Universal Buy Button.', 'mybooktable')).'</div>');
+	echo('<div class="mbt-buybuttons-note">'.mbt_get_upgrade_message(false, __('Want more options? Upgrade your MyBookTable and get the Universal Buy Button.', 'mybooktable')).'</div>');
 
 	$stores = mbt_get_stores();
 	uasort($stores, create_function('$a,$b', 'return strcasecmp($a["name"],$b["name"]);'));

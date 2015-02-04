@@ -185,7 +185,7 @@ function mbt_add_admin_notices() {
 			add_action('admin_notices', 'mbt_admin_installed_notice');
 		}
 	}
-	if(mbt_get_setting('installed') == 'done') {
+	if(mbt_get_setting('installed') == 'done' or is_int(mbt_get_setting('installed'))) {
 		if(!mbt_get_setting('api_key') and mbt_get_upgrade_plugin_exists(false)) {
 			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
 		} else if(mbt_get_upgrade() and !mbt_get_upgrade_plugin_exists()) {

@@ -157,7 +157,7 @@ function mbt_api_key_feedback() {
 	if(mbt_get_setting('api_key') and mbt_get_setting('api_key_status') != 0) {
 		if(mbt_get_setting('api_key_status') > 0) {
 			$output .= '<span class="mbt_admin_message_success">'.__('Valid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
-			$upgrade_message = mbt_get_upgrade_message(null, '');
+			$upgrade_message = mbt_get_upgrade_message(false, '', '');
 			if(!empty($upgrade_message)) { $output .= '<br>'.$upgrade_message; }
 		} else {
 			$output .= '<span class="mbt_admin_message_failure">'.__('Invalid API Key', 'mybooktable').': '.mbt_get_setting('api_key_message').'</span>';
