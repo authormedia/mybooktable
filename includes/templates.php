@@ -48,8 +48,8 @@ function mbt_templates_init() {
 		add_action('mbt_single_book_blurb', 'mbt_do_single_book_blurb');
 		add_action('mbt_single_book_buybuttons', 'mbt_do_single_book_buybuttons');
 		add_action('mbt_single_book_overview', 'mbt_do_single_book_overview');
-		add_action('mbt_after_single_book', 'mbt_the_domc_notice', 6);
-		if(!mbt_get_setting('hide_domc_notice')) { add_action('mbt_after_single_book', 'mbt_the_reviews_box', 15); }
+		add_action('mbt_after_single_book', 'mbt_the_reviews_box', 15);
+		if(!mbt_get_setting('hide_domc_notice')) { add_action('mbt_after_single_book', 'mbt_the_domc_notice', 6); }
 		if(mbt_get_setting('show_series')) { add_action('mbt_after_single_book', 'mbt_the_book_series_box'); }
 		if(mbt_get_setting('show_find_bookstore')) { add_action('mbt_after_single_book', 'mbt_the_find_bookstore_box'); }
 
@@ -559,10 +559,12 @@ function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=null) {
 	$output = '';
 	$stores = mbt_get_stores();
 
-	if($excerpt) {
-		$buybuttons = mbt_query_buybuttons($post_id, array('display' => 'featured'));
-	} else {
+	$using_shadowbox = (mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true;
+
+	if(!$excerpt or $using_shadowbox) {
 		$buybuttons = mbt_query_buybuttons($post_id, array('display' => array('featured', 'book_only')));
+	} else {
+		$buybuttons = mbt_query_buybuttons($post_id, array('display' => 'featured'));
 	}
 
 	if(!empty($buybuttons)) {
@@ -572,35 +574,49 @@ function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=null) {
 		}
 	}
 
-	$textbuybuttons = array();
-	if(!$excerpt) {
+	if(!$excerpt or $using_shadowbox) {
+		$textbuybuttons_output = '';
 		$textbuybuttons = mbt_query_buybuttons($post_id, array('display' => 'text_only'));
 		if(!empty($textbuybuttons)) {
-			$output .= '<div class="mbt-book-buybuttons-textonly">';
-			$output .= '<h3>'.__('Other book sellers', 'mybooktable').':</h3>';
-			$output .= '<ul>';
+			$textbuybuttons_output .= '<div class="mbt-book-buybuttons-textonly">';
+			$textbuybuttons_output .= '<h3>'.__('Other book sellers', 'mybooktable').':</h3>';
+			$textbuybuttons_output .= '<ul>';
 			foreach($textbuybuttons as $buybutton) {
 				if(empty($stores[$buybutton['store']])) { continue; }
-				$output .= mbt_format_buybutton($buybutton, $stores[$buybutton['store']]);
+				$textbuybuttons_output .= mbt_format_buybutton($buybutton, $stores[$buybutton['store']]);
 			}
-			$output .= '</ul>';
-			$output .= '</div>';
+			$textbuybuttons_output .= '</ul>';
+			$textbuybuttons_output .= '</div>';
 		}
+		$output .= apply_filters('mbt_textbuybuttons_output', $textbuybuttons_output);
 	}
 
-	if(!empty($output) and ((mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true)) {
-		$book_button_size = mbt_get_setting('book_button_size');
+	$output = apply_filters('mbt_buybuttons_output', $output);
 
+	if(!empty($output) and $using_shadowbox) {
+		$book_button_size = mbt_get_setting('book_button_size');
 		if($book_button_size == 'small') { $buybuttons_width = 2+150*2; }
 		else if($book_button_size == 'medium') { $buybuttons_width = 2+180*2; }
 		else { $buybuttons_width = 2+211*2; }
 
-		$title = '<div class="mbt-book-buybuttons-title">'.__('Buy This Book Online', 'mybooktable').'</div>';
-		$book_image = mbt_get_book_image($post_id);
-		$find_bookstore .= mbt_get_find_bookstore_box($post_id);
+		$shadowbox_content  = apply_filters('mbt_buybuttons_shadowbox_title', '<div class="mbt-shadowbox-title">'.__('Buy This Book Online', 'mybooktable').'</div>');
+		$shadowbox_content .= apply_filters('mbt_buybuttons_shadowbox_buybuttons', '<div class="mbt-book"><div class="mbt-book-buybuttons" style="width:'.$buybuttons_width.'px">'.$output.'</div></div>', $output, $buybuttons_width);
+		$shadowbox_content .= apply_filters('mbt_buybuttons_shadowbox_book_image', mbt_get_book_image($post_id));
+		if(mbt_get_setting('show_find_bookstore_buybuttons_shadowbox')) { $shadowbox_content .= apply_filters('mbt_buybuttons_shadowbox_find_bookstore', mbt_get_find_bookstore_box($post_id)); }
+		$shadowbox_content = apply_filters('mbt_buybuttons_shadowbox_content', $shadowbox_content);
 
-		$output = '<div class="mbt-book-shadowbox" id="mbt_buybutton_shadowbox_'.$post_id.'"><div>'.$title.'<div class="mbt-book"><div class="mbt-book-buybuttons" style="width:'.$buybuttons_width.'px">'.$output.'</div></div>'.$book_image.''.$find_bookstore.'</div></div>';
-		$output .= '<div class="mbt-book-buybutton mbt-book-shadowbox-button"><a href="#mbt_tb_inline" data-thickbox="height=0&width='.($buybuttons_width+210).'&inlineId=mbt_buybutton_shadowbox_'.$post_id.'" class="thickbox"><img src="'.mbt_image_url('shadowbox_button.png').'" border="0" alt="'.__('Buy now!', 'mybooktable').'"/></a></div>';
+		$shadowbox_output  = '<div class="mbt-shadowbox-hidden" id="mbt_buybutton_shadowbox_'.$post_id.'"><div class="mbt-shadowbox mbt-buybuttons-shadowbox">';
+		$shadowbox_output .= $shadowbox_content;
+		$shadowbox_output .= '</div></div>';
+
+		$shadowbox_button_output .= '<div class="mbt-book-buybutton">';
+		$shadowbox_button_output .= '	<a href="#mbt_tb_inline" data-thickbox="height=0&width='.($buybuttons_width+210).'&inlineId=mbt_buybutton_shadowbox_'.$post_id.'" class="thickbox">';
+		$shadowbox_button_output .= '		<img src="'.mbt_image_url('shadowbox_button.png').'" border="0" alt="'.__('Buy now!', 'mybooktable').'"/>';
+		$shadowbox_button_output .= '	</a>';
+		$shadowbox_button_output .= '</div>';
+		apply_filters('mbt_format_buybutton', $shadowbox_button_output, array('display'=>'featured', 'store'=>'shadowbox', 'url'=>''), array('name' => 'Shadow Box'));
+
+		$output = $shadowbox_output.$shadowbox_button_output;
 	}
 
 	return apply_filters('mbt_get_buybuttons', $output);

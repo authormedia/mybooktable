@@ -16,6 +16,7 @@ function mbt_upgrade_check()
 	if(version_compare($version, "1.3.2") < 0) { mbt_upgrade_1_3_2(); }
 	if(version_compare($version, "1.3.8") < 0) { mbt_upgrade_1_3_8(); }
 	if(version_compare($version, "2.0.1") < 0) { mbt_upgrade_2_0_1(); }
+	if(version_compare($version, "2.0.4") < 0) { mbt_upgrade_2_0_4(); }
 
 	if($version !== MBT_VERSION) {
 		mbt_track_event('plugin_updated', true);
@@ -88,6 +89,10 @@ function mbt_upgrade_1_3_8() {
 
 function mbt_upgrade_2_0_1() {
 	mbt_verify_api_key();
+}
+
+function mbt_upgrade_2_0_4() {
+	mbt_update_setting('show_find_bookstore_buybuttons_shadowbox', true);
 }
 
 

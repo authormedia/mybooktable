@@ -251,11 +251,14 @@
 }
 
 .mbt-book .mbt-book-buybuttons-textonly ul {
+	list-style-position: inside;
+	list-style-type: disc;
 	margin: 5px 0 5px 0;
-	padding: 0 0 0 30px
+	padding: 0 0 0 10px
 }
 
 .mbt-book .mbt-book-buybuttons-textonly ul li {
+	list-style-position: inside;
 	list-style-type: disc;
 	background: none;
 	padding: 0;
@@ -263,6 +266,7 @@
 }
 
 .mbt-book .mbt-book-buybuttons-textonly ul li a {
+	vertical-align: middle;
 	font-size: 15px;
 	line-height: 15px;
 }
@@ -798,12 +802,13 @@ body.mybooktable .entry-meta {
 /* Thickbox Styles                                         */
 /*---------------------------------------------------------*/
 
-.mbt-book-shadowbox {
+.mbt-shadowbox-hidden {
 	margin: 0;
+	padding: 0;
 	display: none;
 }
 
-#mbt_tb_ajaxContent .mbt-book-buybuttons-title {
+.mbt-shadowbox .mbt-shadowbox-title {
 	font-size: 16px;
 	font-weight: bold;
 	color: #484949;
@@ -813,24 +818,24 @@ body.mybooktable .entry-meta {
 	padding: 12px 0px;
 }
 
-#mbt_tb_ajaxContent .mbt-book {
+.mbt-buybuttons-shadowbox .mbt-book {
 	clear: none;
 	padding: 0;
 }
 
-#mbt_tb_ajaxContent .mbt-book-buybuttons {
+.mbt-buybuttons-shadowbox .mbt-book .mbt-book-buybuttons {
 	margin: 0;
 	float: left;
 	padding: 5px 20px 15px 20px;
 }
 
-#mbt_tb_ajaxContent .mbt-book-image {
+.mbt-buybuttons-shadowbox .mbt-book-image {
 	width: 150px;
 	padding: 10px;
 	float: right;
 }
 
-#mbt_tb_ajaxContent .mbt-find-bookstore {
+.mbt-buybuttons-shadowbox .mbt-find-bookstore {
 	font-size: 13px;
 	background: #C0C0C0;
 	margin: 0;
@@ -838,18 +843,46 @@ body.mybooktable .entry-meta {
 	text-align: center;
 }
 
-#mbt_tb_ajaxContent .mbt-find-bookstore .mbt-find-bookstore-title {
+.mbt-buybuttons-shadowbox .mbt-find-bookstore .mbt-find-bookstore-title {
 	font-size: 16px;
 	font-weight: bold;
 	color: #484949;
 	padding-bottom: 10px;
 }
 
-#mbt_tb_ajaxContent .mbt-find-bookstore input {
+.mbt-buybuttons-shadowbox .mbt-find-bookstore input {
 	padding: 4px 6px;
 	margin: 3px;
 	vertical-align: baseline;
 	width: auto;
+}
+
+@media only screen and (max-width: 660px) {
+	.mbt-buybuttons-shadowbox {
+		text-align: center;
+	}
+
+	.mbt-buybuttons-shadowbox .mbt-book .mbt-book-buybuttons {
+		box-sizing: border-box !important;
+		padding: 5px 15px 15px 15px;
+		width: 100% !important;
+		text-align: center;
+	}
+
+	.mbt-buybuttons-shadowbox .mbt-book .mbt-book-buybuttons .mbt-book-buybutton {
+		float: none;
+	}
+
+	.mbt-buybuttons-shadowbox .mbt-book .mbt-book-buybuttons .mbt-book-buybuttons-textonly {
+		float: none;
+	}
+
+	.mbt-buybuttons-shadowbox .mbt-book-image {
+		box-sizing: border-box !important;
+		padding: 15px;
+		width: 50% !important;
+		float: none;
+	}
 }
 
 /* global setting needed for thickbox */
@@ -858,6 +891,11 @@ body.mybooktable .entry-meta {
 #mbt_tb_window {
   font: 12px Arial, Helvetica, sans-serif;
   color: #333333;
+  box-sizing: content-box;
+}
+
+#mbt_tb_window * {
+	box-sizing: content-box;
 }
 
 #mbt_tb_secondLine {
@@ -865,11 +903,14 @@ body.mybooktable .entry-meta {
   color:#666666;
 }
 
-#mbt_tb_window a:link {color: #666666;}
-#mbt_tb_window a:visited {color: #666666;}
-#mbt_tb_window a:hover {color: #000;}
-#mbt_tb_window a:active {color: #666666;}
-#mbt_tb_window a:focus{color: #666666;}
+#mbt_tb_window a,
+#mbt_tb_window a:link,
+#mbt_tb_window a:visited,
+#mbt_tb_window a:active,
+#mbt_tb_window a:focus {
+	color: #000;
+}
+#mbt_tb_window a:hover {color: #444;}
 
 #mbt_tb_overlay {
 	position: fixed;
@@ -901,6 +942,16 @@ body.mybooktable .entry-meta {
 
 	/*this may SEEM excessive, but it's required to support certain themes that use z-index a little too liberally... */
 	z-index: 10002;
+}
+
+@media only screen and (max-width: 660px) {
+	#mbt_tb_window {
+		margin-left: 0 !important;
+		width: 90% !important;
+		top: 50px !important;
+		left: auto;
+		right: 15px;
+	}
 }
 
 #mbt_tb_window img#mbt_tb_Image {

@@ -59,7 +59,7 @@ function mbt_buybutton_editor($data, $id, $store) {
 function mbt_format_buybutton($data, $store) {
 	$data = apply_filters('mbt_filter_buybutton_data', $data, $store);
 	if(!empty($data['display']) and $data['display'] == 'text_only') {
-		$output = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow">'.sprintf(__('Buy from %s.', 'mybooktable'), $store['name']).'</a></li>';
+		$output = empty($data['url']) ? '' : '<li><a href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow">'.sprintf(__('Buy from %s', 'mybooktable'), $store['name']).'</a></li>';
 	} else {
 		$output = empty($data['url']) ? '' : '<div class="mbt-book-buybutton"><a href="'.htmlspecialchars($data['url']).'" target="_blank" rel="nofollow"><img src="'.mbt_image_url($data['store'].'_button.png').'" border="0" alt="'.sprintf(__('Buy from %s.', 'mybooktable'), $store['name']).'"/></a></div>';
 	}
@@ -186,6 +186,8 @@ function mbt_is_bbn_url_valid($url) {
 	return preg_match("/barnesandnoble.com\/((s\/([0-9]{13}))|(w\/.*[eE][aA][nN]=([0-9]{13})))/", $url);
 }
 
+function mbt_get_bnn_identifier($url) { return ' '; }
+
 function mbt_bnn_buybutton_preview() {
 	echo(!mbt_is_bbn_url_valid($_REQUEST['url']) ? '<span class="error_message">'.__('Invalid Barnes &amp; Noble product link.', 'mybooktable').'</span>' : '<span class="success_message">'.__('Valid Barnes &amp; Noble product link.', 'mybooktable').'</span>');
 	die();
@@ -259,9 +261,6 @@ function mbt_kobo_buybuttons_init() {
 }
 
 function mbt_filter_kobo_buybutton_data($data, $store) {
-	if($data['store'] == 'kobo' and !empty($data['url'])) {
-		$data['url'] = 'http://click.linksynergy.com/deeplink?id=W1PQs9y/1/c&mid=37217&murl='.urlencode($data['url']);
-	}
 	return $data;
 }
 

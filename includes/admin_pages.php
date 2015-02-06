@@ -127,6 +127,7 @@ function mbt_save_settings_page() {
 		mbt_update_setting('enable_breadcrumbs', isset($_REQUEST['mbt_enable_breadcrumbs']));
 		mbt_update_setting('show_series', isset($_REQUEST['mbt_show_series']));
 		mbt_update_setting('show_find_bookstore', isset($_REQUEST['mbt_show_find_bookstore']));
+		mbt_update_setting('show_find_bookstore_buybuttons_shadowbox', isset($_REQUEST['mbt_show_find_bookstore_buybuttons_shadowbox']));
 		mbt_update_setting('hide_domc_notice', isset($_REQUEST['mbt_hide_domc_notice']));
 		mbt_update_setting('domc_notice_text', wp_unslash($_REQUEST['mbt_domc_notice_text']));
 		mbt_update_setting('posts_per_page', $_REQUEST['mbt_posts_per_page']);
@@ -248,7 +249,7 @@ function mbt_render_settings_page() {
 								</tr>
 							<?php } ?>
 							<tr>
-								<th><label for="mbt_compatibility_mode"><?php _e('Compatability Mode', 'mybooktable'); ?></label></th>
+								<th><?php _e('Compatability Mode', 'mybooktable'); ?></th>
 								<td>
 									<input type="checkbox" name="mbt_compatibility_mode" id="mbt_compatibility_mode" <?php checked(mbt_get_setting('compatibility_mode'), true); ?> >
 									<p class="description"><?php _e('Checked = More Compatible Out of the Box. Unchecked = More Developer Control.', 'mybooktable'); ?></p>
@@ -273,7 +274,7 @@ function mbt_render_settings_page() {
 							<table class="form-table">
 								<tbody>
 									<tr>
-										<th><label for="mbt_style_pack"><?php _e('Style Pack', 'mybooktable'); ?></label></th>
+										<th><?php _e('Style Pack', 'mybooktable'); ?></th>
 										<td colspan="3">
 											<?php $pack_upload_output = mbt_do_style_pack_upload(); ?>
 											<?php $current_style = mbt_get_setting('style_pack'); ?>
@@ -328,7 +329,7 @@ function mbt_render_settings_page() {
 										</td>
 									</tr>
 									<tr>
-										<th><label for="mbt_enable_buybutton_shadowbox"><?php _e('Buy Button Shadow Box', 'mybooktable'); ?></label></th>
+										<th><?php _e('Buy Button Shadow Box', 'mybooktable'); ?></th>
 										<td colspan="3">
 											<input type="checkbox" name="mbt_enable_buybutton_shadowbox" id="mbt_enable_buybutton_shadowbox" <?php checked(mbt_get_setting('enable_buybutton_shadowbox'), true); ?> >
 											<label for="mbt_enable_buybutton_shadowbox"><?php _e('Enable', 'mybooktable'); ?></label>
@@ -346,7 +347,7 @@ function mbt_render_settings_page() {
 							<table class="form-table">
 								<tbody>
 									<tr>
-										<th><label for="mbt_image_size"><?php _e('Book Image Size', 'mybooktable'); ?></label></th>
+										<th><?php _e('Book Image Size', 'mybooktable'); ?></th>
 										<td>
 											<?php $image_sizes = array('small' =>__('Small', 'mybooktable'), 'medium' => __('Medium', 'mybooktable'), 'large' => __('Large', 'mybooktable')); ?>
 											<?php $image_size = mbt_get_setting('image_size'); ?>
@@ -358,7 +359,7 @@ function mbt_render_settings_page() {
 										</td>
 									</tr>
 									<tr>
-										<th><label for="mbt_enable_breadcrumbs"><?php _e('Breadcrumbs', 'mybooktable'); ?></label></th>
+										<th><?php _e('Breadcrumbs', 'mybooktable'); ?></th>
 										<td>
 											<input type="checkbox" name="mbt_enable_breadcrumbs" id="mbt_enable_breadcrumbs" <?php checked(mbt_get_setting('enable_breadcrumbs'), true); ?> >
 											<label for="mbt_enable_breadcrumbs"><?php _e('Enable', 'mybooktable'); ?></label>
@@ -376,7 +377,7 @@ function mbt_render_settings_page() {
 							<table class="form-table">
 								<tbody>
 									<tr>
-										<th><label for="mbt_posts_per_page"><?php _e('Number of Books per Page', 'mybooktable'); ?></label></th>
+										<th><?php _e('Number of Books per Page', 'mybooktable'); ?></th>
 										<td>
 											<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo(mbt_get_setting('posts_per_page') ? mbt_get_setting('posts_per_page') : get_option('posts_per_page')); ?>" class="regular-text">
 											<p class="description"><?php _e('Choose the number of books to show per page on the book listings.', 'mybooktable'); ?>.</p>
@@ -393,7 +394,7 @@ function mbt_render_settings_page() {
 					<table class="form-table">
 						<tbody>
 							<tr>
-								<th><label for="mbt_enable_seo"><?php _e('Search Engine Optimization', 'mybooktable'); ?></label></th>
+								<th><?php _e('Search Engine Optimization', 'mybooktable'); ?></th>
 								<td>
 									<input type="checkbox" name="mbt_enable_seo" id="mbt_enable_seo" <?php echo(mbt_get_setting('enable_seo') ? ' checked="checked"' : ''); ?> >
 									<label for="mbt_enable_seo"><?php _e('Use MyBookTable\'s built-in SEO features', 'mybooktable'); ?></label>
@@ -401,7 +402,7 @@ function mbt_render_settings_page() {
 								</td>
 							</tr>
 							<tr>
-								<th><label for="mbt_image_size"><?php _e('Book Reviews Box', 'mybooktable'); ?></label></th>
+								<th><?php _e('Book Reviews Box', 'mybooktable'); ?></th>
 								<td>
 									<?php
 										$reviews_boxes = mbt_get_reviews_boxes();
@@ -422,7 +423,7 @@ function mbt_render_settings_page() {
 								</td>
 							</tr>
 							<tr>
-								<th><label for="mbt_enable_socialmedia_badges_single_book"><?php _e('Social Media Badges', 'mybooktable'); ?></label></th>
+								<th><?php _e('Social Media Badges', 'mybooktable'); ?></th>
 								<td>
 									<input type="checkbox" name="mbt_enable_socialmedia_badges_single_book" id="mbt_enable_socialmedia_badges_single_book" <?php checked(mbt_get_setting('enable_socialmedia_badges_single_book'), true); ?> >
 									<label for="mbt_enable_socialmedia_badges_single_book"><?php _e('Show on Book Pages', 'mybooktable'); ?></label><br>
@@ -432,7 +433,7 @@ function mbt_render_settings_page() {
 								</td>
 							</tr>
 							<tr>
-								<th><label for="mbt_enable_socialmedia_bar_single_book"><?php _e('Social Media Bar', 'mybooktable'); ?></label></th>
+								<th><?php _e('Social Media Bar', 'mybooktable'); ?></th>
 								<td>
 									<input type="checkbox" name="mbt_enable_socialmedia_bar_single_book" id="mbt_enable_socialmedia_bar_single_book" <?php checked(mbt_get_setting('enable_socialmedia_bar_single_book'), true); ?> >
 									<label for="mbt_enable_socialmedia_bar_single_book"><?php _e('Show on Book Pages', 'mybooktable'); ?></label>
@@ -440,15 +441,17 @@ function mbt_render_settings_page() {
 								</td>
 							</tr>
 							<tr>
-								<th><label for="mbt_show_find_bookstore"><?php _e('"Find a Local Bookstore" Box', 'mybooktable'); ?></label></th>
+								<th><?php _e('"Find a Local Bookstore" Box', 'mybooktable'); ?></th>
 								<td>
 									<input type="checkbox" name="mbt_show_find_bookstore" id="mbt_show_find_bookstore" <?php checked(mbt_get_setting('show_find_bookstore'), true); ?> >
-									<label for="mbt_show_find_bookstore"><?php _e('Show on Book Pages', 'mybooktable'); ?></label>
+									<label for="mbt_show_find_bookstore"><?php _e('Show on Book Pages', 'mybooktable'); ?></label><br>
+									<input type="checkbox" name="mbt_show_find_bookstore_buybuttons_shadowbox" id="mbt_show_find_bookstore_buybuttons_shadowbox" <?php checked(mbt_get_setting('show_find_bookstore_buybuttons_shadowbox'), true); ?> >
+									<label for="mbt_show_find_bookstore_buybuttons_shadowbox"><?php _e('Show in Buy Buttons Shadow Box', 'mybooktable'); ?></label>
 									<p class="description"><?php _e('If checked, a box that helps your readers find places to buy your book will display under each book.', 'mybooktable'); ?></p>
 								</td>
 							</tr>
 							<tr>
-								<th><label for="mbt_show_series"><?php _e('Cross Promote Books in a Series', 'mybooktable'); ?></label></th>
+								<th><?php _e('Cross Promote Books in a Series', 'mybooktable'); ?></th>
 								<td>
 									<input type="checkbox" name="mbt_show_series" id="mbt_show_series" <?php checked(mbt_get_setting('show_series'), true); ?> >
 									<label for="mbt_show_series"><?php _e('Show books', 'mybooktable'); ?></label>
@@ -465,7 +468,7 @@ function mbt_render_settings_page() {
 					<table class="form-table">
 						<tbody>
 							<tr>
-								<th><label for="mbt_hide_domc_notice"><?php _e('Disclosure of Material Connection Disclaimer', 'mybooktable'); ?></label></th>
+								<th><?php _e('Disclosure of Material Connection Disclaimer', 'mybooktable'); ?></th>
 								<td>
 									<textarea rows="5" cols="60" name="mbt_domc_notice_text" id="mbt_domc_notice_text"><?php echo(mbt_get_setting('domc_notice_text')); ?></textarea>
 									<p class="description">

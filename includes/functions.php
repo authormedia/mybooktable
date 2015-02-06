@@ -33,6 +33,7 @@ function mbt_reset_settings() {
 		'enable_breadcrumbs' => true,
 		'show_series' => true,
 		'show_find_bookstore' => true,
+		'show_find_bookstore_buybuttons_shadowbox' => true,
 		'book_button_size' => 'medium',
 		'listing_button_size' => 'medium',
 		'widget_button_size' => 'medium',
