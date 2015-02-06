@@ -211,6 +211,11 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 == Changelog ==
 
+= 2.0.3 =
+* Added feedback for ISBN field on book pages
+* Added back option to disable "Find a Local Bookstore" box
+* Minor bug fixes
+
 = 2.0.1 =
 * PHP version detection
 * Lots of bug fixes
