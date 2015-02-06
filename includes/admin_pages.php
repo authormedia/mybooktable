@@ -10,8 +10,8 @@ function mbt_admin_pages_init() {
 add_action('mbt_init', 'mbt_admin_pages_init');
 
 function mbt_enqueue_admin_styles() {
-	wp_enqueue_style('mbt-admin-css', plugins_url('css/admin-style.css', dirname(__FILE__)));
-	wp_enqueue_style('mbt-jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)));
+	wp_enqueue_style('mbt-admin-css', plugins_url('css/admin-style.css', dirname(__FILE__)), array(), MBT_VERSION);
+	wp_enqueue_style('mbt-jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)), array(), MBT_VERSION);
 }
 
 function mbt_enqueue_admin_js() {
@@ -22,9 +22,9 @@ function mbt_enqueue_admin_js() {
 	wp_enqueue_script('jquery-ui-sortable');
 	wp_enqueue_script('jquery-ui-slider');
 	wp_enqueue_script('jquery-ui-accordion');
-	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/lib/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'));
+	wp_enqueue_script('jquery-ui-tooltip', plugins_url('js/lib/jquery.ui.tooltip.js', dirname(__FILE__)), array('jquery-ui-widget'), MBT_VERSION);
 
-	wp_enqueue_script('mbt-admin-pages', plugins_url('js/admin.js', dirname(__FILE__)), array('jquery'));
+	wp_enqueue_script('mbt-admin-pages', plugins_url('js/admin.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
 	wp_localize_script('mbt-admin-pages', 'mbt_media_upload_i18n', array(
 		'mbt_upload_sample_button' => __('Sample Chapter Image', 'mybooktable'),
 		'mbt_upload_tax_image_button' => __('Taxonomy Image', 'mybooktable'),
@@ -437,6 +437,14 @@ function mbt_render_settings_page() {
 									<input type="checkbox" name="mbt_enable_socialmedia_bar_single_book" id="mbt_enable_socialmedia_bar_single_book" <?php checked(mbt_get_setting('enable_socialmedia_bar_single_book'), true); ?> >
 									<label for="mbt_enable_socialmedia_bar_single_book"><?php _e('Show on Book Pages', 'mybooktable'); ?></label>
 									<p class="description"><?php _e('Check to enable the social media bar on book pages.', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<tr>
+								<th><label for="mbt_show_find_bookstore"><?php _e('"Find a Local Bookstore" Box', 'mybooktable'); ?></label></th>
+								<td>
+									<input type="checkbox" name="mbt_show_find_bookstore" id="mbt_show_find_bookstore" <?php checked(mbt_get_setting('show_find_bookstore'), true); ?> >
+									<label for="mbt_show_find_bookstore"><?php _e('Show on Book Pages', 'mybooktable'); ?></label>
+									<p class="description"><?php _e('If checked, a box that helps your readers find places to buy your book will display under each book.', 'mybooktable'); ?></p>
 								</td>
 							</tr>
 							<tr>

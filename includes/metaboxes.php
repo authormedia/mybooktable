@@ -4,6 +4,7 @@ function mbt_metaboxes_init()
 {
 	add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
 	add_action('wp_ajax_mbt_metadata_metabox', 'mbt_metadata_metabox_ajax');
+	add_action('wp_ajax_mbt_isbn_preview', 'mbt_isbn_preview_ajax');
 	add_action('admin_enqueue_scripts', 'mbt_enqueue_metabox_js');
 
 	add_action('save_post', 'mbt_save_metadata_metabox');
@@ -24,7 +25,7 @@ function mbt_add_metaboxes()
 }
 
 function mbt_enqueue_metabox_js() {
-	wp_enqueue_script('mbt-metaboxes', plugins_url('js/metaboxes.js', dirname(__FILE__)), array('jquery'));
+	wp_enqueue_script('mbt-metaboxes', plugins_url('js/metaboxes.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
 	wp_localize_script('mbt-metaboxes', 'mbt_metabox_i18n', array(
 		'book_only' => __('This store will be displayed as a button only on the book page.'),
 		'text_only' => __('This store will be displayed as text underneath the other buttons only on the book page.'),
@@ -66,12 +67,37 @@ function mbt_overview_metabox($post)
 /*---------------------------------------------------------*/
 
 function mbt_metadata_metabox_ajax() {
-	if($_REQUEST['image_id']) {
+	if(isset($_REQUEST['image_id'])) {
 		$image = wp_get_attachment_image_src($_REQUEST['image_id'], 'mbt_book_image');
 		list($src, $width, $height) = $image ? $image : mbt_get_placeholder_image_src();
 		echo('<img src="'.$src.'" class="mbt-book-image">');
 	}
 	die();
+}
+
+function mbt_isbn_preview_ajax() {
+	echo(mbt_isbn_preview_feedback($_REQUEST['data']));
+	die();
+}
+
+function mbt_isbn_preview_feedback($isbn) {
+	if(empty($isbn)) {
+		if(mbt_get_setting('reviews_box') !== 'none') {
+			$output = '<span class="mbt_admin_message_warning">'.__('You will not have reviews for this book. Please enter the book ISBN.', 'mybooktable').'</span>';
+		} else {
+			$output = '';
+		}
+	} else {
+		$matches = array();
+		preg_match("/^([0-9][0-9\-]{8,}[0-9Xx])$/", $isbn, $matches);
+		if(!empty($matches[1])) {
+			$filtered_isbn = preg_replace("/[^0-9Xx]/", "", $isbn);
+			$output = '<span class="mbt_admin_message_success">'.__('Valid ISBN', 'mybooktable').' <a href="http://www.isbnsearch.org/isbn/'.$filtered_isbn.'" target="_blank">'.__('(verify book)', 'mybooktable').'</a></span>';
+		} else {
+			$output = '<span class="mbt_admin_message_failure">'.__('Invalid ISBN', 'mybooktable').'</span>';
+		}
+	}
+	return $output;
 }
 
 function mbt_metadata_metabox($post)
@@ -87,7 +113,8 @@ function mbt_metadata_metabox($post)
 			</td>
 			<th><label for="mbt_unique_id">ISBN</label></th>
 			<td>
-				<input type="text" name="mbt_unique_id" id="mbt_unique_id" value="<?php echo(get_post_meta($post->ID, "mbt_unique_id", true)); ?>" />
+				<div class="mbt_feedback mbt_api_key_feedback"><?php echo(mbt_isbn_preview_feedback(get_post_meta($post->ID, "mbt_unique_id", true))); ?></div>
+				<input type="text" name="mbt_unique_id" id="mbt_unique_id" value="<?php echo(get_post_meta($post->ID, "mbt_unique_id", true)); ?>"  class="mbt_feedback_refresh" data-refresh-action="mbt_isbn_preview" data-element="mbt_unique_id"/>
 				<p class="description"><?php _e('The ISBN number is needed if you want to enable GoodReads or Amazon reviews. (optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
@@ -145,7 +172,7 @@ function mbt_save_metadata_metabox($post_id)
 	if(get_post_type($post_id) == "mbt_book")
 	{
 		if(isset($_REQUEST['mbt_book_image_id'])) { update_post_meta($post_id, "mbt_book_image_id", $_REQUEST['mbt_book_image_id']); }
-		if(isset($_REQUEST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", preg_replace("/[^0-9]/", "", $_REQUEST['mbt_unique_id'])); }
+		if(isset($_REQUEST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", preg_replace("/[^0-9Xx]/", "", $_REQUEST['mbt_unique_id'])); }
 		if(isset($_REQUEST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_REQUEST['mbt_sample_url']); }
 		if(isset($_REQUEST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_REQUEST['mbt_price']); }
 		if(isset($_REQUEST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_REQUEST['mbt_sale_price']); }

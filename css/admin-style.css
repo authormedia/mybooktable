@@ -274,17 +274,17 @@
 
 /* feedback boxes */
 
-.mbt_settings .mbt_api_key_feedback {
+.mbt_api_key_feedback {
 	padding-bottom: 8px;
 }
 
-.mbt_settings .mbt_feedback .mbt_feedback_loading {
+.mbt_feedback .mbt_feedback_loading {
 	position: relative;
 	vertical-align: top;
 	display: inline-block;
 }
 
-.mbt_settings .mbt_feedback .mbt_feedback_spinner {
+.mbt_feedback .mbt_feedback_spinner {
 	vertical-align: top;
 	position: absolute;
 	top: 50%;
@@ -321,18 +321,59 @@
 	cursor: pointer;
 }
 
+/* success */
+
 .mbt_admin_message_success {
 	display: inline-block;
-	background: url('../images/tick.png') 0px 2px no-repeat;
+	background: url('../images/success.png') 0px 2px no-repeat;
 	padding-left: 20px;
 	color: #5FA556;
 }
 
+.mbt_admin_message_success a,
+.mbt_admin_message_success a:link,
+.mbt_admin_message_success a:visited {
+	color: #5FA556;
+}
+
+.mbt_admin_message_success a:hover {
+	color: #46773F;
+}
+
+/* failure */
+
 .mbt_admin_message_failure {
 	display: inline-block;
-	background: url('../images/exclamation.png') 0px 2px no-repeat;
+	background: url('../images/error.png') 0px 2px no-repeat;
 	padding-left: 20px;
 	color: #E66455;
+}
+
+.mbt_admin_message_failure a,
+.mbt_admin_message_failure a:link,
+.mbt_admin_message_failure a:visited {
+	color: #E66455;
+}
+.mbt_admin_message_failure a:hover {
+	color: #AD4B40;
+}
+
+/* warning */
+
+.mbt_admin_message_warning {
+	display: inline-block;
+	background: url('../images/warning.png') 0px 2px no-repeat;
+	padding-left: 20px;
+	color: #DDA129;
+}
+
+.mbt_admin_message_warning a,
+.mbt_admin_message_warning a:link,
+.mbt_admin_message_warning a:visited {
+	color: #DDA129;
+}
+.mbt_admin_message_warning a:hover {
+	color: #B78622;
 }
 
 /* affiliate settings */

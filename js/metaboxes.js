@@ -69,12 +69,11 @@ jQuery(document).ready(function() {
 	/* Book Image                                              */
 	/*---------------------------------------------------------*/
 
-	jQuery("#mbt_book_image_id").change(function(){
+	jQuery("#mbt_book_image_id").change(function() {
 		jQuery.post(ajaxurl,
 			{
 				action: 'mbt_metadata_metabox',
 				image_id: jQuery('#mbt_book_image_id').val(),
-				num: 0
 			},
 			function(response) {
 				if(response) {

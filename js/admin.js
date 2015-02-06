@@ -28,10 +28,21 @@ jQuery(document).ready(function() {
 			}
 			feedback.empty().append(jQuery('<div class="mbt_feedback_loading"><div class="mbt_feedback_spinner"></div></div>').css(loading_size));
 
+			var data = null;
+			if(element.attr('data-element').search(",") === -1) {
+				data = jQuery('#'+element.attr('data-element')).val();
+			} else {
+				elements = element.attr('data-element').split(",");
+				data = {};
+				for(var i = elements.length - 1; i >= 0; i--) {
+					data[elements[i]] = jQuery('#'+elements[i]).val();
+				}
+			}
+
 			jQuery.post(ajaxurl,
 				{
 					action: element.attr('data-refresh-action'),
-					data: jQuery('#'+element.attr('data-element')).val(),
+					data: data,
 				},
 				function(response) {
 					element.removeAttr('disabled');
@@ -52,7 +63,7 @@ jQuery(document).ready(function() {
 				mbt_do_feedback_refresh(element);
 				return false;
 			});
-		} else {
+		} else if(element.prop("tagName") == "INPUT") {
 			element.change(function() { mbt_do_feedback_refresh(element); });
 		}
 	});

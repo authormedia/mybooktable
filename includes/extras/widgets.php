@@ -3,8 +3,16 @@
 function mbt_register_widgets() {
 	register_widget("MBT_Featured_Book");
 	register_widget("MBT_Taxonomies");
+	add_action('admin_enqueue_scripts', 'mbr_enqueue_widget_js');
 }
 add_action('widgets_init', 'mbt_register_widgets');
+
+function mbr_enqueue_widget_js() {
+	global $pagenow;
+	if($pagenow == 'widgets.php') {
+		wp_enqueue_script("mbt-widgets", plugins_url('js/widgets.js', dirname(dirname(__FILE__))), 'jquery', MBT_VERSION, true);
+	}
+}
 
 /*---------------------------------------------------------*/
 /* Featured Books Widget                                   */
@@ -14,15 +22,7 @@ class MBT_Featured_Book extends WP_Widget {
 	function MBT_Featured_Book() {
 		$widget_ops = array('classname' => 'mbt_featured_book', 'description' => __("Displays featured or random books.", 'mybooktable'));
 		parent::WP_Widget('mbt_featured_book', __('MyBookTable Featured Books', 'mybooktable'), $widget_ops);
-		add_action('admin_enqueue_scripts', array('MBT_Featured_Book', 'enqueue_widget_js'));
 		$this->defaultargs = array('title' => __('Featured Books', 'mybooktable'), 'selectmode' => 'by_date', 'featured_books' => array(), 'image_size' => 'medium', 'num_books' => 1, 'show_blurb' => true, 'use_shadowbox' => true);
-	}
-
-	public static function enqueue_widget_js() {
-		global $pagenow;
-		if($pagenow == 'widgets.php') {
-			wp_enqueue_script("mbt-widgets", plugins_url('js/widgets.js', dirname(dirname(__FILE__))), 'jquery', '', true);
-		}
 	}
 
 	function widget($args, $instance) {
@@ -102,20 +102,20 @@ class MBT_Featured_Book extends WP_Widget {
 				<label><?php _e('Title', 'mybooktable'); ?>: <input type="text" name="<?php echo($this->get_field_name('title')); ?>" value="<?php echo($title); ?>"></label>
 			</p>
 			<p>
-				<label><?php _e('Book image size:', 'mybooktable'); ?><br>
+				<label><?php _e('Book image size:', 'mybooktable'); ?></label><br>
 				<?php $sizes = array('small' =>__('Small', 'mybooktable'), 'medium' => __('Medium', 'mybooktable'), 'large' => __('Large', 'mybooktable')); ?>
 				<?php foreach($sizes as $size => $size_name) { ?>
-					<input type="radio" name="<?php echo($this->get_field_name('image_size')); ?>" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> ><?php echo($size_name); ?><br>
+					<input type="radio" name="<?php echo($this->get_field_name('image_size')); ?>" id="<?php echo($this->get_field_id('image_size').' '.$size); ?>" value="<?php echo($size); ?>" <?php echo($image_size == $size ? ' checked' : ''); ?> >
+					<label for="<?php echo($this->get_field_id('image_size').' '.$size); ?>"><?php echo($size_name); ?></label><br>
 				<?php } ?>
-				</label>
 			</p>
 			<p>
-				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('show_blurb'); ?>" name="<?php echo $this->get_field_name('show_blurb'); ?>"<?php checked($show_blurb); ?> />
-				<label for="<?php echo $this->get_field_id('show_blurb'); ?>"><?php _e('Show book blurb', 'mybooktable'); ?></label>
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('show_blurb'); ?>" name="<?php echo($this->get_field_name('show_blurb')); ?>"<?php checked($show_blurb); ?> />
+				<label for="<?php echo($this->get_field_id('show_blurb')); ?>"><?php _e('Show book blurb', 'mybooktable'); ?></label>
 			</p>
 			<p>
-				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('use_shadowbox'); ?>" name="<?php echo $this->get_field_name('use_shadowbox'); ?>"<?php checked($use_shadowbox); ?> />
-				<label for="<?php echo $this->get_field_id('use_shadowbox'); ?>"><?php _e('Use shadow box for Buy Buttons', 'mybooktable'); ?></label>
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('use_shadowbox'); ?>" name="<?php echo($this->get_field_name('use_shadowbox')); ?>"<?php checked($use_shadowbox); ?> />
+				<label for="<?php echo($this->get_field_id('use_shadowbox')); ?>"><?php _e('Use shadow box for Buy Buttons', 'mybooktable'); ?></label>
 			</p>
 			<p>
 				<label for="<?php echo($this->get_field_id('selectmode')); ?>"><?php _e('Choose how to select the featured books:', 'mybooktable'); ?></label>
@@ -219,20 +219,25 @@ class MBT_Taxonomies extends WP_Widget {
 		$tax = isset($instance['tax']) ? $instance['tax'] : '';
 
 		?>
-			<label><?php _e('Title', 'mybooktable'); ?>: <input type="text" name="<?php echo($this->get_field_name('title')); ?>" value="<?php echo($instance['title']); ?>"></label>
-			<br /><br />
-			<label for="<?php echo $this->get_field_id('tax'); ?>"><?php _e('Displayed taxonomy', 'mybooktable'); ?>:</label>
-			<select name="<?php echo $this->get_field_name('tax'); ?>" id="<?php echo $this->get_field_id('tax'); ?>" class="widefat">
-				<option value=""><?php _e('-- Choose One --', 'mybooktable'); ?></option>
-				<option value="mbt_author"<?php selected($tax, 'mbt_author'); ?>><?php _e('Authors', 'mybooktable'); ?></option>
-				<option value="mbt_genre"<?php selected($tax, 'mbt_genre'); ?>><?php _e('Genres', 'mybooktable'); ?></option>
-				<option value="mbt_series"<?php selected($tax, 'mbt_series'); ?>><?php _e('Series', 'mybooktable'); ?></option>
-				<option value="mbt_tag"<?php selected($tax, 'mbt_tag'); ?>><?php _e('Tags', 'mybooktable'); ?></option>
-			</select>
-			<br /><br />
-
-			<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked($count); ?> />
-			<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Show post counts', 'mybooktable'); ?></label><br />
+		<div class="mbt-taxonomies-widget-editor">
+			<p>
+				<label><?php _e('Title', 'mybooktable'); ?>: <input type="text" name="<?php echo($this->get_field_name('title')); ?>" value="<?php echo($instance['title']); ?>"></label>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id('tax'); ?>"><?php _e('Displayed taxonomy', 'mybooktable'); ?>:</label>
+				<select name="<?php echo $this->get_field_name('tax'); ?>" id="<?php echo $this->get_field_id('tax'); ?>" class="widefat">
+					<option value=""><?php _e('-- Choose One --', 'mybooktable'); ?></option>
+					<option value="mbt_author"<?php selected($tax, 'mbt_author'); ?>><?php _e('Authors', 'mybooktable'); ?></option>
+					<option value="mbt_genre"<?php selected($tax, 'mbt_genre'); ?>><?php _e('Genres', 'mybooktable'); ?></option>
+					<option value="mbt_series"<?php selected($tax, 'mbt_series'); ?>><?php _e('Series', 'mybooktable'); ?></option>
+					<option value="mbt_tag"<?php selected($tax, 'mbt_tag'); ?>><?php _e('Tags', 'mybooktable'); ?></option>
+				</select>
+			</p>
+			<p>
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked($count); ?> />
+				<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Show post counts', 'mybooktable'); ?></label>
+			</p>
+		</div>
 		<?php
 	}
 }

@@ -517,7 +517,10 @@
 	text-align: center;
 }
 
-.mbt-book-archive-pagination a {
+.mbt-book-archive-pagination a,
+.mbt-book-archive-pagination a:link,
+.mbt-book-archive-pagination a:visited,
+.mbt-book-archive-pagination a:hover {
 	font-family: Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 14px;

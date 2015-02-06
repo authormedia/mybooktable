@@ -14,7 +14,7 @@ function mbt_taxonomies_init() {
 add_action('mbt_init', 'mbt_taxonomies_init');
 
 function mbt_enqueue_taxonomy_js() {
-	wp_enqueue_script("mbt-taxonomies", plugins_url('js/taxonomies.js', dirname(__FILE__)), array('jquery'));
+	wp_enqueue_script("mbt-taxonomies", plugins_url('js/taxonomies.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
 }
 
 function mbt_register_taxonomies()

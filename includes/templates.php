@@ -51,7 +51,7 @@ function mbt_templates_init() {
 		add_action('mbt_after_single_book', 'mbt_the_domc_notice', 6);
 		if(!mbt_get_setting('hide_domc_notice')) { add_action('mbt_after_single_book', 'mbt_the_reviews_box', 15); }
 		if(mbt_get_setting('show_series')) { add_action('mbt_after_single_book', 'mbt_the_book_series_box'); }
-		add_action('mbt_after_single_book', 'mbt_the_find_bookstore_box');
+		if(mbt_get_setting('show_find_bookstore')) { add_action('mbt_after_single_book', 'mbt_the_find_bookstore_box'); }
 
 		//book excerpt hooks
 		add_action('mbt_before_book_excerpt', 'mbt_do_before_book_excerpt', 0);
@@ -118,15 +118,15 @@ function mbt_pre_get_posts($query) {
 }
 
 function mbt_enqueue_styles() {
-	wp_enqueue_style('mbt-style', apply_filters('mbt_css', plugins_url('css/frontend-style.css', dirname(__FILE__))));
+	wp_enqueue_style('mbt-style', plugins_url('css/frontend-style.css', dirname(__FILE__)), array(), MBT_VERSION);
 	$plugin_style_css = mbt_current_style_url('style.css');
-	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-plugin-style', $plugin_style_css); }
+	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-plugin-style', $plugin_style_css, array(), MBT_VERSION); }
 }
 
 function mbt_enqueue_js() {
-	wp_enqueue_script('mbt-frontend-js', plugins_url('js/frontend.js', dirname(__FILE__)), array('jquery'));
-	wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp');
-	wp_enqueue_script('mbt-thickbox', plugins_url('js/lib/thickbox.js', dirname(__FILE__)), array('jquery'));
+	wp_enqueue_script('mbt-frontend-js', plugins_url('js/frontend.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
+	wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp', array(), MBT_VERSION);
+	wp_enqueue_script('mbt-thickbox', plugins_url('js/lib/thickbox.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
 }
 
 function mbt_get_template_folders() {
@@ -139,10 +139,14 @@ function mbt_add_default_template_folder($folders) {
 }
 add_filter('mbt_template_folders', 'mbt_add_default_template_folder', 100);
 
-function mbt_locate_template($name) {
-	$locatedtemplate = locate_template('mybooktable/'.$name);
-	if($locatedtemplate) { return $locatedtemplate; }
+function mbt_add_theme_template_folders($folders) {
+	$folders[] = get_stylesheet_directory().'/mybooktable/';
+	$folders[] = get_template_directory().'/mybooktable/';
+	return $folders;
+}
+add_filter('mbt_template_folders', 'mbt_add_theme_template_folders', 50);
 
+function mbt_locate_template($name) {
 	$template_folders = mbt_get_template_folders();
 	foreach($template_folders as $folder) {
 		$locatedtemplate = $folder.$name;
@@ -795,7 +799,6 @@ function mbt_get_find_bookstore_box($post_id) {
 	$output .= '<div class="mbt-find-bookstore-title">'.__('Find A Local Bookstore', 'mybooktable').'</div>';
 	$output .= '<form class="mbt-find-bookstore-form" action="http://maps.google.com/maps">';
 	$output .= '	<input type="text" class="mbt-city" placeholder="'.__('City', 'mybooktable').'" name="city" size="20">,';
-	$output .= '	<input type="text" class="mbt-state" placeholder="'.__('State', 'mybooktable').'" name="state" size="5" maxlength="5">';
 	$output .= '	<input type="text" class="mbt-zip" placeholder="'.__('Zip', 'mybooktable').'" name="zip" size="5" maxlength="5">';
 	$output .= '	<input type="submit" name="submit" value="'.__('Find Store', 'mybooktable').'">';
 	$output .= '</form>';
