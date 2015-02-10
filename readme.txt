@@ -197,8 +197,8 @@ No! This plugin would work great for anyone wanting to have an Amazon Affiliate 
 
 == Upgrade Notice ==
 
-= 2.0.1 =
-After this update, you will need to update any MyBookTable Add-ons that you have installed.
+= 2.0.0 =
+This is a major update to MyBookTable. After this update, you will need to update any MyBookTable Add-ons that you have installed.
 
 = 1.3.0 =
 This version fixes several bugs and adds GetNoticed theme integration.
@@ -211,6 +211,15 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 == Changelog ==
 
+= 2.0.5 =
+* Minor bug fixes
+
+= 2.0.4 =
+* Added option to disable "Find a Local Bookstore" box in shadow boxes
+* Fixed a bug with Kobo Buy Button links
+* Improved shadow box styling and mobile responsiveness
+* Other minor bug fixes
+
 = 2.0.3 =
 * Added feedback for ISBN field on book pages
 * Added back option to disable "Find a Local Bookstore" box
@@ -218,7 +227,7 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 = 2.0.1 =
 * PHP version detection
-* Lots of bug fixes
+* Many important bug fixes
 
 = 2.0.0 =
 * New Author Priorities system allows you to assign priorities to your Authors to customize the order in which they display
@@ -230,7 +239,6 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 * Simplified and streamlined settings pages
 * Improved help page with all-new tutorial videos
 * Improved button pack import tool
-* Bug Fixes
 
 = 1.3.7 =
 * Added official WordPress 4.1 compatibility

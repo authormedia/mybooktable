@@ -63,7 +63,13 @@ function mbt_render_totallybooked_books_import_page() {
 				<a href="<?php echo(admin_url('edit.php?post_type=mbt_book')); ?>" class="button button-primary"><?php _e('Continue', 'mybooktable'); ?></a>
 			<?php } else { ?>
 				<h3><?php _e('Are you sure you want to import these books?', 'mybooktable'); ?></h3>
-				<a href="<?php echo(admin_url('admin.php?page=mbt_import&mbt_import_type=totallybooked&mbt_confirm_import=1')); ?>" class="button button-primary"><?php _e('Import', 'mybooktable'); ?></a>
+				<a href="<?php echo(admin_url('admin.php?page=mbt_import&mbt_import_type=totallybooked&mbt_confirm_import=1')); ?>" class="import-submit button button-primary"><?php _e('Import', 'mybooktable'); ?></a>
+				<div id="mbt-book-import-spinner-box">Please wait, your books are importing...<div id="mbt-book-import-spinner"></div></div>
+				<script type="text/javascript">
+					jQuery('.mbt_book_importer .import-submit').click(function(e) {
+						jQuery('#mbt-book-import-spinner-box').show();
+					});
+				</script>
 			<?php } ?>
 		</div>
 	<?php

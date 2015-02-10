@@ -559,7 +559,7 @@ function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=null) {
 	$output = '';
 	$stores = mbt_get_stores();
 
-	$using_shadowbox = (mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true;
+	$using_shadowbox = ((mbt_get_setting('enable_buybutton_shadowbox') and $force_shadowbox !== false) or $force_shadowbox === true);
 
 	if(!$excerpt or $using_shadowbox) {
 		$buybuttons = mbt_query_buybuttons($post_id, array('display' => array('featured', 'book_only')));
@@ -772,9 +772,10 @@ function mbt_get_book_series_box($post_id) {
 	if(!empty($series)) {
 		$relatedbooks = new WP_Query(array('mbt_series' => $series->slug, 'order' => 'ASC', 'orderby' => 'meta_value_num', 'meta_key' => 'mbt_series_order', 'post__not_in' => array($post_id), 'posts_per_page' => -1));
 		if(!empty($relatedbooks->posts)) {
+			$title = apply_filters('mbt_book_series_box_title', sprintf(__('Other %s in', 'mybooktable'), mbt_get_product_name()).' "'.$series->name, $series->name);
 			$output .= '<div style="clear:both"></div>';
 			$output .= '<div class="mbt-book-series">';
-			$output .= '<div class="mbt-book-series-title">'.__('Other books in', 'mybooktable').'"'.$series->name.'":</div>';
+			$output .= '<div class="mbt-book-series-title">'.$title.'":</div>';
 			foreach($relatedbooks->posts as $relatedbook) {
 				$size = 100;
 				list($src, $width, $height) = mbt_get_book_image_src($relatedbook->ID);

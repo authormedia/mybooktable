@@ -6,10 +6,6 @@
 
 function mbt_buybuttons_init() {
 	add_filter('mbt_stores', 'mbt_add_basic_stores');
-	mbt_amazon_buybuttons_init();
-	mbt_bnn_buybuttons_init();
-	mbt_kobo_buybuttons_init();
-	mbt_cj_affiliates_init();
 }
 add_action('mbt_init', 'mbt_buybuttons_init');
 
@@ -21,9 +17,9 @@ function mbt_add_basic_stores($stores) {
 	if(mbt_get_setting('enable_default_affiliates') or mbt_get_upgrade()) {
 		$stores['amazon'] = array('name' => 'Amazon', 'search' => 'http://amazon.com/books');
 		$stores['kindle'] = array('name' => 'Amazon Kindle', 'search' => 'http://amazon.com/kindle-ebooks');
+		$stores['audible'] = array('name' => 'Audible.com', 'search' => 'http://www.audible.com/search');
 		$stores['bnn'] = array('name' => 'Barnes and Noble', 'search' => 'http://www.barnesandnoble.com/s/?store=book');
 		$stores['nook'] = array('name' => 'Barnes and Noble Nook', 'search' => 'http://www.barnesandnoble.com/s/?store=ebook');
-		$stores['audible'] = array('name' => 'Audible.com', 'search' => 'http://www.audible.com/search');
 		$stores['kobo'] = array('name' => 'Kobo', 'search' => 'http://www.kobobooks.com');
 	}
 	$stores['goodreads'] = array('name' => 'GoodReads', 'search' => 'http://www.goodreads.com/search');
@@ -83,66 +79,13 @@ function mbt_query_buybuttons($post_id, $query = '') {
 
 
 /*---------------------------------------------------------*/
-/* Amazon Buy Buttons Functions                            */
+/* Amazon Affiliate Settings                               */
 /*---------------------------------------------------------*/
 
-function mbt_amazon_buybuttons_init() {
-	add_action('wp_ajax_mbt_amazon_buybutton_preview', 'mbt_amazon_buybutton_preview');
-	add_action('mbt_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);
-	add_filter('mbt_filter_buybutton_data', 'mbt_filter_amazon_buybutton_data', 10, 2);
+function mbt_amazon_affiliate_settings_init() {
 	add_action('mbt_affiliate_settings_render', 'mbt_amazon_affiliate_settings_render');
 }
-
-function mbt_get_amazon_AISN($url) {
-	$matches = array();
-	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $url, $matches);
-	return empty($matches) ? '' : $matches[9];
-}
-
-function mbt_get_amazon_tld($url) {
-	$matches = array();
-	preg_match("/amazon\.([a-zA-Z\.]+)/", $url, $matches);
-	return empty($matches) ? '' : $matches[1];
-}
-
-function mbt_amazon_buybutton_preview() {
-	$id = mbt_get_amazon_AISN($_REQUEST['url']);
-	echo(empty($id) ? '<span class="error_message">'.__('Invalid Amazon product link.', 'mybooktable').'</span>' : '<span class="success_message">'.__('Valid Amazon product link.', 'mybooktable').'</span>');
-	die();
-}
-
-function mbt_amazon_buybutton_editor($editor, $data, $id, $store) {
-	if($data['store'] == 'amazon' or $data['store'] == 'kindle') {
-		$editor .= '
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				jQuery("#'.$id.'_url").before(jQuery("<div id=\"'.$id.'_preview\"></div>")).change(function() {
-					element_id = jQuery(this).attr("id");
-					element_id = element_id.substring(0, element_id.length - 4);
-					jQuery.post(ajaxurl,
-						{
-							action: "mbt_amazon_buybutton_preview",
-							url: jQuery("#"+element_id+"_url").val()
-						},
-						function(response) {
-							jQuery("#"+element_id+"_preview").html(response);
-						}
-					);
-				});
-			});
-		</script>';
-	}
-	return $editor;
-}
-
-function mbt_filter_amazon_buybutton_data($data, $store) {
-	if(($data['store'] == 'amazon' or $data['store'] == 'kindle') and !empty($data['url'])) {
-		$tld = mbt_get_amazon_tld($data['url']);
-		$aisn = mbt_get_amazon_AISN($data['url']);
-		$data['url'] = (empty($tld) or empty($aisn)) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=ammbt-20';
-	}
-	return $data;
-}
+add_action('mbt_init', 'mbt_amazon_affiliate_settings_init');
 
 function mbt_amazon_affiliate_settings_render() {
 ?>
@@ -172,57 +115,13 @@ function mbt_amazon_affiliate_settings_render() {
 
 
 /*---------------------------------------------------------*/
-/* Barnes & Noble Buy Buttons Functions                    */
+/* Linkshare Affiliate Settings                            */
 /*---------------------------------------------------------*/
 
-function mbt_bnn_buybuttons_init() {
-	add_action('wp_ajax_mbt_bnn_buybutton_preview', 'mbt_bnn_buybutton_preview');
-	add_action('mbt_buybutton_editor', 'mbt_bnn_buybutton_editor', 10, 4);
-	add_action('mbt_filter_buybutton_data', 'mbt_filter_bnn_buybutton_data', 10, 2);
+function mbt_linkshare_affiliate_settings_init() {
 	add_action('mbt_affiliate_settings_render', 'mbt_linkshare_affiliate_settings_render');
 }
-
-function mbt_is_bbn_url_valid($url) {
-	return preg_match("/barnesandnoble.com\/((s\/([0-9]{13}))|(w\/.*[eE][aA][nN]=([0-9]{13})))/", $url);
-}
-
-function mbt_get_bnn_identifier($url) { return ' '; }
-
-function mbt_bnn_buybutton_preview() {
-	echo(!mbt_is_bbn_url_valid($_REQUEST['url']) ? '<span class="error_message">'.__('Invalid Barnes &amp; Noble product link.', 'mybooktable').'</span>' : '<span class="success_message">'.__('Valid Barnes &amp; Noble product link.', 'mybooktable').'</span>');
-	die();
-}
-
-function mbt_bnn_buybutton_editor($editor, $data, $id, $store) {
-	if($data['store'] == 'bnn' or $data['store'] == 'nook') {
-		$editor .= '
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				jQuery("#'.$id.'_url").before(jQuery("<div id=\"'.$id.'_preview\"></div>")).change(function() {
-					element_id = jQuery(this).attr("id");
-					element_id = element_id.substring(0, element_id.length - 4);
-					jQuery.post(ajaxurl,
-						{
-							action: "mbt_bnn_buybutton_preview",
-							url: jQuery("#"+element_id+"_url").val()
-						},
-						function(response) {
-							jQuery("#"+element_id+"_preview").html(response);
-						}
-					);
-				});
-			});
-		</script>';
-	}
-	return $editor;
-}
-
-function mbt_filter_bnn_buybutton_data($data, $store) {
-	if(($data['store'] == 'bnn' or $data['store'] == 'nook') and !empty($data['url'])) {
-		$data['url'] = !mbt_is_bbn_url_valid($data['url']) ? '' : 'http://click.linksynergy.com/deeplink?id=W1PQs9y/1/c&mid=36889&murl='.urlencode($data['url']);
-	}
-	return $data;
-}
+add_action('mbt_init', 'mbt_linkshare_affiliate_settings_init');
 
 function mbt_linkshare_affiliate_settings_render() {
 ?>
@@ -253,54 +152,13 @@ function mbt_linkshare_affiliate_settings_render() {
 
 
 /*---------------------------------------------------------*/
-/* Kobo Buy Button Functions                               */
+/* Commission Junction Affiliate Settings                  */
 /*---------------------------------------------------------*/
 
-function mbt_kobo_buybuttons_init() {
-	add_action('mbt_filter_buybutton_data', 'mbt_filter_kobo_buybutton_data', 10, 2);
-}
-
-function mbt_filter_kobo_buybutton_data($data, $store) {
-	return $data;
-}
-
-
-
-/*---------------------------------------------------------*/
-/* Commission Junction Functions                           */
-/*---------------------------------------------------------*/
-
-function mbt_cj_affiliates_init() {
-	add_action('mbt_filter_buybutton_data', 'mbt_filter_audible_buybutton_data', 10, 2);
+function mbt_cj_affiliate_settings_init() {
 	add_action('mbt_affiliate_settings_render', 'mbt_cj_affiliate_settings_render');
 }
-
-function mbt_get_cj_affiliate_link($url, $website_id) {
-	$server = 'www.qksrv.net';
-
-	$scheme = 'http';
-	$url_info = parse_url($url);
-	if(!empty($url_info) and !empty($url_info['scheme'])) { $scheme = $url_info['scheme']; }
-
-	$hashIndex = strpos($url, '#');
-	$frag = "";
-	if($hashIndex !== false) {
-		$frag = substr($url, $hashIndex + 1);
-		$url = substr($url, 0, $hashIndex);
-	}
-
-	$extraParams = "";
-	if(!empty($frag)) { $extraParams = "/fragment/".urlencode($frag); }
-
-	return $scheme."://".$server."/links/".$website_id."/type/am".$extraParams."/".$url;
-}
-
-function mbt_filter_audible_buybutton_data($data, $store) {
-	if($data['store'] == 'audible' and !empty($data['url'])) {
-		$data['url'] = mbt_get_cj_affiliate_link($data['url'], 7737731);
-	}
-	return $data;
-}
+add_action('mbt_init', 'mbt_cj_affiliate_settings_init');
 
 function mbt_cj_affiliate_settings_render() {
 ?>
@@ -324,4 +182,167 @@ function mbt_cj_affiliate_settings_render() {
 		</tbody>
 	</table>
 <?php
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Amazon Buy Buttons                                      */
+/*---------------------------------------------------------*/
+
+function mbt_amazon_buybuttons_init() {
+	add_filter('mbt_filter_buybutton_data', 'mbt_filter_amazon_buybutton_data', 10, 2);
+	add_action('wp_ajax_mbt_amazon_buybutton_preview', 'mbt_amazon_buybutton_preview');
+	add_action('mbt_buybutton_editor', 'mbt_amazon_buybutton_editor', 10, 4);
+}
+add_action('mbt_init', 'mbt_amazon_buybuttons_init');
+
+function mbt_get_amazon_AISN($url) {
+	$matches = array();
+	preg_match("/((dp%2F)|(dp\/)|(dp\/product\/)|(\/ASIN\/)|(gp\/product\/)|(exec\/obidos\/tg\/detail\/\-\/)|(asins=))([A-Z0-9]{10})/", $url, $matches);
+	return empty($matches) ? '' : $matches[9];
+}
+
+function mbt_get_amazon_tld($url) {
+	$matches = array();
+	preg_match("/amazon\.([a-zA-Z\.]+)/", $url, $matches);
+	return empty($matches) ? 'com' : $matches[1];
+}
+
+function mbt_filter_amazon_buybutton_data($data, $store) {
+	if(($data['store'] == 'amazon' or $data['store'] == 'kindle') and !empty($data['url'])) {
+		$tld = mbt_get_amazon_tld($data['url']);
+		$aisn = mbt_get_amazon_AISN($data['url']);
+		$data['url'] = empty($aisn) ? '' : 'http://www.amazon.'.$tld.'/dp/'.$aisn.'?tag=ammbt-20';
+	}
+	return $data;
+}
+
+function mbt_amazon_buybutton_preview() {
+	if(empty($_REQUEST['data'])) { die(); }
+	$id = mbt_get_amazon_AISN($_REQUEST['data']);
+	if(empty($id)) {
+		echo('<span class="mbt_admin_message_failure">'.__('Invalid Amazon product link', 'mybooktable').'</span>');
+	} else {
+		echo('<span class="mbt_admin_message_success">'.__('Valid Amazon product link', 'mybooktable').'</span>');
+	}
+	die();
+}
+
+function mbt_amazon_buybutton_editor($editor, $data, $id, $store) {
+	if($data['store'] == 'amazon' or $data['store'] == 'kindle') {
+		$editor .= '
+		<script type="text/javascript">
+			var url = jQuery("#'.$id.'_url");
+			url.before(jQuery("<div class=\"mbt_api_key_feedback mbt_feedback\"></div>"));
+			url.addClass("mbt_feedback_refresh mbt_feedback_refresh_initial");
+			url.attr("data-refresh-action", "mbt_amazon_buybutton_preview");
+			url.attr("data-element", "'.$id.'_url");
+			if(typeof url.mbt_feedback !== "undefined") { url.mbt_feedback(); }
+		</script>';
+	}
+	return $editor;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Audible Buy Button                                      */
+/*---------------------------------------------------------*/
+
+function mbt_audible_buybuttons_init() {
+	add_action('mbt_filter_buybutton_data', 'mbt_filter_audible_buybutton_data', 10, 2);
+}
+add_action('mbt_init', 'mbt_audible_buybuttons_init');
+
+function mbt_get_cj_affiliate_link($url, $website_id) {
+	$server = 'www.qksrv.net';
+	$scheme = 'http';
+	$url_info = parse_url($url);
+	if(!empty($url_info) and !empty($url_info['scheme'])) { $scheme = $url_info['scheme']; }
+	$hashIndex = strpos($url, '#');
+	$frag = "";
+	if($hashIndex !== false) {
+		$frag = substr($url, $hashIndex + 1);
+		$url = substr($url, 0, $hashIndex);
+	}
+	$extraParams = "";
+	if(!empty($frag)) { $extraParams = "/fragment/".urlencode($frag); }
+	return $scheme."://".$server."/links/".$website_id."/type/am".$extraParams."/".$url;
+}
+
+function mbt_filter_audible_buybutton_data($data, $store) {
+	if($data['store'] == 'audible' and !empty($data['url'])) {
+		$data['url'] = mbt_get_cj_affiliate_link($data['url'], 7737731);
+	}
+	return $data;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Barnes & Noble Buy Buttons                              */
+/*---------------------------------------------------------*/
+
+function mbt_bnn_buybuttons_init() {
+	add_action('mbt_filter_buybutton_data', 'mbt_filter_bnn_buybutton_data', 10, 2);
+	add_action('wp_ajax_mbt_bnn_buybutton_preview', 'mbt_bnn_buybutton_preview');
+	add_action('mbt_buybutton_editor', 'mbt_bnn_buybutton_editor', 10, 4);
+}
+add_action('mbt_init', 'mbt_bnn_buybuttons_init');
+
+function mbt_is_bbn_url_valid($url) {
+	return preg_match("/barnesandnoble.com\/((s\/([0-9]{13}))|(w\/.*[eE][aA][nN]=([0-9]{13})))/", $url);
+}
+
+function mbt_get_bnn_identifier($url) { return ' '; }
+
+function mbt_filter_bnn_buybutton_data($data, $store) {
+	if(($data['store'] == 'bnn' or $data['store'] == 'nook') and !empty($data['url'])) {
+		$data['url'] = !mbt_is_bbn_url_valid($data['url']) ? '' : 'http://click.linksynergy.com/deeplink?id=W1PQs9y/1/c&mid=36889&murl='.urlencode($data['url']);
+	}
+	return $data;
+}
+
+function mbt_bnn_buybutton_preview() {
+	if(empty($_REQUEST['data'])) { die(); }
+	if(!mbt_is_bbn_url_valid($_REQUEST['data'])) {
+		echo('<span class="mbt_admin_message_failure">'.__('Invalid Barnes &amp; Noble product link', 'mybooktable').'</span>');
+	} else {
+		echo('<span class="mbt_admin_message_success">'.__('Valid Barnes &amp; Noble product link', 'mybooktable').'</span>');
+	}
+	die();
+}
+
+function mbt_bnn_buybutton_editor($editor, $data, $id, $store) {
+	if($data['store'] == 'bnn' or $data['store'] == 'nook') {
+		$editor .= '
+		<script type="text/javascript">
+			var url = jQuery("#'.$id.'_url");
+			url.before(jQuery("<div class=\"mbt_api_key_feedback mbt_feedback\"></div>"));
+			url.addClass("mbt_feedback_refresh mbt_feedback_refresh_initial");
+			url.attr("data-refresh-action", "mbt_bnn_buybutton_preview");
+			url.attr("data-element", "'.$id.'_url");
+			if(typeof url.mbt_feedback !== "undefined") { url.mbt_feedback(); }
+		</script>';
+	}
+	return $editor;
+}
+
+
+
+/*---------------------------------------------------------*/
+/* Kobo Buy Button                                         */
+/*---------------------------------------------------------*/
+
+function mbt_kobo_buybuttons_init() {
+	add_action('mbt_filter_buybutton_data', 'mbt_filter_kobo_buybutton_data', 10, 2);
+}
+add_action('mbt_init', 'mbt_kobo_buybuttons_init');
+
+function mbt_filter_kobo_buybutton_data($data, $store) {
+	if($data['store'] == 'kobo' and !empty($data['url'])) {
+		$data['url'] = 'http://click.linksynergy.com/deeplink?id=W1PQs9y/1/c&mid=37217&murl='.urlencode($data['url']);
+	}
+	return $data;
 }

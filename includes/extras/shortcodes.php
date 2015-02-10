@@ -186,7 +186,6 @@ function mbt_mybooktable_shortcode($attrs) {
 			$output .= '</div>';
 		}
 	} else {
-
 		$max_books = empty($attr['max-books']) ? -1 : $attr['max-books'];
 
 		$mbt_shortcode_old_id = $id;
@@ -198,7 +197,7 @@ function mbt_mybooktable_shortcode($attrs) {
 		} else if(!empty($attrs['author'])) {
 			$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_author' => $attrs['author'], 'orderby' => 'menu_order', 'posts_per_page' => $max_books));
 		} else if(!empty($attrs['series'])) {
-			$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_series' => $attrs['series'], 'orderby' => 'menu_order', 'posts_per_page' => $max_books));
+			$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_series' => $attrs['series'], 'orderby' => 'meta_value_num', 'meta_key' => 'mbt_series_order', 'order' => 'ASC', 'posts_per_page' => $max_books));
 		} else if(!empty($attrs['genre'])) {
 			$wp_query = new WP_Query(array('post_type' => 'mbt_book', 'mbt_genre' => $attrs['genre'], 'orderby' => 'menu_order', 'posts_per_page' => $max_books));
 		} else if(!empty($attrs['tag'])) {

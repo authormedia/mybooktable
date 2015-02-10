@@ -510,6 +510,13 @@ function mbt_send_tracking_data() {
 		}
 	}
 
+	$amazon_affiliates = mbt_get_setting('amazon_buybutton_affiliate_code');
+	$linkshare_affiliates = mbt_get_setting('linkshare_affiliate_code');
+	$cj_affiliates = mbt_get_setting('cj_website_id');
+	$goodreads_integration = mbt_get_setting('goodreads_developer_key');
+	$aws_integration = mbt_get_setting('aws_access_key_id');
+	$mailchimp_integration = mbt_get_setting('mailchimp_api_key');
+
 	$data = array(
 		'id' => mbt_get_tracking_data('id'),
 		'time' => time(),
@@ -534,11 +541,17 @@ function mbt_send_tracking_data() {
 			'enable_default_affiliates' => (mbt_get_setting('enable_default_affiliates') or mbt_get_upgrade()),
 			'product_name' => mbt_get_setting('product_name'),
 			'hide_domc_notice' => mbt_get_setting('hide_domc_notice'),
+			'using_goodreads_integration' => !empty($goodreads_integration),
 		),
 		'upgrade' => array(
 			'name' => mbt_get_upgrade(),
 			'version' => mbt_get_upgrade_version(),
 			'settings' => array(
+				'using_amazon_affiliates' => !empty($amazon_affiliates),
+				'using_linkshare_affiliates' => !empty($linkshare_affiliates),
+				'using_cj_affiliates' => !empty($cj_affiliates),
+				'using_aws_integration' => !empty($aws_integration),
+				'using_mailchimp_integration' => !empty($mailchimp_integration),
 				'disable_amazon_affiliates' => mbt_get_setting('disable_amazon_affiliates'),
 				'disable_linkshare_affiliates' => mbt_get_setting('disable_linkshare_affiliates'),
 				'disable_cj_affiliates' => mbt_get_setting('disable_cj_affiliates'),

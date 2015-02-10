@@ -297,13 +297,13 @@
 	background: url('../images/spinner.png') 0px 0px no-repeat;
 	background-size: 100% 100%;
 
-	-webkit-animation-name: spinnerRotate;
+	-webkit-animation-name: mbt-spinner-rotate;
 	-webkit-animation-duration: 2s;
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-timing-function: linear;
 }
 
-@-webkit-keyframes spinnerRotate {
+@-webkit-keyframes mbt-spinner-rotate {
 	from {
 		-webkit-transform:rotate(0deg);
 	}
@@ -716,6 +716,30 @@
 	color: #666
 }
 
+#mbt-book-import-spinner-box {
+	margin-top:10px;
+	font-weight: bold;
+	display: none;
+}
+
+#mbt-book-import-spinner {
+	vertical-align: top;
+
+	margin-left: 10px;
+
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+
+	background: url('../images/spinner.png') 0px 0px no-repeat;
+	background-size: 100% 100%;
+
+	-webkit-animation-name: mbt-spinner-rotate;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
 #mbt-book-import-progress-bar {
 	width: 200px;
 	height: 30px;
@@ -810,7 +834,8 @@
 	border-radius: 5px;
 }
 
-.mbt-admin-notice .notice-button {
+.mbt-admin-notice .notice-button,
+.mbt-admin-notice .notice-button:link {
 	font-family: "Helvetica Neue",Helvetica,Arial,"Lucida Grande",Verdana,"Bitstream Vera Sans",sans-serif;
 	font-weight: bold;
 	font-size: 16px!important;

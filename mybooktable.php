@@ -131,7 +131,7 @@ function mbt_plugin_action_links($actions) {
 }
 
 function mbt_plugin_row_meta($links, $file) {
-	if ($file == plugin_basename(__FILE__)) {
+	if($file == plugin_basename(__FILE__)) {
 		$links[] = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/mybooktable?filter=5#postform">'.__('Review this plugin', 'mybooktable').'</a>';
 	}
 	return $links;

@@ -7,6 +7,12 @@ jQuery(document).ready(function() {
 	jQuery('a[href="admin.php?page=mbt_upgrade_link"]').on('click', function() { jQuery(this).attr('target', '_blank'); });
 
 	/*---------------------------------------------------------*/
+	/* Feedback Boxes                                          */
+	/*---------------------------------------------------------*/
+
+	jQuery('.mbt_feedback_refresh').mbt_feedback();
+
+	/*---------------------------------------------------------*/
 	/* Settings Page                                           */
 	/*---------------------------------------------------------*/
 
@@ -14,59 +20,6 @@ jQuery(document).ready(function() {
 	jQuery('#mbt-help-link').off();
 
  	jQuery('#mbt_settings_form input[type="submit"]').click(function() { jQuery('#mbt_current_tab').val(jQuery(this).parents('.mbt-tab').attr('id').substring(8)); });
-
-	function mbt_do_feedback_refresh(element) {
-		if(!element.attr('disabled')) {
-			element.attr('disabled', 'disabled');
-			if(element.attr('type') == 'radio') { jQuery('input[name='+element.attr('name')+']').attr('disabled', 'disabled'); }
-			var feedback = element.parent().find('.mbt_feedback');
-
-			var loading_size = {'width': 18, 'height': 18};
-			if(feedback.children().length > 0) {
-				child = jQuery(feedback.children()[0]);
-				loading_size = {'width': Math.max(child.width(), loading_size['width']), 'height': Math.max(child.height(), loading_size['height'])};
-			}
-			feedback.empty().append(jQuery('<div class="mbt_feedback_loading"><div class="mbt_feedback_spinner"></div></div>').css(loading_size));
-
-			var data = null;
-			if(element.attr('data-element').search(",") === -1) {
-				data = jQuery('#'+element.attr('data-element')).val();
-			} else {
-				elements = element.attr('data-element').split(",");
-				data = {};
-				for(var i = elements.length - 1; i >= 0; i--) {
-					data[elements[i]] = jQuery('#'+elements[i]).val();
-				}
-			}
-
-			jQuery.post(ajaxurl,
-				{
-					action: element.attr('data-refresh-action'),
-					data: data,
-				},
-				function(response) {
-					element.removeAttr('disabled');
-					if(element.attr('type') == 'radio') { jQuery('input[name='+element.attr('name')+']').removeAttr('disabled', 'disabled'); }
-					feedback.html(response);
-				}
-			);
-		}
-	}
-
-	jQuery('.mbt_feedback_refresh_initial').each(function(i, e) { mbt_do_feedback_refresh(jQuery(this)); });
-
-	jQuery('.mbt_feedback_refresh').each(function(i, e) {
-		var element = jQuery(this);
-
-		if(element.prop("tagName") == "DIV") {
-			element.click(function() {
-				mbt_do_feedback_refresh(element);
-				return false;
-			});
-		} else if(element.prop("tagName") == "INPUT") {
-			element.change(function() { mbt_do_feedback_refresh(element); });
-		}
-	});
 
 	/*---------------------------------------------------------*/
 	/* Help Page                                               */
@@ -138,11 +91,15 @@ jQuery(document).ready(function() {
 	});
 
 	jQuery('a[data-mbt-track-event-override]').click(function(e) {
-		var element = jQuery(this);
-		mbt_track_event(element.attr('data-mbt-track-event-override'), function() {
-			window.location = element.attr('href');
-		});
-		return false;
+		if(event.which == 1) {
+			var element = jQuery(this);
+			mbt_track_event(element.attr('data-mbt-track-event-override'), function() {
+				window.location = element.attr('href');
+			});
+			return false;
+		} else {
+			mbt_track_event(jQuery(this).attr('data-mbt-track-event-override'));
+		}
 	});
 
 });
@@ -150,4 +107,63 @@ jQuery(document).ready(function() {
 function mbt_track_event(event_name, after) {
 	var jqxhr = jQuery.post(ajaxurl, {action: 'mbt_track_event', event_name: event_name});
 	if(typeof after !== 'undefined') { jqxhr.always(after); }
+}
+
+/*---------------------------------------------------------*/
+/* Feedback Boxes                                          */
+/*---------------------------------------------------------*/
+
+function mbt_do_feedback_refresh(element) {
+	if(!element.attr('disabled')) {
+		element.attr('disabled', 'disabled');
+		if(element.attr('type') == 'radio') { jQuery('input[name='+element.attr('name')+']').attr('disabled', 'disabled'); }
+		var feedback = element.parent().find('.mbt_feedback');
+
+		var loading_size = {'width': 18, 'height': 18};
+		if(feedback.children().length > 0) {
+			child = jQuery(feedback.children()[0]);
+			loading_size = {'width': Math.max(child.width(), loading_size['width']), 'height': Math.max(child.height(), loading_size['height'])};
+		}
+		feedback.empty().append(jQuery('<div class="mbt_feedback_loading"><div class="mbt_feedback_spinner"></div></div>').css(loading_size));
+
+		var data = null;
+		if(element.attr('data-element').search(",") === -1) {
+			data = jQuery('#'+element.attr('data-element')).val();
+		} else {
+			elements = element.attr('data-element').split(",");
+			data = {};
+			for(var i = elements.length - 1; i >= 0; i--) {
+				data[elements[i]] = jQuery('#'+elements[i]).val();
+			}
+		}
+
+		jQuery.post(ajaxurl,
+			{
+				action: element.attr('data-refresh-action'),
+				data: data,
+			},
+			function(response) {
+				element.removeAttr('disabled');
+				if(element.attr('type') == 'radio') { jQuery('input[name='+element.attr('name')+']').removeAttr('disabled', 'disabled'); }
+				feedback.html(response);
+			}
+		);
+	}
+}
+
+jQuery.fn.mbt_feedback = function() {
+	jQuery(this).each(function(i, e) {
+		var element = jQuery(this);
+
+		if(element.hasClass('mbt_feedback_refresh_initial')) { mbt_do_feedback_refresh(element); }
+
+		if(element.prop("tagName") == "DIV") {
+			element.click(function() {
+				mbt_do_feedback_refresh(element);
+				return false;
+			});
+		} else {
+			element.change(function() { mbt_do_feedback_refresh(element); });
+		}
+	});
 }
