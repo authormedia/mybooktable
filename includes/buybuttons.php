@@ -322,7 +322,7 @@ function mbt_bnn_buybutton_editor($editor, $data, $id, $store) {
 			url.before(jQuery("<div class=\"mbt_api_key_feedback mbt_feedback\"></div>"));
 			url.addClass("mbt_feedback_refresh mbt_feedback_refresh_initial");
 			url.attr("data-refresh-action", "mbt_bnn_buybutton_preview");
-			url.attr("data-element", "'.$id.'_url");
+			url.attr("data-element", "self");
 			if(typeof url.mbt_feedback !== "undefined") { url.mbt_feedback(); }
 		</script>';
 	}

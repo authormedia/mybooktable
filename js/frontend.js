@@ -15,8 +15,7 @@ jQuery(document).ready(function() {
 			var zip = form.find('.mbt-zip').val();
 
 			geocoder.geocode({ 'address': city + " " + zip }, function(results, status) {
-				console.log(results);
-				if (status == google.maps.GeocoderStatus.OK) {
+				if(status == google.maps.GeocoderStatus.OK) {
 					var lat = results[0].geometry.location.k;
 					var lng = results[0].geometry.location.D;
 					var url = "https://www.google.com/maps/search/bookstore/@"+lat+","+lng+",14z";

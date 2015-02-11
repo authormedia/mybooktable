@@ -466,6 +466,8 @@ function mbt_track_event($name, $instance=false) {
 	if(mbt_get_setting('allow_tracking') !== 'yes') { return; }
 
 	$events = mbt_get_tracking_data('events');
+	if(!isset($events[$name])) { $events[$name] = array(); }
+	if(!isset($events[$name]['count'])) { $events[$name]['count'] = 0; }
 	$events[$name]['count'] += 1;
 	$events[$name]['last_time'] = time();
 
@@ -473,6 +475,7 @@ function mbt_track_event($name, $instance=false) {
 		if(!is_array($instance)) { $instance = array(); }
 		$instance['time'] = time();
 		$instance['version'] = MBT_VERSION;
+		if(!isset($events[$name]['instances'])) { $events[$name]['instances'] = array(); }
 		$events[$name]['instances'][] = $instance;
 	}
 
@@ -503,7 +506,7 @@ function mbt_send_tracking_data() {
 		if(!empty($meta['mbt_buybuttons'][0])) {
 			$buybuttons = maybe_unserialize($meta['mbt_buybuttons'][0]);
 			if(is_array($buybuttons)) {
-				foreach($buybuttons as $buybuttons) {
+				foreach($buybuttons as $buybutton) {
 					$buybuttons_stats[$buybutton['store']]++;
 				}
 			}

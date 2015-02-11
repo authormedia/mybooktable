@@ -211,6 +211,10 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 == Changelog ==
 
+= 2.0.6 =
+* Improvements to usage tracking system
+* Minor bug fixes
+
 = 2.0.5 =
 * Minor bug fixes
 

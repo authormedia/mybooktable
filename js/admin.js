@@ -127,7 +127,9 @@ function mbt_do_feedback_refresh(element) {
 		feedback.empty().append(jQuery('<div class="mbt_feedback_loading"><div class="mbt_feedback_spinner"></div></div>').css(loading_size));
 
 		var data = null;
-		if(element.attr('data-element').search(",") === -1) {
+		if(element.attr('data-element') === 'self') {
+			data = element.val();
+		} else if(element.attr('data-element').search(",") === -1) {
 			data = jQuery('#'+element.attr('data-element')).val();
 		} else {
 			elements = element.attr('data-element').split(",");

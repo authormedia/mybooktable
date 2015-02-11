@@ -143,6 +143,11 @@ function mbt_save_settings_page() {
 	}
 
 	if(isset($_REQUEST['mbt_remove_booktable_page'])) { mbt_update_setting('booktable_page', 0); }
+
+	if(isset($_GET['mbt_allow_tracking'])) {
+		mbt_update_setting('allow_tracking', $_GET['mbt_allow_tracking']);
+		if($_GET['mbt_allow_tracking'] === 'yes') { mbt_track_event('tracking_allowed', true); }
+	}
 }
 
 function mbt_api_key_refresh_ajax() {
@@ -260,6 +265,18 @@ function mbt_render_settings_page() {
 								<td>
 									<input type="text" name="mbt_product_name" id="mbt_product_name" value="<?php echo(mbt_get_setting('product_name')); ?>" size="60" class="regular-text" />
 									<p class="description"><?php _e('You can use this to change the "books" slug used in the book page urls if you are selling something other than books, such as "DVDs", "Movies", or simply "Products".', 'mybooktable'); ?></p>
+								</td>
+							</tr>
+							<tr>
+								<th><?php _e('Usage Tracking', 'mybooktable'); ?></th>
+								<td>
+									<?php if(mbt_get_setting('allow_tracking') === 'yes') { ?>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_allow_tracking=no')); ?>" class="button button-primary"><?php _e('Disable Tracking', 'mybooktable'); ?></a>
+										<p class="description"><?php _e('Thanks for helping to improve MyBookTable by letting it log ananymous data about your usage patterns.', 'mybooktable'); ?></p>
+									<?php } else { ?>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_allow_tracking=yes')); ?>" class="button button-primary"><?php _e('Enable Tracking', 'mybooktable'); ?></a>
+										<p class="description"><?php _e('Help improve MyBookTable by letting it log ananymous data about your usage patterns.', 'mybooktable'); ?></p>
+									<?php } ?>
 								</td>
 							</tr>
 						</tbody>
@@ -803,6 +820,7 @@ function mbt_add_wp101_help($videos) {
 function mbt_render_dashboard() {
 	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_founders_page') { return mbt_render_founders_page(); }
 	if(!empty($_GET['subpage']) and $_GET['subpage'] == 'mbt_get_upgrade_page') { return mbt_render_get_upgrade_page(); }
+	mbt_track_event('view_dashboard_page');
 ?>
 
 	<div class="wrap mbt-dashboard">

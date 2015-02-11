@@ -218,11 +218,16 @@
 	margin: 15px 0px 0px 20px;
 }
 
-.mbt-book .mbt-book-buybuttons .mbt-book-buybutton  {
+.mbt-book .mbt-book-buybuttons .mbt-book-buybutton {
 	width: auto;
 	float: left;
 	clear: none;
 	padding: 5px 10px 0px 0px;
+	vertical-align: top;
+}
+
+.mbt-book .mbt-book-buybuttons .mbt-book-buybutton a {
+	vertical-align: top;
 }
 
 .mbt-book .mbt-book-buybuttons .mbt-book-buybutton img {
@@ -894,7 +899,7 @@ body.mybooktable .entry-meta {
   box-sizing: content-box;
 }
 
-#mbt_tb_window * {
+#mbt_tb_window div {
 	box-sizing: content-box;
 }
 

@@ -196,12 +196,7 @@ function mbt_add_admin_notices() {
 		} else if(mbt_get_upgrade() and !mbt_get_upgrade_plugin_exists()) {
 			add_action('admin_notices', 'mbt_admin_enable_upgrade_notice');
 		} else if(!mbt_get_setting('allow_tracking') and current_user_can('manage_options')) {
-			if(isset($_GET['mbt_allow_tracking'])) {
-				mbt_update_setting('allow_tracking', $_GET['mbt_allow_tracking']);
-				if($result === 'yes') { mbt_track_event('tracking_allowed', true); }
-			} else {
-				add_action('admin_notices', 'mbt_admin_allow_tracking_notice');
-			}
+			add_action('admin_notices', 'mbt_admin_allow_tracking_notice');
 		}
 	}
 
@@ -253,7 +248,7 @@ function mbt_admin_setup_default_affiliates_notice() {
 	?>
 	<div id="message" class="mbt-admin-notice">
 		<h4><?php _e('<strong>Setup your Amazon and Barnes &amp; Noble Buttons</strong> &#8211; MyBookTable needs your input to enable these features', 'mybooktable'); ?></h4>
-		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1')); ?>" data-mbt-track-event-override="admin_notice_setup_default_affiliates_click"><?php _e('Go To Settings', 'mybooktable'); ?></a>
+		<a class="notice-button primary" href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_setup_default_affiliates=1')); ?>"><?php _e('Go To Settings', 'mybooktable'); ?></a>
 	</div>
 	<?php
 }

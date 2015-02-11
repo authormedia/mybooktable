@@ -609,7 +609,7 @@ function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=null) {
 		$shadowbox_output .= $shadowbox_content;
 		$shadowbox_output .= '</div></div>';
 
-		$shadowbox_button_output .= '<div class="mbt-book-buybutton">';
+		$shadowbox_button_output  = '<div class="mbt-book-buybutton">';
 		$shadowbox_button_output .= '	<a href="#mbt_tb_inline" data-thickbox="height=0&width='.($buybuttons_width+210).'&inlineId=mbt_buybutton_shadowbox_'.$post_id.'" class="thickbox">';
 		$shadowbox_button_output .= '		<img src="'.mbt_image_url('shadowbox_button.png').'" border="0" alt="'.__('Buy now!', 'mybooktable').'"/>';
 		$shadowbox_button_output .= '	</a>';
