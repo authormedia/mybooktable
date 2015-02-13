@@ -463,8 +463,6 @@ function mbt_update_tracking_data($name, $value) {
 }
 
 function mbt_track_event($name, $instance=false) {
-	if(mbt_get_setting('allow_tracking') !== 'yes') { return; }
-
 	$events = mbt_get_tracking_data('events');
 	if(!isset($events[$name])) { $events[$name] = array(); }
 	if(!isset($events[$name]['count'])) { $events[$name]['count'] = 0; }

@@ -211,6 +211,9 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 == Changelog ==
 
+= 2.0.7 =
+* Added new book sorting system to sort based on attributes such as Title, Date, and Series
+
 = 2.0.6 =
 * Improvements to usage tracking system
 * Minor bug fixes

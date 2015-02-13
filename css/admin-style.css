@@ -693,7 +693,57 @@
 /* Book Sorting Page                                       */
 /*---------------------------------------------------------*/
 
-.mbt_sort_books #mbt_book_sorter .mbt_book {
+.mbt_sort_books .mbt_sorting_box {
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	background: #fff;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.mbt_sort_books .mbt_sorting_box_title {
+	padding: 8px 14px;
+	border-bottom: 1px solid #eee;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.mbt_sort_books .mbt_sorting_box_content {
+	padding: 10px 15px;
+}
+
+.mbt_sort_books #mbt_book_attributes {
+	font-size: 16px;
+	font-weight: bold;
+	padding-bottom: 15px;
+}
+
+.mbt_sort_books #mbt_book_attribute_adder,
+.mbt_sort_books .mbt_book_attribute_remover {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	padding-top: 4px;
+	padding-left: 2px;
+	cursor: pointer;
+}
+
+.mbt_sort_books #mbt_book_attribute_adder:hover,
+.mbt_sort_books .mbt_book_attribute_remover:hover {
+	text-shadow: 1px 1px #bbb;
+}
+
+.mbt_sort_books .mbt_book_attribute_remover {
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+.mbt_sort_books #mbt_book_attributes .dashicons {
+	font-size: 25px;
+}
+
+.mbt_sort_books #mbt_manual_book_sorter .mbt_book {
 	padding: 5px 8px;
 	border: 1px solid #dfdfdf;
 	border-radius: 5px;
