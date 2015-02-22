@@ -254,7 +254,7 @@ function mbt_admin_setup_default_affiliates_notice() {
 }
 
 function mbt_admin_enable_upgrade_notice() {
-	if($_GET['subpage'] == 'mbt_get_upgrade_page') { return; }
+	if(isset($_GET['subpage']) and $_GET['subpage'] == 'mbt_get_upgrade_page') { return; }
 	?>
 	<div id="message" class="mbt-admin-notice">
 		<h4><?php _e('<strong>Enable your Upgrade</strong> &#8211; Download or Activate your MyBookTable Upgrade plugin to enable your advanced features!', 'mybooktable'); ?></h4>

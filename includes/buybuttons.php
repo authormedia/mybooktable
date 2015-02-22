@@ -34,7 +34,7 @@ function mbt_add_basic_stores($stores) {
 	$stores['createspace'] = array('name' => 'CreateSpace', 'search' => 'https://www.createspace.com');
 	$stores['alibris'] = array('name' => 'Alibris', 'search' => 'http://www.alibris.com');
 	$stores['bookdepository'] = array('name' => 'Book Depository', 'search' => 'http://www.bookdepository.com');
-	$stores['ibooks'] = array('name' => 'iBooks', 'search' => 'http://www.researchmaniacs.com/Search/iBookstore.html');
+	$stores['ibooks'] = array('name' => 'Apple iBooks', 'search' => 'http://www.researchmaniacs.com/Search/iBookstore.html');
 	$stores['powells'] = array('name' => 'Powells', 'search' => 'http://www.powells.com');
 	$stores['scribd'] = array('name' => 'Scribd', 'search' => 'http://www.scribd.com');
 	$stores['sony'] = array('name' => 'Sony Reader', 'search' => 'https://ebookstore.sony.com');

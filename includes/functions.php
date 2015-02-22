@@ -102,7 +102,7 @@ function mbt_get_posts_per_page() {
 }
 
 function mbt_is_mbt_page() {
-	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') or is_singular('mbt_book') or mbt_is_booktable_page() or mbt_is_taxonomy_query());
+	return (is_post_type_archive('mbt_book') or is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') or is_singular('mbt_book') or mbt_is_booktable_page() or mbt_is_archive_query());
 }
 
 function mbt_is_booktable_page() {

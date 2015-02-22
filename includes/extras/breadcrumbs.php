@@ -11,8 +11,8 @@ function mbt_breadcrumbs_init() {
 add_action('mbt_init', 'mbt_breadcrumbs_init');
 
 function mbt_integrate_woo_breadcrumbs($trail) {
-	global $mbt_taxonomy_query;
-	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') || (mbt_is_taxonomy_query() && ($mbt_taxonomy_query->is_tax('mbt_author') or $mbt_taxonomy_query->is_tax('mbt_genre') or $mbt_taxonomy_query->is_tax('mbt_series') or $mbt_taxonomy_query->is_tax('mbt_tag')))) {
+	global $mbt_archive_query;
+	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') || (mbt_is_archive_query() && ($mbt_archive_query->is_tax('mbt_author') or $mbt_archive_query->is_tax('mbt_genre') or $mbt_archive_query->is_tax('mbt_series') or $mbt_archive_query->is_tax('mbt_tag')))) {
 		$page_link = '<a href="'.mbt_get_booktable_url().'">'.mbt_get_product_name().'</a>';
 		array_splice($trail, 1, count($trail) - 1, array($page_link, $trail['trail_end']));
 	}
@@ -20,8 +20,8 @@ function mbt_integrate_woo_breadcrumbs($trail) {
 }
 
 function mbt_integrate_genesis_breadcrumb_archive($crumb, $args) {
-	global $mbt_taxonomy_query;
-	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') || (mbt_is_taxonomy_query() && ($mbt_taxonomy_query->is_tax('mbt_author') or $mbt_taxonomy_query->is_tax('mbt_genre') or $mbt_taxonomy_query->is_tax('mbt_series') or $mbt_taxonomy_query->is_tax('mbt_tag')))) {
+	global $mbt_archive_query;
+	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag') || (mbt_is_archive_query() && ($mbt_archive_query->is_tax('mbt_author') or $mbt_archive_query->is_tax('mbt_genre') or $mbt_archive_query->is_tax('mbt_series') or $mbt_archive_query->is_tax('mbt_tag')))) {
 		$crumb = '<a href="'.mbt_get_booktable_url().'">'.mbt_get_product_name().'</a>'.$args['sep'].$crumb;
 	}
 	return $crumb;

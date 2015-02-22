@@ -998,7 +998,16 @@
 /* Shortcode Inserter                                      */
 /*---------------------------------------------------------*/
 
-.authormedia-shortcode-section-nav {
+.authormedia-insert-shortcode-icon {
+	background:url('../images/am-logo.png') no-repeat top left;
+	display: inline-block;
+	height: 16px;
+	margin: 0 2px 0 0;
+	vertical-align: text-top;
+	width: 17px;
+}
+
+.authormedia-insert-shortcode-container .authormedia-shortcode-section-nav {
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -1008,41 +1017,40 @@
 	background:white;
 }
 
-.authormedia-shortcode-section-nav .nav-tab-active,
-.authormedia-shortcode-section-nav  .nav-tab-active:hover {
+.authormedia-insert-shortcode-container .authormedia-shortcode-section-nav .nav-tab-active,
+.authormedia-insert-shortcode-container .authormedia-shortcode-section-nav  .nav-tab-active:hover {
 	border-bottom: 1px solid #ccc;
 }
 
-.authormedia-shortcode-section {
+.authormedia-insert-shortcode-container .authormedia-shortcode-section {
 	top: 50px;
 	display: none;
 }
 
-.authormedia_shortcode_icon {
-	background:url('../images/am-logo.png') no-repeat top left;
-	display: inline-block;
-	height: 16px;
-	margin: 0 2px 0 0;
-	vertical-align: text-top;
-	width: 17px;
-}
-
-.authormedia-shortcode-section .media-frame-title {
+.authormedia-insert-shortcode-container .authormedia-shortcode-section .media-frame-title {
 	padding-top: 15px;
 }
 
-#authormedia_shortcode_form_intro {
+.authormedia-insert-shortcode-container #authormedia_shortcode_form_intro {
 	color: #aaa;
 	font-size: 3em;
 	line-height: 1.2em;
 	padding: 1em;
 }
 
-.authormedia_shortcode_description {
+.authormedia-insert-shortcode-container .authormedia_shortcode_description {
 	border-bottom: 1px solid #dfdfdf;
 	padding-bottom: 1em;
 	margin: 1em;
 }
+
+.authormedia-insert-shortcode-container .authormedia_shortcode_form_atts .description {
+	padding-top: 0.4em;
+	font-style: italic;
+	opacity: 0.8;
+}
+
+
 
 /*---------------------------------------------------------*/
 /* Wordpress Sidebar                                       */

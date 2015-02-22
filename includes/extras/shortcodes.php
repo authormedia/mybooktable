@@ -244,8 +244,6 @@ function mbt_mybooktable_shortcode($attrs) {
 /* Author Media Shortcode Inserter                         */
 /*---------------------------------------------------------*/
 
-//This shortcode inserter code is adapted from the GetNoticed_Shortcode_Controls in the GetNoticed Theme licenced under the GNU General Public License (http://getnoticedtheme.com/)
-
 if(!function_exists('authormedia_setup_shortcode_inserter')) {
 	add_action('admin_init', 'authormedia_setup_shortcode_inserter');
 
@@ -259,7 +257,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 	}
 
 	function authormedia_shortcode_inserter_button($buttons) {
-		echo '<a href="#TB_inline?width=480&inlineId=select_authormedia_shortcode" class="thickbox button authormedia_shortcode_button" data-mbt-track-event="authormedia_shortcode_inserter_click"><span class="authormedia_shortcode_icon"></span>'.__('Insert Shortcode', 'mybooktable').'</a>';
+		echo '<a href="#TB_inline?width=480&inlineId=authormedia-insert-shortcode" class="thickbox button authormedia-insert-shortcode-button"><span class="authormedia-insert-shortcode-icon"></span>'.__('Insert Shortcode', 'authormedia').'</a>';
 	}
 
 	function authormedia_shortcode_inserter_form() {
@@ -269,7 +267,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 			function authormedia_insert_shortcode() {
 				var shortcode = jQuery('.authormedia-shortcode-section .shortcode-menu-item.active').data('shortcode');
 				if(shortcode == '') {
-					alert('<?php _e("Please select a shortcode.") ?>', 'mybooktable');
+					alert('<?php _e("Please select a shortcode.") ?>', 'authormedia');
 					return;
 				}
 
@@ -331,152 +329,154 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 			});
 		</script>
 
-		<div id="select_authormedia_shortcode" style="display:none;">
-			<a class="media-modal-close shortcode-modal-close" href="#" title="<?php esc_attr_e('Close', 'mybooktable'); ?>">
-				<span class="media-modal-icon"></span>
-			</a>
-			<div class="authormedia-shortcode-section-nav">
-				<h2 class="nav-tab-wrapper">
-					<?php
-						foreach($shortcode_sections as $section_id => $section) {
-							 echo('<a href="#" class="nav-tab" data-shortcode-section="'.esc_attr($section_id).'">'.$section['name'].'</a>');
-						}
-					?>
-				</h2>
-			</div>
+		<div id="authormedia-insert-shortcode" style="display:none;">
+			<div class="authormedia-insert-shortcode-container">
+				<a class="media-modal-close shortcode-modal-close" href="#" title="<?php esc_attr_e('Close', 'authormedia'); ?>">
+					<span class="media-modal-icon"></span>
+				</a>
+				<div class="authormedia-shortcode-section-nav">
+					<h2 class="nav-tab-wrapper">
+						<?php
+							foreach($shortcode_sections as $section_id => $section) {
+								 echo('<a href="#" class="nav-tab" data-shortcode-section="'.esc_attr($section_id).'">'.$section['name'].'</a>');
+							}
+						?>
+					</h2>
+				</div>
 
-			<?php foreach($shortcode_sections as $section_id => $section) { ?>
-				<?php $shortcodes = $section['shortcodes']; ?>
-				<div class="media-modal-content authormedia-shortcode-section" id="authormedia_shortcode_section_<?php echo(esc_attr($section_id)); ?>">
-					<div class="media-frame wp-core-ui">
-						<div class="media-frame-menu">
-							<div class="media-menu">
-								<?php
-									foreach ( $shortcodes as $shortcode => $atts ) {
-										echo '<a href="#" class="media-menu-item shortcode-menu-item" data-shortcode="' . esc_attr( $shortcode ) . '">' . esc_html( $atts['title'] ) . "</a>";
-									}
-								?>
+				<?php foreach($shortcode_sections as $section_id => $section) { ?>
+					<?php $shortcodes = $section['shortcodes']; ?>
+					<div class="media-modal-content authormedia-shortcode-section" id="authormedia_shortcode_section_<?php echo(esc_attr($section_id)); ?>">
+						<div class="media-frame wp-core-ui">
+							<div class="media-frame-menu">
+								<div class="media-menu">
+									<?php
+										foreach ( $shortcodes as $shortcode => $atts ) {
+											echo '<a href="#" class="media-menu-item shortcode-menu-item" data-shortcode="' . esc_attr( $shortcode ) . '">' . esc_html( $atts['title'] ) . "</a>";
+										}
+									?>
+								</div>
 							</div>
-						</div>
-						<div class="media-frame-title">
-							<h1><?php _e('Insert a Shortcode', 'mybooktable'); ?></h1>
-						</div>
-						<div class="media-frame-router"></div>
-						<div class="media-frame-content">
-							<div id="authormedia_shortcode_form_intro" class="authormedia_shortcode_form_atts">
-								<?php _e('To get started, select a shortcode from the list on the left.', 'mybooktable'); ?>
+							<div class="media-frame-title">
+								<h1><?php _e('Insert a Shortcode', 'authormedia'); ?></h1>
 							</div>
-							<?php foreach ( $shortcodes as $shortcode => $atts ): ?>
-							<div id="authormedia_shortcode_form_<?php echo $shortcode; ?>" class="authormedia_shortcode_form_atts" style="display:none">
-								<?php if ( !empty($atts['description']) ) { ?>
-									<div class="authormedia_shortcode_description">
-										<?php echo esc_html($atts['description']); ?>
-									</div>
-								<?php } ?>
-								<?php if ( empty($atts['settings']) ) { ?>
-									<div style="margin:1em">This shortcode has no options, you can insert it directly.</div>
-								<?php } else { ?>
-									<?php foreach ( $atts['settings'] as $setting => $params ) {
-										echo '<div style="margin:1em">';
-										switch ( $params['type'] ) {
-											case 'dropdown':
-												global $_wp_additional_image_sizes;
-												if ( ! empty($params['title']) ) echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]</label><br>";
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												if ( ! empty($params['choices']) ) {
-													echo "<select class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting' style='max-width:440px;'>";
-													foreach ( $params['choices'] as $slug => $name ) {
-														echo "<option value='$slug'>$name</option>";
+							<div class="media-frame-router"></div>
+							<div class="media-frame-content">
+								<div id="authormedia_shortcode_form_intro" class="authormedia_shortcode_form_atts">
+									<?php _e('To get started, select a shortcode from the list on the left.', 'authormedia'); ?>
+								</div>
+								<?php foreach ( $shortcodes as $shortcode => $atts ): ?>
+								<div id="authormedia_shortcode_form_<?php echo $shortcode; ?>" class="authormedia_shortcode_form_atts" style="display:none">
+									<?php if ( !empty($atts['description']) ) { ?>
+										<div class="authormedia_shortcode_description">
+											<?php echo esc_html($atts['description']); ?>
+										</div>
+									<?php } ?>
+									<?php if ( empty($atts['settings']) ) { ?>
+										<div style="margin:1em">This shortcode has no options, you can insert it directly.</div>
+									<?php } else { ?>
+										<?php foreach ( $atts['settings'] as $setting => $params ) {
+											echo '<div style="margin:1em">';
+											switch ( $params['type'] ) {
+												case 'dropdown':
+													global $_wp_additional_image_sizes;
+													if ( ! empty($params['title']) ) echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]</label><br>";
+													if ( ! empty($params['choices']) ) {
+														echo "<select class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting' style='max-width:440px;'>";
+														foreach ( $params['choices'] as $slug => $name ) {
+															echo "<option value='$slug'>$name</option>";
+														}
+														echo "</select>";
+													}
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case 'thumbsize':
+													global $_wp_additional_image_sizes;
+													if ( ! empty($params['title']) ) echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]</label><br>";
+													echo "<select class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
+													echo "<option value=''>(default)</option>";
+													foreach ( $_wp_additional_image_sizes as $name => $atts ) {
+														echo "<option value='$name'>$name ($atts[width] x $atts[height])</option>";
 													}
 													echo "</select>";
-												}
-												break;
-											case 'thumbsize':
-												global $_wp_additional_image_sizes;
-												if ( ! empty($params['title']) ) echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]</label><br>";
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												echo "<select class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
-												echo "<option value=''>(default)</option>";
-												foreach ( $_wp_additional_image_sizes as $name => $atts ) {
-													echo "<option value='$name'>$name ($atts[width] x $atts[height])</option>";
-												}
-												echo "</select>";
-												break;
-											case 'checkboxes':
-												#!! we need to output a list of checkboxes and on saving, comma-delimit them
-												break;
-											case 'checkbox':
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												echo "<input type='checkbox' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
-												if ( ! empty($params['title']) ) echo " <label for='authormedia_{$shortcode}_field_$setting'>$params[title]</label>";
-												break;
-											case 'radio':
-												if ( ! empty($params['title']) ) echo $params['title'];
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												if ( ! empty($params['choices']) ) {
-													echo '<ul style="margin-left:2em">';
-													foreach( $params['choices'] as $key => $value ) {
-														echo "<li><input type='radio' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_{$setting}_{$key}' name='$setting' value='$key'>";
-														echo " <label for='authormedia_{$shortcode}_field_{$setting}_{$key}'>$value</label></li>";
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case 'checkboxes':
+													#!! we need to output a list of checkboxes and on saving, comma-delimit them
+													break;
+												case 'checkbox':
+													echo "<input type='checkbox' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting' ".(empty($params['default']) ? '' : 'checked="checked"').">";
+													if ( ! empty($params['title']) ) echo " <label for='authormedia_{$shortcode}_field_$setting'>$params[title]</label>";
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case 'radio':
+													if ( ! empty($params['title']) ) echo $params['title'];
+													if ( ! empty($params['choices']) ) {
+														echo '<ul style="margin-left:2em">';
+														foreach( $params['choices'] as $key => $value ) {
+															echo "<li><input type='radio' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_{$setting}_{$key}' name='$setting' value='$key'>";
+															echo " <label for='authormedia_{$shortcode}_field_{$setting}_{$key}'>$value</label></li>";
+														}
+														echo '</ul>';
 													}
-													echo '</ul>';
-												}
-												break;
-											case 'content':
-											case 'textarea':
-												if ( ! empty($params['title']) ) {
-													echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]";
-													if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
-													echo "</label><br>";
-												}
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												echo "<textarea class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting' rows='5' cols='40'></textarea>";
-												break;
-											case 'text':
-												if ( ! empty($params['title']) ) {
-													echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]";
-													if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
-													echo "</label><br>";
-												}
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												echo "<input type='text' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
-												break;
-											case 'number':
-												if ( ! empty($params['title']) ) {
-													echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]";
-													if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
-													echo "</label><br>";
-												}
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												echo "<input type='text' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
-												break;
-											case '':
-											default:
-												if ( ! empty($params['title']) ) {
-													echo "<label for='authormedia_shortcode_field_$setting'>$params[title]";
-													if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
-													echo "</label><br>";
-												}
-												if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
-												echo 'input type="' . $params['type'] . '" name="' . $setting . '"';
-										}
-										echo '</div>';
-									} ?>
-								<?php } ?>
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case 'content':
+												case 'textarea':
+													if ( ! empty($params['title']) ) {
+														echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]";
+														if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
+														echo "</label><br>";
+													}
+													echo "<textarea class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting' rows='5' cols='40'></textarea>";
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case 'text':
+													if ( ! empty($params['title']) ) {
+														echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]";
+														if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
+														echo "</label><br>";
+													}
+													echo "<input type='text' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case 'number':
+													if ( ! empty($params['title']) ) {
+														echo "<label for='authormedia_{$shortcode}_field_$setting'>$params[title]";
+														if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
+														echo "</label><br>";
+													}
+													echo "<input type='text' class='authormedia_shortcode_field' id='authormedia_{$shortcode}_field_$setting' name='$setting'>";
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+													break;
+												case '':
+												default:
+													if ( ! empty($params['title']) ) {
+														echo "<label for='authormedia_shortcode_field_$setting'>$params[title]";
+														if ( ! empty($params['default']) ) echo " <em>(default: $params[default])</em>";
+														echo "</label><br>";
+													}
+													echo 'input type="' . $params['type'] . '" name="' . $setting . '"';
+													if ( ! empty($params['description']) ) echo '<div class="description">' . $params['description'] . '</div>';
+											}
+											echo '</div>';
+										} ?>
+									<?php } ?>
+								</div>
+								<?php endforeach; ?>
 							</div>
-							<?php endforeach; ?>
+							<div class="media-frame-toolbar"><div class="media-toolbar">
+								<div class="media-toolbar-secondary">
+									<a class="button media-button button-large button-cancel" style="color:#bbb;" href="#" onclick="tb_remove(); return false;"><?php _e("Cancel", 'authormedia'); ?></a>
+								</div>
+								<div class="media-toolbar-primary">
+									<input type="button" class="button media-button button-primary button-large button-insert" value="<?php _e('Insert Shortcode', 'authormedia'); ?>" onclick="authormedia_insert_shortcode();"/>
+								</div>
+							</div></div>
 						</div>
-						<div class="media-frame-toolbar"><div class="media-toolbar">
-							<div class="media-toolbar-secondary">
-								<a class="button media-button button-large button-cancel" style="color:#bbb;" href="#" onclick="tb_remove(); return false;"><?php _e("Cancel", 'mybooktable'); ?></a>
-							</div>
-							<div class="media-toolbar-primary">
-								<input type="button" class="button media-button button-primary button-large button-insert" value="<?php _e('Insert Shortcode', 'mybooktable'); ?>" onclick="authormedia_insert_shortcode();"/>
-							</div>
-						</div></div>
 					</div>
-				</div>
-			<?php } ?>
+				<?php } ?>
+			</div>
 		</div>
 
 		<?php

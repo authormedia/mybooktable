@@ -108,8 +108,8 @@ function mbt_save_settings_page() {
 			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
 			mbt_verify_api_key();
 		}
-		mbt_update_setting('product_name', $_REQUEST['mbt_product_name']);
-		mbt_update_setting('product_slug', sanitize_title($_REQUEST['mbt_product_name']));
+		mbt_update_setting('product_name', wp_unslash($_REQUEST['mbt_product_name']));
+		mbt_update_setting('product_slug', sanitize_title(wp_unslash($_REQUEST['mbt_product_name'])));
 
 		mbt_update_setting('booktable_page', $_REQUEST['mbt_booktable_page']);
 		mbt_update_setting('compatibility_mode', isset($_REQUEST['mbt_compatibility_mode']));

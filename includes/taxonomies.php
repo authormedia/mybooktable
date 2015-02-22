@@ -204,7 +204,7 @@ function mbt_add_author_priority_add_form() {
 ?>
 	<div class="form-field">
 		<label for="mbt_author_priority"><?php _e('Priority', 'mybooktable') ?></label>
-		<input type="text" id="mbt_author_priority" name="mbt_author_priority" value="<?php echo(mbt_get_author_priority($_REQUEST['tag_ID'])); ?>" />
+		<input type="text" id="mbt_author_priority" name="mbt_author_priority" value="50" />
 		<div id="mbt_author_priority_slider"></div>
 		<div id="mbt_author_priority_display"></div>
 		<div style="clear:both"></div>

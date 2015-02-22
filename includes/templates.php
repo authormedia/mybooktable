@@ -367,7 +367,7 @@ function mbt_get_book_archive_title($before = '', $after = '') {
 		if(mbt_get_setting('booktable_page') and ($booktable_page = get_post(mbt_get_setting('booktable_page')))) {
 			$output = $booktable_page->post_title;
 		} else {
-			$output = __('Books', 'mybooktable');
+			$output = mbt_get_product_name();
 		}
 	}
 
