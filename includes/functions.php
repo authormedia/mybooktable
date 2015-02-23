@@ -436,7 +436,12 @@ function mbt_load_tracking_data() {
 		mt_srand(time());
 		$mbt_tracking_data = get_option('mbt_tracking_data');
 		if(empty($mbt_tracking_data)) {
-			$id = hash('sha256', strval(get_bloginfo('url')).strval(time()).strval(rand()));
+			$payload = strval(get_bloginfo('url')).strval(time()).strval(rand());
+			if(function_exists('hash')) {
+				$id = hash('sha256', $payload);
+			} else {
+				$id = sha1($payload);
+			}
 
 			$mbt_tracking_data = array(
 				'id' => $id,
