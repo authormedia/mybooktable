@@ -890,8 +890,10 @@ body.mybooktable .entry-meta {
 	}
 }
 
-/* global setting needed for thickbox */
-*{padding: 0; margin: 0;}
+#mbt_tb_overlay,
+#mbt_tb_window,
+#mbt_tb_title,
+#mbt_tb_ajaxContent {padding: 0; margin: 0;}
 
 #mbt_tb_window {
   font: 12px Arial, Helvetica, sans-serif;

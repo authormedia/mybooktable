@@ -235,6 +235,11 @@
 	color: #21759b;
 }
 
+.mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .activate-upgrade {
+	padding-top: 10px;
+	font-size: 1.5em;
+}
+
 .mbt-dashboard .metabox-holder #mbt_dashboard_upsell .inside .thank-you {
 	padding: 15px 0px 10px 0
 }

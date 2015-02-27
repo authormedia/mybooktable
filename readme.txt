@@ -211,6 +211,9 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 == Changelog ==
 
+= 2.0.9 =
+* Minor bug fixes
+
 = 2.0.8 =
 * Fixed bug in WordPress SEO integration that was causing crashes
 * Other minor bug fixes

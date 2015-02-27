@@ -120,7 +120,7 @@ function mbt_pre_get_posts($query) {
 function mbt_enqueue_styles() {
 	wp_enqueue_style('mbt-style', plugins_url('css/frontend-style.css', dirname(__FILE__)), array(), MBT_VERSION);
 	$plugin_style_css = mbt_current_style_url('style.css');
-	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-plugin-style', $plugin_style_css, array(), MBT_VERSION); }
+	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-style-pack', $plugin_style_css, array(), MBT_VERSION); }
 }
 
 function mbt_enqueue_js() {
@@ -381,7 +381,7 @@ function mbt_get_book_archive_description($before = '', $after = '') {
 	$output = '';
 
 	if(is_tax('mbt_author') or is_tax('mbt_genre') or is_tax('mbt_series') or is_tax('mbt_tag')) {
-		$output = get_queried_object()->description;
+		$output = apply_filters('term_description', get_queried_object()->description);
 	} else if(mbt_is_booktable_page()) {
 		$booktable_page = get_post(mbt_get_setting('booktable_page'));
 		if(function_exists('st_remove_st_add_link')) { st_remove_st_add_link(''); }
