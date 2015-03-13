@@ -229,7 +229,7 @@ function mbt_seo_metadesc($post_id = 0) {
 		}
 	}
 
-	return $metadesc;
+	return htmlentities($metadesc);
 }
 
 function mbt_seo_tax_metadesc($term = '', $taxonomy = '') {
@@ -247,7 +247,7 @@ function mbt_seo_tax_metadesc($term = '', $taxonomy = '') {
 		$metadesc = $term_obj->description;
 	}
 
-	return $metadesc;
+	return htmlentities($metadesc);
 }
 
 function mbt_seo_archive_title() {
@@ -285,12 +285,12 @@ function mbt_seo_add_metadesc() {
 	if(is_tax('mbt_author') or is_tax('mbt_series') or is_tax('mbt_genre') or is_tax('mbt_tag') or (mbt_is_archive_query() and $mbt_archive_query->is_tax())) {
 		$metadesc = mbt_seo_tax_metadesc();
 		if($metadesc) {
-			echo('<meta name="description" content="'.$metadesc."\"/>\n");
+			echo('<meta name="description" content="'.$metadesc.'"/>'."\n");
 		}
 	} else if(is_singular('mbt_book')) {
 		$metadesc = mbt_seo_metadesc();
 		if($metadesc) {
-			echo('<meta name="description" content="'.$metadesc."\"/>\n");
+			echo('<meta name="description" content="'.$metadesc.'"/>'."\n");
 		}
 	}
 }

@@ -13,7 +13,7 @@ function mbt_add_goodreads_reviews_box($reviews) {
 	$disabled = empty($dev_key) ? '<a href="'.admin_url('admin.php?page=mbt_settings&mbt_current_tab=5').'">'.__('You must input your GoodReads Developer Key', 'mybooktable').'</a>' : '';
 	$reviews['goodreads'] = array(
 		'name' => 'GoodReads Reviews',
-		'callback' => 'mbt_the_goodreads_reviews',
+		'callback' => 'mbt_get_goodreads_reviews',
 		'disabled' => $disabled,
 	);
 	return $reviews;
@@ -62,7 +62,7 @@ function mbt_goodreads_settings_render() {
 					<label for="mbt_goodreads_developer_key" class="mbt-integrate-label">Developer Key:</label>
 					<input type="text" id="mbt_goodreads_developer_key" name="mbt_goodreads_developer_key" value="<?php echo(mbt_get_setting('goodreads_developer_key')); ?>" class="regular-text">
 					<div class="mbt_feedback_refresh mbt_feedback_refresh_initial" data-refresh-action="mbt_goodreads_developer_key_refresh" data-element="mbt_goodreads_developer_key"></div>
-					<p class="description"><?php _e('Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages.', 'mybooktable') ?> <a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/" target="_blank"> <?php _e('Learn how to get a GoodReads Developer Key', 'mybooktable'); ?></a></p>
+					<p class="description"><?php printf(__('Insert your GoodReads Developer Key to <a href="%s">enable GoodReads reviews</a> on your book pages.', 'mybooktable'), admin_url('admin.php?page=mbt_settings&mbt_current_tab=3')); ?> <a href="http://www.authormedia.com/how-to-add-goodreads-book-reviews-to-mybooktable/" target="_blank"> <?php _e('Learn how to get a GoodReads Developer Key', 'mybooktable'); ?></a></p>
 				</td>
 			</tr>
 		</tbody>
@@ -70,7 +70,8 @@ function mbt_goodreads_settings_render() {
 <?php
 }
 
-function mbt_get_goodreads_reviews($post_id) {
+function mbt_get_goodreads_reviews($post_id = 0) {
+	if(empty($post_id)) { global $post; $post_id = $post->ID; }
 	global $wp_version;
 
 	$output = '';
@@ -85,8 +86,4 @@ function mbt_get_goodreads_reviews($post_id) {
 		}
 	}
 	return $output;
-}
-function mbt_the_goodreads_reviews() {
-	global $post;
-	echo(mbt_get_goodreads_reviews($post->ID));
 }

@@ -13,14 +13,15 @@ function mbt_upgrade_check()
 	if(version_compare($version, "1.1.4") < 0) { mbt_upgrade_1_1_4(); }
 	if(version_compare($version, "1.2.7") < 0) { mbt_upgrade_1_2_7(); }
 	if(version_compare($version, "1.3.1") < 0) { mbt_upgrade_1_3_1(); }
-	if(version_compare($version, "1.3.2") < 0) { mbt_upgrade_1_3_2(); }
 	if(version_compare($version, "1.3.8") < 0) { mbt_upgrade_1_3_8(); }
 	if(version_compare($version, "2.0.1") < 0) { mbt_upgrade_2_0_1(); }
 	if(version_compare($version, "2.0.4") < 0) { mbt_upgrade_2_0_4(); }
+	if(version_compare($version, "2.1.0") < 0) { mbt_upgrade_2_1_0(); }
 
 	if($version !== MBT_VERSION) {
-		mbt_track_event('plugin_updated', true);
 		mbt_update_setting("version", MBT_VERSION);
+		mbt_track_event('plugin_updated', true);
+		mbt_send_tracking_data();
 	}
 }
 
@@ -72,15 +73,8 @@ function mbt_upgrade_1_2_7() {
 
 function mbt_upgrade_1_3_1() {
 	mbt_update_setting('help_page_email_subscribe_popup', 'show');
-	$func = create_function("", "wp_insert_term('".__("Recommended Books")."', 'mbt_tag', array('slug' => 'recommended'));");
-	add_action('init', $func, 20);
 	mbt_update_setting('product_name', __("Books"));
 	mbt_update_setting('product_slug', _x('books', 'URL slug', 'mybooktable'));
-}
-
-function mbt_upgrade_1_3_2() {
-	$func = create_function("", "flush_rewrite_rules();");
-	add_action('init', $func, 999);
 }
 
 function mbt_upgrade_1_3_8() {
@@ -93,6 +87,24 @@ function mbt_upgrade_2_0_1() {
 
 function mbt_upgrade_2_0_4() {
 	mbt_update_setting('show_find_bookstore_buybuttons_shadowbox', true);
+}
+
+function mbt_upgrade_2_1_0() {
+	global $wpdb;
+	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
+	if(!empty($books)) {
+		foreach($books as $book_id) {
+			$buybuttons = get_post_meta($book_id, 'mbt_buybuttons', true);
+			if(is_array($buybuttons) and !empty($buybuttons)) {
+				for($i = 0; $i < count($buybuttons); $i++) {
+					$buybuttons[$i]['display'] = ($buybuttons[$i]['display'] == 'text_only' or $buybuttons[$i]['display'] == 'text') ? 'text' : 'button';
+				}
+			}
+			update_post_meta($book_id, 'mbt_buybuttons', $buybuttons);
+		}
+	}
+
+	mbt_update_setting('buybutton_shadowbox', mbt_get_setting('enable_buybutton_shadowbox') ? 'all' : 'none');
 }
 
 
@@ -284,7 +296,7 @@ function mbt_email_subscribe_pointer() {
 	$content .= '<p>'.__('Want an author website that doesn&#39;t just look good, but also boosts book sales? Find out in this practical (and totally free) course by Author Media CEO, Thomas Umstattd Jr.', 'mybooktable').'</p>';
 	$content .= '<p>'.'<input type="text" name="mbt-pointer-email" id="mbt-pointer-email" autocapitalize="off" autocorrect="off" placeholder="you@example.com" value="'.$email.'" style="width: 100%">'.'</p>';
 	$content .= '<div class="mbt-pointer-buttons wp-pointer-buttons">';
-	$content .= '<a id="mbt-pointer-yes" class="button-primary" style="float:left">'.__('Let&#39;s do it!', 'mybooktable').'</a>';
+	$content .= '<a id="mbt-pointer-yes" class="button-primary" style="float:left">'.htmlspecialchars(__("Let's do it!", 'mybooktable'), ENT_QUOTES).'</a>';
 	$content .= '<a id="mbt-pointer-no" class="button-secondary">'.__('No, thanks', 'mybooktable').'</a>';
 	$content .= '</div>';
 

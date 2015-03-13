@@ -5,11 +5,18 @@ jQuery(document).ready(function() {
 	/*---------------------------------------------------------*/
 
 	function mbt_reset_buybutton_numbers() {
+		//there needs to be two passes so that ids are never reused, which breaks radio buttons
 		jQuery('#mbt_buybutton_editors .mbt_buybutton_editor').each(function(i) {
 			jQuery(this).find("div, input, textarea, select").each(function() {
-				ele = jQuery(this);
-				if(ele.attr('name')) { ele.attr('name', ele.attr('name').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i)); }
-				if(ele.attr('id')) { ele.attr('id', ele.attr('id').replace(/mbt_buybutton\d*/, "mbt_buybutton"+i)); }
+				var ele = jQuery(this);
+				if(ele.attr('name')) { ele.attr('name', ele.attr('name').replace(/mbt_buybutton\d*/, "mbt_buybutton_new_"+(i+1))); }
+				if(ele.attr('id')) { ele.attr('id', ele.attr('id').replace(/mbt_buybutton\d*/, "mbt_buybutton_new_"+(i+1))); }
+			});
+		}).each(function() {
+			jQuery(this).find("div, input, textarea, select").each(function() {
+				var ele = jQuery(this);
+				if(ele.attr('name')) { ele.attr('name', ele.attr('name').replace(/mbt_buybutton_new_*/, "mbt_buybutton")); }
+				if(ele.attr('id')) { ele.attr('id', ele.attr('id').replace(/mbt_buybutton_new_*/, "mbt_buybutton")); }
 			});
 		});
 	}
@@ -22,14 +29,12 @@ jQuery(document).ready(function() {
 			{
 				action: 'mbt_buybuttons_metabox',
 				store: jQuery('#mbt_store_selector').val(),
-				num: 0
 			},
 			function(response) {
 				jQuery('#mbt_store_selector').removeAttr('disabled');
 				jQuery('#mbt_buybutton_adder').removeAttr('disabled');
 				element = jQuery(response);
 				jQuery("#mbt_buybutton_editors").prepend(element);
-				element.find(".mbt_buybutton_display_selector").each(apply_display_title);
 				mbt_reset_buybutton_numbers();
 			}
 		);
@@ -41,29 +46,10 @@ jQuery(document).ready(function() {
 		mbt_reset_buybutton_numbers();
 	});
 
-	function display_description(display) {
-		if(display == "book_only") { return mbt_metabox_i18n.book_only; }
-		if(display == "text_only") { return mbt_metabox_i18n.text_only; }
-		if(display == "featured") { return mbt_metabox_i18n.featured; }
-	}
-	function apply_display_title() {
-		element = jQuery(this)
-		element.tooltip();
-		element.tooltip("option", "content", display_description(element.find("input").val()));
-	}
-	jQuery("#mbt_buybutton_editors").on("click", ".mbt_buybutton_display_selector", function() {
-		element = jQuery(this);
-		input = element.find('input');
-		old_display = input.val();
-		new_display = old_display == "featured" ? "book_only" : old_display == "book_only" ? "text_only" : "featured";
-		input.val(new_display);
-		element.removeClass("display_"+old_display);
-		element.addClass("display_"+new_display);
-		element.tooltip("option", "content", display_description(new_display));
-	});
-	jQuery(".mbt_buybutton_display_selector").each(apply_display_title);
-
 	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_content,.mbt_buybutton_display_selector", stop: function(){mbt_reset_buybutton_numbers();}});
+
+	// need to undisable form inputs or they will not be saved
+	jQuery('form#post').submit(function() { jQuery("#mbt_buybutton_editors .mbt_buybutton_editor textarea").removeAttr("disabled"); });
 
 	/*---------------------------------------------------------*/
 	/* Book Image                                              */

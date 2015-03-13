@@ -211,6 +211,19 @@ This version adds **many** new buy button options, including Apple iBooks & Sony
 
 == Changelog ==
 
+= 2.1.0 =
+* Added iTunes Affiliate Integration
+* Added Pubslush Pre-order Button
+* Added Celery Pre-order Button
+* Added shadow box popup option for Gumroad and Celery Buy Buttons
+* Updated and improved built-in style packs
+* Added Book Length field to Book Details metabox
+* Improved book import system to display progress dynamically and handle large numbers of books better
+* Redesigned Buy Button display selector to be easier to use
+* Added option to allow users to use shadow boxes for their buy buttons only on book listings
+* Added caching system for book reviews to improve performance
+* Added taxonomy columns to book manager backend page
+
 = 2.0.9 =
 * Minor bug fixes
 

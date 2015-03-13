@@ -244,10 +244,8 @@
 }
 
 .mbt-book .mbt-book-buybuttons-textonly {
-	display: block;
-	float: left;
 	clear: both;
-	margin: 15px 0px 0px 0px;
+	padding: 15px 0px 0px 0px;
 }
 
 .mbt-book .mbt-book-buybuttons-textonly h3  {
@@ -419,6 +417,7 @@
 	margin: 3px;
 	vertical-align: baseline;
 	width: auto;
+	display: inline-block;
 }
 
 
@@ -804,14 +803,8 @@ body.mybooktable .entry-meta {
 
 
 /*---------------------------------------------------------*/
-/* Thickbox Styles                                         */
+/* Shadow Box Styles                                       */
 /*---------------------------------------------------------*/
-
-.mbt-shadowbox-hidden {
-	margin: 0;
-	padding: 0;
-	display: none;
-}
 
 .mbt-shadowbox .mbt-shadowbox-title {
 	font-size: 16px;
@@ -824,8 +817,10 @@ body.mybooktable .entry-meta {
 }
 
 .mbt-buybuttons-shadowbox .mbt-book {
+	display: block;
 	clear: none;
 	padding: 0;
+	margin: 0 170px 0 0;
 }
 
 .mbt-buybuttons-shadowbox .mbt-book .mbt-book-buybuttons {
@@ -867,6 +862,10 @@ body.mybooktable .entry-meta {
 		text-align: center;
 	}
 
+	.mbt-buybuttons-shadowbox .mbt-book {
+		margin: 0;
+	}
+
 	.mbt-buybuttons-shadowbox .mbt-book .mbt-book-buybuttons {
 		box-sizing: border-box !important;
 		padding: 5px 15px 15px 15px;
@@ -890,116 +889,19 @@ body.mybooktable .entry-meta {
 	}
 }
 
-#mbt_tb_overlay,
-#mbt_tb_window,
-#mbt_tb_title,
-#mbt_tb_ajaxContent {padding: 0; margin: 0;}
-
-#mbt_tb_window {
-  font: 12px Arial, Helvetica, sans-serif;
-  color: #333333;
-  box-sizing: content-box;
-}
-
-#mbt_tb_window div {
-	box-sizing: content-box;
-}
-
-#mbt_tb_secondLine {
-  font: 10px Arial, Helvetica, sans-serif;
-  color:#666666;
-}
-
-#mbt_tb_window a,
-#mbt_tb_window a:link,
-#mbt_tb_window a:visited,
-#mbt_tb_window a:active,
-#mbt_tb_window a:focus {
-	color: #000;
-}
-#mbt_tb_window a:hover {color: #444;}
-
-#mbt_tb_overlay {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height:100%;
-	width:100%;
-
-	/*this may SEEM excessive, but it's required to support certain themes that use z-index a little too liberally... */
-	z-index: 10000;
-}
-
-.mbt_tb_overlayBG {
-	background-color:#000;
-	filter:alpha(opacity=75);
-	-moz-opacity: 0.75;
-	opacity: 0.75;
-}
-
-#mbt_tb_window {
-	position: fixed;
-	background: #ffffff;
-	color:#000000;
-	display:none;
-	border: 4px solid #525252;
-	text-align:left;
-	top:50%;
-	left:50%;
-
-	/*this may SEEM excessive, but it's required to support certain themes that use z-index a little too liberally... */
-	z-index: 10002;
-}
-
-@media only screen and (max-width: 660px) {
-	#mbt_tb_window {
-		margin-left: 0 !important;
-		width: 90% !important;
-		top: 50px !important;
-		left: auto;
-		right: 15px;
-	}
-}
-
-#mbt_tb_window img#mbt_tb_Image {
-	display:block;
-	margin: 15px 0 0 15px;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	border-top: 1px solid #666;
-	border-left: 1px solid #666;
-}
-
-#mbt_tb_caption{
-	height:25px;
-	padding:7px 30px 10px 25px;
-	float:left;
-}
-
-#mbt_tb_closeWindow{
-	height:25px;
-	padding:11px 25px 10px 0;
-	float:right;
-}
-
-#mbt_tb_closeAjaxWindow{
-	padding: 0;
-	margin: 0;
-	text-align:right;
-	float:right;
-}
-
-#mbt_tb_ajaxWindowTitle{
-	float:left;
-	padding:0;
-	margin-bottom:0;
-}
-
-#mbt_tb_title{
-	height:0;
-}
-
-#mbt_tb_closeWindowButton{
+#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999; outline: none; border: none; box-shadow: none;}
+#cboxWrapper {max-width:none; background: white; border: 4px solid #525252;}
+#cboxOverlay{position:fixed; width:100%; height:100%; background: rgba(0,0,0,0.5);}
+#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+#cboxContent{position:relative;}
+#cboxLoadedContent{overflow:hidden;}
+#cboxTitle{margin:0;}
+#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+.cboxPhoto{float:left; margin:auto; border:0; display:block; max-width:none; -ms-interpolation-mode:bicubic;}
+.cboxIframe{width:100%; height:100%; display:block; border:0; padding:0; margin:0;}
+#colorbox, #cboxContent, #cboxLoadedContent{box-sizing:content-box; -moz-box-sizing:content-box; -webkit-box-sizing:content-box;}
+#cboxClose{
 	display: inline-block;
 	background: url('../images/close.png') no-repeat;
 	width:27px;
@@ -1008,52 +910,9 @@ body.mybooktable .entry-meta {
 	position: absolute;
 	right: -13px;
 	top: -13px;
-}
-
-#mbt_tb_ajaxContent{
-	clear:both;
-	padding:0;
-	overflow:auto;
-	text-align:left;
-	line-height:1.4em;
-}
-
-#mbt_tb_ajaxContent.mbt_tb_modal{
-	padding:15px;
-}
-
-#mbt_tb_ajaxContent p{
-	padding:5px 0px 5px 0px;
-}
-
-#mbt_tb_load{
-	position: fixed;
-	display:none;
-	height:13px;
-	width:208px;
-	z-index:103;
-	top: 50%;
-	left: 50%;
-	margin: -6px 0 0 -104px;
-}
-
-#mbt_tb_HideSelect{
-	z-index:99;
-	position:fixed;
-	top: 0;
-	left: 0;
-	background-color:#fff;
-	border:none;
-	filter:alpha(opacity=0);
-	-moz-opacity: 0;
-	opacity: 0;
-	height:100%;
-	width:100%;
-}
-
-#mbt_tb_iframeContent{
-	clear:both;
-	border:none;
-	margin-bottom:-1px;
-	margin-top:1px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	color: transparent;
+	font-size: 0;
 }

@@ -1,7 +1,6 @@
 <?php
 
-function mbt_metaboxes_init()
-{
+function mbt_metaboxes_init() {
 	add_action('wp_ajax_mbt_buybuttons_metabox', 'mbt_buybuttons_metabox_ajax');
 	add_action('wp_ajax_mbt_metadata_metabox', 'mbt_metadata_metabox_ajax');
 	add_action('wp_ajax_mbt_isbn_preview', 'mbt_isbn_preview_ajax');
@@ -15,8 +14,7 @@ function mbt_metaboxes_init()
 }
 add_action('mbt_init', 'mbt_metaboxes_init');
 
-function mbt_add_metaboxes()
-{
+function mbt_add_metaboxes() {
 	add_meta_box('mbt_blurb', __('Book Blurb', 'mybooktable'), 'mbt_book_blurb_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_metadata', __('Book Details', 'mybooktable'), 'mbt_metadata_metabox', 'mbt_book', 'normal', 'high');
 	add_meta_box('mbt_buybuttons', __('Buy Buttons', 'mybooktable'), 'mbt_buybuttons_metabox', 'mbt_book', 'normal', 'high');
@@ -27,9 +25,6 @@ function mbt_add_metaboxes()
 function mbt_enqueue_metabox_js() {
 	wp_enqueue_script('mbt-metaboxes', plugins_url('js/metaboxes.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
 	wp_localize_script('mbt-metaboxes', 'mbt_metabox_i18n', array(
-		'book_only' => __('This store will be displayed as a button only on the book page.'),
-		'text_only' => __('This store will be displayed as text underneath the other buttons only on the book page.'),
-		'featured' => __('This store will be displayed as a button on the book listings and the book page.'),
 		'author_helptext' => '<p class="description"><a href="'.admin_url('edit-tags.php?taxonomy=mbt_author&post_type=mbt_book').'" target="_blank">'.__('Set the priority (order) of the authors.', 'mybooktable').'</a></p>'
 	));
 }
@@ -40,8 +35,7 @@ function mbt_enqueue_metabox_js() {
 /* Book Blurb Metabox                                      */
 /*---------------------------------------------------------*/
 
-function mbt_book_blurb_metabox($post)
-{
+function mbt_book_blurb_metabox($post) {
 ?>
 	<label class="screen-reader-text" for="excerpt"><?php _e('Excerpt', 'mybooktable'); ?></label><textarea rows="1" cols="40" name="excerpt" id="excerpt"><?php echo($post->post_excerpt); ?></textarea>
 	<p><?php printf(__('Book Blurbs are hand-crafted summaries of your book. The goal of a book blurb is to convince strangers that they need buy your book in 100 words or less. Answer the question "why would I want to read this book?" <a href="%s" target="_blank">Learn more about writing your book blurb.</a></p>', 'mybooktable'), admin_url('admin.php?page=mbt_help&mbt_video_tutorial=book_blurbs')); ?>
@@ -54,10 +48,11 @@ function mbt_book_blurb_metabox($post)
 /* Overview Metabox                                        */
 /*---------------------------------------------------------*/
 
-function mbt_overview_metabox($post)
-{
+function mbt_overview_metabox($post) {
 	wp_editor($post->post_content, 'content', array('dfw' => true, 'tabfocus_elements' => 'sample-permalink,post-preview', 'editor_height' => 360) );
-	_e('<p>Book Overview is a longer description of your book. This typically includes all the text from the back cover of the book plus, endorsements and any other promotional materials from interior flaps or initial pages. This is also a good place to embed a book trailer if you have one.', 'mybooktable');
+	echo('<p>');
+	_e('Book Overview is a longer description of your book. This typically includes all the text from the back cover of the book plus, endorsements and any other promotional materials from interior flaps or initial pages. This is also a good place to embed a book trailer if you have one.', 'mybooktable');
+	echo('</p>');
 }
 
 
@@ -100,8 +95,7 @@ function mbt_isbn_preview_feedback($isbn) {
 	return $output;
 }
 
-function mbt_metadata_metabox($post)
-{
+function mbt_metadata_metabox($post) {
 ?>
 	<table class="form-table mbt_metadata_metabox">
 		<tr>
@@ -127,10 +121,17 @@ function mbt_metadata_metabox($post)
 			</td>
 		</tr>
 		<tr>
-			<th><label for="mbt_price"><?php _e('Price', 'mybooktable'); ?></label></th>
+			<th><label for="mbt_book_length"><?php _e('Book Length', 'mybooktable'); ?></label></th>
+			<td>
+				<input type="text" name="mbt_book_length" id="mbt_book_length" value="<?php echo(get_post_meta($post->ID, "mbt_book_length", true)); ?>" />
+				<p class="description"><?php _e('Is this book a short story, a complete novel, or an epic drama? (optional)', 'mybooktable'); ?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="mbt_price"><?php _e('List Price', 'mybooktable'); ?></label></th>
 			<td>
 				<input type="text" name="mbt_price" id="mbt_price" value="<?php echo(get_post_meta($post->ID, "mbt_price", true)); ?>" />
-				<p class="description"><?php _e('(optional)', 'mybooktable'); ?></p>
+				<p class="description"><?php _e('You can typically find the list price just above the ISBN barcode on the back cover of the book. (optional)', 'mybooktable'); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -165,15 +166,14 @@ function mbt_metadata_metabox($post)
 <?php
 }
 
-function mbt_save_metadata_metabox($post_id)
-{
+function mbt_save_metadata_metabox($post_id) {
 	if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){return;}
 
-	if(get_post_type($post_id) == "mbt_book")
-	{
+	if(get_post_type($post_id) == "mbt_book") {
 		if(isset($_REQUEST['mbt_book_image_id'])) { update_post_meta($post_id, "mbt_book_image_id", $_REQUEST['mbt_book_image_id']); }
 		if(isset($_REQUEST['mbt_unique_id'])) { update_post_meta($post_id, "mbt_unique_id", preg_replace("/[^0-9Xx]/", "", $_REQUEST['mbt_unique_id'])); }
 		if(isset($_REQUEST['mbt_sample_url'])) { update_post_meta($post_id, "mbt_sample_url", $_REQUEST['mbt_sample_url']); }
+		if(isset($_REQUEST['mbt_book_length'])) { update_post_meta($post_id, "mbt_book_length", $_REQUEST['mbt_book_length']); }
 		if(isset($_REQUEST['mbt_price'])) { update_post_meta($post_id, "mbt_price", $_REQUEST['mbt_price']); }
 		if(isset($_REQUEST['mbt_sale_price'])) { update_post_meta($post_id, "mbt_sale_price", $_REQUEST['mbt_sale_price']); }
 		if(isset($_REQUEST['mbt_publisher_name'])) { update_post_meta($post_id, "mbt_publisher_name", $_REQUEST['mbt_publisher_name']); }
@@ -192,12 +192,16 @@ function mbt_buybuttons_metabox_editor($data, $num, $store) {
 	$output  = '<div class="mbt_buybutton_editor">';
 	$output .= '<div class="mbt_buybutton_editor_header">';
 	$output .= '<button class="mbt_buybutton_remover button">'.__('Remove').'</button>';
-	$display = empty($data['display']) ? 'featured' : $data['display'];
-	$output .= '<div class="mbt_buybutton_display_selector display_'.$display.'" title=""><input type="hidden" name="mbt_buybutton'.$num.'[display]" value="'.$display.'"></div>';
 	$output .= '<h4 class="mbt_buybutton_title">'.$store['name'].'</h4>';
 	$output .= '</div>';
 	$output .= '<div class="mbt_buybutton_editor_content">';
 	$output .= mbt_buybutton_editor($data, "mbt_buybutton".$num, $store);
+	$output .= '</div>';
+	$output .= '<div class="mbt_buybutton_editor_footer">';
+	$output .= '<span class="mbt_buybutton_display_title">Display as:</span>';
+	$display = (empty($data['display'])) ? 'button' : $data['display'];
+	$output .= '<label class="mbt_buybutton_display"><input type="radio" name="mbt_buybutton'.$num.'[display]" value="button" '.checked($display, 'button', false).'>'.__('Button', 'mybooktable').'</label>';
+	$output .= '<label class="mbt_buybutton_display"><input type="radio" name="mbt_buybutton'.$num.'[display]" value="text" '.checked($display, 'text', false).'>'.__('Text Bullet', 'mybooktable').'</label>';
 	$output .= '</div>';
 	$output .= '</div>';
 	return $output;
@@ -206,12 +210,11 @@ function mbt_buybuttons_metabox_editor($data, $num, $store) {
 function mbt_buybuttons_metabox_ajax() {
 	$stores = mbt_get_stores();
 	if(empty($stores[$_REQUEST['store']])) { die(); }
-	echo(mbt_buybuttons_metabox_editor(array('store' => $_REQUEST['store']), $_REQUEST['num'], $stores[$_REQUEST['store']]));
+	echo(mbt_buybuttons_metabox_editor(array('store' => $_REQUEST['store']), 0, $stores[$_REQUEST['store']]));
 	die();
 }
 
-function mbt_buybuttons_metabox($post)
-{
+function mbt_buybuttons_metabox($post) {
 	wp_nonce_field(plugin_basename(__FILE__), 'mbt_nonce');
 
 	if(!mbt_get_setting('enable_default_affiliates') and mbt_get_upgrade() === false) {
@@ -234,26 +237,22 @@ function mbt_buybuttons_metabox($post)
 	echo('<div id="mbt_buybutton_editors">');
 	$buybuttons = mbt_query_buybuttons($post->ID);
 	if(!empty($buybuttons)) {
-		for($i = 0; $i < count($buybuttons); $i++)
-		{
+		for($i = 0; $i < count($buybuttons); $i++) {
 			$buybutton = $buybuttons[$i];
 			if(empty($stores[$buybutton['store']])) { continue; }
-			echo(mbt_buybuttons_metabox_editor($buybutton, $i, $stores[$buybutton['store']]));
+			echo(mbt_buybuttons_metabox_editor($buybutton, $i+1, $stores[$buybutton['store']]));
 		}
 	}
 	echo('</div>');
 }
 
-function mbt_save_buybuttons_metabox($post_id)
-{
+function mbt_save_buybuttons_metabox($post_id) {
 	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_REQUEST['mbt_nonce']) || !wp_verify_nonce($_REQUEST['mbt_nonce'], plugin_basename(__FILE__))){return;}
 
-	if(get_post_type($post_id) == "mbt_book")
-	{
+	if(get_post_type($post_id) == "mbt_book") {
 		$stores = mbt_get_stores();
 		$buybuttons = array();
-		for($i = 0; isset($_REQUEST['mbt_buybutton'.$i]); $i++)
-		{
+		for($i = 1; isset($_REQUEST['mbt_buybutton'.$i]); $i++) {
 			$buybutton = $_REQUEST['mbt_buybutton'.$i];
 			if(empty($stores[$buybutton['store']])) { continue; }
 			$buybutton['url'] = preg_replace('/[\r\n]/', '', $buybutton['url']);
@@ -276,12 +275,10 @@ function mbt_series_order_metabox($post) {
 <?php
 }
 
-function mbt_save_series_order_metabox($post_id)
-{
+function mbt_save_series_order_metabox($post_id) {
 	if((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !isset($_REQUEST['mbt_nonce']) || !wp_verify_nonce($_REQUEST['mbt_nonce'], plugin_basename(__FILE__))){return;}
 
-	if(get_post_type($post_id) == "mbt_book")
-	{
+	if(get_post_type($post_id) == "mbt_book") {
 		update_post_meta($post_id, "mbt_series_order", $_REQUEST["mbt_series_order"]);
 	}
 }

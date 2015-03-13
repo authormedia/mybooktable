@@ -55,68 +55,11 @@ function mbt_add_getnoticed_importer($importers) {
 	$importers['getnoticed'] = array(
 		'name' => __('GetNoticed', 'mybooktable'),
 		'desc' => __('Import your books from the GetNoticed theme.', 'mybooktable'),
-		'callback' => 'mbt_render_getnoticed_books_import_page',
+		'page_title' => __('GetNoticed Import', 'mybooktable'),
+		'get_book_list' => 'mbt_getnoticed_get_books',
 		'disabled' => ($exists ? '' : 'GetNoticed theme not detected'),
 	);
 	return $importers;
-}
-
-function mbt_render_getnoticed_books_import_page() {
-	$importing = !empty($_GET['mbt_confirm_import']);
-
-	$books = mbt_getnoticed_get_books();
-	if($importing) {
-		mbt_track_event('book_import_getnoticed');
-		echo('<div id="mbt-book-import-progress">');
-		echo('<h3>'.__('Please wait, your books are importing...', 'mybooktable').'</h3>');
-		echo('<div id="mbt-book-import-progress-bar"><div id="mbt-book-import-progress-bar-inner"></div></div>');
-		wp_ob_end_flush_all(); flush();
-
-		$percent = 0; $percent_per_book = 100.0/count($books);
-		foreach($books as $key => $book) {
-			$books[$key]['imported_book_id'] = mbt_import_book($book);
-			$percent += $percent_per_book;
-			echo('<script type="text/javascript">jQuery("#mbt-book-import-progress-bar-inner").css("width", "'.$percent.'%")</script>');
-			wp_ob_end_flush_all(); flush();
-		}
-		sleep(1);
-
-		echo('</div>');
-		echo('<script type="text/javascript">jQuery("#mbt-book-import-progress").hide()</script>');
-	}
-
-	?>
-		<div class="wrap mbt_book_importer">
-			<div id="icon-options-general" class="icon32"><br></div><h2><?php _e('GetNoticed Book Import', 'mybooktable'); ?></h2>
-
-			<?php if($importing) { ?>
-				<h3><?php _e('The following books were successfully imported:', 'mybooktable'); ?></h3>
-			<?php } else { ?>
-				<h3><?php _e('The following books will be imported:', 'mybooktable'); ?></h3>
-			<?php } ?>
-
-			<ul class="mbt_imported_books">
-			<?php
-				foreach($books as $book) {
-					echo('<li><a href="'.get_permalink($book['imported_book_id']).'" target="_blank">'.$book['title'].'</a></li>');
-				}
-			?>
-			</ul>
-
-			<?php if($importing) { ?>
-				<a href="<?php echo(admin_url('edit.php?post_type=mbt_book')); ?>" class="button button-primary"><?php _e('Continue', 'mybooktable'); ?></a>
-			<?php } else { ?>
-				<h3><?php _e('Are you sure you want to import these books?', 'mybooktable'); ?></h3>
-				<a href="<?php echo(admin_url('admin.php?page=mbt_import&mbt_import_type=getnoticed&mbt_confirm_import=1')); ?>" class="import-submit button button-primary"><?php _e('Import', 'mybooktable'); ?></a>
-				<div id="mbt-book-import-spinner-box">Please wait, your books are importing...<div id="mbt-book-import-spinner"></div></div>
-				<script type="text/javascript">
-					jQuery('.mbt_book_importer .import-submit').click(function(e) {
-						jQuery('#mbt-book-import-spinner-box').show();
-					});
-				</script>
-			<?php } ?>
-		</div>
-	<?php
 }
 
 function mbt_getnoticed_get_books() {
@@ -134,7 +77,7 @@ function mbt_getnoticed_get_books() {
 		if(!empty($book_meta['bookauthor'])) { $new_book['authors'][] = $book_meta['bookauthor']; }
 		$new_book['unique_id'] = $book_meta['asin'];
 		$new_book['buybuttons'] = array();
-		if(!empty($book_meta['link'])) { $new_book['buybuttons'][] = array('display' => 'featured', 'store' => 'amazon', 'url' => $book_meta['link']); }
+		if(!empty($book_meta['link'])) { $new_book['buybuttons'][] = array('display' => 'button', 'store' => 'amazon', 'url' => $book_meta['link']); }
 		$new_book['publisher_name'] = $book_meta['publisher'];
 		$new_book['publication_year'] = $book_meta['year'];
 		$new_book['image_id'] = get_post_meta($book->ID, '_thumbnail_id', true);

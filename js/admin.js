@@ -83,6 +83,16 @@ jQuery(document).ready(function() {
 	mbt_make_uploader('#mbt_upload_style_pack_button', '#mbt_style_pack_id', mbt_media_upload_i18n.select, 'id');
 
 	/*---------------------------------------------------------*/
+	/* Book Import Page                                        */
+	/*---------------------------------------------------------*/
+
+	jQuery('.mbt-book-importer .import-submit').click(function(e) {
+		var el = jQuery(this);
+		setTimeout(function() { el.attr('disabled', 'disabled'); }, 0);
+		el.after('<div id="mbt-book-import-spinner"></div>');
+	});
+
+	/*---------------------------------------------------------*/
 	/* Ajax Event Tracking                                     */
 	/*---------------------------------------------------------*/
 

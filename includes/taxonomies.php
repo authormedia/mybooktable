@@ -36,6 +36,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Authors:', 'mybooktable'),
 		),
 		'show_ui' => true,
+		'show_admin_column' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_author_rewrite_name', _x('authors', 'URL slug', 'mybooktable')))
 	));
 
@@ -56,6 +57,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Genres:', 'mybooktable'),
 		),
 		'show_ui' => true,
+		'show_admin_column' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_genre_rewrite_name', _x('genre', 'URL slug', 'mybooktable')))
 	));
 
@@ -76,6 +78,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Series:', 'mybooktable'),
 		),
 		'show_ui' => true,
+		'show_admin_column' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_series_rewrite_name', _x('series', 'URL slug', 'mybooktable')))
 	));
 
@@ -96,6 +99,7 @@ function mbt_register_taxonomies()
 			'parent_item_colon' => __('Parent Tags:', 'mybooktable'),
 		),
 		'show_ui' => true,
+		'show_admin_column' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable')))
 	));
 }

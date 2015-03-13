@@ -1,6 +1,13 @@
 jQuery(document).ready(function() {
 
 	/*---------------------------------------------------------*/
+	/* Shadow Boxes                                            */
+	/*---------------------------------------------------------*/
+
+	jQuery('.mbt-shadowbox-inline').colorbox({inline:true, scrolling:false, transition:'none'});
+	jQuery('.mbt-shadowbox-iframe').colorbox({iframe:true, scrolling:true, transition:'none', width:"80%", height:"80%"});
+
+	/*---------------------------------------------------------*/
 	/* Find Bookstore Form                                     */
 	/*---------------------------------------------------------*/
 
