@@ -7,8 +7,7 @@ function mbt_templates_init() {
 
 	if(!is_admin()) {
 		//enqueue frontend styling
-		add_action('wp_enqueue_scripts', 'mbt_enqueue_styles');
-		add_action('wp_enqueue_scripts', 'mbt_enqueue_js');
+		add_action('wp_enqueue_scripts', 'mbt_enqueue_resources');
 		add_action('wp_head', 'mbt_add_custom_css');
 
 		//modify the post query
@@ -117,13 +116,11 @@ function mbt_pre_get_posts($query) {
 	}
 }
 
-function mbt_enqueue_styles() {
+function mbt_enqueue_resources() {
 	wp_enqueue_style('mbt-style', plugins_url('css/frontend-style.css', dirname(__FILE__)), array(), MBT_VERSION);
 	$plugin_style_css = mbt_current_style_url('style.css');
 	if(!empty($plugin_style_css)) { wp_enqueue_style('mbt-style-pack', $plugin_style_css, array(), MBT_VERSION); }
-}
 
-function mbt_enqueue_js() {
 	wp_enqueue_script('mbt-frontend-js', plugins_url('js/frontend.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
 	wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp', array(), MBT_VERSION);
 	wp_enqueue_script('mbt-shadowbox', plugins_url('js/lib/jquery.colorbox.min.js', dirname(__FILE__)), array('jquery'), MBT_VERSION);
@@ -616,9 +613,9 @@ function mbt_get_buybuttons($post_id, $excerpt=false, $force_shadowbox=null) {
 
 	return apply_filters('mbt_get_buybuttons', $output);
 }
-function mbt_the_buybuttons($excerpt=false) {
+function mbt_the_buybuttons($excerpt=false, $force_shadowbox=null) {
 	global $post;
-	echo(mbt_get_buybuttons($post->ID, $excerpt));
+	echo(mbt_get_buybuttons($post->ID, $excerpt, $force_shadowbox));
 }
 
 
@@ -842,7 +839,8 @@ function mbt_get_reviews_box($post_id) {
 	$reviews_boxes = mbt_get_reviews_boxes();
 	$current_reviews = mbt_get_setting('reviews_box');
 	if(!empty($reviews_boxes[$current_reviews])) {
-		$cache_id = 'mbt_'.$current_reviews.'_reviews_'.$post_id;
+		$unique_id = get_post_meta($post_id, 'mbt_unique_id', true);
+		$cache_id = 'mbt_'.$current_reviews.'_reviews_'.$post_id.'_'.$unique_id;
 		if(false === ($output = get_transient($cache_id))) {
 			$output = call_user_func_array($reviews_boxes[$current_reviews]['callback'], array());
 			set_transient($cache_id, $output, HOUR_IN_SECONDS);

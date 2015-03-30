@@ -49,7 +49,10 @@ jQuery(document).ready(function() {
 	jQuery("#mbt_buybutton_editors").sortable({cancel: ".mbt_buybutton_editor_content,.mbt_buybutton_display_selector", stop: function(){mbt_reset_buybutton_numbers();}});
 
 	// need to undisable form inputs or they will not be saved
-	jQuery('form#post').submit(function() { jQuery("#mbt_buybutton_editors .mbt_buybutton_editor textarea").removeAttr("disabled"); });
+	jQuery('form#post').submit(function() {
+		jQuery("#mbt_buybutton_editors .mbt_buybutton_editor textarea").removeAttr("disabled");
+		jQuery("#mbt_unique_id").removeAttr("disabled");
+	});
 
 	/*---------------------------------------------------------*/
 	/* Book Image                                              */

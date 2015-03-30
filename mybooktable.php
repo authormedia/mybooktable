@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: MyBookTable - WordPress Bookstore
+Plugin Name: MyBookTable Bookstore by Author Media
 Plugin URI: http://www.authormedia.com/mybooktable/
-Description: A WordPress Bookstore Plugin to help authors sell more books.
+Description: A WordPress Bookstore Plugin to help authors boost book sales on sites like Amazon and Apple iBooks with great-looking book pages.
 Author: Author Media
 Author URI: http://www.authormedia.com
 Text Domain: mybooktable
@@ -90,7 +90,7 @@ register_deactivation_hook(__FILE__, 'mbt_deactivate');
 function mbt_init() {
 	load_plugin_textdomain('mybooktable', false, plugin_basename(dirname(__FILE__))."/i18n");
 	mbt_load_settings();
-	mbt_upgrade_check();
+	mbt_update_check();
 	mbt_customize_plugins_page();
 	if(mbt_detect_deactivation()) { return; }
 
@@ -130,7 +130,7 @@ function mbt_plugin_action_links($actions) {
 
 function mbt_plugin_row_meta($links, $file) {
 	if($file == plugin_basename(__FILE__)) {
-		$links[] = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/mybooktable?filter=5#postform">'.__('Review this plugin', 'mybooktable').'</a>';
+		$links[] = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/mybooktable?filter=5#postform">'.__('Write a Review', 'mybooktable').'</a>';
 	}
 	return $links;
 }

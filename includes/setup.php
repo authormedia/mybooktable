@@ -1,37 +1,36 @@
 <?php
 
 /*---------------------------------------------------------*/
-/* Check for Upgrades                                      */
+/* Check for Updates                                       */
 /*---------------------------------------------------------*/
 
-function mbt_upgrade_check()
-{
-	$version = mbt_get_setting("version");
+function mbt_update_check() {
+	$version = mbt_get_setting('version');
 
-	if(version_compare($version, "1.1.0") < 0) { mbt_upgrade_1_1_0(); }
-	if(version_compare($version, "1.1.3") < 0) { mbt_upgrade_1_1_3(); }
-	if(version_compare($version, "1.1.4") < 0) { mbt_upgrade_1_1_4(); }
-	if(version_compare($version, "1.2.7") < 0) { mbt_upgrade_1_2_7(); }
-	if(version_compare($version, "1.3.1") < 0) { mbt_upgrade_1_3_1(); }
-	if(version_compare($version, "1.3.8") < 0) { mbt_upgrade_1_3_8(); }
-	if(version_compare($version, "2.0.1") < 0) { mbt_upgrade_2_0_1(); }
-	if(version_compare($version, "2.0.4") < 0) { mbt_upgrade_2_0_4(); }
-	if(version_compare($version, "2.1.0") < 0) { mbt_upgrade_2_1_0(); }
+	if(version_compare($version, '1.1.0') < 0) { mbt_update_1_1_0(); }
+	if(version_compare($version, '1.1.3') < 0) { mbt_update_1_1_3(); }
+	if(version_compare($version, '1.1.4') < 0) { mbt_update_1_1_4(); }
+	if(version_compare($version, '1.2.7') < 0) { mbt_update_1_2_7(); }
+	if(version_compare($version, '1.3.1') < 0) { mbt_update_1_3_1(); }
+	if(version_compare($version, '1.3.8') < 0) { mbt_update_1_3_8(); }
+	if(version_compare($version, '2.0.1') < 0) { mbt_update_2_0_1(); }
+	if(version_compare($version, '2.0.4') < 0) { mbt_update_2_0_4(); }
+	if(version_compare($version, '2.1.0') < 0) { mbt_update_2_1_0(); }
 
 	if($version !== MBT_VERSION) {
-		mbt_update_setting("version", MBT_VERSION);
-		mbt_track_event('plugin_updated', true);
+		mbt_update_setting('version', MBT_VERSION);
+		mbt_track_event('plugin_updated', array('version' => MBT_VERSION));
 		mbt_send_tracking_data();
 	}
 }
 
-function mbt_upgrade_1_1_0() {
+function mbt_update_1_1_0() {
 	if(mbt_get_setting('compatibility_mode') !== false) {
 		mbt_update_setting('compatibility_mode', true);
 	}
 }
 
-function mbt_upgrade_1_1_3() {
+function mbt_update_1_1_3() {
 	global $wpdb;
 	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
 	if(!empty($books)) {
@@ -43,7 +42,7 @@ function mbt_upgrade_1_1_3() {
 	}
 }
 
-function mbt_upgrade_1_1_4() {
+function mbt_update_1_1_4() {
 	global $wpdb;
 	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
 	if(!empty($books)) {
@@ -65,31 +64,31 @@ function mbt_upgrade_1_1_4() {
 	}
 }
 
-function mbt_upgrade_1_2_7() {
+function mbt_update_1_2_7() {
 	if(mbt_get_setting('enable_default_affiliates') !== false) {
 		mbt_update_setting('enable_default_affiliates', true);
 	}
 }
 
-function mbt_upgrade_1_3_1() {
+function mbt_update_1_3_1() {
 	mbt_update_setting('help_page_email_subscribe_popup', 'show');
 	mbt_update_setting('product_name', __("Books"));
 	mbt_update_setting('product_slug', _x('books', 'URL slug', 'mybooktable'));
 }
 
-function mbt_upgrade_1_3_8() {
+function mbt_update_1_3_8() {
 	mbt_update_setting('domc_notice_text', __('Disclosure of Material Connection: Some of the links in the page above are "affiliate links." This means if you click on the link and purchase the item, I will receive an affiliate commission. I am disclosing this in accordance with the Federal Trade Commission\'s <a href="http://www.access.gpo.gov/nara/cfr/waisidx_03/16cfr255_03.html" target="_blank">16 CFR, Part 255</a>: "Guides Concerning the Use of Endorsements and Testimonials in Advertising."', 'mybooktable'));
 }
 
-function mbt_upgrade_2_0_1() {
+function mbt_update_2_0_1() {
 	mbt_verify_api_key();
 }
 
-function mbt_upgrade_2_0_4() {
+function mbt_update_2_0_4() {
 	mbt_update_setting('show_find_bookstore_buybuttons_shadowbox', true);
 }
 
-function mbt_upgrade_2_1_0() {
+function mbt_update_2_1_0() {
 	global $wpdb;
 	$books = $wpdb->get_col('SELECT ID FROM '.$wpdb->posts.' WHERE post_type = "mbt_book"');
 	if(!empty($books)) {
@@ -152,7 +151,7 @@ function mbt_rewrites_check_admin_notice() {
 	<div id="message" class="error">
 		<p>
 			<strong><?php _e('MyBookTable Rewrites Error', 'mybooktable'); ?></strong> &#8211;
-			<?php printf(__('You have a plugin or theme that has post types or taxonomies that are conflicting with MyBookTable. MyBookTable pages will not display correctly.', 'mybooktable'), mbt_get_product_slug()); ?>
+			<?php _e('You have a plugin or theme that has post types or taxonomies that are conflicting with MyBookTable. MyBookTable pages will not display correctly.', 'mybooktable'); ?>
 		</p>
 	</div>
 	<?php
@@ -202,6 +201,19 @@ function mbt_add_admin_notices() {
 			add_action('admin_notices', 'mbt_admin_installed_notice');
 		}
 	}
+
+	if(isset($_GET['mbt_allow_tracking'])) {
+		if($_GET['mbt_allow_tracking'] === 'yes') {
+			mbt_update_setting('allow_tracking', 'yes');
+			mbt_track_event('tracking_allowed', true);
+			mbt_send_tracking_data();
+		} else if($_GET['mbt_allow_tracking'] === 'no') {
+			mbt_track_event('tracking_denied', true);
+			mbt_send_tracking_data();
+			mbt_update_setting('allow_tracking', 'no');
+		}
+	}
+
 	if(mbt_get_setting('installed') == 'done' or is_int(mbt_get_setting('installed'))) {
 		if(!mbt_get_setting('api_key') and mbt_get_upgrade_plugin_exists(false)) {
 			add_action('admin_notices', 'mbt_admin_setup_api_key_notice');
@@ -222,8 +234,12 @@ function mbt_add_admin_notices() {
 		mbt_install_examples();
 	}
 
-	if(isset($_GET['mbt_install_pages'])) {
-		mbt_install_pages();
+	if(isset($_GET['mbt_add_booktable_page'])) {
+		mbt_add_booktable_page();
+	}
+
+	if(isset($_GET['mbt_remove_booktable_page'])) {
+		mbt_update_setting('booktable_page', 0);
 	}
 }
 
@@ -414,11 +430,11 @@ add_action('wp_ajax_mbt_email_subscribe_pointer', 'mbt_email_subscribe_pointer_a
 /*---------------------------------------------------------*/
 
 function mbt_install() {
-	mbt_install_pages();
+	mbt_add_booktable_page();
 	mbt_install_examples();
 }
 
-function mbt_install_pages() {
+function mbt_add_booktable_page() {
 	if(mbt_get_setting('booktable_page') <= 0 or !get_page(mbt_get_setting('booktable_page'))) {
 		$post_id = wp_insert_post(array(
 			'post_title' => __('Book Table', 'mybooktable'),
@@ -459,12 +475,6 @@ function mbt_uninstall() {
 
 	//erase rewrites
 	add_action('admin_init', 'flush_rewrite_rules');
-
-	//erase plugin
-	$active_plugins = get_option('active_plugins');
-	$plugin = plugin_basename(dirname(dirname(__FILE__))."/mybooktable.php");
-	unset($active_plugins[array_search($plugin, $active_plugins)]);
-	update_option('active_plugins', $active_plugins);
 }
 
 function mbt_erase_taxonomy($name) {

@@ -58,3 +58,14 @@ function mbt_override_post_updated_messages($messages) {
 	}
 	return $messages;
 }
+
+/*---------------------------------------------------------*/
+/* Post Manager Columns                                    */
+/*---------------------------------------------------------*/
+
+add_filter('manage_mbt_book_posts_columns', 'mbt_modify_post_manager_columns');
+
+function mbt_modify_post_manager_columns($columns) {
+	unset($columns['date']);
+	return $columns;
+}

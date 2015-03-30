@@ -102,6 +102,8 @@ function mbt_register_taxonomies()
 		'show_admin_column' => true,
 		'rewrite' => array('slug' => apply_filters('mbt_tag_rewrite_name', mbt_get_product_slug()._x('tag', 'URL slug', 'mybooktable')))
 	));
+
+	if(!(bool)term_exists('recommended', 'mbt_tag')) { wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'recommended')); }
 }
 
 function mbt_override_taxonomy_parent_files() {
@@ -165,13 +167,13 @@ function mbt_add_taxonomy_image_add_form() {
 }
 
 function mbt_save_taxonomy_image_edit_form() {
-	if(!empty($_REQUEST['taxonomy']) and !empty($_REQUEST['tag_ID']) and !empty($_REQUEST['mbt_tax_image_url'])) {
+	if(isset($_REQUEST['taxonomy']) and isset($_REQUEST['tag_ID']) and isset($_REQUEST['mbt_tax_image_url'])) {
 		mbt_save_taxonomy_image($_REQUEST['taxonomy'], $_REQUEST['tag_ID'], $_REQUEST['mbt_tax_image_url']);
 	}
 }
 
 function mbt_save_taxonomy_image_add_form($term_id) {
-	if(!empty($_REQUEST['taxonomy']) and !empty($_REQUEST['mbt_tax_image_url'])) {
+	if(isset($_REQUEST['taxonomy']) and isset($_REQUEST['mbt_tax_image_url'])) {
 		mbt_save_taxonomy_image($_REQUEST['taxonomy'], $term_id, $_REQUEST['mbt_tax_image_url']);
 	}
 }

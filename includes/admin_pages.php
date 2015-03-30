@@ -3,18 +3,15 @@
 function mbt_admin_pages_init() {
 	if(is_admin()) {
 		add_action('admin_menu', 'mbt_add_admin_pages', 9);
-		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_styles');
-		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_js');
+		add_action('admin_enqueue_scripts', 'mbt_enqueue_admin_resources');
 	}
 }
 add_action('mbt_init', 'mbt_admin_pages_init');
 
-function mbt_enqueue_admin_styles() {
+function mbt_enqueue_admin_resources() {
 	wp_enqueue_style('mbt-admin-css', plugins_url('css/admin-style.css', dirname(__FILE__)), array(), MBT_VERSION);
 	wp_enqueue_style('mbt-jquery-ui', plugins_url('css/jquery-ui.css', dirname(__FILE__)), array(), MBT_VERSION);
-}
 
-function mbt_enqueue_admin_js() {
 	wp_enqueue_script('jquery-ui-core');
 	wp_enqueue_script('jquery-ui-widget');
 	wp_enqueue_script('jquery-ui-position');
@@ -140,20 +137,6 @@ function mbt_save_settings_page() {
 			mbt_update_setting('enable_default_affiliates', $_REQUEST['mbt_enable_default_affiliates'] === 'true');
 		}
 	}
-
-	if(isset($_REQUEST['mbt_remove_booktable_page'])) { mbt_update_setting('booktable_page', 0); }
-
-	if(isset($_GET['mbt_allow_tracking'])) {
-		if($_GET['mbt_allow_tracking'] === 'yes') {
-			mbt_update_setting('allow_tracking', 'yes');
-			mbt_track_event('tracking_allowed', true);
-			mbt_send_tracking_data();
-		} else if($_GET['mbt_allow_tracking'] === 'no') {
-			mbt_track_event('tracking_denied', true);
-			mbt_send_tracking_data();
-			mbt_update_setting('allow_tracking', 'no');
-		}
-	}
 }
 
 function mbt_api_key_refresh_ajax() {
@@ -243,7 +226,7 @@ function mbt_render_settings_page() {
 										<?php } ?>
 									</select>
 									<?php if(mbt_get_setting('booktable_page') == 0 or !get_page(mbt_get_setting('booktable_page'))) { ?>
-										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_install_pages=1')); ?>" class="button button-primary"><?php _e('Click here to create a Book Table page', 'mybooktable'); ?></a>
+										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_add_booktable_page=1')); ?>" class="button button-primary"><?php _e('Click here to create a Book Table page', 'mybooktable'); ?></a>
 									<?php } else { ?>
 										<a href="<?php echo(admin_url('admin.php?page=mbt_settings&mbt_remove_booktable_page=1')); ?>" class="button button-primary"><?php _e('Remove Book Table page', 'mybooktable'); ?></a>
 									<?php } ?>
@@ -410,7 +393,7 @@ function mbt_render_settings_page() {
 										<th><?php _e('Number of Books per Page', 'mybooktable'); ?></th>
 										<td>
 											<input name="mbt_posts_per_page" type="text" id="mbt_posts_per_page" value="<?php echo(mbt_get_setting('posts_per_page') ? mbt_get_setting('posts_per_page') : get_option('posts_per_page')); ?>" class="regular-text">
-											<p class="description"><?php _e('Choose the number of books to show per page on the book listings.', 'mybooktable'); ?>.</p>
+											<p class="description"><?php _e('Choose the number of books to show per page on the book listings.', 'mybooktable'); ?></p>
 										</td>
 									</tr>
 								</tbody>
@@ -633,13 +616,13 @@ function mbt_render_help_page() {
 
 		<div class="mbt_help_top_links">
 			<a class="mbt_help_link mbt_apikey" href="https://gumroad.com/library/" target="_blank" data-mbt-track-event="help_page_apikey_button_click">
-				<div class="mbt_icon"></div><?php _e('Need to find or manage your <strong>API Key</strong>?<br>Access through Gumroad'); ?>
+				<div class="mbt_icon"></div><?php _e('Need to find or manage your <strong>API Key</strong>?<br>Access through Gumroad', 'mybooktable'); ?>
 			</a>
 			<a class="mbt_help_link mbt_forum" href="http://wordpress.org/support/plugin/mybooktable" target="_blank" data-mbt-track-event="help_page_forum_button_click">
-				<div class="mbt_icon"></div><?php _e('Have <strong>questions or comments</strong>?<br>Check out the Support Forum'); ?>
+				<div class="mbt_icon"></div><?php _e('Have <strong>questions or comments</strong>?<br>Check out the Support Forum', 'mybooktable'); ?>
 			</a>
 			<a class="mbt_help_link mbt_develop" href="https://github.com/authormedia/mybooktable/wiki" target="_blank" data-mbt-track-event="help_page_develop_button_click">
-				<div class="mbt_icon"></div><?php _e('Looking for <strong>developer documentation</strong>?<br>Find it on Github'); ?>
+				<div class="mbt_icon"></div><?php _e('Looking for <strong>developer documentation</strong>?<br>Find it on Github', 'mybooktable'); ?>
 			</a>
 			<div style="clear:both"></div>
 		</div>
@@ -903,7 +886,6 @@ function mbt_render_dashboard() {
 						</div>
 					</div>
 
-					<div style="clear:both"></div>
 					<div class="metabox-holder">
 						<div id="mbt_dashboard_rss" class="postbox">
 							<div class="handlediv" title=""><br></div>

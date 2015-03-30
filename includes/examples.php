@@ -1,9 +1,5 @@
 <?php
 
-//Recommended Books Tag
-$recommended = wp_insert_term('Recommended Books', 'mbt_tag', array('slug' => 'recommended'));
-if(!is_wp_error($recommended)) { $recommended_id = array($recommended['term_id']); }
-
 //Writing
 $writing = wp_insert_term('Writing', 'mbt_genre', array('slug' => 'writing'));
 if(!is_wp_error($writing)) { $writing_id = array($writing['term_id']); }

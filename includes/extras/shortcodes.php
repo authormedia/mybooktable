@@ -90,7 +90,13 @@ function mbt_add_authormedia_shortcodes($shortcodes) {
 					'title'			=> __('Display Style', 'mybooktable'),
 					'description'	=> '',
 					'type'			=> 'dropdown',
-					'choices'		=> array("default" => __("Default", 'mybooktable'), "summary" => __("Summary", 'mybooktable'))
+					'choices'		=> array("default" => __("Default", 'mybooktable'), "summary" => __("Summary", 'mybooktable'), "buybuttons" => __("Buy Buttons", 'mybooktable'))
+				),
+				'buybutton_shadowbox' => array(
+					'title'			=> 'Force Shadow Box for Buy Buttons?',
+					'default'		=> false,
+					'type'			=> 'checkbox',
+					'description'	=> ''
 				)
 			)
 		),
@@ -212,10 +218,21 @@ function mbt_mybooktable_shortcode($attrs) {
 
 		$mbt_in_custom_page_content = true;
 		if(is_singular('mbt_book')) {
-			if(!empty($attrs['display']) and $attrs['display'] == 'summary') {
+			if(!empty($attrs['display']) and $attrs['display'] === 'summary') {
 				echo('<div id="mbt-container">');
 				include(mbt_locate_template('excerpt-book.php'));
 				echo('</div>');
+			} else if(!empty($attrs['display']) and $attrs['display'] === 'buybuttons') {
+				?>
+				<div id="mbt-container">
+					<div class="mbt-book">
+						<div class="mbt-book-buybuttons">
+							<?php mbt_the_buybuttons(false, (!empty($attrs['buybutton_shadowbox']) and $attrs['buybutton_shadowbox'] === 'true') ? true : null); ?>
+							<div style="clear:both;"></div>
+						</div>
+					</div>
+				</div>
+				<?php
 			} else {
 				remove_action('mbt_before_single_book', 'mbt_the_breadcrumbs');
 				include(mbt_locate_template('single-book/content.php'));
@@ -257,7 +274,7 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 	}
 
 	function authormedia_shortcode_inserter_button($buttons) {
-		echo '<a href="#TB_inline?width=480&inlineId=authormedia-insert-shortcode" class="thickbox button authormedia-insert-shortcode-button"><span class="authormedia-insert-shortcode-icon"></span>'.__('Insert Shortcode', 'authormedia').'</a>';
+		echo '<a href="#TB_inline&inlineId=authormedia-insert-shortcode" class="thickbox button authormedia-insert-shortcode-button"><span class="authormedia-insert-shortcode-icon"></span>'.__('Insert Shortcode', 'authormedia').'</a>';
 	}
 
 	function authormedia_shortcode_inserter_form() {
@@ -324,7 +341,9 @@ if(!function_exists('authormedia_setup_shortcode_inserter')) {
 					$('.authormedia-shortcode-section').css( 'display', 'none' );
 					$('#authormedia_shortcode_section_' + $(this).attr('data-shortcode-section') ).css( 'display', 'block' );
 				});
-				$('.authormedia-shortcode-section-nav .nav-tab-wrapper a')[0].click();
+
+				$('.authormedia-shortcode-section-nav .nav-tab-wrapper a').first().addClass( 'nav-tab-active' );
+				$('.authormedia-shortcode-section').first().css( 'display', 'block' );
 
 			});
 		</script>

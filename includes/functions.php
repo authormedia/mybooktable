@@ -419,7 +419,7 @@ add_filter('mbt_style_folders', 'mbt_add_uploaded_style_folder', 100);
 
 
 /*---------------------------------------------------------*/
-/* Tracking                                                */
+/* Analytics                                               */
 /*---------------------------------------------------------*/
 
 function mbt_init_tracking() {
@@ -477,7 +477,6 @@ function mbt_track_event($name, $instance=false) {
 	if($instance !== false) {
 		if(!is_array($instance)) { $instance = array(); }
 		$instance['time'] = time();
-		$instance['version'] = MBT_VERSION;
 		if(!isset($events[$name]['instances'])) { $events[$name]['instances'] = array(); }
 		$events[$name]['instances'][] = $instance;
 	}
@@ -579,9 +578,10 @@ function mbt_send_tracking_data() {
 		'ab_status' => mbt_get_tracking_data('ab_status'),
 	);
 
+	global $wp_version;
 	$options = array(
 		'timeout' => ((defined('DOING_CRON') && DOING_CRON) ? 30 : 3),
-		'body' => $data,
+		'body' => array('data' => serialize($data)),
 		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url')
 	);
 
@@ -675,7 +675,6 @@ function mbt_verify_api_key() {
 	} else {
 		mbt_update_setting('api_key_status', -2);
 		mbt_update_setting('api_key_message', __('Invalid response received from server', 'mybooktable'));
-		return;
 	}
 }
 

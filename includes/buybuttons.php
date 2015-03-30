@@ -464,6 +464,7 @@ add_action('mbt_init', 'mbt_celery_buybutton_init');
 function mbt_celery_buybutton_editor($output, $data, $id, $store) {
 	if($data['store'] == 'celery') {
 		$output = '<p><input type="checkbox" id="'.$id.'_use_shadowbox" name="'.$id.'[use_shadowbox]" '.checked(!empty($data['use_shadowbox']), true, false).'> <label for="'.$id.'_use_shadowbox">Use shadow box for purchase?</label></p>'.$output;
+		$output = substr_replace($output, ' <a href="https://www.trycelery.com/" target="_blank">'.__('Sign up and Learn more about Celery Pre-Orders', 'mybooktable').'</a>', strlen($output)-4, 0);
 	}
 	return $output;
 }

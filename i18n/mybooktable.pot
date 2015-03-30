@@ -20,7 +20,7 @@ msgstr ""
 msgid "Taxonomy Image"
 msgstr ""
 
-#: includes/admin_pages.php:30 includes/metaboxes.php:103
+#: includes/admin_pages.php:30 includes/metaboxes.php:105
 msgid "Book Cover Image"
 msgstr ""
 
@@ -161,7 +161,7 @@ msgid "Book Table Page"
 msgstr ""
 
 #: includes/admin_pages.php:240 includes/extras/widgets.php:131
-#: includes/extras/widgets.php:229 includes/metaboxes.php:230
+#: includes/extras/widgets.php:229 includes/metaboxes.php:232
 msgid "-- Choose One --"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Upload New Style Pack"
 msgstr ""
 
-#: includes/admin_pages.php:365 includes/metaboxes.php:119
+#: includes/admin_pages.php:365 includes/metaboxes.php:121
 #: includes/taxonomies.php:151 includes/taxonomies.php:162
 msgid "Upload"
 msgstr ""
@@ -955,9 +955,10 @@ msgid "GoodReads"
 msgstr ""
 
 #: includes/extras/goodreads.php:65
+#, php-format
 msgid ""
-"Insert your GoodReads Developer Key to enable GoodReads reviews on your book "
-"pages."
+"Insert your GoodReads Developer Key to <a href=\"%s\">enable GoodReads "
+"reviews</a> on your book pages."
 msgstr ""
 
 #: includes/extras/goodreads.php:65
@@ -1155,7 +1156,7 @@ msgstr ""
 msgid "Select Books:"
 msgstr ""
 
-#: includes/extras/widgets.php:141 includes/metaboxes.php:235
+#: includes/extras/widgets.php:141 includes/metaboxes.php:237
 msgid "Add"
 msgstr ""
 
@@ -1302,16 +1303,16 @@ msgstr ""
 msgid "Excerpt"
 msgstr ""
 
-#: includes/metaboxes.php:41
+#: includes/metaboxes.php:42
 #, php-format
 msgid ""
 "Book Blurbs are hand-crafted summaries of your book. The goal of a book "
 "blurb is to convince strangers that they need buy your book in 100 words or "
 "less. Answer the question \"why would I want to read this book?\" <a href="
-"\"%s\" target=\"_blank\">Learn more about writing your book blurb.</a></p>"
+"\"%s\" target=\"_blank\">Learn more about writing your book blurb.</a>"
 msgstr ""
 
-#: includes/metaboxes.php:54
+#: includes/metaboxes.php:56
 msgid ""
 "Book Overview is a longer description of your book. This typically includes "
 "all the text from the back cover of the book plus, endorsements and any "
@@ -1319,119 +1320,119 @@ msgid ""
 "also a good place to embed a book trailer if you have one."
 msgstr ""
 
-#: includes/metaboxes.php:81
+#: includes/metaboxes.php:83
 msgid "You will not have reviews for this book. Please enter the book ISBN."
 msgstr ""
 
-#: includes/metaboxes.php:90
+#: includes/metaboxes.php:92
 msgid "Valid ISBN"
 msgstr ""
 
-#: includes/metaboxes.php:90
+#: includes/metaboxes.php:92
 msgid "(verify book)"
 msgstr ""
 
-#: includes/metaboxes.php:92
+#: includes/metaboxes.php:94
 msgid "Invalid ISBN"
 msgstr ""
 
-#: includes/metaboxes.php:106
+#: includes/metaboxes.php:108
 msgid "Set cover image"
 msgstr ""
 
-#: includes/metaboxes.php:112
+#: includes/metaboxes.php:114
 msgid ""
 "The ISBN number is needed if you want to enable GoodReads or Amazon reviews. "
 "(optional)"
 msgstr ""
 
-#: includes/metaboxes.php:116
+#: includes/metaboxes.php:118
 msgid "Sample Chapter"
 msgstr ""
 
-#: includes/metaboxes.php:120
+#: includes/metaboxes.php:122
 msgid ""
 "Upload a sample chapter from your book to give viewers a preview. We "
 "recommend using a .pdf format for the sample chapter. (optional)"
 msgstr ""
 
-#: includes/metaboxes.php:124
+#: includes/metaboxes.php:126
 msgid "Book Length"
 msgstr ""
 
-#: includes/metaboxes.php:127
+#: includes/metaboxes.php:129
 msgid ""
 "Is this book a short story, a complete novel, or an epic drama? (optional)"
 msgstr ""
 
-#: includes/metaboxes.php:131
+#: includes/metaboxes.php:133
 msgid "List Price"
 msgstr ""
 
-#: includes/metaboxes.php:134
+#: includes/metaboxes.php:136
 msgid ""
 "You can typically find the list price just above the ISBN barcode on the "
 "back cover of the book. (optional)"
 msgstr ""
 
-#: includes/metaboxes.php:138
+#: includes/metaboxes.php:140
 msgid "Sale Price"
 msgstr ""
 
-#: includes/metaboxes.php:141
+#: includes/metaboxes.php:143
 msgid ""
 "Setting a sale price will cross through the price field and show this price "
 "as well. (optional)"
 msgstr ""
 
-#: includes/metaboxes.php:145
+#: includes/metaboxes.php:147
 msgid "Publisher Name"
 msgstr ""
 
-#: includes/metaboxes.php:148 includes/metaboxes.php:162
+#: includes/metaboxes.php:150 includes/metaboxes.php:164
 msgid "(optional)"
 msgstr ""
 
-#: includes/metaboxes.php:152
+#: includes/metaboxes.php:154
 msgid "Publisher URL"
 msgstr ""
 
-#: includes/metaboxes.php:155
+#: includes/metaboxes.php:157
 msgid ""
 "Setting a publisher URL will turn the \"Publisher Name\" into a link to this "
 "address. (optional)"
 msgstr ""
 
-#: includes/metaboxes.php:159 includes/templates.php:671
+#: includes/metaboxes.php:161 includes/templates.php:671
 msgid "Publication Year"
 msgstr ""
 
-#: includes/metaboxes.php:194
+#: includes/metaboxes.php:196
 msgid "Remove"
 msgstr ""
 
-#: includes/metaboxes.php:203
+#: includes/metaboxes.php:205
 msgid "Button"
 msgstr ""
 
-#: includes/metaboxes.php:204
+#: includes/metaboxes.php:206
 msgid "Text Bullet"
 msgstr ""
 
-#: includes/metaboxes.php:221
+#: includes/metaboxes.php:223
 msgid "Activate Amazon and Barnes &amp; Noble Buttons"
 msgstr ""
 
-#: includes/metaboxes.php:224
+#: includes/metaboxes.php:226
 msgid ""
 "Want more options? Upgrade your MyBookTable and get the Universal Buy Button."
 msgstr ""
 
-#: includes/metaboxes.php:273
+#: includes/metaboxes.php:275
 msgid "Book Number"
 msgstr ""
 
-#: includes/metaboxes.php:274
+#: includes/metaboxes.php:276
 msgid "Use this to order books within a series."
 msgstr ""
 

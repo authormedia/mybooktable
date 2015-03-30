@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: MyBookTable - WordPress Affiliate Bookstore\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mybooktable\n"
 "POT-Creation-Date: 2014-06-18 18:52:23+00:00\n"
-"PO-Revision-Date: 2015-03-12 15:25-0600\n"
+"PO-Revision-Date: 2015-03-14 22:17-0600\n"
 "Last-Translator: Paolo Scaffardi <paolo.scaffardi@gmail.com>\n"
 "Language-Team: Paolo Scaffardi <paolo.scaffardi@gmail.com>\n"
 "Language: it\n"
@@ -24,7 +24,7 @@ msgstr "Immagine capitolo d'esempio"
 msgid "Taxonomy Image"
 msgstr "Immagine tassonomia"
 
-#: includes/admin_pages.php:30 includes/metaboxes.php:103
+#: includes/admin_pages.php:30 includes/metaboxes.php:105
 msgid "Book Cover Image"
 msgstr "Immagine copertina"
 
@@ -72,7 +72,7 @@ msgstr "Tag"
 
 #: includes/admin_pages.php:45 includes/admin_pages.php:878
 msgid "Import Books"
-msgstr ""
+msgstr "Importa Libri"
 
 #: includes/admin_pages.php:46 includes/admin_pages.php:206 includes/admin_pages.php:575
 msgid "MyBookTable Settings"
@@ -92,11 +92,11 @@ msgstr "Aiuto"
 
 #: includes/admin_pages.php:50
 msgid "Upgrade"
-msgstr ""
+msgstr "Estensione"
 
 #: includes/admin_pages.php:50
 msgid "Upgrade MyBookTable"
-msgstr ""
+msgstr "Estendi MyBookTable"
 
 #: includes/admin_pages.php:171
 msgid "Valid API Key"
@@ -112,31 +112,31 @@ msgstr "Impostazioni salvate"
 
 #: includes/admin_pages.php:216
 msgid "Setup"
-msgstr ""
+msgstr "Impostazioni"
 
 #: includes/admin_pages.php:217
 msgid "Style"
-msgstr ""
+msgstr "Stile"
 
 #: includes/admin_pages.php:218
 msgid "Promote"
-msgstr ""
+msgstr "Promuovi"
 
 #: includes/admin_pages.php:219
 msgid "Affiliates"
-msgstr ""
+msgstr "Affiliazioni"
 
 #: includes/admin_pages.php:219
 msgid "Earn"
-msgstr ""
+msgstr "Guadagna"
 
 #: includes/admin_pages.php:220
 msgid "Integrate"
-msgstr ""
+msgstr "Integrazione"
 
 #: includes/admin_pages.php:221
 msgid "Troubleshoot"
-msgstr ""
+msgstr "Risoluzione problemi"
 
 #: includes/admin_pages.php:227
 msgid "MyBookTable API Key"
@@ -149,13 +149,17 @@ msgid ""
 "If you would like to purchase an API key visit <a href=\"http://www.authormedia.com/mybooktable/"
 "\">AuthorMedia.com/MyBookTable</a>."
 msgstr ""
+"Se avete acquistato una chiave API per MyBookTable, immetterlo qui per attivare le funzioni avanzate. Si "
+"può trovare nella tua <a href=\"https://gumroad.com/library/\" target=\"_blank\">Libreria Gumroad qui</a>. "
+"Se si desidera acquistare chiave API visita <a href=\"http://www.authormedia.com/mybooktable/"
+"\">AuthorMedia.com/MyBookTable</a>."
 
 #: includes/admin_pages.php:237
 msgid "Book Table Page"
 msgstr "Pagina di MyBookTable"
 
 #: includes/admin_pages.php:240 includes/extras/widgets.php:131 includes/extras/widgets.php:229
-#: includes/metaboxes.php:230
+#: includes/metaboxes.php:232
 msgid "-- Choose One --"
 msgstr "-- Scegli uno --"
 
@@ -205,23 +209,23 @@ msgstr ""
 
 #: includes/admin_pages.php:277
 msgid "Usage Tracking"
-msgstr ""
+msgstr "Monitoraggio"
 
 #: includes/admin_pages.php:280
 msgid "Disable Tracking"
-msgstr ""
+msgstr "Diasbilita monitoraggio"
 
 #: includes/admin_pages.php:281
 msgid "Thanks for helping to improve MyBookTable by letting it log ananymous data about your usage patterns."
-msgstr ""
+msgstr "Grazie per aiutarci a migliorare MyBookTable consentendo la raccolta di dati anonimi sull'utilizzo."
 
 #: includes/admin_pages.php:283
 msgid "Enable Tracking"
-msgstr ""
+msgstr "Abilita monitoraggio"
 
 #: includes/admin_pages.php:284
 msgid "Help improve MyBookTable by letting it log ananymous data about your usage patterns."
-msgstr ""
+msgstr "Aiutaci a migliorare MyBookTable consentendo la raccolta si dati anonimi sull'utilizzo."
 
 #: includes/admin_pages.php:291 includes/admin_pages.php:421 includes/admin_pages.php:494
 #: includes/admin_pages.php:524 includes/admin_pages.php:528 includes/extras/booksorting.php:145
@@ -242,7 +246,7 @@ msgstr "Scegli lo Style Pack che vorresti per i tuoi pulsanti."
 
 #: includes/admin_pages.php:316
 msgid "Buy Button Sizes"
-msgstr ""
+msgstr "Dimensioni dei pulsanti di acquisto"
 
 #: includes/admin_pages.php:317 includes/admin_pages.php:382 includes/extras/widgets.php:106
 msgid "Small"
@@ -258,55 +262,57 @@ msgstr "Grande"
 
 #: includes/admin_pages.php:319
 msgid "Book Pages"
-msgstr ""
+msgstr "Pagine dei libri"
 
 #: includes/admin_pages.php:327
 msgid "Select the size of the buy buttons on book pages."
-msgstr "Seleziona la dimensione dei pulsanti d'acquisto nelle pagine di libro."
+msgstr "Seleziona la dimensione dei pulsanti di acquisto nelle pagine di libro."
 
 #: includes/admin_pages.php:330
 msgid "Book Listings"
-msgstr ""
+msgstr "Elenco libri"
 
 #: includes/admin_pages.php:338
 msgid "Select the size of the buy buttons on book listings."
-msgstr "Seleziona la dimensione dei pulsanti d'acquisto nell'elenco dei libri."
+msgstr "Seleziona la dimensione dei pulsanti di acquisto nell'elenco dei libri."
 
 #: includes/admin_pages.php:341
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: includes/admin_pages.php:349
 msgid "Select the size of the buy buttons on widgets."
-msgstr "Seleziona la dimensione dei pulsanti d'acquisto nei widget."
+msgstr "Seleziona la dimensione dei pulsanti di acquisto nei widget."
 
 #: includes/admin_pages.php:353
 msgid "Buy Button Shadow Box"
-msgstr ""
+msgstr "Shadow Box pulsanti di acquisto"
 
 #: includes/admin_pages.php:355
 msgid "Nowhere"
-msgstr ""
+msgstr "Da nessuna parte"
 
 #: includes/admin_pages.php:356
 msgid "Book Listings Only"
-msgstr ""
+msgstr "Solo elenco libri"
 
 #: includes/admin_pages.php:357
 msgid "Everywhere"
-msgstr ""
+msgstr "Ovunque"
 
 #: includes/admin_pages.php:358
 msgid ""
 "Replace store buy buttons with a single \"Buy Now\" button that loads a shadow box with all the buttons "
 "within it."
 msgstr ""
+"Sostituire negozio Compro pulsanti con un tasto unico \"Buy Now\" che carica una shadow box con tutti i "
+"pulsanti all'interno di esso."
 
 #: includes/admin_pages.php:362
 msgid "Upload New Style Pack"
-msgstr ""
+msgstr "Carica nuovo stile"
 
-#: includes/admin_pages.php:365 includes/metaboxes.php:119 includes/taxonomies.php:151
+#: includes/admin_pages.php:365 includes/metaboxes.php:121 includes/taxonomies.php:151
 #: includes/taxonomies.php:162
 msgid "Upload"
 msgstr "Carica"
@@ -317,6 +323,8 @@ msgid ""
 "If you would like to make your own style pack you can learn how from our <a href=\"%s\" target=\"_blank"
 "\">developer documentation</a>."
 msgstr ""
+"Per realizzare un nuovo stile personalizzato consulta la nostra<a href=\"%s\" target=_blank>documentazione "
+"per sviluppatori</a>."
 
 #: includes/admin_pages.php:380
 msgid "Book Image Size"
@@ -325,114 +333,120 @@ msgstr "Dimensione dell'Immagine del Libro"
 #: includes/admin_pages.php:388
 msgid "Book Images in MyBookTable respond to mobile devices regardless of which size you select."
 msgstr ""
+"Le immagini del libri in MyBookTable si adattano ai dispositivi mobili a prescindere dalle dimensioni "
+"selezionate"
 
 #: includes/admin_pages.php:392
 msgid "Breadcrumbs"
-msgstr ""
+msgstr "Breadcrumbs"
 
 #: includes/admin_pages.php:395 includes/setup.php:273
 msgid "Enable"
-msgstr ""
+msgstr "Abilita"
 
 #: includes/admin_pages.php:396
 msgid ""
 "Breadcrumbs make your website easier to navigate for both humans and search engines. Uncheck this box if "
 "MyBookTable's breadcrumb system is conflicting with your theme."
 msgstr ""
+"Le Breadcrumb rendono il tuo sito pi? facile da navigare sia per gli utenti che per i motori di ricerca."
+"Deselezione questa casella se le Breadcrumb di MyBookTable generano conflitti con il tema in uso."
 
 #: includes/admin_pages.php:410
 msgid "Number of Books per Page"
-msgstr ""
+msgstr "Numero di libri per pagina"
 
 #: includes/admin_pages.php:413
 msgid "Choose the number of books to show per page on the book listings."
-msgstr ""
+msgstr "Scegli il numero di libri da mostrare per ogni pagina di elenco."
 
 #: includes/admin_pages.php:427
 msgid "Search Engine Optimization"
-msgstr ""
+msgstr "Ottimizzazione per i motori di ricerca (SEO)"
 
 #: includes/admin_pages.php:430
 msgid "Use MyBookTable's built-in SEO features"
-msgstr ""
+msgstr "Usa le funzioni SEO interne di MyBookTable"
 
 #: includes/admin_pages.php:431
 msgid "Let MyBookTable's built in search engine optimization do the work for you."
-msgstr ""
+msgstr "Consenti a MyBookTable di gestire la SEO al posto tuo."
 
 #: includes/admin_pages.php:435
 msgid "Book Reviews Box"
-msgstr ""
+msgstr "Recensione libro"
 
 #: includes/admin_pages.php:452
 msgid "Select the reviews box that will be displayed under each book with a valid ISBN."
-msgstr ""
+msgstr "Seleziona la recensione da mostrare sotto ogni libro con un ISBN valido."
 
 #: includes/admin_pages.php:456
 msgid "Social Media Badges"
-msgstr ""
+msgstr "Pulsanti Social"
 
 #: includes/admin_pages.php:459 includes/admin_pages.php:469 includes/admin_pages.php:477
 msgid "Show on Book Pages"
-msgstr ""
+msgstr "Mostra sulla pagina del libro"
 
 #: includes/admin_pages.php:461
 msgid "Show on Book Listings"
-msgstr ""
+msgstr "Mostra nell'elenco libri"
 
 #: includes/admin_pages.php:462
 msgid "Check to enable MyBookTable's social media badges."
-msgstr ""
+msgstr "Seleziona per abilitare i pulsanti social media di MyBookTable."
 
 #: includes/admin_pages.php:466
 msgid "Social Media Bar"
-msgstr ""
+msgstr "Barra Social Media"
 
 #: includes/admin_pages.php:470
 msgid "Check to enable the social media bar on book pages."
-msgstr "Seleziona per attivare i social media badge di MyBookTable sulle pagine dei libri."
+msgstr "Seleziona per attivare i pulsanti social media di MyBookTable sulle pagine dei libri."
 
 #: includes/admin_pages.php:474
 msgid "\"Find a Local Bookstore\" Box"
-msgstr ""
+msgstr "Finestra \"Trova una libreria locale\""
 
 #: includes/admin_pages.php:479
 msgid "Show in Buy Buttons Shadow Box"
-msgstr ""
+msgstr "Mostra nella Shadow Box dei pulsanti di acquisto"
 
 #: includes/admin_pages.php:480
 msgid "If checked, a box that helps your readers find places to buy your book will display under each book."
 msgstr ""
+"Se selezionato, sar? mostrata sotto ogni libro una finestra che aiuta i lettori a trovare un negozio di "
+"libri."
 
 #: includes/admin_pages.php:484
 msgid "Cross Promote Books in a Series"
-msgstr ""
+msgstr "Promozione incrociata serie di libri"
 
 #: includes/admin_pages.php:487
 msgid "Show books"
-msgstr ""
+msgstr "Mostra libri"
 
 #: includes/admin_pages.php:488
 msgid "If checked, the other books in the same series will display under the book on that book's page."
-msgstr ""
+msgstr "Se selezionato, gli altri libri nella stessa serie saranno mostrati sotto il libro nella pagina."
 
 #: includes/admin_pages.php:501
 msgid "Disclosure of Material Connection Disclaimer"
-msgstr ""
+msgstr "Dichiarazione Esclusione di Responsabilit? sulla diffusione di materiale"
 
 #: includes/admin_pages.php:506
 msgid "Hide Disclosure of Material Connection Disclaimer?"
-msgstr ""
+msgstr "Nascondi Dichiarazione di Esclusione di Responsabilit? sulla diffusione di materiale"
 
 #: includes/admin_pages.php:516
 #, php-format
 msgid "Amazon and Barnes &amp; Noble Buy Buttons enabled! <a href=\"%s\" target=\"_blank\">Disable</a>"
-msgstr ""
+msgstr "Pulsanti Amazon e Barnes &amp; Noble attivati! <a href=%s target=_blank>Disattiva</a>"
 
 #: includes/admin_pages.php:518
 #, php-format
 msgid "Amazon and Barnes &amp; Noble Buy Buttons disabled! <a href=\"%s\" target=\"_blank\">Enable</a>"
-msgstr ""
+msgstr "Pulsanti Amazon e Barnes &amp; Noble disattivati! <a href=\"%s\" target=\"_blank\">Attiva</a>"
 
 #: includes/admin_pages.php:520
 msgid "What does this mean?"
@@ -440,11 +454,11 @@ msgstr "Cosa significa?"
 
 #: includes/admin_pages.php:543
 msgid "MailChimp"
-msgstr ""
+msgstr "MailChimp"
 
 #: includes/admin_pages.php:560
 msgid "Amazon Web Services"
-msgstr ""
+msgstr "Amazon Web Serve"
 
 #: includes/admin_pages.php:578
 msgid ""
@@ -454,18 +468,23 @@ msgid ""
 "links, we have premium upgrades that come not only with affiliate integration but with premium support as "
 "well. You may also disable these buttons if you prefer."
 msgstr ""
+"MyBookTable include oltre una dozzina di pulsanti di acquisto dai principali siti di bookselling. Diversi "
+"di questi pulsanti, inclusi quelli di Amazon e Barnes &amp; Noble, utilizzano link affiliati. I ricavi di "
+"questi link sono utilizzati per finanziare il continuo sviluppo del plugin MyBookTable. Se vuoi utilizzare "
+"i tuoi link affiliati labbiamo l'estensione premium non solo include l'integrazione delle affiliazioni, ma "
+"anche. l'assistenza tecnica. Puoi anche disabilitare questi pulsanti se preferisci."
 
 #: includes/admin_pages.php:583
 msgid "Enable Affiliate Buttons"
-msgstr ""
+msgstr "Attiva pulsanti affiliati"
 
 #: includes/admin_pages.php:584
 msgid "Disable Affiliate Buttons"
-msgstr ""
+msgstr "Disattiva pulsanti affiliati"
 
 #: includes/admin_pages.php:585
 msgid "Buy a Premium Upgrade with Affiliate support"
-msgstr ""
+msgstr "Compra una Estensione Premium con supporto affiliati"
 
 #: includes/admin_pages.php:588
 msgid "Go to Affiliate Settings"
@@ -473,31 +492,31 @@ msgstr "Vai alle Impostazioni di Affiliazione"
 
 #: includes/admin_pages.php:608
 msgid "Path error while adding style pack!"
-msgstr ""
+msgstr "Errore nell'indirizzo aggiungendo un set di stile!"
 
 #: includes/admin_pages.php:616
 msgid "Successfully added button pack!"
-msgstr ""
+msgstr "Set di pulsanti aggiunto con successo"
 
 #: includes/admin_pages.php:618
 msgid "Error unzipping style pack!"
-msgstr ""
+msgstr "Errore scompattando il set di pulsanti!"
 
 #: includes/admin_pages.php:636
 msgid "Need to find or manage your <strong>API Key</strong>?<br>Access through Gumroad"
-msgstr ""
+msgstr "Bisogno di trovare o gestire la tua <strong>API Key</strong>?<br>Accesi attraverso Gumroad"
 
 #: includes/admin_pages.php:639
 msgid "Have <strong>questions or comments</strong>?<br>Check out the Support Forum"
-msgstr ""
+msgstr "Hai <strong>domande o commenti</strong>?<br>Visit ail nostro forum di assistenza"
 
 #: includes/admin_pages.php:642
 msgid "Looking for <strong>developer documentation</strong>?<br>Find it on Github"
-msgstr ""
+msgstr "Cerchi for <strong>documentazione per sviluppatori</strong>?<br> trovali su Github"
 
 #: includes/admin_pages.php:648
 msgid "Need Premium Support? Purchase an upgrade here"
-msgstr ""
+msgstr "Bisogno di assistenza avanzata? Acquista una Estensione qui"
 
 #: includes/admin_pages.php:651
 msgid "Premium Support Options"
@@ -525,7 +544,7 @@ msgstr "Guide di MyBookTable"
 
 #: includes/admin_pages.php:723
 msgid "Tutorial Videos"
-msgstr ""
+msgstr "Video Tutorial"
 
 #: includes/admin_pages.php:805
 msgid "General WordPress Guides &amp; Tutorials"
@@ -545,7 +564,7 @@ msgstr "Benvenuto a MyBookTable!"
 
 #: includes/admin_pages.php:872
 msgid "First Steps"
-msgstr ""
+msgstr "Primi passi"
 
 #: includes/admin_pages.php:875
 msgid "Look at some example Books"
@@ -561,7 +580,7 @@ msgstr "Guarda la Tua Libreria"
 
 #: includes/admin_pages.php:883
 msgid "Actions"
-msgstr ""
+msgstr "Azioni"
 
 #: includes/admin_pages.php:885 includes/admin_pages.php:886 includes/admin_pages.php:887
 #: includes/admin_pages.php:888 includes/admin_pages.php:889 includes/admin_pages.php:890
@@ -570,23 +589,23 @@ msgstr "Gestisci"
 
 #: includes/admin_pages.php:894
 msgid "Resources"
-msgstr ""
+msgstr "Risorse"
 
 #: includes/admin_pages.php:896
 msgid "Get help using MyBookTable"
-msgstr ""
+msgstr "Ottieni aiuto usando MyBookTables"
 
 #: includes/admin_pages.php:897
 msgid "Developer Documentation"
-msgstr ""
+msgstr "Documentazione per sviluppatori"
 
 #: includes/admin_pages.php:898
 msgid "Sign Up for Book Marketing Tips from Author Media"
-msgstr ""
+msgstr "Iscriviti per i trucchi di marketing sui libri da Author Media"
 
 #: includes/admin_pages.php:899
 msgid "Plugin Founders"
-msgstr ""
+msgstr "Fondatori del plugin"
 
 #: includes/admin_pages.php:910
 msgid "Book Marketing Tips from Author Media"
@@ -603,12 +622,12 @@ msgstr "Versione Corrente"
 #: includes/admin_pages.php:927
 #, php-format
 msgid "You are currently using <span class=\"current-version\">MyBookTable %s</span>"
-msgstr ""
+msgstr "Stai attualmente usando <span class=\"current-version\">MyBookTable %s</span>"
 
 #: includes/admin_pages.php:929 includes/admin_pages.php:935
 #, php-format
 msgid "with the <span class=\"current-version\">Developer Upgrade %s</span>"
-msgstr ""
+msgstr "con  la <span class=\"current-version\">Estensione Sviluppatori %s</span>"
 
 #: includes/admin_pages.php:930 includes/admin_pages.php:933 includes/admin_pages.php:936
 #: includes/admin_pages.php:939
@@ -618,15 +637,15 @@ msgstr "Grazie per il tuo supporto!"
 #: includes/admin_pages.php:932 includes/admin_pages.php:938
 #, php-format
 msgid "with the <span class=\"current-version\">Professional Upgrade %s</span>"
-msgstr ""
+msgstr "con la <span class=\"current-version\">Estensione Professional %s</span>"
 
 #: includes/admin_pages.php:943
 msgid "Upgrade your MyBookTable and get:"
-msgstr ""
+msgstr "Estendi il tuo MyBookTable ed ottieni:"
 
 #: includes/admin_pages.php:945
 msgid "Premium Support"
-msgstr ""
+msgstr "Assistenza Premium"
 
 #: includes/admin_pages.php:946
 msgid "Amazon Affiliate Integration"
@@ -634,7 +653,7 @@ msgstr "Integrazione ad Amazon Affiliate"
 
 #: includes/admin_pages.php:947
 msgid "Barnes &amp; Noble Affiliate Integration"
-msgstr ""
+msgstr "Integrazione ad Barnes&amp;Noble"
 
 #: includes/admin_pages.php:948
 msgid "Universal Buy Button"
@@ -646,38 +665,41 @@ msgstr "E molto altro"
 
 #: includes/admin_pages.php:959
 msgid "Promotions"
-msgstr ""
+msgstr "Promozioni"
 
 #: includes/admin_pages.php:991
 msgid "Get Upgrade"
-msgstr ""
+msgstr "Ottieni estensione"
 
 #: includes/admin_pages.php:996
 msgid "Plugin successfully activated."
-msgstr ""
+msgstr "Plugin attivato con successo"
 
 #: includes/admin_pages.php:1034
 msgid "An error occurred while trying to retrieve the plugin from the server. Please check your API Key."
 msgstr ""
+"Si ? verificato un errore tentando di recuparare il plugin dal server. Per favore controllare l'API Key"
 
 #: includes/admin_pages.php:1035
 msgid ""
 "Sorry, but you do not have the correct permissions to install plugins. Contact the administrator of this "
 "site for help on getting the plugin installed."
 msgstr ""
+"Spiacente, ma non hai le autorizzazzioni corrette per installare questo plugin. Contatta "
+"l'amministratoredel sito per ottenere assistenza"
 
 #: includes/admin_pages.php:1051
 #, php-format
 msgid "Installing Plugin: %s"
-msgstr ""
+msgstr "Installazione Plugin: %s"
 
 #: includes/admin_pages.php:1069
 msgid "You have no Upgrades available to download at this time."
-msgstr ""
+msgstr "Nessuna estensione disponibile per i download in questo momento."
 
 #: includes/admin_pages.php:1081
 msgid "Back to Dashboard"
-msgstr ""
+msgstr "torna al cruscotto"
 
 #: includes/admin_pages.php:1095
 msgid "MyBookTable Founders"
@@ -696,11 +718,11 @@ msgstr ""
 
 #: includes/admin_pages.php:1226
 msgid "The following books will be imported:"
-msgstr ""
+msgstr "I seguenti libri saranno importati"
 
 #: includes/admin_pages.php:1232
 msgid "Are you sure you want to import these books?"
-msgstr ""
+msgstr "Sei sicuro di voler importare questi libri"
 
 #: includes/admin_pages.php:1233 includes/admin_pages.php:1239
 msgid "Import"
@@ -708,23 +730,23 @@ msgstr "Importa"
 
 #: includes/admin_pages.php:1236
 msgid "Importer error! Unable to render import form."
-msgstr ""
+msgstr "Errore nell'importazione! Impossibile interpretare le configurazioni di importazione"
 
 #: includes/admin_pages.php:1242
 msgid "Importer error! Please ensure your MyBookTable Upgrade plugins are updated."
-msgstr ""
+msgstr "Errore nell'importazione! Per favore assicurati che i plugin MyBookTable siano aggiornati."
 
 #: includes/admin_pages.php:1258
 msgid "Import error:"
-msgstr ""
+msgstr "Errore nell'importazione:"
 
 #: includes/admin_pages.php:1272
 msgid "Please wait, your books are importing..."
-msgstr ""
+msgstr "Per favore attendere mentre importo i libri..."
 
 #: includes/admin_pages.php:1275
 msgid "Stop Import"
-msgstr ""
+msgstr "Ferma importazione"
 
 #: includes/admin_pages.php:1278
 msgid "Continue"
@@ -732,15 +754,15 @@ msgstr "Continua"
 
 #: includes/admin_pages.php:1294
 msgid "Import Interrupted"
-msgstr ""
+msgstr "Importazione interrotta"
 
 #: includes/admin_pages.php:1296
 msgid "Import Complete"
-msgstr ""
+msgstr "Importazione completata"
 
 #: includes/admin_pages.php:1316
 msgid "Successfully imported:"
-msgstr ""
+msgstr "Importati con successo:"
 
 #: includes/buybuttons.php:51
 msgid "Paste in the product URL for this item."
@@ -748,7 +770,7 @@ msgstr "Incolla l'URL del prodotto per questa voce."
 
 #: includes/buybuttons.php:51
 msgid "Learn more about adding Buy Button links."
-msgstr "Impara di più riguardo l'aggiungere link a Pulsanti d'Acquisto."
+msgstr "Impara di più riguardo l'aggiunta di link ai pulsanti di acquisto."
 
 #: includes/buybuttons.php:52
 #, php-format
@@ -759,61 +781,64 @@ msgstr "Cerca libri su %s."
 #: includes/buybuttons.php:446 includes/buybuttons.php:474 includes/buybuttons.php:476
 #, php-format
 msgid "Buy from %s"
-msgstr ""
+msgstr "cquista da %s"
 
 #: includes/buybuttons.php:105
 msgid "Valid Affiliate Token"
-msgstr ""
+msgstr "Token affiliato valido"
 
 #: includes/buybuttons.php:107
 msgid "Invalid Affiliate Token"
-msgstr ""
+msgstr "Token affiliato non valido"
 
 #: includes/buybuttons.php:126
 msgid "iTunes Affiliates"
-msgstr ""
+msgstr "Affiliato iTunes"
 
 #: includes/buybuttons.php:136
 msgid "Affiliate Token:"
-msgstr ""
+msgstr "Token affiliato"
 
 #: includes/buybuttons.php:139
 msgid ""
 "You can find your iTunes Affiliate Token by visiting your <a href=\"http://affiliate.itunes.apple.com/"
 "signin\" target=\"_blank\">iTunes Affiliates page</a>. The code should be near the top left of the screen."
 msgstr ""
+"Puoi trovare il tuo codice affiliato di iTunes visitando la tua <a href=\"http://affiliate.itunes.apple."
+"com/signin\" target=\"_blank\">pagina affiliato di iTunes</a>. Il codice dovrebbe essere in alto a "
+"sinistra nella schermata."
 
 #: includes/buybuttons.php:140
 msgid "Disable iTunes Affiliate System"
-msgstr ""
+msgstr "Disabilita sistema affiliazioni iTunes"
 
 #: includes/buybuttons.php:165
 msgid "Amazon Associates"
-msgstr ""
+msgstr "Amazon Associates"
 
 #: includes/buybuttons.php:202
 msgid "LinkShare"
-msgstr ""
+msgstr "LinkShare"
 
 #: includes/buybuttons.php:239
 msgid "Commission Junction"
-msgstr ""
+msgstr "Commission Junction"
 
 #: includes/buybuttons.php:295
 msgid "Invalid Amazon product link"
-msgstr ""
+msgstr "Link prodotto Amazon non valido"
 
 #: includes/buybuttons.php:297
 msgid "Valid Amazon product link"
-msgstr ""
+msgstr "Link prodotto Amazon valido"
 
 #: includes/buybuttons.php:380
 msgid "Invalid Barnes &amp; Noble product link"
-msgstr ""
+msgstr "Link prodotto Barnes &amp; Noble non valido"
 
 #: includes/buybuttons.php:382
 msgid "Valid Barnes &amp; Noble product link"
-msgstr ""
+msgstr "Link prodotto Barnes &amp; Noble valido"
 
 #: includes/extras/booksorting.php:10 includes/extras/booksorting.php:120
 msgid "Sort Books"
@@ -821,19 +846,19 @@ msgstr "Ordina Libri"
 
 #: includes/extras/booksorting.php:123
 msgid "Attribute Sorting"
-msgstr ""
+msgstr "Ordina attributi"
 
 #: includes/extras/booksorting.php:130
 msgid "Sort"
-msgstr ""
+msgstr "Ordina"
 
 #: includes/extras/booksorting.php:136
 msgid "Manual Sorting"
-msgstr ""
+msgstr "Ordina manulamente"
 
 #: includes/extras/booksorting.php:143
 msgid "Manual book sorting is not supported for more than 300 books. Please use Attribute Sorting."
-msgstr ""
+msgstr "Ordinamento manuale non supportato per pi? di 300 libri. Per favore usare ordinamento per attributi."
 
 #: includes/extras/booksorting.php:155
 msgid "No books to sort!"
@@ -841,11 +866,11 @@ msgstr "Nessun libro da ordinare!"
 
 #: includes/extras/booksorting.php:192
 msgid "Post Title"
-msgstr ""
+msgstr "Titolo post"
 
 #: includes/extras/booksorting.php:193
 msgid "Post Date"
-msgstr ""
+msgstr "Data post"
 
 #: includes/extras/booksorting.php:194 includes/extras/shortcodes.php:72 includes/taxonomies.php:26
 #: includes/templates.php:356 includes/templates.php:746
@@ -864,15 +889,15 @@ msgstr "Tag"
 
 #: includes/extras/booksorting.php:198 includes/metaboxes.php:22
 msgid "Series Order"
-msgstr ""
+msgstr "Ordine serie"
 
 #: includes/extras/booksorting.php:206
 msgid "Ascending"
-msgstr ""
+msgstr "Ascendente"
 
 #: includes/extras/booksorting.php:207
 msgid "Descending"
-msgstr ""
+msgstr "Discendente"
 
 #: includes/extras/breadcrumbs.php:32
 msgid "Home"
@@ -880,39 +905,43 @@ msgstr "Principale"
 
 #: includes/extras/getnoticed.php:56
 msgid "GetNoticed"
-msgstr ""
+msgstr "GetNoticed"
 
 #: includes/extras/getnoticed.php:57
 msgid "Import your books from the GetNoticed theme."
-msgstr ""
+msgstr "Importa il libro dal tema GetNoticed"
 
 #: includes/extras/getnoticed.php:58
 msgid "GetNoticed Import"
-msgstr ""
+msgstr "Importa GetNoticed"
 
 #: includes/extras/goodreads.php:13
 msgid "You must input your GoodReads Developer Key"
-msgstr ""
+msgstr "Devi inserire la GoodReads Developer Key"
 
 #: includes/extras/goodreads.php:45
 msgid "Valid Developer Key"
-msgstr ""
+msgstr "GoodReads  Developer Key  valida"
 
 #: includes/extras/goodreads.php:47
 msgid "Invalid Developer Key"
-msgstr ""
+msgstr " Developer Key non valida"
 
 #: includes/extras/goodreads.php:59
 msgid "GoodReads"
-msgstr ""
+msgstr "GoodReads"
 
 #: includes/extras/goodreads.php:65
-msgid "Insert your GoodReads Developer Key to enable GoodReads reviews on your book pages."
+#, php-format
+msgid ""
+"Insert your GoodReads Developer Key to <a href=\"%s\">enable GoodReads reviews</a> on your book pages."
 msgstr ""
+"Inserisci la chiave sviluppatori GooReads per <a href=\"%s\">abilitare le recensioni GoodReads</a> sulla "
+"pagina del libro."
 
 #: includes/extras/goodreads.php:65
 msgid "Learn how to get a GoodReads Developer Key"
-msgstr ""
+msgstr "Scopri come ottenere una chiave di sviluppatore GoodReads"
 
 #: includes/extras/seo.php:378
 msgid "SEO Title:"
@@ -988,7 +1017,7 @@ msgstr "Libro Singolo"
 
 #: includes/extras/shortcodes.php:81
 msgid "Show a given book in an embedded book listing."
-msgstr ""
+msgstr "Mostra un libro in una lista di libri allegata (embedded)."
 
 #: includes/extras/shortcodes.php:84 includes/post_types.php:19
 msgid "Book"
@@ -1052,11 +1081,11 @@ msgstr "Annulla"
 
 #: includes/extras/totallybooked.php:12
 msgid "Totally Booked"
-msgstr ""
+msgstr "Totally Booked"
 
 #: includes/extras/totallybooked.php:13
 msgid "Import your books from the Totally Booked plugin."
-msgstr ""
+msgstr "Importa i tuoi libri dal Plugin Totally Booked"
 
 #: includes/extras/widgets.php:23
 msgid "Displays featured or random books."
@@ -1084,7 +1113,7 @@ msgstr "Mostra il trafiletto del libro"
 
 #: includes/extras/widgets.php:118
 msgid "Use shadow box for Buy Buttons"
-msgstr ""
+msgstr "Usa la shadow box per i pulsanti di acquisto"
 
 #: includes/extras/widgets.php:121
 msgid "Choose how to select the featured books:"
@@ -1106,7 +1135,7 @@ msgstr "Libri Casuali"
 msgid "Select Books:"
 msgstr "Scegli Libri:"
 
-#: includes/extras/widgets.php:141 includes/metaboxes.php:235
+#: includes/extras/widgets.php:141 includes/metaboxes.php:237
 msgid "Add"
 msgstr "Aggiungi"
 
@@ -1124,7 +1153,7 @@ msgstr "MyBookTable - Widget Tassonomia"
 
 #: includes/extras/widgets.php:227
 msgid "Displayed taxonomy"
-msgstr ""
+msgstr "Tassonomia visualizzta"
 
 #: includes/extras/widgets.php:238
 msgid "Show post counts"
@@ -1148,23 +1177,23 @@ msgstr ""
 
 #: includes/functions.php:138
 msgid "Amazon Reviews"
-msgstr ""
+msgstr "Recensioni Amazon"
 
 #: includes/functions.php:242
 msgid "Amazon Bulk Book Importer"
-msgstr ""
+msgstr "Importatore di libri da Amazon"
 
 #: includes/functions.php:243
 msgid "Import your books in bulk from Amazon with a list of ISBNs."
-msgstr ""
+msgstr "Importa i tuoi libri in massa da Amazon con una lista di ISBN."
 
 #: includes/functions.php:247
 msgid "UIEE File"
-msgstr ""
+msgstr "File UIEE"
 
 #: includes/functions.php:248
 msgid "Import your books from a UIEE (Universal Information Exchange Environment) File."
-msgstr ""
+msgstr "Importa i tuoi libri da un file UIEE (Universal Information Exchange Environment)."
 
 #: includes/functions.php:627
 msgid "Unable to connect to server!"
@@ -1176,19 +1205,19 @@ msgstr "Risposta non valida ricevuta dal server"
 
 #: includes/functions.php:650
 msgid "Valid for MyBookTable Developer 2.0"
-msgstr ""
+msgstr "Valido per MyBookTable Developer 2.0"
 
 #: includes/functions.php:654
 msgid "Valid for MyBookTable Professional 2.0"
-msgstr ""
+msgstr "Valido per MyBookTable Professional 2.0"
 
 #: includes/functions.php:658
 msgid "Valid for MyBookTable Developer 1.0"
-msgstr ""
+msgstr "Valido per MyBookTable Developer 1.0"
 
 #: includes/functions.php:662
 msgid "Valid for MyBookTable Professional 1.0"
-msgstr ""
+msgstr "Valido per MyBookTable Professional 1.0"
 
 #: includes/functions.php:665
 msgid "Permissions error!"
@@ -1204,175 +1233,182 @@ msgstr "Chiave disattivata"
 
 #: includes/functions.php:716 includes/functions.php:732
 msgid "Upgrade your MyBookTable to enable these advanced features!"
-msgstr ""
+msgstr "Estendi il tuo MyBookTable per attivare queste funzioni avanzate!"
 
 #: includes/functions.php:718
 msgid "Thank you for purchasing a MyBookTable Upgrade!"
-msgstr ""
+msgstr "Grazie per aver acquistato una estensione di MyBookTable"
 
 #: includes/functions.php:718
 msgid "Get premium support."
-msgstr ""
+msgstr "Ottieni supporto premium."
 
 #: includes/functions.php:721
 msgid "Download your MyBookTable Upgrade plugin to enable your advanced features!"
-msgstr ""
+msgstr "Scarica il tuo plugin MyBookTable Estensione per attivare le tue funzioni avanzate! "
 
 #: includes/functions.php:727
 msgid "Insert your API Key to enable your advanced features!"
-msgstr ""
+msgstr "Inserisci la tua API Key per abilitare le tue funzioni avanzate!"
 
 #: includes/functions.php:729
 msgid "Update your API Key to enable your advanced features!"
-msgstr ""
+msgstr "Aggiorna la tua API Key per abilitare le tue funzioni avanzate"
 
 #: includes/metaboxes.php:18
 msgid "Book Blurb"
-msgstr ""
+msgstr "Trafiletto"
 
 #: includes/metaboxes.php:19
 msgid "Book Details"
-msgstr ""
+msgstr "Dettagli"
 
 #: includes/metaboxes.php:20
 msgid "Buy Buttons"
-msgstr "Pulsanti d'acquisto"
+msgstr "Pulsanti di acquisto"
 
 #: includes/metaboxes.php:21
 msgid "Book Overview"
-msgstr ""
+msgstr "Panoramica"
 
 #: includes/metaboxes.php:28
 msgid "Set the priority (order) of the authors."
-msgstr ""
+msgstr "Imposta la priorit? (ordine) degli autori."
 
 #: includes/metaboxes.php:40
 msgid "Excerpt"
 msgstr "Estratto"
 
-#: includes/metaboxes.php:41
+#: includes/metaboxes.php:42
 #, php-format
 msgid ""
 "Book Blurbs are hand-crafted summaries of your book. The goal of a book blurb is to convince strangers "
 "that they need buy your book in 100 words or less. Answer the question \"why would I want to read this "
-"book?\" <a href=\"%s\" target=\"_blank\">Learn more about writing your book blurb.</a></p>"
+"book?\" <a href=\"%s\" target=\"_blank\">Learn more about writing your book blurb.</a>"
 msgstr ""
 "Il Trafiletto Pubblicitario di un Libro è un sommario artigianale del tuo libro. L'obiettivo è convincere "
-"gli sconosciuti a compare il tuo libro in solo 100 parole (o meno). Rispondi alla domanda \"perché dovrei "
+"gli sconosciuti a compare il tuo libro in solo 100 parole o meno. Rispondi alla domanda \"perché dovrei "
 "voler leggere questo libro?\" <a href=\"%s\" target=\"_blank\">Impara di più sullo scrivere trafiletti "
-"pubblicitari per libri.</a></p>"
+"pubblicitari per libri.</a>"
 
-#: includes/metaboxes.php:54
+#: includes/metaboxes.php:56
 msgid ""
 "Book Overview is a longer description of your book. This typically includes all the text from the back "
 "cover of the book plus, endorsements and any other promotional materials from interior flaps or initial "
 "pages. This is also a good place to embed a book trailer if you have one."
 msgstr ""
+"La panoramica ? una descrizione pi? lunga del tuo libro. Tipicamente include tutti i testi dal retro di "
+"copertina pi? qualunque introduzione o materiale promozionale dalle alette interne o dalle pagine "
+"iniziali. Questo ? anche un buon posto per mettere un promo del libro, se ne hai uno."
 
-#: includes/metaboxes.php:81
+#: includes/metaboxes.php:83
 msgid "You will not have reviews for this book. Please enter the book ISBN."
-msgstr ""
-
-#: includes/metaboxes.php:90
-msgid "Valid ISBN"
-msgstr ""
-
-#: includes/metaboxes.php:90
-msgid "(verify book)"
-msgstr ""
+msgstr "Non avrai recensioni per questo libro. Per favore inserisci il numero ISBN."
 
 #: includes/metaboxes.php:92
-msgid "Invalid ISBN"
-msgstr ""
+msgid "Valid ISBN"
+msgstr "ISBN valido"
 
-#: includes/metaboxes.php:106
+#: includes/metaboxes.php:92
+msgid "(verify book)"
+msgstr "(verifica libro)"
+
+#: includes/metaboxes.php:94
+msgid "Invalid ISBN"
+msgstr "ISBN non valido"
+
+#: includes/metaboxes.php:108
 msgid "Set cover image"
 msgstr "Imposta immagine di copertina"
 
-#: includes/metaboxes.php:112
+#: includes/metaboxes.php:114
 msgid "The ISBN number is needed if you want to enable GoodReads or Amazon reviews. (optional)"
-msgstr ""
+msgstr "Il numero ISBN ? necessario se vuoi abilitare le recensioni Amazon o Goodread."
 
-#: includes/metaboxes.php:116
+#: includes/metaboxes.php:118
 msgid "Sample Chapter"
 msgstr "Capitolo d'Esempio"
 
-#: includes/metaboxes.php:120
+#: includes/metaboxes.php:122
 msgid ""
 "Upload a sample chapter from your book to give viewers a preview. We recommend using a .pdf format for the "
 "sample chapter. (optional)"
 msgstr ""
+"Carica un capitolo di esempio del tuo libro per dare una anteprima ai visitatori. Raccomandiamo di usare "
+"un formato .pdf per l'anteprima. (opzionale)"
 
-#: includes/metaboxes.php:124
+#: includes/metaboxes.php:126
 msgid "Book Length"
-msgstr ""
+msgstr "Lunghezza del libro"
 
-#: includes/metaboxes.php:127
+#: includes/metaboxes.php:129
 msgid "Is this book a short story, a complete novel, or an epic drama? (optional)"
-msgstr ""
+msgstr "Questo libro ? una storia breve un romanzo completo o un dramma epico? (opzionale)"
 
-#: includes/metaboxes.php:131
+#: includes/metaboxes.php:133
 msgid "List Price"
-msgstr ""
+msgstr "Prezzo di listino"
 
-#: includes/metaboxes.php:134
+#: includes/metaboxes.php:136
 msgid ""
 "You can typically find the list price just above the ISBN barcode on the back cover of the book. (optional)"
 msgstr ""
+"Solitamente puoi trovare il prezzo di listino subito sopra il codice a barre ISBN sul retro della "
+"copertina. (opzionale)"
 
-#: includes/metaboxes.php:138
+#: includes/metaboxes.php:140
 msgid "Sale Price"
-msgstr ""
+msgstr "Prezzo scontato"
 
-#: includes/metaboxes.php:141
+#: includes/metaboxes.php:143
 msgid "Setting a sale price will cross through the price field and show this price as well. (optional)"
-msgstr ""
+msgstr "Impostando un prezzo scontato sar? depennato il prezzo di listino e mostrato questo al suo posto."
 
-#: includes/metaboxes.php:145
+#: includes/metaboxes.php:147
 msgid "Publisher Name"
 msgstr "Editore"
 
-#: includes/metaboxes.php:148 includes/metaboxes.php:162
+#: includes/metaboxes.php:150 includes/metaboxes.php:164
 msgid "(optional)"
 msgstr "(opzionale)"
 
-#: includes/metaboxes.php:152
+#: includes/metaboxes.php:154
 msgid "Publisher URL"
 msgstr "URL dell'Editore"
 
-#: includes/metaboxes.php:155
+#: includes/metaboxes.php:157
 msgid "Setting a publisher URL will turn the \"Publisher Name\" into a link to this address. (optional)"
-msgstr ""
+msgstr "Impostando l'URL dell'editore il campo \"Editore\" diventer? un link a questo indirizzo. (optional)"
 
-#: includes/metaboxes.php:159 includes/templates.php:671
+#: includes/metaboxes.php:161 includes/templates.php:671
 msgid "Publication Year"
 msgstr "Anno di Pubblicazione"
 
-#: includes/metaboxes.php:194
+#: includes/metaboxes.php:196
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: includes/metaboxes.php:203
+#: includes/metaboxes.php:205
 msgid "Button"
-msgstr ""
+msgstr "Pulsante"
 
-#: includes/metaboxes.php:204
+#: includes/metaboxes.php:206
 msgid "Text Bullet"
-msgstr ""
+msgstr "Bullet Testo"
 
-#: includes/metaboxes.php:221
+#: includes/metaboxes.php:223
 msgid "Activate Amazon and Barnes &amp; Noble Buttons"
 msgstr "Attiva i pulsanti Amazon e Barnes &amp; Noble"
 
-#: includes/metaboxes.php:224
+#: includes/metaboxes.php:226
 msgid "Want more options? Upgrade your MyBookTable and get the Universal Buy Button."
-msgstr ""
+msgstr "Vuoi pi? opzioni? Estendi MyBookTable ed ottieni il pulsante di acquisto universale."
 
-#: includes/metaboxes.php:273
+#: includes/metaboxes.php:275
 msgid "Book Number"
 msgstr "Numero Libro"
 
-#: includes/metaboxes.php:274
+#: includes/metaboxes.php:276
 msgid "Use this to order books within a series."
 msgstr "Usa questo per ordinare i libri della serie"
 
@@ -1426,13 +1462,15 @@ msgstr "tag"
 
 #: includes/setup.php:154
 msgid "MyBookTable Rewrites Error"
-msgstr ""
+msgstr "MyBookTable Riscrive Errore"
 
 #: includes/setup.php:155
 msgid ""
 "You have a plugin or theme that has post types or taxonomies that are conflicting with MyBookTable. "
 "MyBookTable pages will not display correctly."
 msgstr ""
+"La tassonomia di MyBookTable ? in conflitto con quella di un altro plugin o del tema corrente. Le pagine "
+"MyBookTable non saranno visualizzate correttamente."
 
 #: includes/setup.php:233
 msgid "<strong>Welcome to MyBookTable</strong> &#8211; You're almost ready to start promoting your books :)"
@@ -1486,58 +1524,64 @@ msgid ""
 "<strong>Enable your Upgrade</strong> &#8211; Download or Activate your MyBookTable Upgrade plugin to "
 "enable your advanced features!"
 msgstr ""
+"<strong>Abilita la tua estensione</strong> &#8211; Scarica o attiva la tua estensione MyBookTable per "
+"abilitare le funzioni avanzate!"
 
 #: includes/setup.php:281
 msgid ""
 "<strong>Help Improve MyBookTable</strong> &#8211; Please help make MyBookTable easier to use by allowing "
 "it to gather anonymous usage statistics."
 msgstr ""
+"<strong>Aiutaci a migliorare MyBookTable</strong> &#8211; Per favore aiutaci a migliorare MyBookTable "
+"facilmente autorizzando la raccolta di dati statistici anonimi."
 
 #: includes/setup.php:282
 msgid "No Problem"
-msgstr ""
+msgstr "Nessun problema"
 
 #: includes/setup.php:283
 msgid "I'd Rather Not"
-msgstr ""
+msgstr "Preferisco di no"
 
 #: includes/setup.php:295 includes/setup.php:377
 msgid "Learn the Secrets of Amazing Author Websites"
-msgstr ""
+msgstr "Impara i segreti dei migliori siti."
 
 #: includes/setup.php:296
 msgid ""
 "Want an author website that doesn&#39;t just look good, but also boosts book sales? Find out in this "
 "practical (and totally free) course by Author Media CEO, Thomas Umstattd Jr."
 msgstr ""
+"Vuoi un sito che non sia solo bello, ma che incrementi anche le tue vendite? Trovali in questo pratico (e "
+"totalmente gratuito) corso del CEO di Author Media, Thomas Umstattd Jr."
 
 #: includes/setup.php:299
 msgid "Let's do it!"
-msgstr ""
+msgstr "Facciamolo!"
 
 #: includes/setup.php:300
 msgid "No, thanks"
-msgstr ""
+msgstr "No, grazie"
 
 #: includes/setup.php:378
 msgid "Thank you for subscribing! Please check your inbox for a confirmation letter."
-msgstr ""
+msgstr "Grazie per l'iscrizione! Controlla la posta, riceverai una mail di conferma."
 
 #: includes/setup.php:384
 msgid "Go to Yahoo! Mail"
-msgstr ""
+msgstr "Vai a Yahoo! Mail"
 
 #: includes/setup.php:387
 msgid "Go to Hotmail"
-msgstr ""
+msgstr "Vai a Hotmail"
 
 #: includes/setup.php:390
 msgid "Go to Gmail"
-msgstr ""
+msgstr "Vai a Gmail"
 
 #: includes/setup.php:393
 msgid "Go to AOL Mail"
-msgstr ""
+msgstr "Vai ad AOL Mail"
 
 #: includes/setup.php:424
 msgid "Book Table"
@@ -1678,7 +1722,7 @@ msgstr "Vedi tag"
 
 #: includes/taxonomies.php:96
 msgid "Update Tag"
-msgstr "Aggiorna tag"
+msgstr "Aggiorna Tag"
 
 #: includes/taxonomies.php:97
 msgid "Search Tags"
@@ -1698,7 +1742,7 @@ msgstr "Immagine"
 
 #: includes/taxonomies.php:195 includes/taxonomies.php:210
 msgid "Priority"
-msgstr ""
+msgstr "Priorità"
 
 #: includes/templates.php:427
 msgid "Back"
@@ -1718,11 +1762,11 @@ msgstr "Altri venditori di libri"
 
 #: includes/templates.php:597
 msgid "Buy This Book Online"
-msgstr ""
+msgstr "Acquista questo libro oline"
 
 #: includes/templates.php:609
 msgid "Buy now!"
-msgstr ""
+msgstr "Acquista ora!"
 
 #: includes/templates.php:629
 msgid "More info"
@@ -1735,11 +1779,11 @@ msgstr "Editore"
 #: includes/templates.php:781
 #, php-format
 msgid "Other %s in"
-msgstr ""
+msgstr "Altri %s in"
 
 #: includes/templates.php:822
 msgid "Find A Local Bookstore"
-msgstr "Trova una Libreria Vicina"
+msgstr "Trova una libreria vicina"
 
 #: includes/templates.php:824
 msgid "City"
@@ -1755,15 +1799,15 @@ msgstr "Cerca Negozio"
 
 #: mybooktable.php:31
 msgid "PHP Out of Date"
-msgstr ""
+msgstr "PHP obsoleto"
 
 #: mybooktable.php:32
 msgid "MyBookTable requires at least PHP 5.3.9. You are currently running PHP "
-msgstr ""
+msgstr "MyBookTable richiede almeno PHP 5.3.9. Attualmente stai usando PHP"
 
 #: mybooktable.php:127
 msgid "Purchase Upgrade"
-msgstr ""
+msgstr "Acquista l'estensione "
 
 #: mybooktable.php:133
 msgid "Review this plugin"

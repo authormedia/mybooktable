@@ -3,7 +3,7 @@ Contributors: authormedia, zookatron, neovita
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K6UGSUCSKP4NS
 Tags: book, books, ecommerce, affiliate, store, author plugin, amazon, ibooks, iTunes, smashwords, goodreads, gumroad
 Requires at least: 3.5.0
-Tested up to: 4.1.1
+Tested up to: 4.2.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -78,7 +78,7 @@ Have a a lot of buy buttons cluttering up your book pages? No worries. MyBookTab
 = Featured Book Widget =
 Feature a book on your sidebar with just a few clicks. You can even add multiple books by adding multiple widgets.
 
-=  Mobile Responsive =
+= Mobile Responsive =
 If your WordPress theme is mobile responsive, MyBookTable will react similarly, delivering maximum compatibility for visitors on phones and tablets.
 
 = Recommend Books (New in 2.0) =
@@ -211,6 +211,11 @@ This version adds several cool new features, including "Publisher" and "Publicat
 This version adds **many** new buy button options, including Apple iBooks & Sony Reader.
 
 == Changelog ==
+
+= 2.1.1 =
+* Improved localization support
+* Added new shortcode display mode for books to just show the book Buy Buttons
+* Various bug fixes
 
 = 2.1.0 =
 * Added iTunes Affiliate Integration
