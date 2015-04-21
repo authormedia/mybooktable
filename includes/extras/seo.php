@@ -168,7 +168,7 @@ function mbt_seo_pagify_link($url, $page) {
 			$url = user_trailingslashit(trailingslashit($url).trailingslashit($wp_rewrite->pagination_base).$page);
 		}
 	}
-	return $url;
+	return esc_url($url);
 }
 
 function mbt_seo_title($post_id = 0) {
@@ -200,7 +200,7 @@ function mbt_seo_tax_title($term = '', $taxonomy = '') {
 	$title = '';
 
 	if(empty($term) or empty($taxonomy)) {
-		global $mbt_archive_query;
+		global $mbt_archive_query, $wp_query;
 		$query = mbt_is_archive_query() ? $mbt_archive_query : $wp_query;
 		if($query->is_tax()) { $term_obj = $query->get_queried_object(); }
 	} else {
@@ -237,7 +237,7 @@ function mbt_seo_tax_metadesc($term = '', $taxonomy = '') {
 
 	$term_obj = null;
 	if(empty($term) or empty($taxonomy)) {
-		global $mbt_archive_query;
+		global $mbt_archive_query, $wp_query;
 		$query = mbt_is_archive_query() ? $mbt_archive_query : $wp_query;
 		if($query->is_tax()) { $term_obj = $query->get_queried_object(); }
 	} else {
@@ -307,7 +307,7 @@ function mbt_seo_add_opengraph() {
 		$query = mbt_is_archive_query() ? $mbt_archive_query : $wp_query;
 		$term = $query->get_queried_object();
 		if(!empty($term) and !empty($term->taxonomy)) {
-			$tags['og:url'] = esc_url(mbt_seo_pagify_link(get_term_link($query->get($term->taxonomy), $term->taxonomy), $query->get('paged')));
+			$tags['og:url'] = mbt_seo_pagify_link(get_term_link($query->get($term->taxonomy), $term->taxonomy), $query->get('paged'));
 			$image = mbt_get_taxonomy_image($term->taxonomy, $term->term_id);
 			if(!empty($image)) { $tags['og:image'] = esc_url($image); }
 		}
@@ -326,7 +326,7 @@ function mbt_seo_add_opengraph() {
 		$tags['og:title'] = mbt_seo_archive_title();
 		$tags['og:site_name'] = get_bloginfo('name');
 		$query = mbt_is_archive_query() ? $mbt_archive_query : $wp_query;
-		$tags['og:url'] = esc_url(mbt_seo_pagify_link(get_post_type_archive_link('mbt_book'), $query->get('paged')));
+		$tags['og:url'] = mbt_seo_pagify_link(get_post_type_archive_link('mbt_book'), $query->get('paged'));
 	}
 
 	foreach($tags as $tag => $content) {

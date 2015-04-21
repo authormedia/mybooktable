@@ -161,7 +161,7 @@ The following buy buttons are available with the Professional & Developer Upgrad
 2. Search for "MyBookTable"
 3. Click “Install”
 4. Click “Activate” under the the plugin on the 'Plugins' menu in WordPress.
-5. Follow the instructions at the top of the dashboard. 
+5. Follow the instructions at the top of the dashboard.
 
 = Zip Upload Method =
 1. Download the mybooktable.zip from the WordPress.org plugin repository.
@@ -211,6 +211,11 @@ This version adds several cool new features, including "Publisher" and "Publicat
 This version adds **many** new buy button options, including Apple iBooks & Sony Reader.
 
 == Changelog ==
+
+= 2.1.2 =
+* Fixed problem caused by Jetpack Photon that caused Book Series images to not show up correctly
+* Added API Key masking to ease usage by developers with multiple managed websites
+* Other minor bug fixes
 
 = 2.1.1 =
 * Improved localization support

@@ -100,7 +100,7 @@ function mbt_save_settings_page() {
 	if(isset($_REQUEST['page']) and $_REQUEST['page'] == 'mbt_settings' and isset($_REQUEST['save_settings'])) {
 		do_action('mbt_settings_save');
 
-		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key')) {
+		if($_REQUEST['mbt_api_key'] != mbt_get_setting('api_key') and $_REQUEST['mbt_api_key'] != mbt_hide_api_key(mbt_get_setting('api_key'))) {
 			mbt_update_setting('api_key', $_REQUEST['mbt_api_key']);
 			mbt_verify_api_key();
 		}
@@ -139,10 +139,16 @@ function mbt_save_settings_page() {
 	}
 }
 
+function mbt_hide_api_key($key) {
+	return substr($key, 0, 4) . str_repeat("*", max(0, strlen($key)-4));
+}
+
 function mbt_api_key_refresh_ajax() {
 	if(!current_user_can('manage_options')) { die(); }
-	mbt_update_setting('api_key', $_REQUEST['data']);
-	mbt_verify_api_key();
+	if($_REQUEST['data'] != mbt_hide_api_key(mbt_get_setting('api_key'))) {
+		mbt_update_setting('api_key', $_REQUEST['data']);
+		mbt_verify_api_key();
+	}
 	echo(mbt_api_key_feedback());
 	die();
 }
@@ -211,7 +217,7 @@ function mbt_render_settings_page() {
 								<td>
 									<div class="mbt_api_key_feedback mbt_feedback"><?php echo(mbt_api_key_feedback()); ?></div>
 									<div style="clear:both"></div>
-									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_get_setting('api_key')); ?>" size="60" class="regular-text" />
+									<input type="text" name="mbt_api_key" id="mbt_api_key" value="<?php echo(mbt_hide_api_key(mbt_get_setting('api_key'))); ?>" size="60" class="regular-text" />
 									<div class="mbt_feedback_refresh" data-refresh-action="mbt_api_key_refresh" data-element="mbt_api_key"></div>
 									<p class="description"><?php _e('If you have purchased an API Key for MyBookTable, enter it here to activate your enhanced features. You can find it in your <a href="https://gumroad.com/library/" target="_blank">Gumroad Library here</a>. If you would like to purchase an API key visit <a href="http://www.authormedia.com/mybooktable/">AuthorMedia.com/MyBookTable</a>.', 'mybooktable'); ?></p>
 								</td>

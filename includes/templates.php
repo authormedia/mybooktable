@@ -454,7 +454,10 @@ function mbt_get_placeholder_image_src() {
 	return apply_filters('mbt_get_placeholder_image_src', array(plugins_url('images/book-placeholder.jpg', dirname(__FILE__)), 400, 472));
 }
 function mbt_get_book_image_src($post_id) {
+	//prevent Jetpack Photon from breaking image width/height by disabling their image downsize
+	add_filter('jetpack_photon_override_image_downsize', '__return_true');
 	$image = wp_get_attachment_image_src(get_post_meta($post_id, 'mbt_book_image_id', true), 'mbt_book_image');
+	remove_filter('jetpack_photon_override_image_downsize', '__return_true');
 	return apply_filters('mbt_get_book_image_src', $image ? $image : mbt_get_placeholder_image_src());
 }
 function mbt_get_book_image($post_id, $attrs = '') {
