@@ -638,7 +638,7 @@ function mbt_the_book_blurb($read_more = false) {
 
 function mbt_get_book_length($post_id) {
 	$length = get_post_meta($post_id, 'mbt_book_length', true);
-	return empty($length) ? '' : '<span class="mbt-meta-title">Length:</span> '.$length.'<br>';
+	return empty($length) ? '' : '<span class="mbt-meta-title">'.__('Lenght', 'mybooktable').':</span> '.$length.'<br>';
 }
 function mbt_the_book_length() {
 	global $post;
